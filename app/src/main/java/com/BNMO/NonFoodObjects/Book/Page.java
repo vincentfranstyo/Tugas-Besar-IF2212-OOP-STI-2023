@@ -1,3 +1,5 @@
+package app.src.main.java.com.BNMO.NonFoodObjects.Book;
+
 public class Page {
     private String title;
     private int pageID;

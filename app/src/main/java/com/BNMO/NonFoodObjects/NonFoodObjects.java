@@ -1,3 +1,5 @@
+package app.src.main.java.com.BNMO.NonFoodObjects;
+
 public abstract class NonFoodObjects {
     private String name;
     private int length;

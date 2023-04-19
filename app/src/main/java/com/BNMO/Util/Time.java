@@ -1,3 +1,5 @@
+package app.src.main.java.com.BNMO.Util;
+
 public class Time {
     private int day;
     private int hour;

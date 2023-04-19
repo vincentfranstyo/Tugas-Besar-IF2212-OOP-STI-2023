@@ -1,3 +1,7 @@
+import NonFoodObjects.NonFoodObjects;
+
+package app.src.main.java.com.BNMO.NonFoodObjects.Book;
+
 public class Book extends NonFoodObjects {
     private String name;
     private int length;
