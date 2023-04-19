@@ -3,10 +3,10 @@ public class Page {
     private int pageID;
     private String content;
 
-    public Page(title, pageID, content) {
+    public Page(String title, int pageID, String content) {
         this.title = title;
         this.pageID = pageID;
-        this.content = content;        
+        this.content = content;
     }
 
     public String getTitle() {
@@ -17,19 +17,19 @@ public class Page {
         return pageID;
     }
 
-    public Strig getContent() {
+    public String getContent() {
         return content;
     }
 
-    public setTitle(String title) {
+    public void setTitle(String title) {
         this.title = title;
     }
 
-    public setPageID(int pageID) {
+    public void setPageID(int pageID) {
         this.pageID = pageID;
     }
 
-    public setContent(String content) {
+    public void setContent(String content) {
         this.content = content;
     }
 }
