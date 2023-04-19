@@ -1,4 +1,4 @@
-package app.src.main.java.com.BNMO.SIMS;
+package app.src.main.java.SIMS;
 
 public class Job {
     private String name;
