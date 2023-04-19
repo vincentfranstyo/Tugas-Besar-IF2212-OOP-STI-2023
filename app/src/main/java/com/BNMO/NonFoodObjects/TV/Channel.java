@@ -1,3 +1,5 @@
+package com.BNMO.NonFoodObjects.TV;
+
 public class Channel {
     private String name;
     private int channelID;
