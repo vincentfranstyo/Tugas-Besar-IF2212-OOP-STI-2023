@@ -1,8 +1,6 @@
 package com.BNMO.Object.NonFoodObjects;
 
 import com.BNMO.Object.Object;
-import com.BNMO.SIMS.Sim;
-import com.BNMO.Utilities.Time;
 
 public abstract class NonFoodObjects extends Object {
     private String name;
