@@ -1,4 +1,4 @@
-package app.src.main.java.com.BNMO.NonFoodObjects.Book;
+package com.BNMO.NonFoodObjects;
 
 public class Page {
     private String title;
