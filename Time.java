@@ -50,5 +50,4 @@ public class Time {
     public int convertToSecond() {
         return (day * 24 * 60 * 60) + (hour * 60 * 60) + (minute * 60) + second;
     }
-
 }
