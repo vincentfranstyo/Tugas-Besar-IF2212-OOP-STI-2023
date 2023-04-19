@@ -1,4 +1,4 @@
-package Utilities;
+package com.BNMO.Utilities;
 
 public class Time {
     private int day;

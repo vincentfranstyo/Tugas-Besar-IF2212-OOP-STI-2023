@@ -27,7 +27,7 @@ dependencies {
 
 application {
     // Define the main class for the application.
-    mainClass = 'App'
+    mainClass = 'com.BNMO.App'
 }
 
 tasks.named('test') {

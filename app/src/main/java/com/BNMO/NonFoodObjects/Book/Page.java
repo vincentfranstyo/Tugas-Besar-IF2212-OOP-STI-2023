@@ -1,4 +1,4 @@
-package NonFoodObjects.Book;
+package com.BNMO.NonFoodObjects.Book;
 
 public class Page {
     private String title;

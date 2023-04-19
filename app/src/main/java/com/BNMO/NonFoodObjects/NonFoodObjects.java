@@ -1,4 +1,4 @@
-package NonFoodObjects;
+package com.BNMO.NonFoodObjects;
 
 public abstract class NonFoodObjects {
     private String name;

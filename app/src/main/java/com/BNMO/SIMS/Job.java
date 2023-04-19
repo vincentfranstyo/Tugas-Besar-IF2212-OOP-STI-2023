@@ -1,4 +1,4 @@
-package SIMS;
+package com.BNMO.SIMS;
 
 public class Job {
     private String name;
