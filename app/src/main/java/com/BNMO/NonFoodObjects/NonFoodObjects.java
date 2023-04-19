@@ -1,4 +1,4 @@
-package app.src.main.java.NonFoodObjects;
+package NonFoodObjects;
 
 public abstract class NonFoodObjects {
     private String name;

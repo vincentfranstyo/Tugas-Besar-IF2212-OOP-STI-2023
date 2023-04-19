@@ -1,4 +1,4 @@
-package app.src.main.java.Utilities;
+package Utilities;
 
 public class Time {
     private int day;

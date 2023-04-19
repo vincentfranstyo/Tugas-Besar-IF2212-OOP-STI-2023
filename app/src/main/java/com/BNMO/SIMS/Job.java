@@ -1,4 +1,4 @@
-package app.src.main.java.SIMS;
+package SIMS;
 
 public class Job {
     private String name;

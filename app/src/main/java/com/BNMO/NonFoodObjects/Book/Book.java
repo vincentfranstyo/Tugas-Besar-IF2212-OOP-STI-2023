@@ -1,6 +1,6 @@
-package app.src.main.java.NonFoodObjects.Book;
+package NonFoodObjects.Book;
 
-import app.src.main.java.NonFoodObjects.NonFoodObjects;
+import NonFoodObjects.NonFoodObjects;
 
 public class Book extends NonFoodObjects {
     private String name;
