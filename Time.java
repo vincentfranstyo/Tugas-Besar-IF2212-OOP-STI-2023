@@ -27,18 +27,6 @@ public class Time {
         this(0, 0, 0, 0);
     }
 
-    public Time(int day1, int hour1, int minute1, int second1, int day2, int hour2, int minute2, int second2) {
-        this(day1, hour1, minute1, second1);
-        this.day += day2;
-        this.hour += hour2;
-        this.minute += minute2;
-        this.second += second2;
-    }
-
-    public Time(Time time1, Time time2) {
-        this(time1.day, time1.hour, time1.minute, time1.second, time2.day, time2.hour, time2.minute, time2.second);
-    }
-
     public int getDay() {
         return day;
     }
