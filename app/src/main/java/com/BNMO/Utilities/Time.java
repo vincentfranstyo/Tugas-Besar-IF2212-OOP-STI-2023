@@ -1,4 +1,4 @@
-package app.src.main.java.com.BNMO.Util;
+package app.src.main.java.com.BNMO.Utilities;
 
 public class Time {
     private int day;
