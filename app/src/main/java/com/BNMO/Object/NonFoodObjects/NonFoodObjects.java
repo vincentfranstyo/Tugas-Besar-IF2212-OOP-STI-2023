@@ -59,7 +59,4 @@ public abstract class NonFoodObjects extends Object {
     public void setIsOccupied(boolean isOccupied) {
         this.isOccupied = isOccupied;
     }
-
-    public abstract void use(Time time, Sim sim);
-
 }

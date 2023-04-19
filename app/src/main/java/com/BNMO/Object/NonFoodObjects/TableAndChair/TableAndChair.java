@@ -10,7 +10,7 @@ public class TableAndChair extends NonFoodObjects {
         super(name, 3, 3, 50);
     }
 
-    public void use(Time time, Sim sim) {
+    public void eat(Time time, Sim sim) {
         if (!getIsOccupied()) {
             if (sim.getStatus().equals("Nothing")) {
                 int duration = time.convertToSecond();

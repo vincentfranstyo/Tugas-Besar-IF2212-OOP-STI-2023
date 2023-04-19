@@ -9,7 +9,7 @@ public class Toilet extends NonFoodObjects {
         super(name, 1, 1, 50);
     }
 
-    public void use(Time time, Sim sim) {
+    public void useToilet(Time time, Sim sim) {
         if (!getIsOccupied()) {
             if (sim.getStatus().equals("Nothing")) {
                 int duration = time.convertToSecond();

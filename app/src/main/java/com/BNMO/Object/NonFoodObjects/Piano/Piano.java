@@ -9,7 +9,7 @@ public class Piano extends NonFoodObjects {
         super(name, 3, 3, price);
     }
 
-    public void use(Time time, Sim sim) {
+    public void playPiano(Time time, Sim sim) {
         if (!getIsOccupied()) {
             setIsOccupied(true);
             if (sim.getStatus().equals("Nothing")) {

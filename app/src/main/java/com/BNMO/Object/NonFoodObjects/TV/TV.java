@@ -168,7 +168,7 @@ public class TV extends NonFoodObjects {
         }
     }
 
-    public void use(Time time, Sim sim) {
+    public void watchTV(Time time, Sim sim) {
         if (!getIsOccupied()) {
             setIsOccupied(true);
             if (getIsOn()) {

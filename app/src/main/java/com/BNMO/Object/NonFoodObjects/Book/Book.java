@@ -37,7 +37,7 @@ public class Book extends NonFoodObjects {
         System.out.println("Author: " + getAuthor());
     }
 
-    public void use(Time time, Sim sim) {
+    public void read(Time time, Sim sim) {
         // read a book
         int duration = time.convertToSecond();
         System.out.println(sim.getName() + " is reading " + this.getName() + ".");
