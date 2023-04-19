@@ -1,6 +1,10 @@
-package com.BNMO.NonFoodObjects;
+package com.BNMO.Object.NonFoodObjects;
 
-public abstract class NonFoodObjects {
+import com.BNMO.Object.Object;
+import com.BNMO.SIMS.Sim;
+import com.BNMO.Utilities.Time;
+
+public abstract class NonFoodObjects extends Object {
     private String name;
     private int length;
     private int width;
@@ -8,6 +12,7 @@ public abstract class NonFoodObjects {
     private boolean isOccupied;
 
     public NonFoodObjects(String name, int length, int width, int price) {
+        super("NonFoodObject");
         this.name = name;
         this.length = length;
         this.width = width;
@@ -54,5 +59,7 @@ public abstract class NonFoodObjects {
     public void setIsOccupied(boolean isOccupied) {
         this.isOccupied = isOccupied;
     }
+
+    public abstract void use(Time time, Sim sim);
 
 }

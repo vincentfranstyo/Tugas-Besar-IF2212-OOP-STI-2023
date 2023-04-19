@@ -1,4 +1,4 @@
-package com.BNMO.NonFoodObjects.TV;
+package com.BNMO.Object.NonFoodObjects.TV;
 
 public class Channel {
     private String name;

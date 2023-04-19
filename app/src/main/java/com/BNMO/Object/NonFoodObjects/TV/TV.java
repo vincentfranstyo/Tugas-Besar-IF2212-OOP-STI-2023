@@ -1,7 +1,7 @@
-package com.BNMO.NonFoodObjects.TV;
+package com.BNMO.Object.NonFoodObjects.TV;
 
-import com.BNMO.NonFoodObjects.NonFoodObjects;
-import com.BNMO.NonFoodObjects.TV.Channel;
+import com.BNMO.Object.NonFoodObjects.NonFoodObjects;
+import com.BNMO.Object.NonFoodObjects.TV.Channel;
 import com.BNMO.SIMS.Sim;
 import com.BNMO.Utilities.Time;
 
@@ -168,16 +168,16 @@ public class TV extends NonFoodObjects {
         }
     }
 
-    public void watchTV(Time time, Sim sim) {
+    public void use(Time time, Sim sim) {
         if (!getIsOccupied()) {
             setIsOccupied(true);
             if (getIsOn()) {
                 if (sim.getStatus().equals("Nothing")) {
                     int duration = time.convertToSecond();
                     sim.setStatus("Watching TV");
-                    sim.setMood(sim.getMood() + 4 * duration / 20);
-                    sim.setHealth(sim.getHealth() - 3 * duration / 20);
-                    sim.setFullness(sim.getFullness() - 2 * duration / 20);
+                    sim.setMood(sim.getMood() + (4 * duration / 20));
+                    sim.setHealth(sim.getHealth() - (3 * duration / 20));
+                    sim.setFullness(sim.getFullness() - (2 * duration / 20));
                 } else {
                     System.out.println("You can't watch TV while you are " + sim.getStatus());
                 }

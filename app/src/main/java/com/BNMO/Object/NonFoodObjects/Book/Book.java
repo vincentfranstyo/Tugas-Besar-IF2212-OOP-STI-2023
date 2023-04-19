@@ -1,17 +1,15 @@
-package com.BNMO.NonFoodObjects.Book;
+package com.BNMO.Object.NonFoodObjects.Book;
 
-import com.BNMO.NonFoodObjects.NonFoodObjects;
+import com.BNMO.Object.NonFoodObjects.NonFoodObjects;
+import com.BNMO.SIMS.Sim;
+import com.BNMO.Utilities.Time;
 
 public class Book extends NonFoodObjects {
-    private String name;
-    private int length;
-    private int width;
-    private int price;
     private int numOfPages;
     private String author;
 
-    public Book(String name, int length, int width, int price, int numOfPages, String author) {
-        super(name, length, width, price);
+    public Book(String title, int price, int numOfPages, String author) {
+        super(title, 1, 1, price);
         this.numOfPages = numOfPages;
         this.author = author;
     }
@@ -37,5 +35,11 @@ public class Book extends NonFoodObjects {
         System.out.println("Price: " + getPrice());
         System.out.println("Number of pages: " + getNumOfPages());
         System.out.println("Author: " + getAuthor());
+    }
+
+    public void use(Time time, Sim sim) {
+        // read a book
+        int duration = time.convertToSecond();
+        System.out.println(sim.getName() + " is reading " + this.getName() + ".");
     }
 }

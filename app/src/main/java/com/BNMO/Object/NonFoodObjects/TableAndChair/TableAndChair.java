@@ -1,6 +1,8 @@
-package com.BNMO.NonFoodObjects.TableAndChair;
+package com.BNMO.Object.NonFoodObjects.TableAndChair;
 
-import com.BNMO.NonFoodObjects.NonFoodObjects;
+import com.BNMO.Object.NonFoodObjects.NonFoodObjects;
+import com.BNMO.SIMS.Sim;
+import com.BNMO.Utilities.Time;
 
 public class TableAndChair extends NonFoodObjects {
 
@@ -8,7 +10,7 @@ public class TableAndChair extends NonFoodObjects {
         super(name, 3, 3, 50);
     }
 
-    public void useTableAndChair(Sim sim) {
+    public void use(Time time, Sim sim) {
         if (getIsOccupied()) {
             System.out.println("Table and chair is occupied. Please wait.");
         } else {
