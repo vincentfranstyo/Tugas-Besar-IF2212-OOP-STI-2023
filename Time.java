@@ -78,4 +78,20 @@ public class Time {
     public int convertToSecond() {
         return (day * 24 * 60 * 60) + (hour * 60 * 60) + (minute * 60) + second;
     }
+
+    public Time addTime(Time time) {
+        int inSec1 = this.convertToSecond();
+        int inSec2 = time.convertToSecond();
+
+        int totalSec = inSec1 + inSec2;
+
+        int day = totalSec / (24 * 3600);
+        totalSec = totalSec % (24 * 3600);
+        int hour = totalSec / 3600;
+        totalSec = totalSec % 3600;
+        int minute = totalSec / 60;
+        int second = totalSec % 60;
+
+        return new Time(day, hour, minute, second);
+    }
 }
