@@ -11,12 +11,20 @@ public class TableAndChair extends NonFoodObjects {
     }
 
     public void use(Time time, Sim sim) {
-        if (getIsOccupied()) {
-            System.out.println("Table and chair is occupied. Please wait.");
-        } else {
-            System.out.println("Table and chair is free. Please use it.");
-            setIsOccupied(true);
-            sim.setStatus("Using table and chair");
+        if (!getIsOccupied()) {
+            if (sim.getStatus().equals("Nothing")) {
+                int duration = time.convertToSecond();
+                setIsOccupied(true);
+                sim.setStatus("Is eating");
+                sim.setFullness(sim.getFullness() + (20 * (duration / 10)));
+                sim.setMood(sim.getMood() + (10 * (duration / 10)));
+            } else {
+                System.out.println("You can't use the toilet while doing something else.");
+            }
+        }
+
+        else {
+            System.out.println("Too bad! The toilet is in use, please find another toilet!");
         }
     }
 }

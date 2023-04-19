@@ -17,13 +17,12 @@ public class Toilet extends NonFoodObjects {
                 sim.setStatus("Using toilet");
                 sim.setFullness(sim.getFullness() - (20 * (duration / 10)));
                 sim.setMood(sim.getMood() + (10 * (duration / 10)));
-            }
-            else{
-                System.out.println("You can't use the toilet while doing something else.")
+            } else {
+                System.out.println("You can't use the toilet while doing something else.");
             }
         }
 
-        else{
+        else {
             System.out.println("Too bad! The toilet is in use, please find another toilet!");
         }
     }
