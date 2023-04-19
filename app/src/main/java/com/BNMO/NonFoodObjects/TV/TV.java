@@ -11,7 +11,6 @@ import java.util.List;
 public class TV extends NonFoodObjects {
     // this class also has a list of channel
     private List<Channel> channels;
-    private boolean isBeingUsed;
     private Channel currentChannel;
     private boolean isOn;
     private boolean hasScanned;
@@ -19,22 +18,13 @@ public class TV extends NonFoodObjects {
     public TV(String name, int length, int width, int price, Channel currentChannel) {
         super(name, length, width, price);
         this.channels = new ArrayList<>();
-        this.isBeingUsed = false;
         this.currentChannel = currentChannel;
         this.isOn = false;
         this.hasScanned = false;
     }
 
-    public boolean getStatus() {
-        return isBeingUsed;
-    }
-
     public boolean getIsOn() {
         return isOn;
-    }
-
-    public void setStatus(boolean isBeingUsed) {
-        this.isBeingUsed = isBeingUsed;
     }
 
     public void turnOn() {
@@ -179,8 +169,8 @@ public class TV extends NonFoodObjects {
     }
 
     public void watchTV(Time time, Sim sim) {
-        if (!getStatus()) {
-            setStatus(true);
+        if (!getIsOccupied()) {
+            setIsOccupied(true);
             if (getIsOn()) {
                 if (sim.getStatus().equals("Nothing")) {
                     int duration = time.convertToSecond();

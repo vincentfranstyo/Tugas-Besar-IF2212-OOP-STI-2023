@@ -1,5 +1,6 @@
-package com.BNMO.NonFoodObjects;
+package com.BNMO.NonFoodObjects.Piano;
 
+import com.BNMO.NonFoodObjects.NonFoodObjects;
 import com.BNMO.SIMS.Sim;
 import com.BNMO.Utilities.Time;
 
@@ -8,20 +9,11 @@ public class Piano extends NonFoodObjects {
 
     public Piano(String name, int length, int width, int price) {
         super(name, length, width, price);
-        this.isBeingUsed = false;
-    }
-
-    public void setStatus(boolean isBeingUsed) {
-        this.isBeingUsed = isBeingUsed;
-    }
-
-    public boolean getStatus() {
-        return isBeingUsed;
     }
 
     public void playPiano(Time time, Sim sim) {
-        if (getStatus() == false) {
-            setStatus(true);
+        if (getIsOccupied() == false) {
+            setIsOccupied(true);
             if (sim.getStatus().equals("Nothing")) {
                 int duration = time.convertToSecond();
                 sim.setStatus("Playing piano");

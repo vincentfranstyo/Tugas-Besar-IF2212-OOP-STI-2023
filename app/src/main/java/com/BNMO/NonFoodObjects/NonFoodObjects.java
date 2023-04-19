@@ -5,12 +5,14 @@ public abstract class NonFoodObjects {
     private int length;
     private int width;
     private int price;
+    private boolean isOccupied;
 
     public NonFoodObjects(String name, int length, int width, int price) {
         this.name = name;
         this.length = length;
         this.width = width;
         this.price = price;
+        this.isOccupied = false;
     }
 
     public String getName() {
@@ -29,6 +31,10 @@ public abstract class NonFoodObjects {
         return price;
     }
 
+    public boolean getIsOccupied() {
+        return isOccupied;
+    }
+
     public void setName(String name) {
         this.name = name;
     }
@@ -44,4 +50,9 @@ public abstract class NonFoodObjects {
     public void setPrice(int price) {
         this.price = price;
     }
+
+    public void setIsOccupied(boolean isOccupied) {
+        this.isOccupied = isOccupied;
+    }
+
 }
