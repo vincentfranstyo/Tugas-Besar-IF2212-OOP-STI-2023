@@ -4,33 +4,42 @@ public abstract class NonFoodObjects {
     private int width;
     private int price;
 
-    public NonFoodObjects(title, pageID, content) {
-        this.title = title;
-        this.pageID = pageID;
-        this.content = content;        
+    public NonFoodObjects(String name, int length, int width, int price) {
+        this.name = name;
+        this.length = length;
+        this.width = width;
+        this.price = price;
     }
 
-    public String getTitle() {
-        return title;
+    public String getName() {
+        return name;
     }
 
-    public int getPageID() {
-        return pageID;
+    public int getLength() {
+        return length;
     }
 
-    public Strig getContent() {
-        return content;
+    public int getWidth() {
+        return width;
     }
 
-    public setTitle(String title) {
-        this.title = title;
+    public int getPrice() {
+        return price;
     }
 
-    public setPageID(int pageID) {
-        this.pageID = pageID;
+    public void setName(String name) {
+        this.name = name;
     }
 
-    public setContent(String content) {
-        this.content = content;
+    public void setLength(int length) {
+        this.length = length;
+    }
+
+    public void setWidth(int width) {
+        this.width = width;
+    }
+
+    public void setPrice(int price) {
+        this.price = price;
     }
 }
