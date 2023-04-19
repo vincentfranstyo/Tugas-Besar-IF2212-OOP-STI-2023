@@ -1,4 +1,6 @@
-package com.BNMO.NonFoodObjects;
+package com.BNMO.NonFoodObjects.Book;
+
+import com.BNMO.NonFoodObjects.NonFoodObjects;
 
 public class Book extends NonFoodObjects {
     private String name;
