@@ -8,7 +8,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
 import javax.sound.sampled.*;
-// import java.io.*;
+import java.io.*;
 import java.util.concurrent.atomic.AtomicBoolean;
 
 public class AudioPlayer extends NonFoodObjects {
@@ -102,7 +102,11 @@ public class AudioPlayer extends NonFoodObjects {
     public void charge(Time time) {
         int duration = time.convertToSecond();
 
-        setBattery((getBattery() + duration / 20));
+        if (getBattery() + duration / 20 > 100) {
+            setBattery(100);
+        } else {
+            setBattery((getBattery() + duration / 20));
+        }
         System.out.println("Battery is charged to " + getBattery() + "%");
     }
 
