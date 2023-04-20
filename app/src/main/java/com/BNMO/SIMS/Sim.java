@@ -14,7 +14,7 @@ public class Sim {
     private int fullness;
     private int mood;
     private int health;
-    private String status;
+    private String status = "Nothing";
     private Inventory inventory;
     private Point location;
     private Time currentJobDuration;

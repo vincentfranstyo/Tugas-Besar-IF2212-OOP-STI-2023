@@ -4,7 +4,6 @@ import com.BNMO.Object.Object;
 import com.BNMO.Utilities.*;
 
 public abstract class NonFoodObjects extends Object {
-    private String name;
     private int length;
     private int width;
     private int price;
@@ -12,17 +11,12 @@ public abstract class NonFoodObjects extends Object {
     private Point position;
 
     public NonFoodObjects(String name, int length, int width, int price, Point position) {
-        super("NonFoodObject");
-        this.name = name;
+        super(name, "NonFoodObject");
         this.length = length;
         this.width = width;
         this.price = price;
         this.isOccupied = false;
         this.position = position;
-    }
-
-    public String getName() {
-        return name;
     }
 
     public int getLength() {
@@ -39,10 +33,6 @@ public abstract class NonFoodObjects extends Object {
 
     public boolean getIsOccupied() {
         return isOccupied;
-    }
-
-    public void setName(String name) {
-        this.name = name;
     }
 
     public void setLength(int length) {
