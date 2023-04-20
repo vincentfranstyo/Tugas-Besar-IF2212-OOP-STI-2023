@@ -3,6 +3,11 @@
  */
 package com.BNMO;
 
+import java.util.Scanner;
+
+import com.BNMO.Object.NonFoodObjects.AudioPlayer.AudioPlayer;
+import com.BNMO.Utilities.Point;
+
 public class App {
     public String getGreeting() {
         return "Hello World!";
@@ -10,5 +15,16 @@ public class App {
 
     public static void main(String[] args) {
         System.out.println(new App().getGreeting());
+        Scanner userInput = new Scanner(System.in);
+        System.out.println("Enter the name of the audio player: ");
+        String name = userInput.nextLine();
+        System.out.println("Enter the x position of the audio player: ");
+        int x = userInput.nextInt();
+        System.out.println("Enter the y position of the audio player: ");
+        int y = userInput.nextInt();
+
+        AudioPlayer player1 = new AudioPlayer(name, 1, 1, 0, new Point(x, y));
+
+        player1.audioPlayerMenu();
     }
 }
