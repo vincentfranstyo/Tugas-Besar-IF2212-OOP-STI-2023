@@ -1,5 +1,7 @@
 package com.BNMO.Utilities;
 
+package com.BNMO.Utilities;
+
 public class Time {
     private int day;
     private int hour;
@@ -11,6 +13,7 @@ public class Time {
         this.hour = hour;
         this.minute = minute;
         this.second = second;
+        this.length = new Time(0, 0, 0, 0);
     }
 
     public Time(int hour, int minute, int second) {
@@ -21,8 +24,18 @@ public class Time {
         this(0, 0, minute, second);
     }
 
-    public Time(int second) {
-        this(0, 0, 0, second);
+    public Time(long timeSec) {
+        long day = timeSec / (24 * 3600);
+        timeSec = timeSec % (24 * 3600);
+        long hour = timeSec / 3600;
+        timeSec = timeSec % 3600;
+        long minute = timeSec / 60;
+        long second = timeSec % 60;
+
+        this.day = (int) day;
+        this.hour = (int) hour;
+        this.minute = (int) minute;
+        this.second = (int) second;
     }
 
     public Time() {
@@ -63,6 +76,18 @@ public class Time {
 
     public String toString() {
         return "Day: " + day + " Hour: " + hour + " Minute: " + minute + " Second: " + second;
+    }
+
+    public String displayTime() {
+        return day + " day, " + hour + " hour, " + minute + " minute, " + second + " second";
+    }
+
+    public String displayHHMMSS() {
+        String hourStr = String.format("%02d", hour);
+        String minuteStr = String.format("%02d", minute);
+        String secondStr = String.format("%02d", second);
+        
+        return hourStr + ":" + minuteStr + ":" + secondStr;
     }
 
     public int convertToSecond() {
