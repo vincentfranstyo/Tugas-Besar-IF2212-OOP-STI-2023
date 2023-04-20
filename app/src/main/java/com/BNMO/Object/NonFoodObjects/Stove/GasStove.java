@@ -43,19 +43,19 @@ public abstract class GasStove extends NonFoodObjects implements Stove {
 
     @Override
     public void cookDish(Sim sim, Dishes dish) {
-        // if (!dish.checkIngredients(sim)) {
-        // System.out.println("You do not have the ingredients to cook this dish.");
-        // } else {
-        // if (getCurrentState()) {
-        // System.out.println("The " + dish.getName() + " is now cooking.");
-        // int duration = dish.getRecipe().getDuration(); // to be checked again
-        // // wait for duration
-        // sim.setStatus("Cooking " + dish.getName());
-        // sim.setMood(sim.getMood() + 10);
-        // System.out.println("The " + dish.getName() + " is done.");
-        // } else {
-        // System.out.println("The gas stove is off. Please turn it on.");
-        // }
-        // }
+        if (!dish.checkIngredients(sim)) {
+            System.out.println("You do not have the ingredients to cook this dish.");
+        } else {
+            if (getCurrentState()) {
+                System.out.println("The " + dish.getName() + " is now cooking.");
+                int duration = dish.getRecipe().getDuration(); // to be checked again
+                // wait for duration
+                sim.setStatus("Cooking " + dish.getName());
+                sim.setMood(sim.getMood() + 10);
+                System.out.println("The " + dish.getName() + " is done.");
+            } else {
+                System.out.println("The gas stove is off. Please turn it on.");
+            }
+        }
     }
 }
