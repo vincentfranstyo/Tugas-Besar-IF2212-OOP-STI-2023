@@ -1,5 +1,7 @@
 package com.BNMO.SIMS;
 
+import com.BNMO.Utilities.*;
+
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
@@ -27,7 +29,7 @@ public class Sim {
 
         Random random = new Random();
         int index = random.nextInt(jobs.size());
-        this. job = jobs.get(index);
+        this.job = jobs.get(index);
 
         this.name = name;
         this.money = 100;
@@ -36,7 +38,7 @@ public class Sim {
         this.health = 80;
         this.status = "Nothing";
         this.isAlive = true;
-        // this.inventory = new Inventory(this); 
+        // this.inventory = new Inventory(this);
         // this.location = location;
     }
 
@@ -81,7 +83,6 @@ public class Sim {
     }
 
     public void setName(String name) {
-        try
         this.name = name;
     }
 
@@ -96,36 +97,30 @@ public class Sim {
     public void setFullness(int fullness) {
         if (fullness > 100) {
             this.fullness = 100;
-        }
-        else if (fullness < 0) {
+        } else if (fullness < 0) {
             this.fullness = 0;
-            setAlive(false;)
-        }
-        else
+            setAlive(false);
+        } else
             this.fullness = fullness;
     }
 
     public void setMood(int mood) {
         if (mood > 100) {
             this.mood = 100;
-        }
-        else if (mood < 0) {
+        } else if (mood < 0) {
             this.mood = 0;
-            setAlive(false;)
-        }
-        else
+            setAlive(false);
+        } else
             this.mood = mood;
     }
 
     public void setHealth(int health) {
         if (health > 100) {
             this.health = 100;
-        }
-        else if (health < 0) {
+        } else if (health < 0) {
             this.health = 0;
-            setAlive(false;)
-        }
-        else
+            setAlive(false);
+        } else
             this.health = health;
     }
 
@@ -144,7 +139,7 @@ public class Sim {
     public void setAlive(boolean alive) {
         isAlive = alive;
     }
-    
+
     public void work(Time time) {
         int duration = time.convertToSecond();
 
@@ -172,16 +167,16 @@ public class Sim {
     public void workout(Time time) {
         int duration = time.convertToSecond();
 
-        setFullness(getFullness() - 5*duration/20);
-        setMood(getMood() + 10*duration/20);
-        setHealth(getHealth() + 5*duration/20);
+        setFullness(getFullness() - 5 * duration / 20);
+        setMood(getMood() + 10 * duration / 20);
+        setHealth(getHealth() + 5 * duration / 20);
     }
 
     public void changeJob(Job job) {
         if (currentJobDuration.convertToSecond() >= 720) {
             setJob(job);
             setCurrentJobDuration(new Time(0, 0, 0));
-            setMoney(getMoney() - job.getSalary()/2);
+            setMoney(getMoney() - job.getSalary() / 2);
         } else {
             System.out.println("You can't change job yet");
         }

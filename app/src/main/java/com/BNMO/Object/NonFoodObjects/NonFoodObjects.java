@@ -9,6 +9,7 @@ public abstract class NonFoodObjects extends Object {
     private int width;
     private int price;
     private boolean isOccupied;
+    private Point position;
 
     public NonFoodObjects(String name, int length, int width, int price, Point position) {
         super("NonFoodObject");

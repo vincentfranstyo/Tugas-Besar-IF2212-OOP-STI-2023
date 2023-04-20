@@ -1,3 +1,9 @@
+package com.BNMO.Object.NonFoodObjects.AudioPlayer;
+
+import com.BNMO.Object.NonFoodObjects.NonFoodObjects;
+import com.BNMO.Utilities.*;
+import com.BNMO.SIMS.Sim;
+
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
@@ -13,8 +19,8 @@ public class AudioPlayer extends NonFoodObjects {
     private int battery;
     Clip clip;
 
-    public AudioPlayer (String name, int length, int width, int price) {
-        super(name, length, width, price);
+    public AudioPlayer(String name, int length, int width, int price, Point position) {
+        super(name, length, width, price, position);
         this.battery = 100;
         this.shop = new ArrayList<>();
         this.library = new ArrayList<>();
@@ -29,7 +35,8 @@ public class AudioPlayer extends NonFoodObjects {
         shop.add(new Music("Jatuh Hati", "Raisa", 6, "Pop", new Time(0, 0, 3, 27), 2));
         shop.add(new Music("Labirin", "Tulus", 7, "Pop", new Time(0, 0, 3, 3), 2));
         shop.add(new Music("Perih", "Vierra", 8, "Pop", new Time(0, 0, 3, 20), 2));
-        shop.add(new Music("All Too Well (10 Minute Version) (Taylor's Version)", "Taylor Swift", 9, "Pop", new Time(0, 0, 10, 13), 2));
+        shop.add(new Music("All Too Well (10 Minute Version) (Taylor's Version)", "Taylor Swift", 9, "Pop",
+                new Time(0, 0, 10, 13), 2));
         shop.add(new Music("Red (Taylor's Version)", "Taylor Swift", 10, "Pop", new Time(0, 0, 3, 43), 2));
         shop.add(new Music("Hari Bersamanya", "Sheila On 7", 11, "Pop", new Time(0, 0, 3, 53), 2));
         shop.add(new Music("Remaja", "Hivi!", 12, "Pop", new Time(0, 0, 3, 38), 2));
@@ -45,13 +52,11 @@ public class AudioPlayer extends NonFoodObjects {
     public void turnOn() {
         if (getIsOn()) {
             System.out.println(getName() + " is already on!");
-        }
-        else {
+        } else {
             if (getBattery() > 0) {
                 this.isOn = true;
                 System.out.println(getName() + " has been turned on!");
-            }
-            else {
+            } else {
                 System.out.println("Battery is empty!");
             }
         }
@@ -61,12 +66,10 @@ public class AudioPlayer extends NonFoodObjects {
         if (getIsOn()) {
             this.isOn = false;
             System.out.println(getName() + " has been turned off!");
-        }
-        else {
+        } else {
             System.out.println(getName() + " is already off!");
         }
     }
-
 
     public List<Music> getLibrary() {
         return library;
@@ -99,22 +102,21 @@ public class AudioPlayer extends NonFoodObjects {
     public void charge(Time time) {
         int duration = time.convertToSecond();
 
-        setBattery((getBattery() + duration/20));
+        setBattery((getBattery() + duration / 20));
         System.out.println("Battery is charged to " + getBattery() + "%");
     }
 
     public void buy(Music music, Sim sim) {
         if (getIsOn()) {
             if (sim.getMoney() >= music.getPrice()) {
-                    library.add(music);
-                    sim.setMoney(sim.getMoney() - music.getPrice());
-                    System.out.println("You have bought " + music.getName() + " by " + music.getArtist() + " for " + music.getPrice() + " dollars!");
-                }
-             else {
+                library.add(music);
+                sim.setMoney(sim.getMoney() - music.getPrice());
+                System.out.println("You have bought " + music.getName() + " by " + music.getArtist() + " for "
+                        + music.getPrice() + " dollars!");
+            } else {
                 System.out.println("You don't have enough money!");
             }
-        }
-        else {
+        } else {
             System.out.println("Turn on the audio player first!");
         }
     }
@@ -125,11 +127,10 @@ public class AudioPlayer extends NonFoodObjects {
             System.out.println("==========");
             System.out.println("You can buy these music:");
             for (Music music : getMusic()) {
-                System.out.println("ID[" + music.getMusicID() + "] " +music.getName() + " - " + music.getArtist());
+                System.out.println("ID[" + music.getMusicID() + "] " + music.getName() + " - " + music.getArtist());
             }
             System.out.println("");
-        }
-        else {
+        } else {
             System.out.println("Turn on the audio player first!");
         }
     }
@@ -139,11 +140,11 @@ public class AudioPlayer extends NonFoodObjects {
             System.out.println("Library");
             System.out.println("=================");
             for (Music music : getLibrary()) {
-                System.out.println(music.getName() + " - " + music.getArtist() + "(" + music.getLength().displayHHMMSS() + ")");
+                System.out.println(
+                        music.getName() + " - " + music.getArtist() + "(" + music.getLength().displayHHMMSS() + ")");
             }
             System.out.println("");
-        }
-        else {
+        } else {
             System.out.println("Turn on the audio player first!");
         }
     }
@@ -186,13 +187,13 @@ public class AudioPlayer extends NonFoodObjects {
                             turnOff();
                             break;
                         case 3:
-                            charge(new Time(0,0,50,20));
+                            charge(new Time(0, 0, 50, 20));
                             break;
                         case 4:
                             showShop();
                             break;
                         case 5:
-                        int count = 1;
+                            int count = 1;
                             System.out.println("Here are your playlists:");
                             for (Playlist playlist : getPlaylists()) {
                                 System.out.println(count + ". " + playlist.getName());
@@ -211,7 +212,7 @@ public class AudioPlayer extends NonFoodObjects {
                             System.out.print("Playlist " + name + " has been added!");
                             break;
                         case 7:
-                            //removePlaylist();
+                            // removePlaylist();
                             break;
                         case 8:
                             showShop();
@@ -233,20 +234,21 @@ public class AudioPlayer extends NonFoodObjects {
                             System.out.println("[3] Kibou");
                             System.out.print("Enter your choice: ");
                             int choice2 = Integer.parseInt(scanner.nextLine());
-                             try {
+                            try {
                                 AudioInputStream audioIn = null;
                                 // Open the audio file
                                 if (choice2 == 1) {
                                     System.out.println("Playing Back To December....");
-                                    audioIn = AudioSystem.getAudioInputStream(AudioPlayer.class.getResource("Back To December.wav"));
-                                }
-                                else if (choice2 == 2){
+                                    audioIn = AudioSystem
+                                            .getAudioInputStream(AudioPlayer.class.getResource("Back To December.wav"));
+                                } else if (choice2 == 2) {
                                     System.out.println("Playing The Story Of Us....");
-                                    audioIn = AudioSystem.getAudioInputStream(AudioPlayer.class.getResource("The Story Of Us.wav"));
-                                }
-                                else if (choice2 == 3){
+                                    audioIn = AudioSystem
+                                            .getAudioInputStream(AudioPlayer.class.getResource("The Story Of Us.wav"));
+                                } else if (choice2 == 3) {
                                     System.out.println("Playing Kibou....");
-                                    audioIn = AudioSystem.getAudioInputStream(AudioPlayer.class.getResource("Kibou.wav"));
+                                    audioIn = AudioSystem
+                                            .getAudioInputStream(AudioPlayer.class.getResource("Kibou.wav"));
                                 }
                                 // Get a clip to play the audio
                                 Clip clip = AudioSystem.getClip();
@@ -261,10 +263,10 @@ public class AudioPlayer extends NonFoodObjects {
                                     try {
                                         while (clip.isRunning()) {
                                             String input = reader.nextLine();
-                                                if (input.equalsIgnoreCase("stop")) {
-                                                    stopRequested.set(true);  // set stopRequested to true
-                                                    break;
-                                                }
+                                            if (input.equalsIgnoreCase("stop")) {
+                                                stopRequested.set(true); // set stopRequested to true
+                                                break;
+                                            }
                                             Thread.sleep(10);
                                         }
                                     } catch (Exception e) {
@@ -299,7 +301,7 @@ public class AudioPlayer extends NonFoodObjects {
                                 clip.close();
                                 audioIn.close();
                                 inputThread.interrupt();
-                                stopRequested.set(false);  // reset stopRequested to false
+                                stopRequested.set(false); // reset stopRequested to false
                             } catch (Exception e) {
                                 e.printStackTrace();
                             }

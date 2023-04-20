@@ -2,13 +2,13 @@ package com.BNMO.Object.NonFoodObjects.Clock;
 
 import com.BNMO.Object.NonFoodObjects.NonFoodObjects;
 import com.BNMO.SIMS.Sim;
-import com.BNMO.Utilities.Time;
+import com.BNMO.Utilities.*;
 
 public class Clock extends NonFoodObjects {
     private Time currentTime;
 
-    public Clock(String name, Time currentTime) {
-        super(name, 1, 1, 10);
+    public Clock(String name, Time currentTime, Point position) {
+        super(name, 1, 1, 10, position);
         this.currentTime = currentTime;
     }
 

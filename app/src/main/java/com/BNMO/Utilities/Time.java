@@ -11,7 +11,7 @@ public class Time {
         this.hour = hour;
         this.minute = minute;
         this.second = second;
-        this.length = new Time(0, 0, 0, 0);
+        // this.length = new Time(0, 0, 0, 0);
     }
 
     public Time(int hour, int minute, int second) {
@@ -84,7 +84,7 @@ public class Time {
         String hourStr = String.format("%02d", hour);
         String minuteStr = String.format("%02d", minute);
         String secondStr = String.format("%02d", second);
-        
+
         return hourStr + ":" + minuteStr + ":" + secondStr;
     }
 
