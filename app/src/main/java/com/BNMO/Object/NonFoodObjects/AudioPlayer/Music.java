@@ -1,3 +1,7 @@
+package com.BNMO.Object.NonFoodObjects.AudioPlayer;
+
+import com.BNMO.Utilities.Time;
+
 public class Music {
     private String name;
     private String artist;
@@ -46,7 +50,7 @@ public class Music {
     public void setArtist(String artist) {
         this.artist = artist;
     }
-    
+
     public void setMusicID(int musicID) {
         this.musicID = musicID;
     }

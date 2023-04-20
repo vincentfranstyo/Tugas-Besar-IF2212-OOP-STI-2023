@@ -8,7 +8,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
 import javax.sound.sampled.*;
-import java.io.*;
+// import java.io.*;
 import java.util.concurrent.atomic.AtomicBoolean;
 
 public class AudioPlayer extends NonFoodObjects {
@@ -302,6 +302,7 @@ public class AudioPlayer extends NonFoodObjects {
                                 audioIn.close();
                                 inputThread.interrupt();
                                 stopRequested.set(false); // reset stopRequested to false
+                                reader.close();
                             } catch (Exception e) {
                                 e.printStackTrace();
                             }

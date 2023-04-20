@@ -1,6 +1,7 @@
 package com.BNMO.SIMS;
 
 import com.BNMO.Utilities.*;
+import com.BNMO.Object.NonFoodObjects.NonFoodObjects;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -143,25 +144,28 @@ public class Sim {
     public void work(Time time) {
         int duration = time.convertToSecond();
 
-        setFullness(getFullness() - 10*duration/30);
-        setMood(getMood() - 10*duration/30);
-        setMoney(getMoney() + getJob().getSalary()*duration/240);
+        setFullness(getFullness() - 10 * duration / 30);
+        setMood(getMood() - 10 * duration / 30);
+        setMoney(getMoney() + getJob().getSalary() * duration / 240);
 
-        Thread statusThread = new Thread(() {
+        Thread statusThread = new Thread(() -> {
             try {
                 setStatus("Working");
                 Thread.sleep(240000); // Sleep for 4 minutes
-            }
-            catch (InterruptedException e) {
+            } catch (InterruptedException e) {
                 e.printStackTrace();
-            }
-            finally {
+            } finally {
                 setStatus("Nothing");
             }
-        })
+        });
 
         statusThread.start();
-        statusThread.join();
+        try {
+            statusThread.join();
+        } catch (InterruptedException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }
     }
 
     public void workout(Time time) {
