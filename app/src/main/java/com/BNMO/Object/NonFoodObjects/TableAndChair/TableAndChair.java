@@ -14,39 +14,41 @@ public class TableAndChair extends NonFoodObjects {
     }
 
     public void eatDish(Time time, Sim sim, Dishes dish) {
-        if (!getIsOccupied()) {
-            if (sim.getStatus().equals("Nothing")) {
-                int duration = time.convertToSecond();
-                setIsOccupied(true);
-                sim.setStatus("Is eating");
-                System.out.println("You are eating " + dish.getName());
-                sim.setFullness(sim.getFullness() + (dish.getSatiety() * (duration / 30)));
-            } else {
-                System.out.println("You can't eat while doing something else.");
-            }
-        }
+        // if (!getIsOccupied()) {
+        // if (sim.getStatus().equals("Nothing")) {
+        // int duration = time.convertToSecond();
+        // setIsOccupied(true);
+        // sim.setStatus("Is eating");
+        // System.out.println("You are eating " + dish.getName());
+        // sim.setFullness(sim.getFullness() + (dish.getSatiety() * (duration / 30)));
+        // } else {
+        // System.out.println("You can't eat while doing something else.");
+        // }
+        // }
 
-        else {
-            System.out.println("Too bad! The table is in use, please find another table!");
-        }
+        // else {
+        // System.out.println("Too bad! The table is in use, please find another
+        // table!");
+        // }
     }
 
-    public void eatDish(Time time, Sim sim, Ingredients ing) {
-        if (!getIsOccupied()) {
-            if (sim.getStatus().equals("Nothing")) {
-                int duration = time.convertToSecond();
-                setIsOccupied(true);
-                sim.setStatus("Eating");
-                System.out.println("You are eating " + ing.getName());
-                sim.setFullness(sim.getFullness() + (ing.getSatiety() * (duration / 30)));
-            } else {
-                System.out.println("You can't eat while doing something else.");
-            }
-        }
+    public void eatIngredients(Time time, Sim sim, Ingredients ing) {
+        // if (!getIsOccupied()) {
+        // if (sim.getStatus().equals("Nothing")) {
+        // int duration = time.convertToSecond();
+        // setIsOccupied(true);
+        // sim.setStatus("Eating");
+        // System.out.println("You are eating " + ing.getName());
+        // sim.setFullness(sim.getFullness() + (ing.getSatiety() * (duration / 30)));
+        // } else {
+        // System.out.println("You can't eat while doing something else.");
+        // }
+        // }
 
-        else {
-            System.out.println("Too bad! The table is in use, please find another table!");
-        }
+        // else {
+        // System.out.println("Too bad! The table is in use, please find another
+        // table!");
+        // }
     }
 
 }
