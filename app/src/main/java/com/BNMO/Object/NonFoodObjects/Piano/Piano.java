@@ -2,11 +2,11 @@ package com.BNMO.Object.NonFoodObjects.Piano;
 
 import com.BNMO.Object.NonFoodObjects.NonFoodObjects;
 import com.BNMO.SIMS.Sim;
-import com.BNMO.Utilities.Time;
+import com.BNMO.Utilities.*;
 
 public class Piano extends NonFoodObjects {
-    public Piano(String name, int price) {
-        super(name, 3, 3, price);
+    public Piano(String name, int price, Point position) {
+        super(name, 3, 3, price, position);
     }
 
     public void playPiano(Time time, Sim sim) {

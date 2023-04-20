@@ -2,14 +2,14 @@ package com.BNMO.Object.NonFoodObjects.Book;
 
 import com.BNMO.Object.NonFoodObjects.NonFoodObjects;
 import com.BNMO.SIMS.Sim;
-import com.BNMO.Utilities.Time;
+import com.BNMO.Utilities.*;
 
 public class Book extends NonFoodObjects {
     private int numOfPages;
     private String author;
 
-    public Book(String title, int price, int numOfPages, String author) {
-        super(title, 1, 1, price);
+    public Book(String title, int price, int numOfPages, String author, Point position) {
+        super(title, 1, 1, price, position);
         this.numOfPages = numOfPages;
         this.author = author;
     }

@@ -1,6 +1,7 @@
 package com.BNMO.Object.NonFoodObjects;
 
 import com.BNMO.Object.Object;
+import com.BNMO.Utilities.*;
 
 public abstract class NonFoodObjects extends Object {
     private String name;
@@ -9,13 +10,14 @@ public abstract class NonFoodObjects extends Object {
     private int price;
     private boolean isOccupied;
 
-    public NonFoodObjects(String name, int length, int width, int price) {
+    public NonFoodObjects(String name, int length, int width, int price, Point position) {
         super("NonFoodObject");
         this.name = name;
         this.length = length;
         this.width = width;
         this.price = price;
         this.isOccupied = false;
+        this.position = position;
     }
 
     public String getName() {

@@ -3,15 +3,15 @@ package com.BNMO.Object.NonFoodObjects.Bed;
 import com.BNMO.Object.NonFoodObjects.NonFoodObjects;
 import com.BNMO.Object.NonFoodObjects.Bed.Bed;
 import com.BNMO.SIMS.Sim;
-import com.BNMO.Utilities.Time;
+import com.BNMO.Utilities.*;
 
 public class SingleBed extends NonFoodObjects implements Bed {
     private String bedType = "Single Bed";
     private int capacity = 1;
     private int spaceLeft;
 
-    public SingleBed(String name) {
-        super(name, 4, 1, 50);
+    public SingleBed(String name, Point position) {
+        super(name, 4, 1, 50, position);
     }
 
     public String getType() {

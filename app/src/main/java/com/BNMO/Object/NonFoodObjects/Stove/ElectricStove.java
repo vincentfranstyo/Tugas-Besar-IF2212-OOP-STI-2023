@@ -2,7 +2,7 @@ package com.BNMO.Object.NonFoodObjects.Stove;
 
 import com.BNMO.Object.NonFoodObjects.NonFoodObjects;
 import com.BNMO.SIMS.Sim;
-import com.BNMO.Utilities.Time;
+import com.BNMO.Utilities.*;
 import com.BNMO.Object.Food.Dishes;
 import com.BNMO.Object.Food.Recipe;
 import com.BNMO.Object.Food.Ingredients;
@@ -11,8 +11,8 @@ public class ElectricStove extends NonFoodObjects implements Stove {
     private boolean currentState;
     private String stoveType = "Electric Stove";
 
-    public ElectricStove(String name) {
-        super(name, 1, 1, 200);
+    public ElectricStove(String name, Point position) {
+        super(name, 1, 1, 200, position);
         this.currentState = false;
     }
 

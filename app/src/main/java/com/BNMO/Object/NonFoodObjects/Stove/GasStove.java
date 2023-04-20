@@ -2,7 +2,7 @@ package com.BNMO.Object.NonFoodObjects.Stove;
 
 import com.BNMO.Object.NonFoodObjects.NonFoodObjects;
 import com.BNMO.SIMS.Sim;
-import com.BNMO.Utilities.Time;
+import com.BNMO.Utilities.*;
 import com.BNMO.Object.Food.Dishes;
 import com.BNMO.Object.Food.Ingredients;
 
@@ -10,8 +10,8 @@ public abstract class GasStove extends NonFoodObjects implements Stove {
     private boolean currentState;
     private String stoveType = "Gas Stove";
 
-    public GasStove(String name) {
-        super(name, 2, 1, 100);
+    public GasStove(String name, Point position) {
+        super(name, 2, 1, 100, position);
         this.currentState = false;
     }
 

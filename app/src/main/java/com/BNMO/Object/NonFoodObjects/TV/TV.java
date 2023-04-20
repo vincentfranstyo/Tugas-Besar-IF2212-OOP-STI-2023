@@ -3,7 +3,7 @@ package com.BNMO.Object.NonFoodObjects.TV;
 import com.BNMO.Object.NonFoodObjects.NonFoodObjects;
 import com.BNMO.Object.NonFoodObjects.TV.Channel;
 import com.BNMO.SIMS.Sim;
-import com.BNMO.Utilities.Time;
+import com.BNMO.Utilities.*;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -15,8 +15,8 @@ public class TV extends NonFoodObjects {
     private boolean isOn;
     private boolean hasScanned;
 
-    public TV(String name, int length, int width, int price, Channel currentChannel) {
-        super(name, length, width, price);
+    public TV(String name, int length, int width, int price, Channel currentChannel, Point position) {
+        super(name, length, width, price, position);
         this.channels = new ArrayList<>();
         this.currentChannel = currentChannel;
         this.isOn = false;

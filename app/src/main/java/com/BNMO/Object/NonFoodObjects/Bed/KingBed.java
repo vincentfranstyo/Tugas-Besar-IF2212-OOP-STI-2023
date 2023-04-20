@@ -4,14 +4,15 @@ import com.BNMO.Object.NonFoodObjects.NonFoodObjects;
 import com.BNMO.Object.NonFoodObjects.Bed.Bed;
 import com.BNMO.SIMS.Sim;
 import com.BNMO.Utilities.Time;
+import com.BNMO.Utilities.Point;
 
 public class KingBed extends NonFoodObjects implements Bed {
     private String bedType = "King Bed";
     private int capacity = 2;
     private int spaceLeft;
 
-    public KingBed(String name) {
-        super(name, 5, 2, 150);
+    public KingBed(String name, Point position) {
+        super(name, 5, 2, 150, );
     }
 
     public String getType() {
@@ -43,7 +44,8 @@ public class KingBed extends NonFoodObjects implements Bed {
             System.out.println("The " + sim.getName() + " is now awake.");
 
         } else {
-            System.out.println("The " + sim.getName() + " cannot sleep on the " + getName() + " because it is full.");
+            System.out.println(
+                    "The " + sim.getName() + " cannot sleep on the " + this.getName() + " because it is full.");
         }
     }
 }
