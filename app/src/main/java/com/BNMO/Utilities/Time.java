@@ -1,7 +1,5 @@
 package com.BNMO.Utilities;
 
-package com.BNMO.Utilities;
-
 public class Time {
     private int day;
     private int hour;
