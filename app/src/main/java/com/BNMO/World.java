@@ -3,7 +3,7 @@ package com.BNMO;
 import com.BNMO.Buildings.House;
 import com.BNMO.Utilities.Point;
 
-import java.util.ArrayList;
+import java.util.*;
 
 public class World {
     private int length;
