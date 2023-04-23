@@ -9,13 +9,12 @@ public class World {
     private int length;
     private int width;
     private ArrayList<House> houseList;
-    private int totalBuild;
+    private static int totalBuild = 0;
 
     public World(){
         this.length = 64;
         this.width = 64;
         this.houseList = new ArrayList<>();
-        totalBuild = 0;
 
     }
 
@@ -32,11 +31,11 @@ public class World {
     }
 
     public void addHouse(Point point){
-
+        totalBuild ++;
     }
 
     public void removeHouse(House house){
-
+        totalBuild --;
     }
 
     public int getTotalBuild(){
