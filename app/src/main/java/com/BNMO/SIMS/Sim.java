@@ -80,6 +80,7 @@ public class Sim {
         return currentJobDuration;
     }
 
+    // Ini ku tambahin biar bisa akses inventory soalnya pas deleteRoom berarti semua object di room harus dimasukin lagi ke inventory owner
     public Inventory getInventory(){
         return inventory;
     }
