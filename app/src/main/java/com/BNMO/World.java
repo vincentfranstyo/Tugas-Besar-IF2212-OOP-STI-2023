@@ -1,7 +1,8 @@
 package com.BNMO;
 
 import com.BNMO.Buildings.House;
-import com.BNMO.Utilities.Point;
+import com.BNMO.Utilities.*;
+import com.BNMO.SIMS.Sim;
 
 import java.util.*;
 
@@ -14,7 +15,7 @@ public class World {
     public World(){
         this.length = 64;
         this.width = 64;
-        this.houseList = new ArrayList<>();
+        this.houseList = new ArrayList<House>();
 
     }
 
@@ -26,11 +27,13 @@ public class World {
         return width;
     }
 
-    public ArrayList<House> getObjects() {
+    public ArrayList<House> getHouseList() {
         return houseList;
     }
 
-    public void addHouse(Point point){
+    public void addHouse(Point loc, Sim owner){
+        House rumah = new House(loc,owner);
+        houseList.add(rumah);
         totalBuild ++;
     }
 
