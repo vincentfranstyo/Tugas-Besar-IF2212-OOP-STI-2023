@@ -80,6 +80,10 @@ public class Sim {
         return currentJobDuration;
     }
 
+    public Inventory getInventory(){
+        return inventory;
+    }
+
     public boolean isAlive() {
         return isAlive;
     }
