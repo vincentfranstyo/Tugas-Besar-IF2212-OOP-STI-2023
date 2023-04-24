@@ -38,6 +38,11 @@ public class World {
     }
 
     public void removeHouse(House house){
+        for (int i = 0; i < houseList.size(); i++) {
+            if(houseList.get(i).getOwner() == house.getOwner() && houseList.get(i).getLocation() == house.getLocation()){
+                houseList.remove(i);
+            }
+        }
         totalBuild --;
     }
 
