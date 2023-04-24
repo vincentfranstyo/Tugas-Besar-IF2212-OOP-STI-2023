@@ -1,4 +1,4 @@
-package com.BNMO;
+package com.BNMO.Utilities;
 
 import com.BNMO.SIMS.Sim;
 

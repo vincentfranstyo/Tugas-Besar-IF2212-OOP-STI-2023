@@ -26,5 +26,7 @@ public class App {
         AudioPlayer player1 = new AudioPlayer(name, 1, 1, 0, new Point(x, y));
 
         player1.audioPlayerMenu();
+
+        userInput.close();
     }
 }
