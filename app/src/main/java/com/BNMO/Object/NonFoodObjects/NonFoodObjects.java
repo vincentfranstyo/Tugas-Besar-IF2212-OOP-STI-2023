@@ -50,4 +50,12 @@ public abstract class NonFoodObjects extends Object {
     public void setIsOccupied(boolean isOccupied) {
         this.isOccupied = isOccupied;
     }
+
+    public Point getPosition() {
+        return position;
+    }
+
+    public void setPosition(Point position) {
+        this.position = position;
+    }
 }
