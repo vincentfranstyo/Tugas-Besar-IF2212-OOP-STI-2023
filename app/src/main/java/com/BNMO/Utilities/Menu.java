@@ -2,30 +2,30 @@ package com.BNMO;
 
 import com.BNMO.SIMS.Sim;
 
-public class Main {
+public class Menu {
     private boolean gameStarted = false;
 
-    public void start(){
+    public void start() {
         this.gameStarted = true;
     }
 
-    public void help(){
+    public void help() {
         System.out.println("blablabla");
     }
 
-    public void exit(){
+    public void exit() {
         this.gameStarted = false;
     }
 
-    public void viewSimInfo(Sim sim){
+    public void viewSimInfo(Sim sim) {
         System.out.println("Info Sim");
     }
 
-    public void addSim(){
-        
+    public void addSim() {
+
     }
 
-    public void changeSim(){
-        
+    public void changeSim() {
+
     }
 }
