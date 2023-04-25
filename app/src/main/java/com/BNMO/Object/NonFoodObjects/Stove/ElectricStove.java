@@ -4,8 +4,6 @@ import com.BNMO.Object.NonFoodObjects.NonFoodObjects;
 import com.BNMO.SIMS.Sim;
 import com.BNMO.Utilities.*;
 import com.BNMO.Object.Food.Dishes;
-import com.BNMO.Object.Food.Recipe;
-import com.BNMO.Object.Food.Ingredients;
 
 public class ElectricStove extends NonFoodObjects implements Stove {
     private boolean currentState;
@@ -50,23 +48,34 @@ public class ElectricStove extends NonFoodObjects implements Stove {
     public void cookDish(Sim sim, Dishes dish) {
         Thread cookThread = new Thread(new Runnable() {
             public void run() {
-                if (!dish.checkIngredients(sim)) {
-                    System.out.println("You do not have the ingredients to cook this dish.");
-                } else {
-                    if (getCurrentState()) {
-                        System.out.println("The " + dish.getName() + " is now cooking.");
-                        int duration = dish.getRecipe().getDuration(); // to be checked again
-                        // wait for duration
-                        Thread.sleep(duration * 1000)
-                        sim.setStatus("Cooking " + dish.getName());
-                        sim.setMood(sim.getMood() + 10);
-                        System.out.println("The " + dish.getName() + " is done.");
+                try {
+                    if (!dish.checkIngredients(sim)) {
+                        System.out.println("You do not have the ingredients to cook this dish.");
                     } else {
-                        System.out.println("The electric stove is off. Please turn it on.");
+                        if (getCurrentState()) {
+                            System.out.println("The " + dish.getName() + " is now cooking.");
+                            int duration = dish.getRecipe().getCookingTime(); // to be checked again
+                            // wait for duration
+                            Thread.sleep(duration * 1000);
+                            sim.setStatus("Cooking " + dish.getName());
+                            sim.setMood(sim.getMood() + 10);
+                            System.out.println("The " + dish.getName() + " is done.");
+                        } else {
+                            System.out.println("The electric stove is off. Please turn it on.");
+                        }
                     }
+                } catch (InterruptedException e) {
+                    System.out.println("Thread interrupted.");
                 }
             }
         });
+
+        cookThread.start();
+        try {
+            cookThread.join();
+        } catch (InterruptedException e) {
+            System.out.println("Thread interrupted.");
+        }
     }
 
 }

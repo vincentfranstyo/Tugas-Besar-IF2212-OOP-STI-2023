@@ -54,13 +54,34 @@ public class Inventory {
     public void removeObject(Object object) {
         objects.remove(object);
         setCapacity(getCapacity() + 1);
+
     }
 
     public void printInventory() {
         System.out.println("Inventory of " + getOwner().getName());
         for (Object object : objects) {
-            System.out.println(object.getName());
+            System.out.println(
+                    object.getName().getClass().getName() + " " + getObjectNum(object.getClass().getName()));
         }
+    }
+
+    public int getObjectNum(String className) {
+        int num = 0;
+        for (Object object : objects) {
+            if (object.getClass().equals(className)) {
+                num++;
+            }
+        }
+        return num;
+    }
+
+    public boolean contains(String name) {
+        for (Object object : objects) {
+            if (object.getName().equals(name)) {
+                return true;
+            }
+        }
+        return false;
     }
 
 }

@@ -104,10 +104,23 @@ public class Time {
         return new Time(day, hour, minute, second);
     }
 
-    public double convertToSimTime(Time time) {
-        // 1 day = 12 mins
-        // 1 hour = 30 secs
-        // 1 min = 0.5 secs
-        return (time.day * 12 * 60) + (time.hour * 30) + (time.minute * 0.5);
-    }
+    // public double convertToSimTime(Time time) throws Exception {
+    // // 1 day = 12 mins
+    // // 1 hour = 30 secs
+    // // 1 min = 500 ms
+    // // 1 sec = 25/3 ms
+    // try {
+    // if (time.day < 0 || time.hour < 0 || time.minute < 0 || time.second < 0) {
+    // throw new Exception("Time cannot be negative.");
+    // }
+
+    // else {
+    // return (time.day * 12 * 60 * 1000) + (time.hour * 30 * 1000) + (time.minute *
+    // 500)
+    // + (time.second * 25 / 3);
+    // }
+    // } catch (Exception e) {
+    // System.out.println(e.getMessage());
+    // }
+    // }
 }
