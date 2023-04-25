@@ -51,6 +51,7 @@ public class TableAndChair extends NonFoodObjects {
                 if (!getIsOccupied()) {
                     if (sim.getStatus().equals("Nothing")) {
                         int duration = time.convertToSecond();
+                        Thread.sleep(duration * 1000);
                         setIsOccupied(true);
                         sim.setStatus("Eating");
                         System.out.println("You are eating " + ing.getName());
@@ -64,5 +65,12 @@ public class TableAndChair extends NonFoodObjects {
                 }
             }
         });
+
+        eatThread.start();
+        try {
+            eatThread.join();
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
 
 }
