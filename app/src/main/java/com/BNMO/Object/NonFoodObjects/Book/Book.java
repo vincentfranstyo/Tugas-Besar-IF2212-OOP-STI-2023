@@ -38,7 +38,7 @@ public class Book extends NonFoodObjects {
     }
 
     public void read(Time time, Sim sim) {
-        // read a book
+        // TODO read a book
         int duration = time.convertToSecond();
         System.out.println(sim.getName() + " is reading " + this.getName() + ".");
     }

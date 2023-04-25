@@ -72,10 +72,6 @@ public class Time {
         this.second = second;
     }
 
-    public String toString() {
-        return "Day: " + day + " Hour: " + hour + " Minute: " + minute + " Second: " + second;
-    }
-
     public String displayTime() {
         return day + " day, " + hour + " hour, " + minute + " minute, " + second + " second";
     }
@@ -106,5 +102,12 @@ public class Time {
         int second = totalSec % 60;
 
         return new Time(day, hour, minute, second);
+    }
+
+    public double convertToSimTime(Time time) {
+        // 1 day = 12 mins
+        // 1 hour = 30 secs
+        // 1 min = 0.5 secs
+        return (time.day * 12 * 60) + (time.hour * 30) + (time.minute * 0.5);
     }
 }

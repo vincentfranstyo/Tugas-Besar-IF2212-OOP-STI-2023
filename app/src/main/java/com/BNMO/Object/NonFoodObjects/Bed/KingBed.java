@@ -32,19 +32,34 @@ public class KingBed extends NonFoodObjects implements Bed {
 
     @Override
     public void sleep(Time time, Sim sim) {
-        if (getSpaceLeft() > 0) {
-            System.out.println("The " + sim.getName() + " is now sleeping.");
-            sim.setStatus("Sleeping");
-            int duration = time.convertToSecond();
-            // wait for duration
-            setSpaceLeft(getSpaceLeft() - 1);
-            sim.setMood(sim.getMood() + (30 * (duration / 240)));
-            sim.setHealth(sim.getHealth() + (20 * (duration / 240)));
-            System.out.println("The " + sim.getName() + " is now awake.");
+        Thread sleepThread = new Thread(new Runnable() {
+            public void run() {
+                try {
+                    if (getSpaceLeft() > 0) {
+                        System.out.println("The " + sim.getName() + " is now sleeping.");
+                        sim.setStatus("Sleeping");
+                        int duration = time.convertToSecond();
+                        Thread.sleep(duration * 1000);
+                        setSpaceLeft(getSpaceLeft() - 1);
+                        sim.setMood(sim.getMood() + (30 * (duration / 240)));
+                        sim.setHealth(sim.getHealth() + (20 * (duration / 240)));
+                        System.out.println("The " + sim.getName() + " is now awake.");
+                    } else {
+                        System.out.println(
+                                "The " + sim.getName() + " cannot sleep on the " + getName() + " because it is full.");
+                    }
+                } catch (InterruptedException e) {
+                    System.out.println("Thread interrupted");
+                }
+            }
+        });
 
-        } else {
-            System.out.println(
-                    "The " + sim.getName() + " cannot sleep on the " + this.getName() + " because it is full.");
+        sleepThread.start();
+        try {
+            sleepThread.join();
+        } catch (InterruptedException e) {
+            System.out.println("Thread interrupted");
         }
+
     }
 }

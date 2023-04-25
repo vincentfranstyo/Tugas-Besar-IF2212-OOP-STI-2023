@@ -10,15 +10,32 @@ public class Piano extends NonFoodObjects {
     }
 
     public void playPiano(Time time, Sim sim) {
-        if (!getIsOccupied()) {
-            setIsOccupied(true);
-            if (sim.getStatus().equals("Nothing")) {
-                int duration = time.convertToSecond();
-                sim.setStatus("Playing piano");
-                sim.setMood(sim.getMood() + 5 * duration / 20);
-            } else {
-                System.out.println("You can't play the piano while you are " + sim.getStatus());
+        Thread pianoThread = new Thread(new Runnable() {
+            @Override
+            public void run() {
+                try {
+                    if (!getIsOccupied()) {
+                        setIsOccupied(true);
+                        if (sim.getStatus().equals("Nothing")) {
+                            int duration = time.convertToSecond();
+                            Thread.sleep(duration * 1000);
+                            sim.setStatus("Playing piano");
+                            sim.setMood(sim.getMood() + 5 * duration / 20);
+                        } else {
+                            System.out.println("You can't play the piano while you are " + sim.getStatus());
+                        }
+                    }
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
             }
+        });
+
+        pianoThread.start();
+        try {
+            pianoThread.join();
+        } catch (InterruptedException e) {
+            e.printStackTrace();
         }
     }
 }

@@ -1,7 +1,6 @@
 package com.BNMO.Object.NonFoodObjects.AudioPlayer;
 
 import com.BNMO.Utilities.Time;
-
 public class Music {
     private String name;
     private String artist;
