@@ -20,7 +20,7 @@ public class House {
         Thread t = new Thread(new Runnable() {
            public void run(){
             try {
-                // Pilih ruangan yang ingin di bangun (Above, Right, Below, atau Left) dari currentRoom lalu instansiasi sebuah room baru
+                // Pilih ruangan yang ingin di bangun (Above, Right, Below, atau Left) dari currentRoom lalu instansiasi sebuah room baru dengan posisi yang dipilih
                 // Scanner sc = new Scanner(System.in);
                 // System.out.println("");
                 // sc.close();
