@@ -6,6 +6,7 @@ import java.util.*;
 
 public class Menu {
     private boolean gameStarted = false;
+    private Sim currentSim;
     private ArrayList<Sim> simList;
 
     public void start() {
@@ -37,7 +38,11 @@ public class Menu {
         simList.add(sim);
     }
 
-    public void changeSim(Sim sim) {
-
+    public void changeSim(String name) {
+        for (int i = 0; i < simList.size(); i++) {
+            if(simList.get(i).getName() == name){
+                this.currentSim = simList.get(i);
+            }
+        }
     }
 }

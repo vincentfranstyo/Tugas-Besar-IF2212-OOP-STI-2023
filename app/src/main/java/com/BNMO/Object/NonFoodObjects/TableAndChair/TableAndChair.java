@@ -72,6 +72,5 @@ public class TableAndChair extends NonFoodObjects {
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
-
     }
 }

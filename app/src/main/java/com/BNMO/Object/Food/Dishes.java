@@ -6,11 +6,13 @@ import com.BNMO.Object.Object;
 public class Dishes extends Object {
     private int price;
     private Recipe recipe;
+    private int satiety;
 
-    public Dishes(String name, int price, int cookingTime, Recipe recipe) {
+    public Dishes(String name, int price, int cookingTime, Recipe recipe, int satiety) {
         super(name, "Dish");
         this.price = price;
         this.recipe = recipe;
+        this.satiety = satiety;
     }
 
     public Recipe getRecipe() {
@@ -26,5 +28,9 @@ public class Dishes extends Object {
         }
 
         return hasIngredients;
+    }
+
+    public int getSatiety() {
+        return satiety;
     }
 }
