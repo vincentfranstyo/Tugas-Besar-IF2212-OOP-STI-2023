@@ -94,17 +94,4 @@ public class Room{
     public int getTotalObject(){
         return totalObject;
     }
-    public static void main(String[] args) {
-        Room A = new Room("Living", null, null, null, null);
-        Object book = new Book("Laskar Pelangi", 50000, 156, "MTR", null);
-        A.addObject(book, new Point(2,5));
-        Object clock = new Clock("Jam Dinding", new Time(12, 0, 0), null);
-        A.addObject(clock, new Point(2,5));
-        Iterator<Object> itr = A.getObjects();
-        while(itr.hasNext()){
-            Object o = itr.next();
-            System.out.println(o.getName() + " " + o.getType() + " " + ((NonFoodObjects) o).getPosition().toString());
-        }
-        System.out.println(A.getTotalObject());
-    }
 }
