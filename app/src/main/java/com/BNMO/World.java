@@ -12,18 +12,18 @@ public class World {
     private ArrayList<House> houseList;
     private static int totalBuild = 0;
 
-    public World(){
+    public World(String initSimName) {
         this.length = 64;
         this.width = 64;
         this.houseList = new ArrayList<House>();
-
+        Sim sim1 = new Sim(initSimName);
     }
 
-    public int getLength(){
+    public int getLength() {
         return length;
     }
 
-    public int getWidth(){
+    public int getWidth() {
         return width;
     }
 
@@ -31,26 +31,24 @@ public class World {
         return houseList;
     }
 
-    public void addHouse(Point loc, Sim owner){
-        House rumah = new House(loc,owner);
+    public void addHouse(Point loc, Sim owner) {
+        House rumah = new House(loc, owner);
         houseList.add(rumah);
-        totalBuild ++;
+        totalBuild++;
     }
 
-    public void removeHouse(House house){
+    public void removeHouse(House house) {
         for (int i = 0; i < houseList.size(); i++) {
-            if(houseList.get(i).getOwner() == house.getOwner() && houseList.get(i).getLocation() == house.getLocation()){
+            if (houseList.get(i).getOwner() == house.getOwner()
+                    && houseList.get(i).getLocation() == house.getLocation()) {
                 houseList.remove(i);
             }
         }
-        totalBuild --;
+        totalBuild--;
     }
 
-    
-
-    public int getTotalBuild(){
+    public int getTotalBuild() {
         return totalBuild;
     }
-
 
 }

@@ -8,7 +8,6 @@ import java.util.Scanner;
 import com.BNMO.Object.NonFoodObjects.*;
 import com.BNMO.Utilities.*;
 import com.BNMO.SIMS.Sim;
-import com.BNMO.Buildings.House;
 
 public class App {
     public String getGreeting() {
