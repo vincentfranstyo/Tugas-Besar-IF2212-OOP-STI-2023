@@ -19,7 +19,10 @@ public class Sim {
     private Inventory inventory;
     private Point location;
     private Time currentJobDuration;
+    private static ArrayList<Sim> sims = new ArrayList<>();
     private boolean isAlive;
+    private House currentHouse;
+    private Room currentRoom;
 
     public Sim(String name) {
         List<Job> jobs = new ArrayList<>();
@@ -28,6 +31,15 @@ public class Sim {
         jobs.add(new Job("Polisi", 35));
         jobs.add(new Job("Programmer", 45));
         jobs.add(new Job("Dokter", 30));
+        jobs.add(new Job("Tentara", 10));
+        jobs.add(new Job("PNS", 30));
+        jobs.add(new Job("Teknisi", 20));
+        jobs.add(new Job("Pramusaji", 15));
+        jobs.add(new Job("Pilot", 55));
+        jobs.add(new Job("Apoteker", 40));
+        jobs.add(new Job("Guru", 10));
+        jobs.add(new Job("Fotografer", 20));
+        jobs.add(new Job("Pemadam Kebakaran", 20));
 
         Random random = new Random();
         int index = random.nextInt(jobs.size());
@@ -41,7 +53,10 @@ public class Sim {
         this.status = "Nothing";
         this.isAlive = true;
         this.inventory = new Inventory(this);
-        this.location = location;
+        this.location = new Point(0, 0);
+        this.currentHouse = new House(this.location, this);
+        this.currentRoom = new Room("Living Room", this.currentHouse);
+        sims.add(this);
     }
 
     public String getName() {
@@ -88,6 +103,14 @@ public class Sim {
 
     public boolean isAlive() {
         return isAlive;
+    }
+
+    public House getCurrentHouse() {
+        return currentHouse;
+    }
+
+    public Room getCurrentRoom() {
+        return currentRoom;
     }
 
     public void setName(String name) {
@@ -148,17 +171,26 @@ public class Sim {
         isAlive = alive;
     }
 
+    public void setCurrentHouse(House currentHouse) {
+        this.currentHouse = currentHouse;
+    }
+
+    public void setCurrentRoom(Room currentRoom) {
+        this.currentRoom = currentRoom;
+    }
+
     public void work(Time time) {
         int duration = time.convertToSecond();
 
-        setFullness(getFullness() - 10 * duration / 30);
-        setMood(getMood() - 10 * duration / 30);
-        setMoney(getMoney() + getJob().getSalary() * duration / 240);
-
         Thread statusThread = new Thread(() -> {
             try {
+                setFullness(getFullness() - 10 * duration / 30);
+                setMood(getMood() - 10 * duration / 30);
+                setMoney(getMoney() + getJob().getSalary() * duration / 240);
+                setCurrentJobDuration(getCurrentJobDuration() + duration/60);
                 setStatus("Working");
-                Thread.sleep(240000); // Sleep for 4 minutes
+                System.out.println(getName() + "is working...");
+                Thread.sleep(2000); // Sleep for 2 seconds
             } catch (InterruptedException e) {
                 e.printStackTrace();
             } finally {
@@ -170,7 +202,6 @@ public class Sim {
         try {
             statusThread.join();
         } catch (InterruptedException e) {
-            // TODO Auto-generated catch block
             e.printStackTrace();
         }
     }
@@ -183,34 +214,50 @@ public class Sim {
         setHealth(getHealth() + 5 * duration / 20);
     }
 
-    public void changeJob(Job job) {
+    public void changeJob(String jobName) {
         if (currentJobDuration.convertToSecond() >= 720) {
-            setJob(job);
-            setCurrentJobDuration(new Time(0, 0, 0));
-            setMoney(getMoney() - job.getSalary() / 2);
+            // Check if the jobName key exists in the map
+            if (getJob().getJobs().containsKey(jobName)) {
+                int salary = getJob().getJobs().get(jobName);
+                setJob(jobName, salary);
+                setCurrentJobDuration(new Time(0, 0, 0));
+                setMoney(getMoney() - job.getSalary() / 2);
+            } else {
+                System.out.println(jobName + " not found");
+            }
         } else {
             System.out.println("You can't change job yet");
         }
     }
 
     public void visit(House house) {
-
+        setCurrentHouse(house);
     }
 
-    public void buy(NonFoodObjects object) {
-
+    public void buy(Object object) {
+        if (getMoney() >= object.getPrice()) {
+            setMoney(getMoney() - object.getPrice());
+            inventory.addObject(object);
+        } else {
+            System.out.println("You don't have enough money");
+        }
     }
 
     public void move(Room room) {
-
+        setCurrentRoom(room);
     }
 
     public void openInv() {
-
+        inventory.printInventory();
     }
 
-    public void place(NonFoodObjects object) {
-
+    public void place(NonFoodObjects object, Point location) {
+        if (inventory.getObjects().contains(object)) {
+            inventory.removeObject(object);
+            getCurrentRoom().addObject(object, location);
+        } else {
+            System.out.println("You don't have this object");
+        }
     }
 
     public void moveObject(Object object) {
@@ -218,7 +265,7 @@ public class Sim {
     }
 
     public void goToObject(Object object) {
-
+        setLocation(object.getPosition());
     }
 
     public void upgradeHouse() {
