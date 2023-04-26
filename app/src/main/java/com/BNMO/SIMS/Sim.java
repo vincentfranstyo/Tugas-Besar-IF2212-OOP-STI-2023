@@ -40,8 +40,8 @@ public class Sim {
         this.health = 80;
         this.status = "Nothing";
         this.isAlive = true;
-        // this.inventory = new Inventory(this);
-        // this.location = location;
+        this.inventory = new Inventory(this);
+        this.location = location;
     }
 
     public String getName() {
@@ -80,8 +80,9 @@ public class Sim {
         return currentJobDuration;
     }
 
-    // Ini ku tambahin biar bisa akses inventory soalnya pas deleteRoom berarti semua object di room harus dimasukin lagi ke inventory owner
-    public Inventory getInventory(){
+    // Ini ku tambahin biar bisa akses inventory soalnya pas deleteRoom berarti
+    // semua object di room harus dimasukin lagi ke inventory owner
+    public Inventory getInventory() {
         return inventory;
     }
 

@@ -68,7 +68,7 @@ public class Inventory {
     public int getObjectNum(String className) {
         int num = 0;
         for (Object object : objects) {
-            if (object.getClass().equals(className)) {
+            if (object.getClass().getName().equals(className)) {
                 num++;
             }
         }

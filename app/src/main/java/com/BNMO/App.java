@@ -5,8 +5,10 @@ package com.BNMO;
 
 import java.util.Scanner;
 
-import com.BNMO.Object.NonFoodObjects.AudioPlayer.AudioPlayer;
-import com.BNMO.Utilities.Point;
+import com.BNMO.Object.NonFoodObjects.*;
+import com.BNMO.Utilities.*;
+import com.BNMO.SIMS.Sim;
+import com.BNMO.Buildings.House;
 
 public class App {
     public String getGreeting() {
@@ -16,16 +18,16 @@ public class App {
     public static void main(String[] args) {
         System.out.println(new App().getGreeting());
         Scanner userInput = new Scanner(System.in);
-        System.out.println("Enter the name of the audio player: ");
-        String name = userInput.nextLine();
-        System.out.println("Enter the x position of the audio player: ");
-        int x = userInput.nextInt();
-        System.out.println("Enter the y position of the audio player: ");
-        int y = userInput.nextInt();
+        World world = new World();
+        String sim1Name = userInput.nextLine();
+        Sim sim1 = new Sim(sim1Name);
+        Time worldTime = new Time();
 
-        AudioPlayer player1 = new AudioPlayer(name, 1, 1, 0, new Point(x, y));
+        // TODO : How do we implement time? should we use thread too?
 
-        player1.audioPlayerMenu();
+        world.addHouse(new Point(1, 1), sim1);
+
+        System.out.println(world.getHouseList().get(0).getOwner());
 
         userInput.close();
     }

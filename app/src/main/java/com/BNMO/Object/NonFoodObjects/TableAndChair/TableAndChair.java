@@ -58,7 +58,7 @@ public class TableAndChair extends NonFoodObjects {
                             int duration = time.convertToSecond();
                             Thread.sleep(duration * 1000);
                             setIsOccupied(true);
-                            sim.setStatus("Eating");
+                            // sim.setStatus("Eating");
                             System.out.println("You are eating " + ing.getName());
                             sim.setFullness(sim.getFullness() + (ing.getSatiety() * (duration / 30)));
                         } else {

@@ -37,7 +37,7 @@ public class KingBed extends NonFoodObjects implements Bed {
                 try {
                     if (getSpaceLeft() > 0) {
                         System.out.println("The " + sim.getName() + " is now sleeping.");
-                        sim.setStatus("Sleeping");
+                        // sim.setStatus("Sleeping");
                         int duration = time.convertToSecond();
                         Thread.sleep(duration * 1000);
                         setSpaceLeft(getSpaceLeft() - 1);
