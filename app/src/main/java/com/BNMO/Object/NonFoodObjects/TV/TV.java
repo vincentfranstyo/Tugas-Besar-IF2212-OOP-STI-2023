@@ -195,6 +195,13 @@ public class TV extends NonFoodObjects {
                 }
             }
         });
+
+        watchTVThread.start();
+        try {
+            watchTVThread.join();
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
     }
 
 }

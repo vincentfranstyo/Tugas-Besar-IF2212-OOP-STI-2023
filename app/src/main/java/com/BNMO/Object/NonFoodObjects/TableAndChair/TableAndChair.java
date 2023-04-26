@@ -45,9 +45,9 @@ public class TableAndChair extends NonFoodObjects {
     }
 
     public void eatIngredients(Time time, Sim sim, Ingredients ing) {
-        Thread eatThread = new Thread(new Runnable(){
+        Thread eatThread = new Thread(new Runnable() {
             @Override
-            public void run(){
+            public void run() {
                 if (!getIsOccupied()) {
                     if (sim.getStatus().equals("Nothing")) {
                         int duration = time.convertToSecond();
@@ -59,8 +59,7 @@ public class TableAndChair extends NonFoodObjects {
                     } else {
                         System.out.println("You can't eat while doing something else.");
                     }
-                }
-                else {
+                } else {
                     System.out.println("Too bad! The table is in use, please find another table!");
                 }
             }
@@ -72,5 +71,5 @@ public class TableAndChair extends NonFoodObjects {
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
-
+    }
 }
