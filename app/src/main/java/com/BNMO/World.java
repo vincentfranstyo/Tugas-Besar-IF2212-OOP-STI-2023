@@ -19,8 +19,8 @@ public class World {
         Sim newSim = new Sim(initSimName);
 
         Random rand = new Random();
-        int xRandom = rand.nextInt(64);
-        int yRandom = rand.nextInt(64);
+        int xRandom = rand.nextInt(65);
+        int yRandom = rand.nextInt(65);
 
         Point initPoint = new Point(xRandom, yRandom);
 

@@ -12,10 +12,14 @@ public class Menu {
     public void start() {
         this.gameStarted = true;
         this.simList = new ArrayList<Sim>();
+        System.out.println("Selamat Datang di Sim-Plicity!");
+        System.out.println("Permainan Akan Segera Dimulai...");
+        System.out.println("Selamat Bermain !!!");
     }
 
     public void help() {
-        System.out.println("Panduan untuk game Sim");
+        System.out.println("Panduan Game Sim-Plicity");
+        
     }
 
     public void exit() {
