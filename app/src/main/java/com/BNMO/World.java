@@ -16,7 +16,15 @@ public class World {
         this.length = 64;
         this.width = 64;
         this.houseList = new ArrayList<House>();
-        Sim sim1 = new Sim(initSimName);
+        Sim newSim = new Sim(initSimName);
+
+        Random rand = new Random();
+        int xRandom = rand.nextInt(64);
+        int yRandom = rand.nextInt(64);
+
+        Point initPoint = new Point(xRandom, yRandom);
+
+        addHouse(initPoint, newSim);
     }
 
     public int getLength() {

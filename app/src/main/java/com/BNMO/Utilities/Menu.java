@@ -15,22 +15,21 @@ public class Menu {
     }
 
     public void help() {
-        System.out.println("blablabla");
+        System.out.println("Panduan untuk game Sim");
     }
 
     public void exit() {
         this.gameStarted = false;
     }
 
-    public void viewSimInfo(Sim sim) {
+    public void viewSimInfo() {
         System.out.println("Info Sim:");
-        System.out.println("Nama: " + sim.getName());
-        System.out.println("Job: " + sim.getJob());
-        System.out.println("Job Duration: " + sim.getCurrentJobDuration());
-        System.out.println("Money: " + sim.getMoney());
-        System.out.println("Fullness: " + sim.getFullness());
-        System.out.println("Mood: " + sim.getMood());
-        System.out.println("Health: " + sim.getHealth());
+        System.out.println("Nama: " + currentSim.getName());
+        System.out.println("Job: " + currentSim.getJob());
+        System.out.println("Money: " + currentSim.getMoney());
+        System.out.println("Fullness: " + currentSim.getFullness());
+        System.out.println("Mood: " + currentSim.getMood());
+        System.out.println("Health: " + currentSim.getHealth());
     }
 
     public void addSim(String name) {
