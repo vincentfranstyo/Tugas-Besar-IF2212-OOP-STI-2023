@@ -39,7 +39,16 @@ public class Book extends NonFoodObjects {
 
     public void read(Time time, Sim sim) {
         // TODO read a book
-        int duration = time.convertToSecond();
-        System.out.println(sim.getName() + " is reading " + this.getName() + ".");
+        try{
+            if ()
+            System.out.println(sim.getName() + " is reading " + this.getName() + ".");
+            int duration = time.convertToSecond();
+            sim.setMood(sim.getMood() + (10 * (duration / 240)));
+            sim.setFullness(sim.getFullness() - (10 * (duration / 240)));
+            Thread.sleep(duration * 1000);
+            System.out.println(sim.getName() + " has finished reading " + this.getName() + ".");
+        }
+        
+       
     }
 }

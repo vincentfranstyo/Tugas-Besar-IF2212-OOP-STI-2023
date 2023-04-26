@@ -168,39 +168,31 @@ public class TV extends NonFoodObjects {
     }
 
     public void watchTV(Time time, Sim sim) {
-        Thread watchTVThread = new Thread(new Runnable() {
-            @Override
-            public void run() {
-                try {
-                    if (!getIsOccupied()) {
-                        setIsOccupied(true);
-                        if (getIsOn()) {
-                            if (sim.getStatus().equals("Nothing")) {
-                                int duration = time.convertToSecond();
-                                System.out.println("Watching TV for " + duration + " seconds");
-                                Thread.sleep(duration * 1000);
-                                // sim.setStatus("Watching TV");
-                                sim.setMood(sim.getMood() + (4 * duration / 20));
-                                sim.setHealth(sim.getHealth() - (3 * duration / 20));
-                                sim.setFullness(sim.getFullness() - (2 * duration / 20));
-                            } else {
-                                System.out.println("You can't watch TV while you are " + sim.getStatus());
-                            }
-                        } else {
-                            System.out.println("The TV is off");
-                        }
-                    }
-                } catch (InterruptedException e) {
-                    e.printStackTrace();
-                }
-            }
-        });
-
-        watchTVThread.start();
         try {
-            watchTVThread.join();
+            if (!getIsOccupied()) {
+                setIsOccupied(true);
+                if (getIsOn()) {
+                    if (sim.getStatus().equals("Nothing")) {
+                        int duration = time.convertToSecond();
+                        System.out.println("Watching TV for " + duration + " seconds");
+                        Thread.sleep(duration * 1000);
+                        sim.setStatus("Watching TV");
+                        sim.setMood(sim.getMood() + (4 * duration / 20));
+                        sim.setHealth(sim.getHealth() - (3 * duration / 20));
+                        sim.setFullness(sim.getFullness() - (2 * duration / 20));
+                    } else {
+                        System.out.println("You can't watch TV while you are " + sim.getStatus());
+                    }
+                } else {
+                    System.out.println("The TV is off");
+                }
+            } else {
+                System.out.println("The TV is occupied");
+            }
         } catch (InterruptedException e) {
-            e.printStackTrace();
+            System.out.println("Thread interrupted");
+        } finally {
+            setIsOccupied(false);
         }
     }
 

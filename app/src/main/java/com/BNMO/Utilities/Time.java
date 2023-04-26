@@ -5,13 +5,14 @@ public class Time {
     private int hour;
     private int minute;
     private int second;
+    private int simDay;
 
     public Time(int day, int hour, int minute, int second) {
         this.day = day;
         this.hour = hour;
         this.minute = minute;
         this.second = second;
-        // this.length = new Time(0, 0, 0, 0);
+        this.simDay = minute / 12;
     }
 
     public Time(int hour, int minute, int second) {
@@ -44,6 +45,10 @@ public class Time {
         return day;
     }
 
+    public int getSimDay() {
+        return this.simDay;
+    }
+
     public int getHour() {
         return hour;
     }
@@ -72,6 +77,11 @@ public class Time {
         this.second = second;
     }
 
+    public void setSimDay(int simDay) {
+        this.simDay = simDay;
+    }
+
+    
     public String displayTime() {
         return day + " day, " + hour + " hour, " + minute + " minute, " + second + " second";
     }

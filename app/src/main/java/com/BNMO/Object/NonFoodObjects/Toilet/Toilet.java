@@ -10,35 +10,23 @@ public class Toilet extends NonFoodObjects {
     }
 
     public void useToilet(Time time, Sim sim) {
-        Thread toiletThread = new Thread(new Runnable() {
-            @Override
-            public void run() {
-                try {
-                    if (!getIsOccupied()) {
-                        if (sim.getStatus().equals("Nothing")) {
-                            int duration = time.convertToSecond();
-                            Thread.sleep(time.convertToSecond() * 1000);
-                            setIsOccupied(true);
-                            // sim.setStatus("Using toilet");
-                            sim.setFullness(sim.getFullness() - (20 * (duration / 10)));
-                            sim.setMood(sim.getMood() + (10 * (duration / 10)));
-                        } else {
-                            System.out.println("You can't use the toilet while doing something else.");
-                        }
-                    }
-
-                    else {
-                        System.out.println("Too bad! The toilet is in use, please find another toilet!");
-                    }
-                } catch (InterruptedException e) {
-                    e.printStackTrace();
+        try {
+            if (!getIsOccupied()) {
+                if (sim.getStatus().equals("Nothing")) {
+                    int duration = time.convertToSecond();
+                    Thread.sleep(time.convertToSecond() * 1000);
+                    setIsOccupied(true);
+                    // sim.setStatus("Using toilet");
+                    sim.setFullness(sim.getFullness() - (20 * (duration / 10)));
+                    sim.setMood(sim.getMood() + (10 * (duration / 10)));
+                } else {
+                    System.out.println("You can't use the toilet while doing something else.");
                 }
             }
-        });
 
-        toiletThread.start();
-        try {
-            toiletThread.join();
+            else {
+                System.out.println("Too bad! The toilet is in use, please find another toilet!");
+            }
         } catch (InterruptedException e) {
             e.printStackTrace();
         }

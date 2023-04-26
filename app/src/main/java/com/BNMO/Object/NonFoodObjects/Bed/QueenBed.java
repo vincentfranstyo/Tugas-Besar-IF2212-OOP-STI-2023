@@ -32,31 +32,20 @@ public class QueenBed extends NonFoodObjects implements Bed {
 
     @Override
     public void sleep(Time time, Sim sim) {
-        Thread sleepThread = new Thread(new Runnable() {
-            public void run() {
-                try {
-                    if (getSpaceLeft() > 0) {
-                        System.out.println("The " + sim.getName() + " is now sleeping.");
-                        // sim.setStatus("Sleeping");
-                        int duration = time.convertToSecond();
-                        Thread.sleep(duration * 1000);
-                        setSpaceLeft(getSpaceLeft() - 1);
-                        sim.setMood(sim.getMood() + (30 * (duration / 240)));
-                        sim.setHealth(sim.getHealth() + (20 * (duration / 240)));
-                        System.out.println("The " + sim.getName() + " is now awake.");
-                    } else {
-                        System.out.println(
-                                "The " + sim.getName() + " cannot sleep on the " + getName() + " because it is full.");
-                    }
-                } catch (InterruptedException e) {
-                    System.out.println("Thread interrupted");
-                }
-            }
-        });
-
-        sleepThread.start();
         try {
-            sleepThread.join();
+            if (getSpaceLeft() > 0) {
+                System.out.println("The " + sim.getName() + " is now sleeping.");
+                sim.setStatus("Sleeping");
+                int duration = time.convertToSecond();
+                setSpaceLeft(getSpaceLeft() - 1);
+                sim.setMood(sim.getMood() + (30 * (duration / 240)));
+                sim.setHealth(sim.getHealth() + (20 * (duration / 240)));
+                Thread.sleep(duration * 1000);
+                System.out.println("The " + sim.getName() + " is now awake.");
+            } else {
+                System.out.println(
+                        "The " + sim.getName() + " cannot sleep on the " + getName() + " because it is full.");
+            }
         } catch (InterruptedException e) {
             System.out.println("Thread interrupted");
         }

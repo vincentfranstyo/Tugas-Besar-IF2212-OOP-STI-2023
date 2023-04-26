@@ -49,33 +49,21 @@ public class TableAndChair extends NonFoodObjects {
     }
 
     public void eatIngredients(Time time, Sim sim, Ingredients ing) {
-        Thread eatThread = new Thread(new Runnable() {
-            @Override
-            public void run() {
-                try {
-                    if (!getIsOccupied()) {
-                        if (sim.getStatus().equals("Nothing")) {
-                            int duration = time.convertToSecond();
-                            Thread.sleep(duration * 1000);
-                            setIsOccupied(true);
-                            // sim.setStatus("Eating");
-                            System.out.println("You are eating " + ing.getName());
-                            sim.setFullness(sim.getFullness() + (ing.getSatiety() * (duration / 30)));
-                        } else {
-                            System.out.println("You can't eat while doing something else.");
-                        }
-                    } else {
-                        System.out.println("Too bad! The table is in use, please find another table!");
-                    }
-                } catch (InterruptedException e) {
-                    e.printStackTrace();
-                }
-            }
-        });
-
-        eatThread.start();
         try {
-            eatThread.join();
+            if (!getIsOccupied()) {
+                if (sim.getStatus().equals("Nothing")) {
+                    int duration = time.convertToSecond();
+                    Thread.sleep(duration * 1000);
+                    setIsOccupied(true);
+                    sim.setStatus("Eating " + dish.getName());
+                    System.out.println("You are eating " + ing.getName());
+                    sim.setFullness(sim.getFullness() + (ing.getSatiety() * (duration / 30)));
+                } else {
+                    System.out.println("You can't eat while doing something else.");
+                }
+            } else {
+                System.out.println("Too bad! The table is in use, please find another table!");
+            }
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
