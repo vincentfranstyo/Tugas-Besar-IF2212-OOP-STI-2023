@@ -4,13 +4,12 @@ import com.BNMO.SIMS.Sim;
 import com.BNMO.Object.Object;
 
 public class Dishes extends Object {
-    private int price;
     private Recipe recipe;
     private int satiety;
 
     public Dishes(String name, int price, int cookingTime, Recipe recipe, int satiety) {
         super(name, "Dish");
-        this.price = price;
+        this.setPrice(price);
         this.recipe = recipe;
         this.satiety = satiety;
     }

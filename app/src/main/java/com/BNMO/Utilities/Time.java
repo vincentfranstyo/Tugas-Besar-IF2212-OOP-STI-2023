@@ -81,7 +81,6 @@ public class Time {
         this.simDay = simDay;
     }
 
-    
     public String displayTime() {
         return day + " day, " + hour + " hour, " + minute + " minute, " + second + " second";
     }
@@ -114,23 +113,20 @@ public class Time {
         return new Time(day, hour, minute, second);
     }
 
-    // public double convertToSimTime(Time time) throws Exception {
-    // // 1 day = 12 mins
-    // // 1 hour = 30 secs
-    // // 1 min = 500 ms
-    // // 1 sec = 25/3 ms
-    // try {
-    // if (time.day < 0 || time.hour < 0 || time.minute < 0 || time.second < 0) {
-    // throw new Exception("Time cannot be negative.");
-    // }
+    public void timeskip(int time) {
+        int inSec = this.convertToSecond();
+        inSec += time;
 
-    // else {
-    // return (time.day * 12 * 60 * 1000) + (time.hour * 30 * 1000) + (time.minute *
-    // 500)
-    // + (time.second * 25 / 3);
-    // }
-    // } catch (Exception e) {
-    // System.out.println(e.getMessage());
-    // }
-    // }
+        int day = inSec / (24 * 3600);
+        inSec = inSec % (24 * 3600);
+        int hour = inSec / 3600;
+        inSec = inSec % 3600;
+        int minute = inSec / 60;
+        int second = inSec % 60;
+
+        this.day = day;
+        this.hour = hour;
+        this.minute = minute;
+        this.second = second;
+    }
 }

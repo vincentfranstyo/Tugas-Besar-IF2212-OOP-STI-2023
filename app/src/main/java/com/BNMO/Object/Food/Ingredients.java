@@ -7,6 +7,7 @@ public class Ingredients extends Object {
 
     public Ingredients(String name, int price, int satiety) {
         super(name, "Ingredient");
+        this.setPrice(price);
     }
 
     public int getSatiety() {

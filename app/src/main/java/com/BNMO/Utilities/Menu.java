@@ -9,9 +9,14 @@ public class Menu {
     private Sim currentSim;
     private ArrayList<Sim> simList;
 
+    public Menu(Sim initSim) {
+        this.currentSim = initSim;
+    }
+
     public void start() {
         this.gameStarted = true;
         this.simList = new ArrayList<Sim>();
+        this.simList.add(currentSim);
         System.out.println("Permainan Akan Segera Dimulai...");
         System.out.println("Selamat Bermain !!!");
     }
@@ -25,7 +30,7 @@ public class Menu {
         this.gameStarted = false;
     }
 
-    public void viewSimInfo(Sim currentSim) {
+    public void viewSimInfo() {
         System.out.println("Info Sim:");
         System.out.println("Nama: " + currentSim.getName());
         System.out.println("Job: " + currentSim.getJob());
@@ -45,5 +50,26 @@ public class Menu {
                 this.currentSim = simList.get(i);
             }
         }
+    }
+
+    public void viewSimList() {
+        System.out.println("Daftar Sim:");
+        for (int i = 0; i < simList.size(); i++) {
+            System.out.println(simList.get(i).getName());
+        }
+    }
+
+    public void viewSimStatus() {
+        System.out.println("Status Sim:");
+        System.out.println("Nama: " + currentSim.getName());
+        System.out.println("Status: " + currentSim.getStatus());
+    }
+
+    public boolean isGameStarted() {
+        return gameStarted;
+    }
+
+    public Sim getCurrentSim() {
+        return currentSim;
     }
 }

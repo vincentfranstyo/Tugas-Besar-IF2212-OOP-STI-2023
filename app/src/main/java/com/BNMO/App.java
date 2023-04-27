@@ -10,34 +10,85 @@ import com.BNMO.Utilities.*;
 import com.BNMO.SIMS.Sim;
 
 public class App {
-    public String getGreeting() {
-        return "Hello World!";
-    }
 
     public static void main(String[] args) {
-        System.out.println(new App().getGreeting());
+
+        Thread timeThread = new Thread(new Runnable() {
+            public void run() {
+                int i = 1;
+                while (true) {
+                    try {
+                        System.out.println("Hari ke-" + i + "\n");
+                        System.out.println();
+                        Thread.sleep(720000);
+                        System.out.println();
+                        System.out.println("Hari telah berganti!");
+                        System.out.println();
+                        i++;
+                    } catch (InterruptedException e) {
+                        e.printStackTrace();
+                    }
+                }
+            }
+        });
+
+        timeThread.start();
+
         Scanner userInput = new Scanner(System.in);
         System.out.println("Selamat Datang di Sim-Plicity!");
-        System.out.println("Apakah kamu ingin memulai permainan? (Y/N)");
+        System.out.print("Apakah kamu ingin memulai permainan? (Y/N) ");
         String startGame = userInput.nextLine();
+        System.out.println();
 
         while (!startGame.equals("Y") && !startGame.equals("N")) {
-            System.out.println("Masukkan Y atau N");
+            System.out.print("Masukkan Y atau N!");
+            System.out.print("Apakah kamu ingin memulai permainan? (Y/N) ");
             startGame = userInput.nextLine();
+            System.out.println();
         }
 
         if (startGame.equals("Y")) {
-            Menu menu = new Menu();
-            menu.start();
             System.out.println("Masukkan nama sim: ");
             String simName = userInput.nextLine();
             Sim initSim = new Sim(simName);
+            Menu menu = new Menu(initSim);
+            menu.start();
+
+            // System.out.println(menu.isGameStarted());
             World world = new World(initSim);
 
-            menu.viewSimInfo(initSim);
+            menu.viewSimInfo();
+
+            while (menu.isGameStarted()) {
+                System.out.println("Apa yang ingin kamu lakukan?");
+                System.out.println("1. Help");
+                System.out.println("2. Lihat info sim");
+
+                System.out.println("Masukkan perintah: (dalam angka)");
+                String command = userInput.nextLine();
+                int commandNum = Integer.parseInt(command);
+                while (commandNum != 1 && commandNum != 2 && commandNum != 3 && commandNum != 4 && commandNum != 5
+                        && commandNum != 6 && commandNum != 7) {
+                    System.out.println("Masukan harus dalam bentuk angka");
+                    commandNum = userInput.nextInt();
+                }
+
+                if (commandNum == 1) {
+                    // TODO tergantung help
+                } else if (commandNum == 2) {
+
+                    // TODO so on
+                }
+
+                else if (commandNum == 10) {
+                    menu.exit();
+                }
+
+            }
+
         } else {
             System.out.println("Terima kasih telah bermain!");
         }
-
+        userInput.close();
     }
 }
