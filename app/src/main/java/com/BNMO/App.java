@@ -17,17 +17,27 @@ public class App {
     public static void main(String[] args) {
         System.out.println(new App().getGreeting());
         Scanner userInput = new Scanner(System.in);
-        World world = new World();
-        String sim1Name = userInput.nextLine();
-        Sim sim1 = new Sim(sim1Name);
-        Time worldTime = new Time();
+        System.out.println("Selamat Datang di Sim-Plicity!");
+        System.out.println("Apakah kamu ingin memulai permainan? (Y/N)");
+        String startGame = userInput.nextLine();
 
-        // TODO : How do we implement time? should we use thread too?
+        while (!startGame.equals("Y") && !startGame.equals("N")) {
+            System.out.println("Masukkan Y atau N");
+            startGame = userInput.nextLine();
+        }
 
-        world.addHouse(new Point(1, 1), sim1);
+        if (startGame.equals("Y")) {
+            Menu menu = new Menu();
+            menu.start();
+            System.out.println("Masukkan nama sim: ");
+            String simName = userInput.nextLine();
+            Sim initSim = new Sim(simName);
+            World world = new World(initSim);
 
-        System.out.println(world.getHouseList().get(0).getOwner());
+            menu.viewSimInfo(initSim);
+        } else {
+            System.out.println("Terima kasih telah bermain!");
+        }
 
-        userInput.close();
     }
 }

@@ -12,11 +12,10 @@ public class World {
     private ArrayList<House> houseList;
     private static int totalBuild = 0;
 
-    public World(String initSimName) {
+    public World(Sim initSim) {
         this.length = 64;
         this.width = 64;
         this.houseList = new ArrayList<House>();
-        Sim newSim = new Sim(initSimName);
 
         Random rand = new Random();
         int xRandom = rand.nextInt(65);
@@ -24,7 +23,7 @@ public class World {
 
         Point initPoint = new Point(xRandom, yRandom);
 
-        addHouse(initPoint, newSim);
+        addHouse(initPoint, initSim);
     }
 
     public int getLength() {

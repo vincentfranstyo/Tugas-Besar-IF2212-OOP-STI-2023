@@ -84,4 +84,14 @@ public class Inventory {
         return false;
     }
 
+    public void removeObject(String name) {
+        for (Object object : objects) {
+            if (object.getName().equals(name)) {
+                objects.remove(object);
+                setCapacity(getCapacity() + 1);
+                break;
+            }
+        }
+    }
+
 }

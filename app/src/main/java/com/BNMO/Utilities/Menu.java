@@ -12,21 +12,20 @@ public class Menu {
     public void start() {
         this.gameStarted = true;
         this.simList = new ArrayList<Sim>();
-        System.out.println("Selamat Datang di Sim-Plicity!");
         System.out.println("Permainan Akan Segera Dimulai...");
         System.out.println("Selamat Bermain !!!");
     }
 
     public void help() {
         System.out.println("Panduan Game Sim-Plicity");
-        
+
     }
 
     public void exit() {
         this.gameStarted = false;
     }
 
-    public void viewSimInfo() {
+    public void viewSimInfo(Sim currentSim) {
         System.out.println("Info Sim:");
         System.out.println("Nama: " + currentSim.getName());
         System.out.println("Job: " + currentSim.getJob());
@@ -36,14 +35,13 @@ public class Menu {
         System.out.println("Health: " + currentSim.getHealth());
     }
 
-    public void addSim(String name) {
-        Sim sim = new Sim(name);
+    public void addSim(Sim sim) {
         simList.add(sim);
     }
 
     public void changeSim(String name) {
         for (int i = 0; i < simList.size(); i++) {
-            if(simList.get(i).getName() == name){
+            if (simList.get(i).getName() == name) {
                 this.currentSim = simList.get(i);
             }
         }

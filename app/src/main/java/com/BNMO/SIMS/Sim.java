@@ -55,7 +55,7 @@ public class Sim {
         this.inventory = new Inventory(this);
         this.location = new Point(0, 0);
         this.currentHouse = new House(this.location, this);
-        this.currentRoom = new Room("Living Room", this.currentHouse);
+        // this.currentRoom = new Room("Living Room", this.currentHouse.get);
         sims.add(this);
     }
 
@@ -187,7 +187,7 @@ public class Sim {
                 setFullness(getFullness() - 10 * duration / 30);
                 setMood(getMood() - 10 * duration / 30);
                 setMoney(getMoney() + getJob().getSalary() * duration / 240);
-                setCurrentJobDuration(getCurrentJobDuration() + duration/60);
+                setCurrentJobDuration(getCurrentJobDuration() + duration / 60);
                 setStatus("Working");
                 System.out.println(getName() + "is working...");
                 Thread.sleep(2000); // Sleep for 2 seconds

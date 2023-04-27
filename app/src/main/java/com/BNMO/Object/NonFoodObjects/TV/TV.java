@@ -174,7 +174,7 @@ public class TV extends NonFoodObjects {
                 if (getIsOn()) {
                     if (sim.getStatus().equals("Nothing")) {
                         int duration = time.convertToSecond();
-                        System.out.println("Watching TV for " + duration + " seconds");
+                        System.out.println(sim.getName() + "is watching TV for " + duration + " seconds");
                         Thread.sleep(duration * 1000);
                         sim.setStatus("Watching TV");
                         sim.setMood(sim.getMood() + (4 * duration / 20));

@@ -37,18 +37,24 @@ public class Book extends NonFoodObjects {
         System.out.println("Author: " + getAuthor());
     }
 
-    public void read(Time time, Sim sim) {
+    public void read(Time time, Sim sim, Book book) {
         // TODO read a book
-        try{
-            if ()
-            System.out.println(sim.getName() + " is reading " + this.getName() + ".");
-            int duration = time.convertToSecond();
-            sim.setMood(sim.getMood() + (10 * (duration / 240)));
-            sim.setFullness(sim.getFullness() - (10 * (duration / 240)));
-            Thread.sleep(duration * 1000);
-            System.out.println(sim.getName() + " has finished reading " + this.getName() + ".");
+        try {
+            if (!getIsOccupied()) {
+                setIsOccupied(true);
+                if (sim.getStatus().equals("Nothing")) {
+                    System.out.println(sim.getName() + " is reading " + this.getName() + ".");
+                    int duration = time.convertToSecond();
+                    sim.setMood(sim.getMood() + (10 * (duration / 240)));
+                    sim.setFullness(sim.getFullness() - (10 * (duration / 240)));
+                    Thread.sleep(duration * 1000);
+                    System.out.println(sim.getName() + " has finished reading " + this.getName() + ".");
+                } else {
+                    System.out.println("You can't read the book while you are " + sim.getStatus());
+                }
+            }
+        } catch (InterruptedException e) {
+            e.printStackTrace();
         }
-        
-       
     }
 }

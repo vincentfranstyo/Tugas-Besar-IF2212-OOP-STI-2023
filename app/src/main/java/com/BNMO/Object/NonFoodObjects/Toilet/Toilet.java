@@ -14,11 +14,12 @@ public class Toilet extends NonFoodObjects {
             if (!getIsOccupied()) {
                 if (sim.getStatus().equals("Nothing")) {
                     int duration = time.convertToSecond();
-                    Thread.sleep(time.convertToSecond() * 1000);
+                    System.out.println(sim.getName() + " is using the toilet.");
                     setIsOccupied(true);
-                    // sim.setStatus("Using toilet");
+                    sim.setStatus("Using toilet");
                     sim.setFullness(sim.getFullness() - (20 * (duration / 10)));
                     sim.setMood(sim.getMood() + (10 * (duration / 10)));
+                    Thread.sleep(time.convertToSecond() * 1000);
                 } else {
                     System.out.println("You can't use the toilet while doing something else.");
                 }
