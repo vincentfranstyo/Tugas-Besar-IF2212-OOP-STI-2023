@@ -22,8 +22,9 @@ public class World {
         int yRandom = rand.nextInt(65);
 
         Point initPoint = new Point(xRandom, yRandom);
-
-        addHouse(initPoint, initSim);
+        House initHouse = new House(initPoint, initSim);
+        addHouse(initHouse);
+        initHouse.addRoom();
     }
 
     public int getLength() {
@@ -38,8 +39,7 @@ public class World {
         return houseList;
     }
 
-    public void addHouse(Point loc, Sim owner) {
-        House rumah = new House(loc, owner);
+    public void addHouse(House rumah) {
         houseList.add(rumah);
         totalBuild++;
     }

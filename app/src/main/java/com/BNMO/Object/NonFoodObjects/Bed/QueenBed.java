@@ -9,8 +9,8 @@ public class QueenBed extends NonFoodObjects implements Bed {
     private int capacity = 2;
     private int spaceLeft;
 
-    public QueenBed(String name, Point position) {
-        super(name, 4, 2, 100, position);
+    public QueenBed(String name) {
+        super(name, 4, 2, 100);
         this.setType("Queen Bed");
     }
 

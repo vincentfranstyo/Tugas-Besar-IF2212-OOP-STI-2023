@@ -9,8 +9,8 @@ public class KingBed extends NonFoodObjects implements Bed {
     private int capacity = 2;
     private int spaceLeft;
 
-    public KingBed(String name, Point position) {
-        super(name, 5, 2, 150, position);
+    public KingBed(String name) {
+        super(name, 5, 2, 150);
         this.setType("King Bed");
     }
 

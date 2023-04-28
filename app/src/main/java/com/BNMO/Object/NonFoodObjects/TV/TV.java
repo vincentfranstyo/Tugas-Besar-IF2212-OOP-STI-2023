@@ -14,8 +14,8 @@ public class TV extends NonFoodObjects {
     private boolean isOn;
     private boolean hasScanned;
 
-    public TV(String name, int length, int width, int price, Channel currentChannel, Point position) {
-        super(name, 2, 2, 200, position);
+    public TV(String name, int length, int width, int price, Channel currentChannel) {
+        super(name, 2, 2, 200);
         this.channels = new ArrayList<>();
         this.currentChannel = currentChannel;
         this.isOn = false;

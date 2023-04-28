@@ -8,9 +8,9 @@ import com.BNMO.Object.Food.Ingredients;
 
 public class TableAndChair extends NonFoodObjects {
 
-    public TableAndChair(String name, Point position) {
+    public TableAndChair(String name) {
         // input : name, x, y -> create position
-        super(name, 3, 3, 50, position);
+        super(name, 3, 3, 50);
         this.setType("Table and Chair");
     }
 
@@ -18,7 +18,7 @@ public class TableAndChair extends NonFoodObjects {
         try {
             if (!getIsOccupied()) {
                 if (sim.getStatus().equals("Nothing")) {
-                    if (sim.getInventory().contains(dish.getName())) {
+                    if (sim.getInventory().getObjects().contains(dish)) {
                         int duration = time.convertToSecond();
                         setIsOccupied(true);
                         sim.setStatus("Is eating");

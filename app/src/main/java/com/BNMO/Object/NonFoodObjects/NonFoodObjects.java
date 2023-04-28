@@ -9,13 +9,12 @@ public abstract class NonFoodObjects extends Object {
     private boolean isOccupied;
     private Point position;
 
-    public NonFoodObjects(String name, int length, int width, int price, Point position) {
+    public NonFoodObjects(String name, int length, int width, int price) {
         super(name, "Non Food Objects");
         this.length = length;
         this.width = width;
         this.setPrice(price);
         this.isOccupied = false;
-        this.position = position;
     }
 
     public int getLength() {
@@ -30,6 +29,10 @@ public abstract class NonFoodObjects extends Object {
         return isOccupied;
     }
 
+    public Point getPosition() {
+        return position;
+    }
+
     public void setLength(int length) {
         this.length = length;
     }
@@ -40,10 +43,6 @@ public abstract class NonFoodObjects extends Object {
 
     public void setIsOccupied(boolean isOccupied) {
         this.isOccupied = isOccupied;
-    }
-
-    public Point getPosition() {
-        return position;
     }
 
     public void setPosition(Point position) {

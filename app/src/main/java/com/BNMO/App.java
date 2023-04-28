@@ -17,7 +17,6 @@ import com.BNMO.SIMS.Sim;
 public class App {
 
     public static void main(String[] args) {
-
         Thread timeThread = new Thread(new Runnable() {
             public void run() {
                 int i = 1;
@@ -111,11 +110,14 @@ public class App {
                     menu.viewSimInfo();
                     System.out.println();
                 } else if (commandNum == 3) {
-
+                    // TODO info dunia + layout
                 }
 
                 else if (commandNum == 4) {
-
+                    System.out.println();
+                    System.out.println("Berikut adalah info rumah kamu:");
+                    // TODO info rumah dan objek" di dalamnya
+                    System.out.println();
                 }
 
                 else if (commandNum == 5) {
@@ -136,15 +138,15 @@ public class App {
 
                 else if (commandNum == 9) {
                     menu.getCurrentSim().getInventory()
-                            .addObject(new Book("BukuUwu", 1000, 5, "Meemaw", new Point(0, 0)));
+                            .addObject(new Book("BukuUwu", 1000, 5, "Meemaw"));
                     menu.getCurrentSim().getInventory()
-                            .addObject(new Book("BukuAwa", 1000, 5, "Meemaw", new Point(0, 0)));
+                            .addObject(new Book("BukuAwa", 1000, 5, "Meemaw"));
                     menu.getCurrentSim().getInventory()
-                            .addObject(new Book("BukuIwi", 1000, 5, "Meemaw", new Point(0, 0)));
+                            .addObject(new Book("BukuIwi", 1000, 5, "Meemaw"));
                     menu.getCurrentSim().getInventory()
-                            .addObject(new Book("BukuEwe", 1000, 5, "Meemaw", new Point(0, 0)));
-                    menu.getCurrentSim().getInventory().addObject(new SingleBed("myBed", new Point(0, 0)));
-                    menu.getCurrentSim().getInventory().addObject(new SingleBed("herBed", new Point(0, 0)));
+                            .addObject(new Book("BukuEwe", 1000, 5, "Meemaw"));
+                    menu.getCurrentSim().getInventory().addObject(new SingleBed("myBed"));
+                    menu.getCurrentSim().getInventory().addObject(new SingleBed("herBed"));
                     System.out.println();
                     menu.getCurrentSim().getInventory().printInventory();
                     System.out.println();

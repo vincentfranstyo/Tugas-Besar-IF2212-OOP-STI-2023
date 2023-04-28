@@ -5,8 +5,8 @@ import com.BNMO.SIMS.Sim;
 import com.BNMO.Utilities.*;
 
 public class Toilet extends NonFoodObjects {
-    public Toilet(String name, Point position) {
-        super(name, 1, 1, 50, position);
+    public Toilet(String name) {
+        super(name, 1, 1, 50);
     }
 
     public void useToilet(Time time, Sim sim) {

@@ -7,8 +7,8 @@ import com.BNMO.Utilities.*;
 public class Clock extends NonFoodObjects {
     private Time currentTime;
 
-    public Clock(String name, Time currentTime, Point position) {
-        super(name, 1, 1, 10, position);
+    public Clock(String name, Time currentTime) {
+        super(name, 1, 1, 10);
         this.currentTime = currentTime;
         this.setType("Clock");
     }

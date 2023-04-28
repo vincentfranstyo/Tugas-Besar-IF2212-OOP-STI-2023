@@ -8,8 +8,8 @@ public class SingleBed extends NonFoodObjects implements Bed {
     private int capacity = 1;
     private int spaceLeft;
 
-    public SingleBed(String name, Point position) {
-        super(name, 4, 1, 50, position);
+    public SingleBed(String name) {
+        super(name, 4, 1, 50);
         this.setType("Single Bed");
     }
 
