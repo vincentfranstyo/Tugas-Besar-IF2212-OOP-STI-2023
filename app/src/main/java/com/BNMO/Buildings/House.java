@@ -2,6 +2,14 @@ package com.BNMO.Buildings;
 
 import java.util.*;
 import com.BNMO.Object.Object;
+import com.BNMO.Object.NonFoodObjects.Bed.Bed;
+import com.BNMO.Object.NonFoodObjects.Bed.SingleBed;
+import com.BNMO.Object.NonFoodObjects.Clock.Clock;
+import com.BNMO.Object.NonFoodObjects.Stove.GasStove;
+import com.BNMO.Object.NonFoodObjects.TableAndChair.TableAndChair;
+import com.BNMO.Object.NonFoodObjects.Toilet.Toilet;
+import com.BNMO.World;
+import com.BNMO.Object.*;
 import com.BNMO.SIMS.Sim;
 import com.BNMO.Utilities.*;
 
@@ -17,21 +25,34 @@ public class House {
         this.location = loc;
     }
     public void addRoom(){
-        Thread t = new Thread(new Runnable() {
-           public void run(){
-            try {
-                // Pilih ruangan yang ingin di bangun (Above, Right, Below, atau Left) dari currentRoom lalu instansiasi sebuah room baru dengan posisi yang dipilih
-                // Scanner sc = new Scanner(System.in);
-                // System.out.println("");
-                // sc.close();
-                Thread.sleep(9000);
-                totalRoom++;
-            } catch (InterruptedException e) {
-                e.printStackTrace();
-            }
-           } 
-        });
-        t.start();
+        if(totalRoom != 0){
+            Thread t = new Thread(new Runnable() {
+            public void run(){
+                try {
+                    Thread.sleep(1080000); // 18 menit
+                    // Pilih ruangan yang ingin di bangun (Above, Right, Below, atau Left) dari currentRoom lalu instansiasi sebuah room baru dengan posisi yang dipilih
+                    Scanner sc = new Scanner(System.in);
+                    System.out.println("Choose");
+                    sc.close();
+                    totalRoom++;
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+            } 
+            });
+            t.start();
+        }
+        else{
+            // Create Room pertama kali tidak akan menunggu waktu
+            Room newRoom = new Room("Main Room", null, null, null, null);
+            Object bed = new SingleBed("Single Bed",null);
+            Object toilet = new Toilet("Toilet", null);
+            Object stove = new GasStove("Gas Stove", null);
+            Object clock = new Clock("Jam", null, null);
+            Object tablenchair = new TableAndChair("Table and Chair", null);
+            newRoom.addObject(clock, location);
+            rooms.add(totalRoom, newRoom);
+        }
     }
     public void deleteRoom(Room delRoom){
         if(rooms.contains(delRoom)){

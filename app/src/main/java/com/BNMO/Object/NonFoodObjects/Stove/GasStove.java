@@ -4,8 +4,8 @@ import com.BNMO.Object.NonFoodObjects.NonFoodObjects;
 import com.BNMO.SIMS.Sim;
 import com.BNMO.Utilities.*;
 import com.BNMO.Object.Food.Dishes;
-
-public abstract class GasStove extends NonFoodObjects implements Stove {
+// ini ku ganti ya bukan abstract class soalnya
+public class GasStove extends NonFoodObjects implements Stove {
     private boolean currentState;
     private String stoveType = "Gas Stove";
 
