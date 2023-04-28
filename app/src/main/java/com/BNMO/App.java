@@ -147,7 +147,6 @@ public class App {
                     System.out.println("[8] Bermain piano");
                     System.out.println("[9] Buang air");
                     System.out.println("[10] Tidur");
-
                 }
 
                 else if (commandNum == 8) {
