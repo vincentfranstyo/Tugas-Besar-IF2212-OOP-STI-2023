@@ -56,12 +56,7 @@ public class Sim {
         this.inventory = new Inventory(this);
         this.location = new Point(0, 0);
         this.currentHouse = new House(this.location, this);
-<<<<<<< HEAD
-        this.currentHouse.addRoom();
         this.currentRoom = currentHouse.getRooms().next();
-=======
-        // this.currentRoom = new Room("Living Room", this.currentHouse.get);
->>>>>>> 0d0f5f6cb985b0f36a94602121b94ea7c743a0f7
         sims.add(this);
     }
 

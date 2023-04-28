@@ -9,20 +9,20 @@ import com.BNMO.SIMS.Sim;
 public class Room {
     private ArrayList<Object> objects;
     private String nameRoom;
-    private Room above;
+    private Room front;
     private Room right;
-    private Room below;
+    private Room behind;
     private Room left;
     private int length = 6;
     private int width = 6;
     private int totalObject;
     private Object[][] mapObj;
     private static int price = 1500;
-    public Room(String nRoom, Room above, Room right, Room below, Room left){
+    public Room(String nRoom, Room front, Room right, Room behind, Room left){
         this.nameRoom = nRoom;
-        this.above = above;
+        this.front = front;
         this.right = right;
-        this.below = below;
+        this.behind = behind;
         this.left = left;
         this.objects = new ArrayList<Object>();
         this.mapObj = new Object[6][6];
@@ -90,12 +90,12 @@ public class Room {
         this.nameRoom = newNameRoom;
     }
 
-    public Room getAbove() {
-        return above;
+    public Room getFront() {
+        return front;
     }
 
-    public void setAbove(Room newAbove) {
-        this.above = newAbove;
+    public void setFront(Room newFront) {
+        this.front = newFront;
     }
 
     public Room getRight() {
@@ -106,12 +106,12 @@ public class Room {
         this.right = newRight;
     }
 
-    public Room getBelow() {
-        return below;
+    public Room getBehind() {
+        return behind;
     }
 
-    public void setBelow(Room newBelow) {
-        this.below = newBelow;
+    public void setBehind(Room newBehind) {
+        this.behind = newBehind;
     }
 
     public Room getLeft() {
@@ -136,6 +136,12 @@ public class Room {
     }
     public Object[][] getMapObj(){
         return mapObj;
+    }
+    public int getWidth(){
+        return width;
+    }
+    public int getLength(){
+        return length;
     }
     // public static void main(String[] args) {
     //     Room A = new Room("Main Room", null, null, null, null);

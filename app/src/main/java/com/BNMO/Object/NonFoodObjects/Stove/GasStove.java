@@ -3,11 +3,7 @@ package com.BNMO.Object.NonFoodObjects.Stove;
 import com.BNMO.Object.NonFoodObjects.NonFoodObjects;
 import com.BNMO.SIMS.Sim;
 import com.BNMO.Object.Food.Dishes;
-<<<<<<< HEAD
 // ini ku ganti ya bukan abstract class soalnya
-=======
-
->>>>>>> 0d0f5f6cb985b0f36a94602121b94ea7c743a0f7
 public class GasStove extends NonFoodObjects implements Stove {
     private boolean currentState;
 
