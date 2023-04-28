@@ -28,6 +28,7 @@ public class Menu {
         System.out.println("3. Sebuah rumah dengan 1 ruangan berukuran 6x6 akan digenerate setelah SIM dibuat");
         System.out.println("4. Sim akan diletakkan di rumah tersebut dan bebas melakukan aksi apapun");
         System.out.println("5. Setiap Sim dapat melakukan aksi berupa aktif, non-aktif, upgrade, dan menambah SIM");
+        System.out.println("6. Untuk melihat informasi Sim ..... ");
         System.out.println();
         System.out.println("List Aksi Aktif:");
         System.out.println();
