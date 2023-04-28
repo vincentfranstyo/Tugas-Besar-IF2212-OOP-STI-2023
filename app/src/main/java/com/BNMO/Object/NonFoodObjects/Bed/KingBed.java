@@ -3,7 +3,6 @@ package com.BNMO.Object.NonFoodObjects.Bed;
 import com.BNMO.Object.NonFoodObjects.NonFoodObjects;
 import com.BNMO.SIMS.Sim;
 import com.BNMO.Utilities.Time;
-import com.BNMO.Utilities.Point;
 
 public class KingBed extends NonFoodObjects implements Bed {
     private int capacity = 2;

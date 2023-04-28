@@ -60,7 +60,7 @@ public class Menu {
 
     public void changeSim(String name) {
         for (int i = 0; i < simList.size(); i++) {
-            if (simList.get(i).getName() == name) {
+            if (simList.get(i).getName().equals(name)) {
                 this.currentSim = simList.get(i);
             }
         }

@@ -33,6 +33,38 @@ public class House {
     }
 
     public void addRoom(Room curRoom) {
+        Scanner sc = new Scanner(System.in);
+        System.out.println("Arah Ruangan:");
+        if (curRoom.getFront() == null)
+            System.out.println("Front");
+        if (curRoom.getRight() == null)
+            System.out.println("Right");
+        if (curRoom.getBehind() == null)
+            System.out.println("Behind");
+        if (curRoom.getLeft() == null)
+            System.out.println("Left");
+        System.out.println("Pilih Arah Ruangan yang Akan Dibangun: ");
+        String pilihan = sc.nextLine();
+        System.out.println("Masukkan Nama Ruangan: ");
+        String rName = sc.nextLine();
+        sc.close();
+        Room newRoom = new Room(rName, null, null, null, null);
+        if (pilihan.toLowerCase().equals("front")) {
+            newRoom.setBehind(curRoom);
+            curRoom.setFront(newRoom);
+        }
+        if (pilihan.toLowerCase().equals("right")) {
+            newRoom.setLeft(curRoom);
+            curRoom.setRight(newRoom);
+        }
+        if (pilihan.toLowerCase().equals("behind")) {
+            newRoom.setFront(curRoom);
+            curRoom.setBehind(newRoom);
+        }
+        if (pilihan.toLowerCase().equals("left")) {
+            newRoom.setRight(curRoom);
+            curRoom.setLeft(newRoom);
+        }
         Thread t = new Thread(new Runnable() {
             public void run() {
                 try {
@@ -43,43 +75,13 @@ public class House {
                         System.out.println(
                                 "Tidak Dapat Menambah Ruangan Karena Sudah Ada Ruangan Pada Setip Sisi Ruangan Sekerang");
                     } else {
-                        Scanner sc = new Scanner(System.in);
-                        System.out.println("Arah Ruangan:");
-                        if (curRoom.getFront() == null)
-                            System.out.println("Front");
-                        if (curRoom.getRight() == null)
-                            System.out.println("Right");
-                        if (curRoom.getBehind() == null)
-                            System.out.println("Behind");
-                        if (curRoom.getLeft() == null)
-                            System.out.println("Left");
-                        System.out.println("Pilih Arah Ruangan yang Akan Dibangun: ");
-                        String pilihan = sc.next();
-                        System.out.println("Masukkan Nama Ruangan: ");
-                        String rName = sc.next();
-                        sc.close();
-                        Room newRoom = new Room(rName, null, null, null, null);
-                        Thread.sleep(1080000); // 18 menit
-                        if (pilihan.toLowerCase().equals("front")) {
-                            newRoom.setBehind(curRoom);
-                            curRoom.setFront(newRoom);
-                        }
-                        if (pilihan.toLowerCase().equals("right")) {
-                            newRoom.setLeft(curRoom);
-                            curRoom.setRight(newRoom);
-                        }
-                        if (pilihan.toLowerCase().equals("behind")) {
-                            newRoom.setFront(curRoom);
-                            curRoom.setBehind(newRoom);
-                        }
-                        if (pilihan.toLowerCase().equals("left")) {
-                            newRoom.setRight(curRoom);
-                            curRoom.setLeft(newRoom);
-                        }
+                        Thread.sleep(10800); // 18 menit = 1080000
                         rooms.add(newRoom);
                         synchronized (this) {
                             totalRoom++;
                         }
+                        System.out.println("Kamu berhasil menambah ruangan baru!");
+                        printRooms();
                     }
                 } catch (InterruptedException e) {
                     e.printStackTrace();
@@ -87,7 +89,6 @@ public class House {
             }
         });
         t.start();
-
     }
 
     public void deleteRoom(Room delRoom) {
@@ -127,6 +128,14 @@ public class House {
 
     public void setLocation(Point newLoc) {
         this.location = newLoc;
+    }
+
+    public void printRooms() {
+        Iterator<Room> rooms = getRooms();
+        while (rooms.hasNext()) {
+            Room curRoom = rooms.next();
+            System.out.println(curRoom.getNameRoom());
+        }
     }
     // public static void main(String[] args) {
     // Sim budi = new Sim("Budi");

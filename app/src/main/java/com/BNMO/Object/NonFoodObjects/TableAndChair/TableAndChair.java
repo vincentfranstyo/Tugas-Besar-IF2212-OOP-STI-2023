@@ -26,6 +26,8 @@ public class TableAndChair extends NonFoodObjects {
                         sim.setFullness(sim.getFullness() + (dish.getSatiety() * (duration / 30)));
                         sim.getInventory().removeObject(dish.getName());
                         Thread.sleep(duration * 1000);
+                    } else {
+                        System.out.println("You don't have " + dish.getName() + " in your inventory.");
                     }
 
                 } else {

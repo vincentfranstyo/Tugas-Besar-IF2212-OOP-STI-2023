@@ -248,6 +248,15 @@ public class Sim {
         } else {
             System.out.println("You don't have enough money");
         }
+
+        Random rand = new Random();
+        int randomNum = rand.nextInt(1, 5);
+        System.out.println("You will get your item in " + randomNum + " minutes");
+        try {
+            Thread.sleep(randomNum * 60000);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
     }
 
     public void move(Room room) {
@@ -279,7 +288,9 @@ public class Sim {
         setLocation(nfo.getPosition());
     }
 
-    public void upgradeHouse() {
-
+    public void updateHouse(House house) {
+        // menambah room
+        // menghapus room
+        // menambah Object
     }
 }

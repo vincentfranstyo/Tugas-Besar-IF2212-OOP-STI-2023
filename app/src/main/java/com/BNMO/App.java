@@ -4,20 +4,27 @@
 package com.BNMO;
 
 import java.util.Scanner;
+import java.util.ArrayList;
+import java.util.NoSuchElementException;
 
+import com.BNMO.Object.NonFoodObjects.NonFoodObjects;
 import com.BNMO.Object.NonFoodObjects.AudioPlayer.AudioPlayer;
 import com.BNMO.Object.NonFoodObjects.TV.TV;
+import com.BNMO.Object.NonFoodObjects.TableAndChair.TableAndChair;
 import com.BNMO.Object.NonFoodObjects.Toilet.Toilet;
 import com.BNMO.Object.NonFoodObjects.Book.Book;
 import com.BNMO.Object.NonFoodObjects.Bed.*;
+import com.BNMO.Object.NonFoodObjects.Piano.Piano;
 
 import com.BNMO.Utilities.*;
 import com.BNMO.SIMS.Sim;
 
 public class App {
+    private static int time = 0;
 
     public static void main(String[] args) {
         Thread timeThread = new Thread(new Runnable() {
+            @Override
             public void run() {
                 int i = 1;
                 while (true) {
@@ -43,7 +50,6 @@ public class App {
                 }
             }
         });
-
         timeThread.start();
 
         Scanner userInput = new Scanner(System.in);
@@ -77,21 +83,29 @@ public class App {
                 System.out.println("Apa yang ingin kamu lakukan?");
                 System.out.println("[1] Help");
                 System.out.println("[2] Lihat info sim");
-                System.out.println("[3] Lihat info dunia");
-                System.out.println("[4] Lihat info rumah");
+                System.out.println("[3] Lihat info rumah");
+                System.out.println("[4] Melihat Map");
                 System.out.println("[5] Menambah SIMS");
                 System.out.println("[6] Mengganti SIMS");
-                System.out.println("[7] Melakukan aktivitas");
-                System.out.println("[8] Upgrade rumah");
-                System.out.println("[9] Membeli Barang");
-                System.out.println("[10] Melihat inventory");
-                System.out.println("[11] Exit");
+                System.out.println("[7] Mengganti pekerjaan");
+                System.out.println("[8] Melakukan aktivitas");
+                System.out.println("[9] Upgrade rumah");
+                System.out.println("[10] Membeli Barang");
+                System.out.println("[11] Melihat inventory");
+                System.out.println("[12] Exit");
                 System.out.println();
 
                 System.out.println("Masukkan perintah: (dalam angka)");
-                String command = userInput.nextLine();
-                int commandNum;
+                String command;
+                try {
+                    command = userInput.nextLine();
+                } catch (NoSuchElementException e) {
+                    userInput.close();
+                    userInput = new Scanner(System.in);
+                    command = userInput.nextLine();
+                }
 
+                int commandNum;
                 try {
                     commandNum = Integer.parseInt(command);
                 } catch (NumberFormatException e) {
@@ -111,19 +125,22 @@ public class App {
                     menu.viewSimInfo();
                     System.out.println();
                 } else if (commandNum == 3) {
+                    System.out.println();
+                    System.out.println("Berikut adalah info rumah kamu:");
+                    menu.getCurrentSim().getCurrentHouse().printRooms();
+                    // TODO CLI layout
+                    System.out.println();
+                } else if (commandNum == 4) {
                     // TODO info dunia + layout
                 }
 
-                else if (commandNum == 4) {
-                    System.out.println();
-                    System.out.println("Berikut adalah info rumah kamu:");
-                    System.out.println(menu.getCurrentSim().getCurrentHouse().getRooms());
-                    System.out.println();
-                }
-
                 else if (commandNum == 5) {
+                    System.out.println();
+                    System.out.println("Masukkan nama sim yang ingin kamu tambahkan: ");
                     String newSimName = userInput.nextLine();
                     menu.addSim(new Sim(newSimName));
+                    menu.viewSimList();
+                    System.out.println();
                 }
 
                 else if (commandNum == 6) {
@@ -161,13 +178,67 @@ public class App {
                             activity = userInput.nextLine();
                         }
                     }
+                    ArrayList<Integer> validActivities = new ArrayList<Integer>();
+                    for (int i = 1; i <= 10; i++) {
+                        validActivities.add(i);
+                    }
+
+                    while (!validActivities.contains(activityNum)) {
+                        System.out.println("Masukkan angka yang valid!");
+                        activity = userInput.nextLine();
+                        while (true) {
+                            try {
+                                activityNum = Integer.parseInt(activity);
+                                break;
+                            } catch (NumberFormatException e) {
+                                System.out.println("Masukan harus dalam bentuk angka!");
+                                activity = userInput.nextLine();
+                            }
+                        }
+                    }
+
+                    if (activityNum == 1) {
+                        TableAndChair tableValidator = null;
+                        while (menu.getCurrentSim().getCurrentRoom().getObjects().hasNext()) {
+                            if (menu.getCurrentSim().getCurrentRoom().getObjects().next() instanceof TableAndChair) {
+                                tableValidator = (TableAndChair) menu.getCurrentSim().getCurrentRoom().getObjects()
+                                        .next();
+                                break;
+                            }
+                        }
+                        if (tableValidator == null) {
+                            // Tidak ada table and chair di ruangan ini
+                            System.out.println("Tidak ada meja dan kursi di ruangan ini!");
+                        } else {
+                            System.out.println("Kamu makan!");
+                            menu.getCurrentSim().goToObject((NonFoodObjects) tableValidator);
+                            // TODO Makan
+                        }
+                    }
+
+                    else if (activityNum == 9) {
+
+                    }
                 }
 
                 else if (commandNum == 8) {
+                    System.out.println();
+                    menu.getCurrentSim().getCurrentHouse().addRoom(menu.getCurrentSim().getCurrentRoom());
 
+                } else if (commandNum == 9) {
+                    System.out.println();
+                    System.out.println("Berikut adalah barang-barang yang bisa kamu beli!");
+                    System.out.println("Masukkan barang yang ingin kamu beli!");
+                    String wantedItemName = userInput.nextLine();
+                    String loweredName = wantedItemName.toLowerCase();
+                    NonFoodObjects wantedItem = null;
+                    if (loweredName.equals("piano")) {
+                        wantedItem = new Piano("myPiano");
+                    }
+                    menu.getCurrentSim().buy(wantedItem);
                 }
 
-                else if (commandNum == 9) {
+                else if (commandNum == 10) {
                     menu.getCurrentSim().getInventory()
                             .addObject(new Book("BukuUwu", 1000, 5, "Meemaw"));
                     menu.getCurrentSim().getInventory()
@@ -183,10 +254,9 @@ public class App {
                     System.out.println();
                 }
 
-                else if (commandNum == 10) {
+                else if (commandNum == 11) {
                     menu.exit();
                     break;
-
                 }
 
                 else {
@@ -195,10 +265,10 @@ public class App {
                 }
             }
             userInput.close();
+            System.exit(0);
 
         } else {
             System.out.println("Terima kasih telah bermain!");
         }
-
     }
 }
