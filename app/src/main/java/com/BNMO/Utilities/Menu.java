@@ -23,12 +23,19 @@ public class Menu {
 
     public void help() {
         System.out.println("Panduan Game Sim-Plicity");
-        System.out.println("1. Ketika memulai permainan sebuah World Sim-Plicity akan dibuat dengan ukuran 64x64");
-        System.out.println("2. Pemain akan diminta untuk membuat sebuah Sim terlebih dahulu");
-        System.out.println("3. Sebuah rumah dengan 1 ruangan berukuran 6x6  juga akan digenerate");
+        System.out.println("1. Ketika memulai permainan Sim-Plicity sebuah World akan dibuat dengan ukuran 64x64");
+        System.out.println("2. Pemain diminta untuk membuat sebuah Sim terlebih dahulu");
+        System.out.println("3. Sebuah rumah dengan 1 ruangan berukuran 6x6 akan digenerate setelah SIM dibuat");
         System.out.println("4. Sim akan diletakkan di rumah tersebut dan bebas melakukan aksi apapun");
-        System.out.println("5. Setiap Sim dapat melakukan aksi berupa aktif, upgrade, non-aktif, dan menambah SIM");
+        System.out.println("5. Setiap Sim dapat melakukan aksi berupa aktif, non-aktif, upgrade, dan menambah SIM");
         System.out.println();
+        System.out.println("List Aksi Aktif:");
+        System.out.println();
+        System.out.println("List Aksi Non-Aktif:");
+        System.out.println();
+        System.out.println("List Aksi Upgrade:");
+        System.out.println();
+        System.out.println("List Aksi Tambah SIM:");
 
     }
 
