@@ -21,11 +21,10 @@ public class Dishes extends Object {
     public boolean checkIngredients(Sim sim) {
         boolean hasIngredients = true;
         for (int i = 0; i < recipe.getIngredients().length; i++) {
-            if (!sim.getInventory().contains(recipe.getIngredients()[i].getName())) {
+            if (!sim.getInventory()getObjects().contains(recipe.getIngredients()[i])) {
                 hasIngredients = false;
             }
         }
-
         return hasIngredients;
     }
 

@@ -45,7 +45,7 @@ public class TableAndChair extends NonFoodObjects {
         try {
             if (!getIsOccupied()) {
                 if (sim.getStatus().equals("Nothing")) {
-                    if (sim.getInventory().contains(ing.getName())) {
+                    if (sim.getInventory().getObjects().contains(ing)) {
                         int duration = time.convertToSecond();
                         setIsOccupied(true);
                         sim.setStatus("Is eating");

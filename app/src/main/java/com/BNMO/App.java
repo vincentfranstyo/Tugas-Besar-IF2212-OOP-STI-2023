@@ -5,9 +5,12 @@ package com.BNMO;
 
 import java.util.Scanner;
 
-import com.BNMO.Object.NonFoodObjects.*;
-import com.BNMO.Object.NonFoodObjects.Bed.SingleBed;
+import com.BNMO.Object.NonFoodObjects.AudioPlayer.AudioPlayer;
+import com.BNMO.Object.NonFoodObjects.TV.TV;
+import com.BNMO.Object.NonFoodObjects.Toilet.Toilet;
 import com.BNMO.Object.NonFoodObjects.Book.Book;
+import com.BNMO.Object.NonFoodObjects.Bed.*;
+
 import com.BNMO.Utilities.*;
 import com.BNMO.SIMS.Sim;
 
@@ -20,7 +23,7 @@ public class App {
                 int i = 1;
                 while (true) {
                     try {
-                        System.out.println("Hari ke-" + i + "telah dimulai!");
+                        System.out.println("Hari ke-" + i + " telah dimulai!");
                         System.out.println();
                         Thread.sleep(360000);
                         System.out.println();
@@ -98,9 +101,13 @@ public class App {
                 }
 
                 if (commandNum == 1) {
+                    System.out.println();
+                    System.out.println("Kamu memanggil help!");
                     menu.help();
                     System.out.println();
                 } else if (commandNum == 2) {
+                    System.out.println();
+                    System.out.println("Berikut adalah info sim kamu:");
                     menu.viewSimInfo();
                     System.out.println();
                 } else if (commandNum == 3) {
@@ -138,6 +145,7 @@ public class App {
                             .addObject(new Book("BukuEwe", 1000, 5, "Meemaw", new Point(0, 0)));
                     menu.getCurrentSim().getInventory().addObject(new SingleBed("myBed", new Point(0, 0)));
                     menu.getCurrentSim().getInventory().addObject(new SingleBed("herBed", new Point(0, 0)));
+                    System.out.println();
                     menu.getCurrentSim().getInventory().printInventory();
                     System.out.println();
                 }

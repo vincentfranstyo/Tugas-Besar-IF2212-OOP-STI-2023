@@ -4,7 +4,6 @@ import com.BNMO.SIMS.Sim;
 import com.BNMO.Object.Object;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 
 public class Inventory {
     private Sim owner;
@@ -72,15 +71,6 @@ public class Inventory {
             }
         }
         return num;
-    }
-
-    public boolean contains(String name) {
-        for (Object object : objects) {
-            if (object.getName().equals(name)) {
-                return true;
-            }
-        }
-        return false;
     }
 
     public void removeObject(String name) {
