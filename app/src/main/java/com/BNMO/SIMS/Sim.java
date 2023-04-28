@@ -8,6 +8,7 @@ import com.BNMO.Buildings.*;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
+import java.util.Scanner;
 
 public class Sim {
     private String name;
@@ -259,8 +260,12 @@ public class Sim {
 
     public void place(NonFoodObjects object, Point location) {
         if (inventory.getObjects().contains(object)) {
+            Scanner sc = new Scanner(System.in);
+            System.out.println("Masukkan Arah Object (Vertikal/Horizontal): ");
+            String pilihan = sc.next();
+            sc.close();
             inventory.removeObject(object.getName());
-            getCurrentRoom().addObject(object, location);
+            getCurrentRoom().addObject(object, location, pilihan);
         } else {
             System.out.println("You don't have this object");
         }

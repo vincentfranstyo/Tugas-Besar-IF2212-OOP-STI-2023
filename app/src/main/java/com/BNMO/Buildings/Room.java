@@ -45,26 +45,48 @@ public class Room {
             return available;
         }
     }
-    public void addObject(Object o, Point loc){
+    public void addObject(Object o, Point loc, String direction){
         // Cek location yang diinput, location merupakan titik kiri atas dari object
         if(o instanceof NonFoodObjects){
-            while(!availableLoc(loc, ((NonFoodObjects) o).getWidth(), ((NonFoodObjects) o).getLength())){
-                System.out.print("Location Not Available, Please Input Location Object Again: ");
-                Scanner sc = new Scanner(System.in);
-                try {
-                    loc.setX(sc.nextInt()); loc.setY(sc.nextInt());
-                } catch (NoSuchElementException e){
-                    sc.close();
+            if(direction.toLowerCase().equals("horizontal")){
+                while(!availableLoc(loc, ((NonFoodObjects) o).getWidth(), ((NonFoodObjects) o).getLength())){
+                    System.out.print("Location Not Available, Please Input Location Object Again: ");
+                    Scanner sc = new Scanner(System.in);
+                    try {
+                        loc.setX(sc.nextInt()); loc.setY(sc.nextInt());
+                    } catch (NoSuchElementException e){
+                        sc.close();
+                    }
+                }
+                ((NonFoodObjects) o).setPosition(loc);
+                for(int i=loc.getX(); i<loc.getX()+((NonFoodObjects) o).getLength(); i++){
+                    for(int j=loc.getY(); j<loc.getY()+((NonFoodObjects) o).getWidth(); j++){
+                        setMapObj(i-1, j-1, o);
+                    }
                 }
             }
-            ((NonFoodObjects) o).setPosition(loc);
-            for(int i=loc.getX(); i<loc.getX()+((NonFoodObjects) o).getLength(); i++){
-                for(int j=loc.getY(); j<loc.getY()+((NonFoodObjects) o).getWidth(); j++){
-                    setMapObj(i-1, j-1, o);
+            else if(direction.toLowerCase().equals("vertikal")){
+                while(!availableLoc(loc, ((NonFoodObjects) o).getLength(), ((NonFoodObjects) o).getWidth())){
+                    System.out.print("Location Not Available, Please Input Location Object Again: ");
+                    Scanner sc = new Scanner(System.in);
+                    try {
+                        loc.setX(sc.nextInt()); loc.setY(sc.nextInt());
+                    } catch (NoSuchElementException e){
+                        sc.close();
+                    }
+                }
+                ((NonFoodObjects) o).setPosition(loc);
+                for(int i=loc.getX(); i<loc.getX()+((NonFoodObjects) o).getWidth(); i++){
+                    for(int j=loc.getY(); j<loc.getY()+((NonFoodObjects) o).getLength(); j++){
+                        setMapObj(i-1, j-1, o);
+                    }
                 }
             }
             this.objects.add(totalObject, o);
             this.totalObject++;
+        }
+        else{
+            System.out.println("Object Tersebut Tidak Dapat Diletakkan Pada Ruangan");
         }
     }
     public void removeObject(Object o, Point Loc, Sim owner){
