@@ -5,29 +5,187 @@ package com.BNMO;
 
 import java.util.Scanner;
 
-import com.BNMO.Object.NonFoodObjects.*;
+import com.BNMO.Object.NonFoodObjects.AudioPlayer.AudioPlayer;
+import com.BNMO.Object.NonFoodObjects.TV.TV;
+import com.BNMO.Object.NonFoodObjects.Toilet.Toilet;
+import com.BNMO.Object.NonFoodObjects.Book.Book;
+import com.BNMO.Object.NonFoodObjects.Bed.*;
+
 import com.BNMO.Utilities.*;
 import com.BNMO.SIMS.Sim;
 
 public class App {
-    public String getGreeting() {
-        return "Hello World!";
-    }
 
     public static void main(String[] args) {
-        System.out.println(new App().getGreeting());
+        Thread timeThread = new Thread(new Runnable() {
+            public void run() {
+                int i = 1;
+                while (true) {
+                    try {
+                        System.out.println("Hari ke-" + i + " telah dimulai!");
+                        System.out.println();
+                        Thread.sleep(360000);
+                        System.out.println();
+                        System.out.println("Telah berlalu setengah hari!");
+                        System.out.println();
+                        Thread.sleep(300000);
+                        System.out.println();
+                        System.out.println("Hari ini tersisa 1 menit dalam waktu nyata!");
+                        System.out.println();
+                        Thread.sleep(60000);
+                        System.out.println();
+                        System.out.println("Hari telah berganti!");
+                        System.out.println();
+                        i++;
+                    } catch (InterruptedException e) {
+                        e.printStackTrace();
+                    }
+                }
+            }
+        });
+
+        timeThread.start();
+
         Scanner userInput = new Scanner(System.in);
-        World world = new World();
-        String sim1Name = userInput.nextLine();
-        Sim sim1 = new Sim(sim1Name);
-        Time worldTime = new Time();
+        System.out.println("Selamat Datang di Sim-Plicity!");
+        System.out.print("Apakah kamu ingin memulai permainan? (Y/N) ");
+        String startGame = userInput.nextLine();
+        System.out.println();
 
-        // TODO : How do we implement time? should we use thread too?
+        while (!startGame.equals("Y") && !startGame.equals("N")) {
+            System.out.println("Masukkan Y atau N!");
+            System.out.print("Apakah kamu ingin memulai permainan? (Y/N) ");
+            startGame = userInput.nextLine();
+            System.out.println();
+        }
 
-        world.addHouse(new Point(1, 1), sim1);
+        if (startGame.equals("Y")) {
+            System.out.println("Masukkan nama sim: ");
+            String simName = userInput.nextLine();
+            Sim initSim = new Sim(simName);
+            Menu menu = new Menu(initSim);
+            System.out.println();
+            menu.start();
 
-        System.out.println(world.getHouseList().get(0).getOwner());
+            World world = new World(initSim);
 
-        userInput.close();
+            System.out.println();
+            menu.viewSimInfo();
+            System.out.println();
+
+            while (menu.isGameStarted()) {
+                System.out.println("Apa yang ingin kamu lakukan?");
+                System.out.println("[1] Help");
+                System.out.println("[2] Lihat info sim");
+                System.out.println("[3] Lihat info dunia");
+                System.out.println("[4] Lihat info rumah");
+                System.out.println("[5] Menambah SIMS");
+                System.out.println("[6] Mengganti SIMS");
+                System.out.println("[7] Melakukan aktivitas");
+                System.out.println("[8] Upgrade rumah");
+                System.out.println("[9] Membeli Barang");
+                System.out.println("[10] Melihat inventory");
+                System.out.println("[11] Exit");
+                System.out.println();
+
+                System.out.println("Masukkan perintah: (dalam angka)");
+                String command = userInput.nextLine();
+                int commandNum;
+
+                try {
+                    commandNum = Integer.parseInt(command);
+                } catch (NumberFormatException e) {
+                    System.out.println("Masukan harus dalam bentuk angka!");
+                    command = userInput.nextLine();
+                    commandNum = Integer.parseInt(command);
+                }
+
+                if (commandNum == 1) {
+                    System.out.println();
+                    System.out.println("Kamu memanggil help!");
+                    menu.help();
+                    System.out.println();
+                } else if (commandNum == 2) {
+                    System.out.println();
+                    System.out.println("Berikut adalah info sim kamu:");
+                    menu.viewSimInfo();
+                    System.out.println();
+                } else if (commandNum == 3) {
+                    // TODO info dunia + layout
+                }
+
+                else if (commandNum == 4) {
+                    System.out.println();
+                    System.out.println("Berikut adalah info rumah kamu:");
+                    System.out.println(menu.getCurrentSim().getCurrentHouse().getRooms());
+                    System.out.println();
+                }
+
+                else if (commandNum == 5) {
+                    String newSimName = userInput.nextLine();
+                    menu.addSim(new Sim(newSimName));
+                }
+
+                else if (commandNum == 6) {
+                    System.out.println();
+                    System.out.println("Masukkan nama sim yang ingin kamu mainkan: ");
+                    String wantedSim = userInput.nextLine();
+                    menu.changeSim(wantedSim);
+                    System.out.println();
+                }
+
+                else if (commandNum == 7) {
+                    System.out.println();
+                    System.out.println("Berikut adalah aktivitas-aktivitas yang bisa kamu lakukan!");
+                    System.out.println("[1] Makan");
+                    System.out.println("[2] Melihat waktu");
+                    System.out.println("[3] Memasak");
+                    System.out.println("[4] Membaca");
+                    System.out.println("[5] Menulis");
+                    System.out.println("[6] Mendengarkan musik");
+                    System.out.println("[7] Menonton TV");
+                    System.out.println("[8] Bermain piano");
+                    System.out.println("[9] Buang air");
+                    System.out.println("[10] Tidur");
+
+                }
+
+                else if (commandNum == 8) {
+
+                }
+
+                else if (commandNum == 9) {
+                    menu.getCurrentSim().getInventory()
+                            .addObject(new Book("BukuUwu", 1000, 5, "Meemaw"));
+                    menu.getCurrentSim().getInventory()
+                            .addObject(new Book("BukuAwa", 1000, 5, "Meemaw"));
+                    menu.getCurrentSim().getInventory()
+                            .addObject(new Book("BukuIwi", 1000, 5, "Meemaw"));
+                    menu.getCurrentSim().getInventory()
+                            .addObject(new Book("BukuEwe", 1000, 5, "Meemaw"));
+                    menu.getCurrentSim().getInventory().addObject(new SingleBed("myBed"));
+                    menu.getCurrentSim().getInventory().addObject(new SingleBed("herBed"));
+                    System.out.println();
+                    menu.getCurrentSim().getInventory().printInventory();
+                    System.out.println();
+                }
+
+                else if (commandNum == 10) {
+                    menu.exit();
+                    break;
+
+                }
+
+                else {
+                    System.out.println("Perintah tidak dikenali!");
+                    System.out.println();
+                }
+            }
+            userInput.close();
+
+        } else {
+            System.out.println("Terima kasih telah bermain!");
+        }
+
     }
 }

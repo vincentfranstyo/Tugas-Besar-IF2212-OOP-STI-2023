@@ -14,12 +14,13 @@ public class TV extends NonFoodObjects {
     private boolean isOn;
     private boolean hasScanned;
 
-    public TV(String name, int length, int width, int price, Channel currentChannel, Point position) {
-        super(name, length, width, price, position);
+    public TV(String name, int length, int width, int price, Channel currentChannel) {
+        super(name, 2, 2, 200);
         this.channels = new ArrayList<>();
         this.currentChannel = currentChannel;
         this.isOn = false;
         this.hasScanned = false;
+        this.setType("TV");
     }
 
     public boolean getIsOn() {
@@ -174,7 +175,7 @@ public class TV extends NonFoodObjects {
                 if (getIsOn()) {
                     if (sim.getStatus().equals("Nothing")) {
                         int duration = time.convertToSecond();
-                        System.out.println("Watching TV for " + duration + " seconds");
+                        System.out.println(sim.getName() + "is watching TV for " + duration + " seconds");
                         Thread.sleep(duration * 1000);
                         sim.setStatus("Watching TV");
                         sim.setMood(sim.getMood() + (4 * duration / 20));

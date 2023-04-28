@@ -2,24 +2,19 @@ package com.BNMO.Object.NonFoodObjects.Stove;
 
 import com.BNMO.Object.NonFoodObjects.NonFoodObjects;
 import com.BNMO.SIMS.Sim;
-import com.BNMO.Utilities.*;
 import com.BNMO.Object.Food.Dishes;
 
 public class ElectricStove extends NonFoodObjects implements Stove {
     private boolean currentState;
-    private String stoveType = "Electric Stove";
 
-    public ElectricStove(String name, Point position) {
-        super(name, 1, 1, 200, position);
+    public ElectricStove(String name) {
+        super(name, 1, 1, 200);
         this.currentState = false;
+        this.setType("Electric Stove");
     }
 
     public boolean getCurrentState() {
         return currentState;
-    }
-
-    public String getStoveType() {
-        return stoveType;
     }
 
     public void setCurrentState(boolean currentState) {
@@ -46,33 +41,24 @@ public class ElectricStove extends NonFoodObjects implements Stove {
 
     @Override
     public void cookDish(Sim sim, Dishes dish) {
-        Thread cookThread = new Thread(new Runnable() {
-            public void run() {
-                try {
-                    if (!dish.checkIngredients(sim)) {
-                        System.out.println("You do not have the ingredients to cook this dish.");
-                    } else {
-                        if (getCurrentState()) {
-                            System.out.println("The " + dish.getName() + " is now cooking.");
-                            int duration = dish.getRecipe().getCookingTime(); // to be checked again
-                            // wait for duration
-                            Thread.sleep(duration * 1000);
-                            sim.setStatus("Cooking " + dish.getName());
-                            sim.setMood(sim.getMood() + 10);
-                            System.out.println("The " + dish.getName() + " is done.");
-                        } else {
-                            System.out.println("The electric stove is off. Please turn it on.");
-                        }
+        try {
+            if (!dish.checkIngredients(sim)) {
+                System.out.println("You do not have the ingredients to cook this dish.");
+            } else {
+                if (getCurrentState()) {
+                    for (int i = 0; i < dish.getRecipe().getIngredients().length; i++) {
+                        sim.getInventory().removeObject(dish.getRecipe().getIngredients()[i].getName());
                     }
-                } catch (InterruptedException e) {
-                    System.out.println("Thread interrupted.");
+                    System.out.println(sim.getName() + " is cooking the " + dish.getName() + ".");
+                    int duration = dish.getRecipe().getCookingTime();
+                    sim.setStatus("Cooking " + dish.getName());
+                    sim.setMood(sim.getMood() + 10);
+                    Thread.sleep(duration * 1000);
+                    System.out.println("The " + dish.getName() + " is done.");
+                } else {
+                    System.out.println("The electric stove is off. Please turn it on.");
                 }
             }
-        });
-
-        cookThread.start();
-        try {
-            cookThread.join();
         } catch (InterruptedException e) {
             System.out.println("Thread interrupted.");
         }

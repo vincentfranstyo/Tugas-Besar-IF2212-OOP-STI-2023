@@ -2,6 +2,7 @@ package com.BNMO.SIMS;
 
 import com.BNMO.Utilities.*;
 import com.BNMO.Object.NonFoodObjects.NonFoodObjects;
+import com.BNMO.Object.Object;
 import com.BNMO.Buildings.*;
 
 import java.util.ArrayList;
@@ -55,8 +56,12 @@ public class Sim {
         this.inventory = new Inventory(this);
         this.location = new Point(0, 0);
         this.currentHouse = new House(this.location, this);
+<<<<<<< HEAD
         this.currentHouse.addRoom();
         this.currentRoom = currentHouse.getRooms().next();
+=======
+        // this.currentRoom = new Room("Living Room", this.currentHouse.get);
+>>>>>>> 0d0f5f6cb985b0f36a94602121b94ea7c743a0f7
         sims.add(this);
     }
 
@@ -183,19 +188,24 @@ public class Sim {
     public void work(Time time) {
         int duration = time.convertToSecond();
 
-        Thread statusThread = new Thread(() -> {
-            try {
-                setFullness(getFullness() - 10 * duration / 30);
-                setMood(getMood() - 10 * duration / 30);
-                setMoney(getMoney() + getJob().getSalary() * duration / 240);
-                setCurrentJobDuration(getCurrentJobDuration() + duration/60);
-                setStatus("Working");
-                System.out.println(getName() + "is working...");
-                Thread.sleep(2000); // Sleep for 2 seconds
-            } catch (InterruptedException e) {
-                e.printStackTrace();
-            } finally {
-                setStatus("Nothing");
+        Thread statusThread = new Thread(new Runnable() {
+            @Override
+            public void run() {
+
+                try {
+                    setFullness(getFullness() - 10 * duration / 30);
+                    setMood(getMood() - 10 * duration / 30);
+                    setMoney(getMoney() + getJob().getSalary() * duration / 240);
+                    Time jobDurTime = new Time(getCurrentJobDuration().convertToSecond() + duration / 60);
+                    setCurrentJobDuration(jobDurTime);
+                    setStatus("Working");
+                    System.out.println(getName() + "is working...");
+                    Thread.sleep(2000); // Sleep for 2 seconds
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                } finally {
+                    setStatus("Nothing");
+                }
             }
         });
 
@@ -220,7 +230,7 @@ public class Sim {
             // Check if the jobName key exists in the map
             if (getJob().getJobs().containsKey(jobName)) {
                 int salary = getJob().getJobs().get(jobName);
-                setJob(jobName, salary);
+                setJob(new Job(jobName, salary));
                 setCurrentJobDuration(new Time(0, 0, 0));
                 setMoney(getMoney() - job.getSalary() / 2);
             } else {
@@ -254,7 +264,7 @@ public class Sim {
 
     public void place(NonFoodObjects object, Point location) {
         if (inventory.getObjects().contains(object)) {
-            inventory.removeObject(object);
+            inventory.removeObject(object.getName());
             getCurrentRoom().addObject(object, location);
         } else {
             System.out.println("You don't have this object");
@@ -265,8 +275,8 @@ public class Sim {
 
     }
 
-    public void goToObject(Object object) {
-        setLocation(object.getPosition());
+    public void goToObject(NonFoodObjects nfo) {
+        setLocation(nfo.getPosition());
     }
 
     public void upgradeHouse() {

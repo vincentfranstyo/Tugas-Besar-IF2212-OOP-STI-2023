@@ -51,17 +51,15 @@ public class Inventory {
         }
     }
 
-    public void removeObject(Object object) {
-        objects.remove(object);
-        setCapacity(getCapacity() + 1);
-
-    }
-
     public void printInventory() {
         System.out.println("Inventory of " + getOwner().getName());
+        ArrayList<String> listedObjs = new ArrayList<String>();
         for (Object object : objects) {
-            System.out.println(
-                    object.getName().getClass().getName() + " " + getObjectNum(object.getClass().getName()));
+            if (!listedObjs.contains(object.getType())) {
+                listedObjs.add(object.getType());
+                System.out.println(object.getCategory() + ": " + object.getType() + " x"
+                        + getObjectNum(object.getClass().getName()));
+            }
         }
     }
 
@@ -75,13 +73,14 @@ public class Inventory {
         return num;
     }
 
-    public boolean contains(String name) {
+    public void removeObject(String name) {
         for (Object object : objects) {
             if (object.getName().equals(name)) {
-                return true;
+                objects.remove(object);
+                setCapacity(getCapacity() + 1);
+                break;
             }
         }
-        return false;
     }
 
 }

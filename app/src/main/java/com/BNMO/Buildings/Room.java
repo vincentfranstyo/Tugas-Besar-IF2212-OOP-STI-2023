@@ -4,18 +4,17 @@ import java.util.*;
 import com.BNMO.Utilities.*;
 import com.BNMO.Object.Object;
 import com.BNMO.Object.NonFoodObjects.NonFoodObjects;
-import com.BNMO.Object.NonFoodObjects.Bed.SingleBed;
-import com.BNMO.Object.NonFoodObjects.TableAndChair.TableAndChair;
-import com.BNMO.Object.NonFoodObjects.Toilet.Toilet;
 import com.BNMO.SIMS.Sim;
 
-public class Room{
+public class Room {
     private ArrayList<Object> objects;
     private String nameRoom;
     private Room above;
     private Room right;
     private Room below;
     private Room left;
+    private int length = 6;
+    private int width = 6;
     private int totalObject;
     private Object[][] mapObj;
     private static int price = 1500;
@@ -74,45 +73,56 @@ public class Room{
             owner.getInventory().addObject(o);
             objects.remove(o);
             this.totalObject--;
-        }
-        else{
-            System.out.println("No "+o.getName()+" Object in The " +nameRoom+ " Room");
+        } else {
+            System.out.println("No " + o.getName() + " Object in The " + nameRoom + " Room");
         }
     }
-    public Iterator<Object> getObjects(){
+
+    public Iterator<Object> getObjects() {
         return objects.iterator();
     }
-    public String getNameRoom(){
+
+    public String getNameRoom() {
         return nameRoom;
     }
-    public void setNameRoom(String newNameRoom){
+
+    public void setNameRoom(String newNameRoom) {
         this.nameRoom = newNameRoom;
     }
-    public Room getAbove(){
+
+    public Room getAbove() {
         return above;
     }
-    public void setAbove(Room newAbove){
+
+    public void setAbove(Room newAbove) {
         this.above = newAbove;
     }
-    public Room getRight(){
+
+    public Room getRight() {
         return right;
     }
-    public void setRight(Room newRight){
+
+    public void setRight(Room newRight) {
         this.right = newRight;
     }
-    public Room getBelow(){
+
+    public Room getBelow() {
         return below;
     }
-    public void setBelow(Room newBelow){
+
+    public void setBelow(Room newBelow) {
         this.below = newBelow;
     }
-    public Room getLeft(){
+
+    public Room getLeft() {
         return left;
     }
-    public void setLeft(Room newLeft){
+
+    public void setLeft(Room newLeft) {
         this.left = newLeft;
     }
-    public int getTotalObject(){
+
+    public int getTotalObject() {
         return totalObject;
     }
     public int getPrice(){

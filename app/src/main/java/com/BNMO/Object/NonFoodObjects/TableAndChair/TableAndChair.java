@@ -8,41 +8,34 @@ import com.BNMO.Object.Food.Ingredients;
 
 public class TableAndChair extends NonFoodObjects {
 
-    public TableAndChair(String name, Point position) {
+    public TableAndChair(String name) {
         // input : name, x, y -> create position
-        super(name, 3, 3, 50, position);
+        super(name, 3, 3, 50);
+        this.setType("Table and Chair");
     }
 
     public void eatDish(Time time, Sim sim, Dishes dish) {
-        Thread eatThread = new Thread(new Runnable() {
-            @Override
-            public void run() {
-                try {
-                    if (!getIsOccupied()) {
-                        if (sim.getStatus().equals("Nothing")) {
-                            int duration = time.convertToSecond();
-                            Thread.sleep(duration * 1000);
-                            setIsOccupied(true);
-                            sim.setStatus("Is eating");
-                            System.out.println("You are eating " + dish.getName());
-                            sim.setFullness(sim.getFullness() + (dish.getSatiety() * (duration / 30)));
-                        } else {
-                            System.out.println("You can't eat while doing something else.");
-                        }
+        try {
+            if (!getIsOccupied()) {
+                if (sim.getStatus().equals("Nothing")) {
+                    if (sim.getInventory().getObjects().contains(dish)) {
+                        int duration = time.convertToSecond();
+                        setIsOccupied(true);
+                        sim.setStatus("Is eating");
+                        System.out.println(sim.getName() + " are eating " + dish.getName());
+                        sim.setFullness(sim.getFullness() + (dish.getSatiety() * (duration / 30)));
+                        sim.getInventory().removeObject(dish.getName());
+                        Thread.sleep(duration * 1000);
                     }
 
-                    else {
-                        System.out.println("Too bad! The table is in use, please find another table!");
-                    }
-                } catch (InterruptedException e) {
-                    e.printStackTrace();
+                } else {
+                    System.out.println("You can't eat while doing something else.");
                 }
             }
-        });
 
-        eatThread.start();
-        try {
-            eatThread.join();
+            else {
+                System.out.println("Too bad! The table is in use, please find another table!");
+            }
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
@@ -52,12 +45,18 @@ public class TableAndChair extends NonFoodObjects {
         try {
             if (!getIsOccupied()) {
                 if (sim.getStatus().equals("Nothing")) {
-                    int duration = time.convertToSecond();
-                    Thread.sleep(duration * 1000);
-                    setIsOccupied(true);
-                    sim.setStatus("Eating " + dish.getName());
-                    System.out.println("You are eating " + ing.getName());
-                    sim.setFullness(sim.getFullness() + (ing.getSatiety() * (duration / 30)));
+                    if (sim.getInventory().getObjects().contains(ing)) {
+                        int duration = time.convertToSecond();
+                        setIsOccupied(true);
+                        sim.setStatus("Is eating");
+                        System.out.println(sim.getName() + " are eating " + ing.getName());
+                        sim.setFullness(sim.getFullness() + (ing.getSatiety() * (duration / 30)));
+                        sim.getInventory().removeObject(ing.getName());
+                        Thread.sleep(duration * 1000);
+                    } else {
+                        System.out.println("You don't have " + ing.getName() + " in your inventory.");
+                    }
+
                 } else {
                     System.out.println("You can't eat while doing something else.");
                 }

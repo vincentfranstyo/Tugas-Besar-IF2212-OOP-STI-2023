@@ -2,20 +2,19 @@ package com.BNMO.Object.NonFoodObjects.Stove;
 
 import com.BNMO.Object.NonFoodObjects.NonFoodObjects;
 import com.BNMO.SIMS.Sim;
-import com.BNMO.Utilities.*;
 import com.BNMO.Object.Food.Dishes;
+<<<<<<< HEAD
 // ini ku ganti ya bukan abstract class soalnya
+=======
+
+>>>>>>> 0d0f5f6cb985b0f36a94602121b94ea7c743a0f7
 public class GasStove extends NonFoodObjects implements Stove {
     private boolean currentState;
-    private String stoveType = "Gas Stove";
 
-    public GasStove(String name, Point position) {
-        super(name, 2, 1, 100, position);
+    public GasStove(String name) {
+        super(name, 2, 1, 100);
         this.currentState = false;
-    }
-
-    public String getStoveType() {
-        return stoveType;
+        this.setType("Gas Stove");
     }
 
     public boolean getCurrentState() {
@@ -51,12 +50,14 @@ public class GasStove extends NonFoodObjects implements Stove {
                 System.out.println("You do not have the ingredients to cook this dish.");
             } else {
                 if (getCurrentState()) {
-                    System.out.println("The " + dish.getName() + " is now cooking.");
-                    int duration = dish.getRecipe().getCookingTime(); // to be checked again
-                    // wait for duration
-                    Thread.sleep(duration * 1000);
+                    for (int i = 0; i < dish.getRecipe().getIngredients().length; i++) {
+                        sim.getInventory().removeObject(dish.getRecipe().getIngredients()[i].getName());
+                    }
+                    System.out.println(sim.getName() + " is cooking the " + dish.getName() + ".");
+                    int duration = dish.getRecipe().getCookingTime();
                     sim.setStatus("Cooking " + dish.getName());
                     sim.setMood(sim.getMood() + 10);
+                    Thread.sleep(duration * 1000);
                     System.out.println("The " + dish.getName() + " is done.");
                 } else {
                     System.out.println("The electric stove is off. Please turn it on.");
