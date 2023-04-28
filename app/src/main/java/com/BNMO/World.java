@@ -39,6 +39,13 @@ public class World {
     }
 
     public void addHouse(House rumah) {
+        for (int i = 0; i < houseList.size(); i++) {
+            if (houseList.get(i).getLocation() == rumah.getLocation()
+                    && houseList.get(i).getLocation() == rumah.getLocation()) {
+                System.out.println("Sudah ada rumah di lokasi tersebut, silakan pilih lokasi lain");
+                return;
+            }
+        }
         houseList.add(rumah);
         totalBuild++;
     }

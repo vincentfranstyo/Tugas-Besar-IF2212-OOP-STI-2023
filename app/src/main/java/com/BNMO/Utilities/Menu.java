@@ -24,6 +24,21 @@ public class Menu {
     public void help() {
         System.out.println("Panduan Game Sim-Plicity");
         System.out.println("1. Ketika memulai permainan Sim-Plicity sebuah World akan dibuat dengan ukuran 64x64");
+        
+        String[][] map = new String[64][64];
+        for (int i=0; i < map.length; i++){
+            for (int j=0; j < map[i].length; j++){
+                map[i][j] = " + ";
+            }
+        }
+
+        for (int i=0; i < map.length; i++){
+            for (int j=0; j < map[i].length; j++){
+                System.out.print(map[i][j]);
+            }
+            System.out.println();
+        }
+
         System.out.println("2. Pemain diminta untuk membuat sebuah Sim terlebih dahulu");
         System.out.println("3. Sebuah rumah dengan 1 ruangan berukuran 6x6 akan digenerate setelah SIM dibuat");
         System.out.println("4. Sim akan diletakkan di rumah tersebut dan bebas melakukan aksi apapun");
