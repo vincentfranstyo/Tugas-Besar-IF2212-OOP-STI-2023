@@ -20,7 +20,15 @@ public class App {
                     try {
                         System.out.println("Hari ke-" + i + "\n");
                         System.out.println();
-                        Thread.sleep(720000);
+                        Thread.sleep(360000);
+                        System.out.println();
+                        System.out.println("Telah berlalu setengah hari!");
+                        System.out.println();
+                        Thread.sleep(300000);
+                        System.out.println();
+                        System.out.println("Hari ini tersisa 1 menit dalam waktu nyata!");
+                        System.out.println();
+                        Thread.sleep(60000);
                         System.out.println();
                         System.out.println("Hari telah berganti!");
                         System.out.println();
@@ -52,32 +60,71 @@ public class App {
             String simName = userInput.nextLine();
             Sim initSim = new Sim(simName);
             Menu menu = new Menu(initSim);
+            System.out.println();
             menu.start();
 
             // System.out.println(menu.isGameStarted());
             World world = new World(initSim);
 
+            System.out.println();
             menu.viewSimInfo();
+            System.out.println();
 
             while (menu.isGameStarted()) {
                 System.out.println("Apa yang ingin kamu lakukan?");
-                System.out.println("1. Help");
-                System.out.println("2. Lihat info sim");
+                System.out.println("[1] Help");
+                System.out.println("[2] Lihat info sim");
+                System.out.println("[3] Lihat info dunia");
+                System.out.println("[4] Lihat info rumah");
+                System.out.println("[5] Melakukan aktivitas");
+                System.out.println("[6] Bekerja");
+                System.out.println("[7] Upgrade rumah");
+                System.out.println("[8] Membeli Barang");
+                System.out.println("[9] Melihat inventory");
+                System.out.println("[10] Exit");
 
                 System.out.println("Masukkan perintah: (dalam angka)");
                 String command = userInput.nextLine();
-                int commandNum = Integer.parseInt(command);
-                while (commandNum != 1 && commandNum != 2 && commandNum != 3 && commandNum != 4 && commandNum != 5
-                        && commandNum != 6 && commandNum != 7) {
-                    System.out.println("Masukan harus dalam bentuk angka");
-                    commandNum = userInput.nextInt();
+                int commandNum;
+
+                try {
+                    commandNum = Integer.parseInt(command);
+                } catch (NumberFormatException e) {
+                    System.out.println("Masukan harus dalam bentuk angka!");
+                    command = userInput.nextLine();
+                    commandNum = Integer.parseInt(command);
                 }
 
                 if (commandNum == 1) {
-                    // TODO tergantung help
+                    menu.help();
                 } else if (commandNum == 2) {
+                    menu.viewSimInfo();
+                } else if (commandNum == 3) {
 
-                    // TODO so on
+                }
+
+                else if (commandNum == 4) {
+
+                }
+
+                else if (commandNum == 5) {
+
+                }
+
+                else if (commandNum == 6) {
+
+                }
+
+                else if (commandNum == 7) {
+
+                }
+
+                else if (commandNum == 8) {
+
+                }
+
+                else if (commandNum == 9) {
+
                 }
 
                 else if (commandNum == 10) {

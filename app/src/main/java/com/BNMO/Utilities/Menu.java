@@ -28,6 +28,7 @@ public class Menu {
 
     public void exit() {
         this.gameStarted = false;
+        System.out.println("Terima kasih telah bermain Sim-Plicity!");
     }
 
     public void viewSimInfo() {
