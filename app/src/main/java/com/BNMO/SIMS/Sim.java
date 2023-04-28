@@ -277,4 +277,8 @@ public class Sim {
     public void upgradeHouse() {
 
     }
+    
+    public String printJob() {
+        return getJob().getName();
+    }
 }
