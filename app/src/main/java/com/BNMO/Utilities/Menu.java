@@ -37,7 +37,6 @@ public class Menu {
         System.out.println("List Aksi Upgrade:");
         System.out.println();
         System.out.println("List Aksi Tambah SIM:");
-
     }
 
     public void exit() {

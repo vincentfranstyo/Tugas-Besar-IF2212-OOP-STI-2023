@@ -147,6 +147,20 @@ public class App {
                     System.out.println("[8] Bermain piano");
                     System.out.println("[9] Buang air");
                     System.out.println("[10] Tidur");
+                    System.out.println();
+
+                    System.out.println("Masukkan perintah: (dalam angka)");
+                    String activity = userInput.nextLine();
+                    int activityNum;
+                    while (true) {
+                        try {
+                            activityNum = Integer.parseInt(activity);
+                            break;
+                        } catch (NumberFormatException e) {
+                            System.out.println("Masukan harus dalam bentuk angka!");
+                            activity = userInput.nextLine();
+                        }
+                    }
                 }
 
                 else if (commandNum == 8) {
