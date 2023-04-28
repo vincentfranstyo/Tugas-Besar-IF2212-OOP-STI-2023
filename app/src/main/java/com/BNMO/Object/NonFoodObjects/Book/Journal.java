@@ -25,8 +25,8 @@ public class Journal extends Book {
 
     public void writeJournal(Journal journal, String content) {
         List<Page> pages = journal.getPages();
-        setCountWritten(getCountWritten() + 1); 
-        Page newPage = new Page(getCountWritten(), content); 
+        setCountWritten(getCountWritten() + 1);
+        Page newPage = new Page(getCountWritten(), content);
         pages.add(newPage);
     }
 
