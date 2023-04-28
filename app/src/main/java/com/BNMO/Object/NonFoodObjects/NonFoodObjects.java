@@ -10,7 +10,7 @@ public abstract class NonFoodObjects extends Object {
     private Point position;
 
     public NonFoodObjects(String name, int length, int width, int price, Point position) {
-        super(name, "NonFoodObject");
+        super(name, "Non Food Objects");
         this.length = length;
         this.width = width;
         this.setPrice(price);

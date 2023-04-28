@@ -259,7 +259,7 @@ public class Sim {
 
     public void place(NonFoodObjects object, Point location) {
         if (inventory.getObjects().contains(object)) {
-            inventory.removeObject(object);
+            inventory.removeObject(object.getName());
             getCurrentRoom().addObject(object, location);
         } else {
             System.out.println("You don't have this object");
@@ -276,9 +276,5 @@ public class Sim {
 
     public void upgradeHouse() {
 
-    }
-    
-    public String printJob() {
-        return getJob().getName();
     }
 }

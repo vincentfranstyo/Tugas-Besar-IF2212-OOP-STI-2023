@@ -5,16 +5,12 @@ import com.BNMO.SIMS.Sim;
 import com.BNMO.Utilities.*;
 
 public class SingleBed extends NonFoodObjects implements Bed {
-    private String bedType = "Single Bed";
     private int capacity = 1;
     private int spaceLeft;
 
     public SingleBed(String name, Point position) {
         super(name, 4, 1, 50, position);
-    }
-
-    public String getType() {
-        return bedType;
+        this.setType("Single Bed");
     }
 
     public int getCapacity() {

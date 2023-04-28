@@ -34,7 +34,7 @@ public class Menu {
     public void viewSimInfo() {
         System.out.println("Info Sim:");
         System.out.println("Nama: " + currentSim.getName());
-        System.out.println("Job: " + currentSim.getJob());
+        System.out.println("Job: " + currentSim.getJob().getName());
         System.out.println("Money: " + currentSim.getMoney());
         System.out.println("Fullness: " + currentSim.getFullness());
         System.out.println("Mood: " + currentSim.getMood());

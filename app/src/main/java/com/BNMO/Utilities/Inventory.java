@@ -4,6 +4,7 @@ import com.BNMO.SIMS.Sim;
 import com.BNMO.Object.Object;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 
 public class Inventory {
     private Sim owner;
@@ -51,17 +52,15 @@ public class Inventory {
         }
     }
 
-    public void removeObject(Object object) {
-        objects.remove(object);
-        setCapacity(getCapacity() + 1);
-
-    }
-
     public void printInventory() {
         System.out.println("Inventory of " + getOwner().getName());
+        ArrayList<String> listedObjs = new ArrayList<String>();
         for (Object object : objects) {
-            System.out.println(
-                    object.getName().getClass().getName() + " " + getObjectNum(object.getClass().getName()));
+            if (!listedObjs.contains(object.getType())) {
+                listedObjs.add(object.getType());
+                System.out.println(object.getCategory() + ": " + object.getType() + " x"
+                        + getObjectNum(object.getClass().getName()));
+            }
         }
     }
 

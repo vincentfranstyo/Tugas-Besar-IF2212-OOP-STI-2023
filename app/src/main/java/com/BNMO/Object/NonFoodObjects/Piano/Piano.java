@@ -6,7 +6,8 @@ import com.BNMO.Utilities.*;
 
 public class Piano extends NonFoodObjects {
     public Piano(String name, int price, Point position) {
-        super(name, 3, 3, price, position);
+        super(name, 3, 3, 400, position);
+        this.setType("Piano");
     }
 
     public void playPiano(Time time, Sim sim) {

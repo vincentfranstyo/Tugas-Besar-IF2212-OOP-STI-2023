@@ -7,19 +7,15 @@ import com.BNMO.Object.Food.Dishes;
 
 public class ElectricStove extends NonFoodObjects implements Stove {
     private boolean currentState;
-    private String stoveType = "Electric Stove";
 
     public ElectricStove(String name, Point position) {
         super(name, 1, 1, 200, position);
         this.currentState = false;
+        this.setType("Electric Stove");
     }
 
     public boolean getCurrentState() {
         return currentState;
-    }
-
-    public String getStoveType() {
-        return stoveType;
     }
 
     public void setCurrentState(boolean currentState) {

@@ -15,11 +15,12 @@ public class TV extends NonFoodObjects {
     private boolean hasScanned;
 
     public TV(String name, int length, int width, int price, Channel currentChannel, Point position) {
-        super(name, length, width, price, position);
+        super(name, 2, 2, 200, position);
         this.channels = new ArrayList<>();
         this.currentChannel = currentChannel;
         this.isOn = false;
         this.hasScanned = false;
+        this.setType("TV");
     }
 
     public boolean getIsOn() {

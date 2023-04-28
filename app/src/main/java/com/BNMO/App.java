@@ -6,6 +6,8 @@ package com.BNMO;
 import java.util.Scanner;
 
 import com.BNMO.Object.NonFoodObjects.*;
+import com.BNMO.Object.NonFoodObjects.Bed.SingleBed;
+import com.BNMO.Object.NonFoodObjects.Book.Book;
 import com.BNMO.Utilities.*;
 import com.BNMO.SIMS.Sim;
 
@@ -18,7 +20,7 @@ public class App {
                 int i = 1;
                 while (true) {
                     try {
-                        System.out.println("Hari ke-" + i + "\n");
+                        System.out.println("Hari ke-" + i + "telah dimulai!");
                         System.out.println();
                         Thread.sleep(360000);
                         System.out.println();
@@ -49,7 +51,7 @@ public class App {
         System.out.println();
 
         while (!startGame.equals("Y") && !startGame.equals("N")) {
-            System.out.print("Masukkan Y atau N!");
+            System.out.println("Masukkan Y atau N!");
             System.out.print("Apakah kamu ingin memulai permainan? (Y/N) ");
             startGame = userInput.nextLine();
             System.out.println();
@@ -63,7 +65,6 @@ public class App {
             System.out.println();
             menu.start();
 
-            // System.out.println(menu.isGameStarted());
             World world = new World(initSim);
 
             System.out.println();
@@ -98,8 +99,10 @@ public class App {
 
                 if (commandNum == 1) {
                     menu.help();
+                    System.out.println();
                 } else if (commandNum == 2) {
                     menu.viewSimInfo();
+                    System.out.println();
                 } else if (commandNum == 3) {
 
                 }
@@ -125,19 +128,36 @@ public class App {
                 }
 
                 else if (commandNum == 9) {
-
+                    menu.getCurrentSim().getInventory()
+                            .addObject(new Book("BukuUwu", 1000, 5, "Meemaw", new Point(0, 0)));
+                    menu.getCurrentSim().getInventory()
+                            .addObject(new Book("BukuAwa", 1000, 5, "Meemaw", new Point(0, 0)));
+                    menu.getCurrentSim().getInventory()
+                            .addObject(new Book("BukuIwi", 1000, 5, "Meemaw", new Point(0, 0)));
+                    menu.getCurrentSim().getInventory()
+                            .addObject(new Book("BukuEwe", 1000, 5, "Meemaw", new Point(0, 0)));
+                    menu.getCurrentSim().getInventory().addObject(new SingleBed("myBed", new Point(0, 0)));
+                    menu.getCurrentSim().getInventory().addObject(new SingleBed("herBed", new Point(0, 0)));
+                    menu.getCurrentSim().getInventory().printInventory();
+                    System.out.println();
                 }
 
                 else if (commandNum == 10) {
                     menu.exit();
                     break;
+
                 }
 
+                else {
+                    System.out.println("Perintah tidak dikenali!");
+                    System.out.println();
+                }
             }
+            userInput.close();
 
         } else {
             System.out.println("Terima kasih telah bermain!");
         }
-        userInput.close();
+
     }
 }

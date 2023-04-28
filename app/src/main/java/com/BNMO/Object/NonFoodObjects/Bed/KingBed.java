@@ -6,16 +6,12 @@ import com.BNMO.Utilities.Time;
 import com.BNMO.Utilities.Point;
 
 public class KingBed extends NonFoodObjects implements Bed {
-    private String bedType = "King Bed";
     private int capacity = 2;
     private int spaceLeft;
 
     public KingBed(String name, Point position) {
         super(name, 5, 2, 150, position);
-    }
-
-    public String getType() {
-        return bedType;
+        this.setType("King Bed");
     }
 
     public int getCapacity() {

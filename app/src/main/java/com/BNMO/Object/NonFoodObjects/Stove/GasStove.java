@@ -7,15 +7,11 @@ import com.BNMO.Object.Food.Dishes;
 
 public abstract class GasStove extends NonFoodObjects implements Stove {
     private boolean currentState;
-    private String stoveType = "Gas Stove";
 
     public GasStove(String name, Point position) {
         super(name, 2, 1, 100, position);
         this.currentState = false;
-    }
-
-    public String getStoveType() {
-        return stoveType;
+        this.setType("Gas Stove");
     }
 
     public boolean getCurrentState() {

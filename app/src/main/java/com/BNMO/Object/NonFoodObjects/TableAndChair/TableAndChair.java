@@ -11,6 +11,7 @@ public class TableAndChair extends NonFoodObjects {
     public TableAndChair(String name, Point position) {
         // input : name, x, y -> create position
         super(name, 3, 3, 50, position);
+        this.setType("Table and Chair");
     }
 
     public void eatDish(Time time, Sim sim, Dishes dish) {

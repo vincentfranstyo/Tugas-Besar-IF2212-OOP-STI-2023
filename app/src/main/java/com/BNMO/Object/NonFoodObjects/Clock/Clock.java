@@ -10,6 +10,7 @@ public class Clock extends NonFoodObjects {
     public Clock(String name, Time currentTime, Point position) {
         super(name, 1, 1, 10, position);
         this.currentTime = currentTime;
+        this.setType("Clock");
     }
 
     public Time getCurrentTime() {
@@ -20,7 +21,7 @@ public class Clock extends NonFoodObjects {
         this.currentTime = currentTime;
     }
 
-    public void use(Time time, Sim sim) {
+    public void use(Sim sim) {
         // show all ongoing action along with the duration left
         System.out.println("left duration");
     }

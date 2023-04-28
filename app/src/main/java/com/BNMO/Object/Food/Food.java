@@ -1,5 +1,5 @@
 package com.BNMO.Object.Food;
 
-public class Dishes {
+public interface Food {
 
 }
