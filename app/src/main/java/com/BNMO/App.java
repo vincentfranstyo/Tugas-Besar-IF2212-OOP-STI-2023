@@ -76,12 +76,13 @@ public class App {
                 System.out.println("[2] Lihat info sim");
                 System.out.println("[3] Lihat info dunia");
                 System.out.println("[4] Lihat info rumah");
-                System.out.println("[5] Melakukan aktivitas");
-                System.out.println("[6] Bekerja");
+                System.out.println("[5] Mengganti SIMS");
+                System.out.println("[6] Melakukan aktivitas");
                 System.out.println("[7] Upgrade rumah");
                 System.out.println("[8] Membeli Barang");
                 System.out.println("[9] Melihat inventory");
                 System.out.println("[10] Exit");
+                System.out.println();
 
                 System.out.println("Masukkan perintah: (dalam angka)");
                 String command = userInput.nextLine();
@@ -129,6 +130,7 @@ public class App {
 
                 else if (commandNum == 10) {
                     menu.exit();
+                    break;
                 }
 
             }
