@@ -1,3 +1,7 @@
+package com.BNMO.Object.NonFoodObjects.Book;
+
+import java.util.List;
+
 public class Journal extends Book {
     private int countWritten;
     private List<Page> pages;

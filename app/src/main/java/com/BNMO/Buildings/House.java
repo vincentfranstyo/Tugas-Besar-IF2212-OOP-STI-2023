@@ -24,11 +24,11 @@ public class House {
         this.initRoom = new Room("Ruang 1", null, null, null, null);
         this.rooms.add(initRoom);
         this.totalRoom++;
-        this.initRoom.addObject(new Toilet("Toilet 1"), new Point(6, 1));
-        this.initRoom.addObject(new GasStove("Kompor Gas 1"), new Point(1, 6));
-        this.initRoom.addObject(new TableAndChair("Meja Makan 1"), new Point(1, 5));
-        this.initRoom.addObject(new Clock("Jam 1", null), new Point(5, 1));
-        this.initRoom.addObject(new SingleBed("Kasur 1"), new Point(6, 6));
+        this.initRoom.addObject(new Toilet("Toilet 1"), new Point(6, 1), "horizontal");
+        this.initRoom.addObject(new GasStove("Kompor Gas 1"), new Point(1, 6), "horizontal");
+        this.initRoom.addObject(new TableAndChair("Meja Makan 1"), new Point(1, 5), "horizontal");
+        this.initRoom.addObject(new Clock("Jam 1", null), new Point(5, 1), "horizontal");
+        this.initRoom.addObject(new SingleBed("Kasur 1"), new Point(6, 6), "horizontal");
     }
     public void addRoom(Room curRoom){
         Thread t = new Thread(new Runnable() {

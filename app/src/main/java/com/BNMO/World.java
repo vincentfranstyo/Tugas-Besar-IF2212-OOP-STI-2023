@@ -24,7 +24,6 @@ public class World {
         Point initPoint = new Point(xRandom, yRandom);
         House initHouse = new House(initPoint, initSim);
         addHouse(initHouse);
-        initHouse.addRoom();
     }
 
     public int getLength() {
