@@ -3,21 +3,29 @@ package com.BNMO.Object.Food;
 import com.BNMO.SIMS.Sim;
 import com.BNMO.Object.Object;
 
-public class Dishes extends Object {
-    private Ingredients[] ingredients;
+import java.util.ArrayList;
+
+public class Dishes extends Object implements Food {
+    private ArrayList<Ingredients> ingredients;
     private int cookingTime;
     private int satiety;
 
-    public Dishes(String name, Ingredients[] ingredients, int price, int cookingTime, int satiety) {
+    public Dishes(String name, ArrayList<Ingredients> ingredients, int cookingTime, int satiety) {
         super(name, "Food");
-        this.setPrice(price);
+        if (getName().equals("Nasi Ayam")) {
+            this.satiety = 16;
+        } else if (getName().equals("Nasi Kari")) {
+        } else if (getName().equals("Susu Kacang")) {
+
+        } else if (getName().equals("Tumis Sayur")) {
+
+        } else if (getName().equals("Bistik")) {
+        }
         this.setType("Dishes");
-        this.cookingTime = cookingTime;
-        this.ingredients = ingredients;
-        this.satiety = satiety;
+        this.cookingTime = this.getSatiety() * 3 / 2;
     }
 
-    public Ingredients[] getIngredients() {
+    public ArrayList<Ingredients> getIngredients() {
         return ingredients;
     }
 
@@ -27,8 +35,8 @@ public class Dishes extends Object {
 
     public boolean checkIngredients(Sim sim) {
         boolean hasIngredients = true;
-        for (int i = 0; i < getIngredients().length; i++) {
-            if (!sim.getInventory().getObjects().contains(getIngredients()[i])) {
+        for (int i = 0; i < getIngredients().size(); i++) {
+            if (!sim.getInventory().getObjects().contains(getIngredients().get(i))) {
                 hasIngredients = false;
             }
         }
@@ -37,5 +45,9 @@ public class Dishes extends Object {
 
     public int getSatiety() {
         return satiety;
+    }
+
+    public void setSatiety(int satiety) {
+        this.satiety = satiety;
     }
 }

@@ -5,9 +5,9 @@ import com.BNMO.Object.Object;
 
 import java.util.ArrayList;
 
-public class Inventory {
+public class Inventory<T extends Object> {
     private Sim owner;
-    private ArrayList<Object> objects;
+    private ArrayList<T> objects;
     private boolean status;
     private int capacity;
 
@@ -22,7 +22,7 @@ public class Inventory {
         return owner;
     }
 
-    public ArrayList<Object> getObjects() {
+    public ArrayList<T> getObjects() {
         return objects;
     }
 
@@ -42,7 +42,7 @@ public class Inventory {
         this.capacity = capacity;
     }
 
-    public void addObject(Object object) {
+    public void addObject(T object) {
         if (getCapacity() > 0) {
             objects.add(object);
             setCapacity(getCapacity() - 1);
@@ -54,7 +54,7 @@ public class Inventory {
     public void printInventory() {
         System.out.println("Inventory of " + getOwner().getName());
         ArrayList<String> listedObjs = new ArrayList<String>();
-        for (Object object : objects) {
+        for (T object : objects) {
             if (!listedObjs.contains(object.getType())) {
                 listedObjs.add(object.getType());
                 System.out.println(object.getCategory() + ": " + object.getType() + " x"
@@ -65,7 +65,7 @@ public class Inventory {
 
     public int getObjectNum(String className) {
         int num = 0;
-        for (Object object : objects) {
+        for (T object : objects) {
             if (object.getClass().getName().equals(className)) {
                 num++;
             }
@@ -74,7 +74,7 @@ public class Inventory {
     }
 
     public void removeObject(String name) {
-        for (Object object : objects) {
+        for (T object : objects) {
             if (object.getName().equals(name)) {
                 objects.remove(object);
                 setCapacity(getCapacity() + 1);
@@ -82,5 +82,4 @@ public class Inventory {
             }
         }
     }
-
 }

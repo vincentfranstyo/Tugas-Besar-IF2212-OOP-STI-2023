@@ -46,8 +46,8 @@ public class ElectricStove extends NonFoodObjects implements Stove {
                 System.out.println("You do not have the ingredients to cook this dish.");
             } else {
                 if (getCurrentState()) {
-                    for (int i = 0; i < dish.getIngredients().length; i++) {
-                        sim.getInventory().removeObject(dish.getIngredients()[i].getName());
+                    for (int i = 0; i < dish.getIngredients().size(); i++) {
+                        sim.getInventory().removeObject(dish.getIngredients().get(i).getName());
                     }
                     System.out.println(sim.getName() + " is cooking the " + dish.getName() + ".");
                     int duration = dish.getCookingTime();
