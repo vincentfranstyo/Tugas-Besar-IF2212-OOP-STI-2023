@@ -79,12 +79,13 @@ public class App {
                 System.out.println("[2] Lihat info sim");
                 System.out.println("[3] Lihat info dunia");
                 System.out.println("[4] Lihat info rumah");
-                System.out.println("[5] Mengganti SIMS");
-                System.out.println("[6] Melakukan aktivitas");
-                System.out.println("[7] Upgrade rumah");
-                System.out.println("[8] Membeli Barang");
-                System.out.println("[9] Melihat inventory");
-                System.out.println("[10] Exit");
+                System.out.println("[5] Menambah SIMS");
+                System.out.println("[6] Mengganti SIMS");
+                System.out.println("[7] Melakukan aktivitas");
+                System.out.println("[8] Upgrade rumah");
+                System.out.println("[9] Membeli Barang");
+                System.out.println("[10] Melihat inventory");
+                System.out.println("[11] Exit");
                 System.out.println();
 
                 System.out.println("Masukkan perintah: (dalam angka)");
@@ -116,19 +117,36 @@ public class App {
                 else if (commandNum == 4) {
                     System.out.println();
                     System.out.println("Berikut adalah info rumah kamu:");
-                    // TODO info rumah dan objek" di dalamnya
+                    System.out.println(menu.getCurrentSim().getCurrentHouse().getRooms());
                     System.out.println();
                 }
 
                 else if (commandNum == 5) {
-
+                    String newSimName = userInput.nextLine();
+                    menu.addSim(new Sim(newSimName));
                 }
 
                 else if (commandNum == 6) {
-
+                    System.out.println();
+                    System.out.println("Masukkan nama sim yang ingin kamu mainkan: ");
+                    String wantedSim = userInput.nextLine();
+                    menu.changeSim(wantedSim);
+                    System.out.println();
                 }
 
                 else if (commandNum == 7) {
+                    System.out.println();
+                    System.out.println("Berikut adalah aktivitas-aktivitas yang bisa kamu lakukan!");
+                    System.out.println("[1] Makan");
+                    System.out.println("[2] Melihat waktu");
+                    System.out.println("[3] Memasak");
+                    System.out.println("[4] Membaca");
+                    System.out.println("[5] Menulis");
+                    System.out.println("[6] Mendengarkan musik");
+                    System.out.println("[7] Menonton TV");
+                    System.out.println("[8] Bermain piano");
+                    System.out.println("[9] Buang air");
+                    System.out.println("[10] Tidur");
 
                 }
 
