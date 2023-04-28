@@ -10,16 +10,32 @@ public class Dishes extends Object implements Food {
     private int cookingTime;
     private int satiety;
 
-    public Dishes(String name, ArrayList<Ingredients> ingredients, int cookingTime, int satiety) {
+    public Dishes(String name) {
         super(name, "Food");
+        this.ingredients = new ArrayList<>();
         if (getName().equals("Nasi Ayam")) {
-            this.satiety = 16;
+            this.setSatiety(16);
+            this.ingredients.add(new Ingredients("Nasi"));
+            this.ingredients.add(new Ingredients("Ayam"));
         } else if (getName().equals("Nasi Kari")) {
+            this.setSatiety(30);
+            this.ingredients.add(new Ingredients("Nasi"));
+            this.ingredients.add(new Ingredients("Ayam"));
+            this.ingredients.add(new Ingredients("Kentang"));
+            this.ingredients.add(new Ingredients("Wortel"));
+            this.ingredients.add(new Ingredients("Sapi"));
         } else if (getName().equals("Susu Kacang")) {
-
+            this.setSatiety(5);
+            this.ingredients.add(new Ingredients("Susu"));
+            this.ingredients.add(new Ingredients("Kacang"));
         } else if (getName().equals("Tumis Sayur")) {
-
+            this.setSatiety(5);
+            this.ingredients.add(new Ingredients("Wortel"));
+            this.ingredients.add(new Ingredients("Bayam"));
         } else if (getName().equals("Bistik")) {
+            this.setSatiety(22);
+            this.ingredients.add(new Ingredients("Kentang"));
+            this.ingredients.add(new Ingredients("Sapi"));
         }
         this.setType("Dishes");
         this.cookingTime = this.getSatiety() * 3 / 2;
