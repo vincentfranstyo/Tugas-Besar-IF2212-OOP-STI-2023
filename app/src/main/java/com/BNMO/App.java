@@ -143,7 +143,8 @@ public class App {
                     System.out.println();
                     System.out.println("Berikut adalah info ruangan kamu:");
                     menu.getCurrentSim().getCurrentHouse().printRooms();
-                    // TODO CLI layout ruangan
+                    // TODO CLI layout
+                    world.printHouseLayout(menu.getCurrentSim().getCurrentHouse());
                     System.out.println();
                 } else if (commandNum == 4) {
                     System.out.println();
@@ -271,65 +272,63 @@ public class App {
 
                     }
 
-                    else if (activityNum == 9) {
+                    else if (activityNum == 8) {
+                        System.out.println();
+                        System.out.println("Pilihan Update:");
+                        System.out.println("[1] Menambah Ruangan");
+                        System.out.println("[2] Menghapus Ruangan Sekarang");
+                        System.out.println("[3] Menambah Object Pada Ruangan Sekarang");
+                        System.out.println("[4] Menghapus Object Pada Ruangan Sekarang");
+                        System.out.print("Masukkan Pilihan (dalam angka): ");
+                        String numUpHouse = userInput.nextLine();
+                        int numUpHouseInt;
+                        while (true) {
+                            try {
+                                numUpHouseInt = Integer.parseInt(numUpHouse);
+                                break;
+                            } catch (NumberFormatException e) {
+                                System.out.println("Masukan harus dalam bentuk angka!");
+                                System.out.println("Masukkan pilihan (dalam angka): ");
+                                numUpHouse = userInput.nextLine();
+                            }
+                        }
 
-                    }
-                } else if (commandNum == 8) {
-                    System.out.println();
-                    System.out.println("Pilihan Update:");
-                    System.out.println("[1] Menambah Ruangan");
-                    System.out.println("[2] Menghapus Ruangan Sekarang");
-                    System.out.println("[3] Menambah Object Pada Ruangan Sekarang");
-                    System.out.println("[4] Menghapus Object Pada Ruangan Sekarang");
-                    System.out.print("Masukkan Pilihan (dalam angka): ");
-                    String numUpHouse = userInput.nextLine();
-                    int numUpHouseInt;
-                    while (true) {
-                        try {
-                            numUpHouseInt = Integer.parseInt(numUpHouse);
-                            break;
-                        } catch (NumberFormatException e) {
-                            System.out.println("Masukan harus dalam bentuk angka!");
-                            System.out.println("Masukkan pilihan (dalam angka): ");
-                            numUpHouse = userInput.nextLine();
+                        System.out.println();
+                        if (numUpHouseInt == 1) {
+                            // TODO add room in side current room
+                            if (menu.getCurrentSim().getCurrentRoom().getFront() != null
+                                    && menu.getCurrentSim().getCurrentRoom().getRight() != null
+                                    && menu.getCurrentSim().getCurrentRoom().getBehind() != null
+                                    && menu.getCurrentSim().getCurrentRoom().getLeft() != null) {
+                                System.out.println(
+                                        "Tidak Dapat Menambah Ruangan Karena Sudah Ada Ruangan Pada Setip Sisi Ruangan Sekerang");
+                            } else {
+                                System.out.println("Arah Ruangan:");
+                                if (menu.getCurrentSim().getCurrentRoom().getFront() == null)
+                                    System.out.println("Front");
+                                if (menu.getCurrentSim().getCurrentRoom().getRight() == null)
+                                    System.out.println("Right");
+                                if (menu.getCurrentSim().getCurrentRoom().getBehind() == null)
+                                    System.out.println("Behind");
+                                if (menu.getCurrentSim().getCurrentRoom().getLeft() == null)
+                                    System.out.println("Left");
+                                System.out.println("Pilih Arah Ruangan yang Akan Dibangun: ");
+                                String choice = userInput.next();
+                                System.out.println("Masukkan Nama Ruangan: ");
+                                String roomName = userInput.next();
+                                System.out.println();
+                                menu.getCurrentSim().getCurrentHouse().addRoom(initSim,
+                                        menu.getCurrentSim().getCurrentRoom(), roomName, choice);
+                            }
+                        } else if (numUpHouseInt == 2) {
+                            // TODO Delete Current Room (Room pada house Hanya bisa di delete jika lebih
+                            // dari 1) & move ke some room pada house
+                        } else if (numUpHouseInt == 3) {
+                            // TODO add object in current room
+                        } else if (numUpHouseInt == 4) {
+                            // TODO delete object in current room and add to inventory owner
                         }
                     }
-                    System.out.println();
-                    if (numUpHouseInt == 1) {
-                        // TODO add room in side current room
-                        if (menu.getCurrentSim().getCurrentRoom().getFront() != null
-                                && menu.getCurrentSim().getCurrentRoom().getRight() != null
-                                && menu.getCurrentSim().getCurrentRoom().getBehind() != null
-                                && menu.getCurrentSim().getCurrentRoom().getLeft() != null) {
-                            System.out.println(
-                                    "Tidak Dapat Menambah Ruangan Karena Sudah Ada Ruangan Pada Setip Sisi Ruangan Sekerang");
-                        } else {
-                            System.out.println("Arah Ruangan:");
-                            if (menu.getCurrentSim().getCurrentRoom().getFront() == null)
-                                System.out.println("Front");
-                            if (menu.getCurrentSim().getCurrentRoom().getRight() == null)
-                                System.out.println("Right");
-                            if (menu.getCurrentSim().getCurrentRoom().getBehind() == null)
-                                System.out.println("Behind");
-                            if (menu.getCurrentSim().getCurrentRoom().getLeft() == null)
-                                System.out.println("Left");
-                            System.out.println("Pilih Arah Ruangan yang Akan Dibangun: ");
-                            String choice = userInput.next();
-                            System.out.println("Masukkan Nama Ruangan: ");
-                            String roomName = userInput.next();
-                            System.out.println();
-                            menu.getCurrentSim().getCurrentHouse().addRoom(initSim,
-                                    menu.getCurrentSim().getCurrentRoom(), roomName, choice);
-                        }
-                    } else if (numUpHouseInt == 2) {
-                        // TODO Delete Current Room (Room pada house Hanya bisa di delete jika lebih
-                        // dari 1) & move ke some room pada house
-                    } else if (numUpHouseInt == 3) {
-                        // TODO add object in current room
-                    } else if (numUpHouseInt == 4) {
-                        // TODO delete object in current room and add to inventory owner
-                    }
-
                 } else if (commandNum == 9) {
                     System.out.println();
                     // TODO melihat waktu
@@ -351,10 +350,9 @@ public class App {
                         roomName = userInput.nextLine();
                         loweredRoomName = roomName.toLowerCase();
                     }
+                }
 
-                    menu.getCurrentSim()
-                            .setCurrentRoom(menu.getCurrentSim().getCurrentHouse().getRoom(loweredRoomName));
-                } else if (commandNum == 11) {
+                else if (commandNum == 11) {
                     // menu.getCurrentSim().getInventory()
                     // .addObject(new Book("BukuUwu", 1000, 5, "Meemaw"));
                     // menu.getCurrentSim().getInventory()
@@ -370,7 +368,7 @@ public class App {
                     System.out.println();
                 }
 
-                else if (commandNum == 11) {
+                else if (commandNum == 12) {
                     menu.exit();
                     break;
                 }
@@ -383,7 +381,9 @@ public class App {
             userInput.close();
             System.exit(0);
 
-        } else {
+        } else
+
+        {
             System.out.println("Terima kasih telah bermain!");
         }
     }

@@ -1,6 +1,6 @@
 package com.BNMO;
 
-import com.BNMO.Buildings.House;
+import com.BNMO.Buildings.*;
 import com.BNMO.Utilities.*;
 import com.BNMO.SIMS.Sim;
 
@@ -165,6 +165,57 @@ public class World {
         System.out.println("# : Rumah SIM");
         System.out.println("* (0,0) -> Kiri Atas ");
         System.out.println("* (64,64) -> Kanan Bawah");
+        System.out.println();
+    }
+
+    public void printHouseLayout(House house){
+        ArrayList<ArrayList<String>> houseLayout = new ArrayList<>();
+        int yCount = houseLayout.size();
+        for (int i = 0; i < 5; i++){
+            houseLayout.add(new ArrayList<>());
+        }
+
+        for (int i = 0; i < 5; i++){
+            for (int j = 0; j < 5; j++){
+                if (i == 0){
+                    houseLayout.get(i).add("_");
+                }
+                else if (i == 2){
+                    houseLayout.get(i).add("");
+                }
+                else if (i == 4){
+                    houseLayout.get(i).add("_");
+                }
+                else if (j == 0){
+                    houseLayout.get(i).add("|");
+                }
+                else if (j == 4){
+                    houseLayout.get(i).add("|");
+                }
+                else{
+                    houseLayout.get(i).add(" ");
+                }
+            }
+        }
+        Iterator<Room> rooms = house.getRooms();
+        Room curRoom = rooms.next();
+        
+        houseLayout.get(2).set(0, curRoom.getNameRoom());
+        rooms = house.getRooms();
+        while(rooms.hasNext()){
+            curRoom = rooms.next();
+            System.out.println(curRoom.getNameRoom());
+        }
+
+        yCount = houseLayout.size();
+        for (int i = 0; i < yCount; i++){
+            int xCount = houseLayout.get(i).size();
+            for (int j = 0; j < xCount; j++){
+                System.out.print(houseLayout.get(i).get(j));
+            }
+            System.out.println();
+        }
+
     }
 
 }
