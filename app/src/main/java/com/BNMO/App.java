@@ -267,7 +267,42 @@ public class App {
 
                 else if (commandNum == 8) {
                     System.out.println();
-                    menu.getCurrentSim().getCurrentHouse().addRoom(menu.getCurrentSim().getCurrentRoom());
+                    System.out.println("Pilihan Update:");
+                    System.out.println("[1] Menambah Ruangan");
+                    System.out.println("[2] Menghapus Ruangan Sekarang");
+                    System.out.println("[3] Menambah Object Pada Ruangan Sekarang");
+                    System.out.println("[4] Menghapus Object Pada Ruangan Sekarang");
+                    System.out.print("Masukkan Pilihan (dalam angka): ");
+                    int numUpHouse = userInput.nextInt();
+                    System.out.println();
+                    if(numUpHouse == 1){
+                        // TODO add room in side current room
+                        if(menu.getCurrentSim().getCurrentRoom().getFront() != null && menu.getCurrentSim().getCurrentRoom().getRight() != null && menu.getCurrentSim().getCurrentRoom().getBehind() != null && menu.getCurrentSim().getCurrentRoom().getLeft() != null){
+                            System.out.println("Tidak Dapat Menambah Ruangan Karena Sudah Ada Ruangan Pada Setip Sisi Ruangan Sekerang");
+                        }
+                        else{
+                            System.out.println("Arah Ruangan:");
+                            if(menu.getCurrentSim().getCurrentRoom().getFront() == null) System.out.println("Front");
+                            if(menu.getCurrentSim().getCurrentRoom().getRight() == null) System.out.println("Right");
+                            if(menu.getCurrentSim().getCurrentRoom().getBehind() == null) System.out.println("Behind");
+                            if(menu.getCurrentSim().getCurrentRoom().getLeft() == null) System.out.println("Left");                
+                            System.out.println("Pilih Arah Ruangan yang Akan Dibangun: ");
+                            String choice = userInput.next();
+                            System.out.println("Masukkan Nama Ruangan: ");
+                            String roomName = userInput.next();
+                            System.out.println();
+                            menu.getCurrentSim().getCurrentHouse().addRoom(initSim, menu.getCurrentSim().getCurrentRoom(), roomName, choice);
+                        }
+                    }
+                    else if(numUpHouse == 2){
+                        // TODO Delete Current Room (Room pada house Hanya bisa di delete jika lebih dari 1) & move ke some room pada house
+                    }
+                    else if(numUpHouse == 3){
+                        // TODO add object in current room 
+                    }
+                    else if(numUpHouse == 4){
+                        // TODO delete object in current room and add to inventory owner
+                    }
 
                 } else if (commandNum == 9) {
                     System.out.println();

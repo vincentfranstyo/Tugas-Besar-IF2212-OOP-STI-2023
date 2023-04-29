@@ -147,7 +147,7 @@ public class Room {
     public int getTotalObject() {
         return totalObject;
     }
-    public int getPrice(){
+    public static int getPrice(){
         return price;
     }
     public void setMapObj(int x, int y, Object o){

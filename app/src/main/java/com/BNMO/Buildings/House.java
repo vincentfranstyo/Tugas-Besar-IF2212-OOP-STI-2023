@@ -31,66 +31,60 @@ public class House {
         this.initRoom.addObject(new Clock("Jam 1", null), new Point(5, 1), "horizontal");
         this.initRoom.addObject(new SingleBed("Kasur 1"), new Point(6, 3), "vertikal");
     }
-
-    public void addRoom(Room curRoom) {
-        Scanner sc = new Scanner(System.in);
-        System.out.println("Arah Ruangan:");
-        if (curRoom.getFront() == null)
-            System.out.println("Front");
-        if (curRoom.getRight() == null)
-            System.out.println("Right");
-        if (curRoom.getBehind() == null)
-            System.out.println("Behind");
-        if (curRoom.getLeft() == null)
-            System.out.println("Left");
-        System.out.println("Pilih Arah Ruangan yang Akan Dibangun: ");
-        String pilihan = sc.nextLine();
-        System.out.println("Masukkan Nama Ruangan: ");
-        String rName = sc.nextLine();
-        sc.close();
-        Room newRoom = new Room(rName, null, null, null, null);
-        if (pilihan.toLowerCase().equals("front")) {
-            newRoom.setBehind(curRoom);
-            curRoom.setFront(newRoom);
-        }
-        if (pilihan.toLowerCase().equals("right")) {
-            newRoom.setLeft(curRoom);
-            curRoom.setRight(newRoom);
-        }
-        if (pilihan.toLowerCase().equals("behind")) {
-            newRoom.setFront(curRoom);
-            curRoom.setBehind(newRoom);
-        }
-        if (pilihan.toLowerCase().equals("left")) {
-            newRoom.setRight(curRoom);
-            curRoom.setLeft(newRoom);
-        }
-        Thread t = new Thread(new Runnable() {
-            public void run() {
-                try {
-                    // Pilih ruangan yang ingin di bangun (Above, Right, Below, atau Left) dari
-                    // currentRoom lalu instansiasi sebuah room baru dengan posisi yang dipilih
-                    if (curRoom.getFront() != null && curRoom.getRight() != null && curRoom.getBehind() != null
-                            && curRoom.getLeft() != null) {
-                        System.out.println(
-                                "Tidak Dapat Menambah Ruangan Karena Sudah Ada Ruangan Pada Setip Sisi Ruangan Sekerang");
-                    } else {
-                        Thread.sleep(10800); // 18 menit = 1080000
-                        rooms.add(newRoom);
-                        synchronized (this) {
-                            totalRoom++;
+    public void addRoom(Sim sim, Room curRoom, String rName, String direction){
+        if(sim.getName().equals(owner.getName())){
+            if(sim.getMoney() >= Room.getPrice()){
+                Room newRoom = new Room(rName, null, null, null, null);
+                boolean valid = true;
+                if(direction.toLowerCase().equals("front")){
+                    newRoom.setBehind(curRoom);
+                    curRoom.setFront(newRoom);
+                }
+                else if(direction.toLowerCase().equals("right")){
+                    newRoom.setLeft(curRoom);
+                    curRoom.setRight(newRoom);
+                }
+                else if(direction.toLowerCase().equals("behind")){
+                    newRoom.setFront(curRoom);
+                    curRoom.setBehind(newRoom);
+                }
+                else if(direction.toLowerCase().equals("left")){
+                    newRoom.setRight(curRoom);
+                    curRoom.setLeft(newRoom);
+                }
+                else{
+                    valid = false;
+                }
+                if(valid){
+                    sim.setMoney(sim.getMoney()-Room.getPrice());
+                    Thread t = new Thread(new Runnable() {
+                    public void run(){
+                        try {
+                            // Pilih ruangan yang ingin di bangun (Above, Right, Below, atau Left) dari currentRoom lalu instansiasi sebuah room baru dengan posisi yang dipilih                          
+                            Thread.sleep(1080000); // 18 menit
+                            rooms.add(newRoom);
+                            synchronized(this){
+                                totalRoom++;
+                            }
+                        } catch (InterruptedException e) {
+                            e.printStackTrace();
                         }
-                        System.out.println("Kamu berhasil menambah ruangan baru!");
-                        printRooms();
-                    }
-                } catch (InterruptedException e) {
-                    e.printStackTrace();
+                    } 
+                    });
+                    t.start();
+                }
+                else{
+                    System.out.println("Input Arah Ruangan Salah!");
                 }
             }
-        });
-        t.start();
+            else{
+                System.out.println("Tidak Bisa Menambah Ruangan Karena Uang Tidak Cukup!");
+            }
+        }
+        else{
+            System.out.println("Tidak Bisa Menambah Ruangan Pada Rumah Orang Lain!");
+        }
     }
-
     public void deleteRoom(Room delRoom) {
         if (rooms.contains(delRoom)) {
             rooms.remove(delRoom);
@@ -129,18 +123,17 @@ public class House {
     public void setLocation(Point newLoc) {
         this.location = newLoc;
     }
-
-    public void printRooms() {
-        Iterator<Room> rooms = getRooms();
-        while (rooms.hasNext()) {
-            Room curRoom = rooms.next();
-            System.out.println(curRoom.getNameRoom());
+    public void printRooms(){
+        Iterator<Room> itrRoom = getRooms();
+        while(itrRoom.hasNext()){
+            System.out.println(itrRoom.next().getNameRoom());
         }
+        System.out.println();
     }
     // public static void main(String[] args) {
-    // Sim budi = new Sim("Budi");
-    // House budiHouse = new House(new Point(3, 4), budi);
-    // budi.move(budiHouse.initRoom);
-    // budiHouse.addRoom(budi.getCurrentRoom());
+    //     Sim budi = new Sim("Budi");
+    //     House budiHouse = new House(new Point(3, 4), budi);
+    //     budi.move(budiHouse.initRoom);
+    //     budiHouse.addRoom(budi.getCurrentRoom());
     // }
 }
