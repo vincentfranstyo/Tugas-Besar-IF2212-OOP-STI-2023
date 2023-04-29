@@ -18,6 +18,7 @@ import com.BNMO.Object.NonFoodObjects.Piano.Piano;
 
 import com.BNMO.Utilities.*;
 import com.BNMO.SIMS.Sim;
+import com.BNMO.World;
 
 public class App {
     private static int time = 0;
@@ -131,7 +132,10 @@ public class App {
                     // TODO CLI layout
                     System.out.println();
                 } else if (commandNum == 4) {
+                    System.out.println();
+                    System.out.println("Berikut adalah Map:");
                     // TODO info dunia + layout
+                    world.printMap();
                 }
 
                 else if (commandNum == 5) {

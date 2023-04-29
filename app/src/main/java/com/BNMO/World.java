@@ -86,4 +86,77 @@ public class World {
         return totalBuild;
     }
 
+    public void printMap(){
+        String[][] map = new String[129][129];
+        for (int i=0; i < map.length; i++){
+            for (int j=0; j < map[i].length; j++){
+                // if(i % 5 == 0 && j % 3 == 0){
+                //     map[i][j] = " o";
+                // }
+                // else if(j % 3 == 0){
+                //     map[i][j] = "||";
+                // }
+                // else if(i % 5 == 0){
+                //     map[i][j] = "===";
+                // }
+                // else {
+                //     map[i][j] = " + ";
+                // }
+                if(i % 10 == 0 && j % 6 == 0){
+                    map[i][j] = "_/";
+                }
+                else if(i % 10 == 0 && j % 6 == 1){
+                    map[i][j] = "\\_";
+                }
+                else if(i % 10 == 1 && j % 6 == 0){
+                    map[i][j] = "_\\";
+                }
+                else if(i % 10 == 1 && j % 6 == 1){
+                    map[i][j] = "/_";
+                }
+                else if(j % 6 == 0){
+                    map[i][j] = " |";
+                }
+                else if (j % 6 == 1){
+                    map[i][j] = "| ";
+                }
+                else if(i % 10 == 0){
+                    map[i][j] = "_";
+                }
+                else if(i % 10 == 1){
+                    map[i][j] = "_";
+                }
+                else if(j % 2 == 0 && i % 2 == 0){
+                    map[i][j] = "+";
+                }
+                // else if(j % 2 == 1){
+                //     map[i][j] = " ";
+                // }
+                // else if(i % 2 == 0){
+                //     map[i][j] = "+";
+                // }
+                // else if(i % 2 == 1){
+                //     map[i][j] = " ";
+                // }
+                else {
+                    map[i][j] = " ";
+                }
+            }
+        }
+
+        for (int i = 0; i < houseList.size(); i++) {
+            int xValue = houseList.get(i).getLocation().getX() * 2;
+            int yValue = houseList.get(i).getLocation().getX() * 2;
+            map[yValue][xValue] = "H";
+        }
+
+        for (int i=0; i < map.length; i++){
+            for (int j=0; j < map[i].length; j++){
+                System.out.print(map[i][j]);
+            }
+            System.out.println();
+        }
+
+    }
+
 }
