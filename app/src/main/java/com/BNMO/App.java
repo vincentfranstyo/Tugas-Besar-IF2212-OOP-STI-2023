@@ -265,7 +265,6 @@ public class App {
                                         .eatIngredients(menu.getCurrentSim(),
                                                 (Ingredients) menu.getCurrentSim().getInventory().getFood(loweredFood));
                             }
-
                         }
                     }
 
@@ -316,7 +315,7 @@ public class App {
                                 System.out.println("Pilih Arah Ruangan yang Akan Dibangun: ");
                                 String choice = userInput.next();
                                 System.out.println("Masukkan Nama Ruangan: ");
-                                String roomName = userInput.next();
+                                String roomName = userInput.nextLine();
                                 System.out.println();
                                 menu.getCurrentSim().getCurrentHouse().addRoom(initSim,
                                         menu.getCurrentSim().getCurrentRoom(), roomName, choice);
@@ -351,6 +350,7 @@ public class App {
                         roomName = userInput.nextLine();
                         loweredRoomName = roomName.toLowerCase();
                     }
+                    menu.getCurrentSim().move(menu.getCurrentSim().getCurrentHouse().getRoom(loweredRoomName));
                 }
 
                 else if (commandNum == 11) {
