@@ -18,8 +18,22 @@ public class World {
         this.houseList = new ArrayList<House>();
 
         Random rand = new Random();
+
         int xRandom = rand.nextInt(65);
+        if (xRandom == 0){
+            xRandom++;
+        }
+        else if (xRandom % 3 == 0){
+            xRandom--;
+        }
+
         int yRandom = rand.nextInt(65);
+        if (yRandom == 0){
+            yRandom++;
+        }
+        else if (yRandom % 5 == 0){
+            yRandom--;
+        }
 
         Point initPoint = new Point(xRandom, yRandom);
         House initHouse = new House(initPoint, initSim);
@@ -40,9 +54,17 @@ public class World {
 
     public void addHouse(House rumah) {
         for (int i = 0; i < houseList.size(); i++) {
-            if (houseList.get(i).getLocation() == rumah.getLocation()
-                    && houseList.get(i).getLocation() == rumah.getLocation()) {
+            if (houseList.get(i).getLocation().getX() == rumah.getLocation().getX()
+                    && houseList.get(i).getLocation().getY() == rumah.getLocation().getY()) {
                 System.out.println("Sudah ada rumah di lokasi tersebut, silakan pilih lokasi lain");
+                return;
+            }
+            else if (rumah.getLocation().getX() % 3 == 0){
+                System.out.println("Rumah berada di jalan raya, silakan pilih lokasi lain");
+                return;
+            }
+            else if (rumah.getLocation().getY() % 5 == 0){
+                System.out.println("Rumah berada di jalan raya, silakan pilih lokasi lain");
                 return;
             }
         }
