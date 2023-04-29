@@ -1,12 +1,9 @@
 package com.BNMO.Object.Food;
 
-import com.BNMO.Object.Object;
-
-public class Ingredients extends Object implements Food {
-    private int satiety;
+public class Ingredients extends Food {
 
     public Ingredients(String name) {
-        super(name, "Food");
+        super(name);
         this.setType("Ingredients");
         if (getName().equals("Nasi")) {
             this.setPrice(5);
@@ -33,13 +30,5 @@ public class Ingredients extends Object implements Food {
             this.setPrice(2);
             this.setSatiety(1);
         }
-    }
-
-    public int getSatiety() {
-        return satiety;
-    }
-
-    public void setSatiety(int satiety) {
-        this.satiety = satiety;
     }
 }

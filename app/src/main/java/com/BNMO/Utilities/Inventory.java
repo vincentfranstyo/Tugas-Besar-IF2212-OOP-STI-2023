@@ -2,6 +2,7 @@ package com.BNMO.Utilities;
 
 import com.BNMO.SIMS.Sim;
 import com.BNMO.Object.Object;
+import com.BNMO.Object.Food.Food;
 
 import java.util.ArrayList;
 
@@ -81,5 +82,34 @@ public class Inventory<T extends Object> {
                 break;
             }
         }
+    }
+
+    public ArrayList<Food> getFoods() {
+        ArrayList<Food> foods = new ArrayList<>();
+        for (T object : objects) {
+            if (object.getType().equals("Food")) {
+                foods.add((Food) object);
+            }
+        }
+        return foods;
+    }
+
+    public void printFoodList() {
+        ArrayList<Food> foodList = getFoods();
+        Food[] foods = foodList.toArray(new Food[foodList.size()]);
+        for (Food fo : foods) {
+            System.out.println(fo.getName());
+        }
+    }
+
+    public Food getFood(String foodName) {
+        ArrayList<Food> foodList = getFoods();
+        Food[] foods = foodList.toArray(new Food[foodList.size()]);
+        for (Food fo : foods) {
+            if (fo.getName().toLowerCase().equals(foodName)) {
+                return fo;
+            }
+        }
+        return null;
     }
 }

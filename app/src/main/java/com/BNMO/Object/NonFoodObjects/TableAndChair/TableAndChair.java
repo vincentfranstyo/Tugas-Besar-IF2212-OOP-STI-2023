@@ -14,7 +14,8 @@ public class TableAndChair extends NonFoodObjects {
         this.setType("Table and Chair");
     }
 
-    public void eatDish(Time time, Sim sim, Dishes dish) {
+    public void eatDish(Sim sim, Dishes dish) {
+        Time time = new Time(30);
         try {
             if (!getIsOccupied()) {
                 if (sim.getStatus().equals("Nothing")) {
@@ -43,7 +44,8 @@ public class TableAndChair extends NonFoodObjects {
         }
     }
 
-    public void eatIngredients(Time time, Sim sim, Ingredients ing) {
+    public void eatIngredients(Sim sim, Ingredients ing) {
+        Time time = new Time(30);
         try {
             if (!getIsOccupied()) {
                 if (sim.getStatus().equals("Nothing")) {

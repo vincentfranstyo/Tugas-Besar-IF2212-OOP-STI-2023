@@ -1,17 +1,15 @@
 package com.BNMO.Object.Food;
 
 import com.BNMO.SIMS.Sim;
-import com.BNMO.Object.Object;
 
 import java.util.ArrayList;
 
-public class Dishes extends Object implements Food {
+public class Dishes extends Food {
     private ArrayList<Ingredients> ingredients;
     private int cookingTime;
-    private int satiety;
 
     public Dishes(String name) {
-        super(name, "Food");
+        super(name);
         this.ingredients = new ArrayList<>();
         if (getName().equals("Nasi Ayam")) {
             this.setSatiety(16);
@@ -57,13 +55,5 @@ public class Dishes extends Object implements Food {
             }
         }
         return hasIngredients;
-    }
-
-    public int getSatiety() {
-        return satiety;
-    }
-
-    public void setSatiety(int satiety) {
-        this.satiety = satiety;
     }
 }

@@ -15,6 +15,7 @@ import com.BNMO.Object.NonFoodObjects.Toilet.Toilet;
 import com.BNMO.Object.NonFoodObjects.Book.Book;
 import com.BNMO.Object.NonFoodObjects.Bed.*;
 import com.BNMO.Object.NonFoodObjects.Piano.Piano;
+import com.BNMO.Object.Food.*;
 
 import com.BNMO.Utilities.*;
 import com.BNMO.SIMS.Sim;
@@ -115,6 +116,18 @@ public class App {
                     commandNum = Integer.parseInt(command);
                 }
 
+                ArrayList<Integer> validCommands = new ArrayList<Integer>();
+                for (int i = 1; i <= 12; i++) {
+                    validCommands.add(i);
+                }
+
+                while (!validCommands.contains(commandNum)) {
+                    System.out.println("Masukkan perintah yang valid!");
+                    System.out.println("Masukkan perintah: (dalam angka)");
+                    command = userInput.nextLine();
+                    commandNum = Integer.parseInt(command);
+                }
+
                 if (commandNum == 1) {
                     System.out.println();
                     System.out.println("Kamu memanggil help!");
@@ -136,18 +149,14 @@ public class App {
                     System.out.println("Berikut adalah Map:");
                     // TODO info dunia + layout
                     world.printMap();
-                }
-
-                else if (commandNum == 5) {
+                } else if (commandNum == 5) {
                     System.out.println();
                     System.out.println("Masukkan nama sim yang ingin kamu tambahkan: ");
                     String newSimName = userInput.nextLine();
                     menu.addSim(new Sim(newSimName));
                     menu.viewSimList();
                     System.out.println();
-                }
-
-                else if (commandNum == 6) {
+                } else if (commandNum == 6) {
                     System.out.println();
                     System.out.println("Masukkan nama sim yang ingin kamu mainkan: ");
                     String wantedSim = userInput.nextLine();
@@ -166,8 +175,9 @@ public class App {
                     System.out.println("[6] Mendengarkan musik");
                     System.out.println("[7] Menonton TV");
                     System.out.println("[8] Bermain piano");
-                    System.out.println("[9] Buang air");
-                    System.out.println("[10] Tidur");
+                    System.out.println("[9] Bermain game");
+                    System.out.println("[10] Buang air");
+                    System.out.println("[11] Tidur");
                     System.out.println();
 
                     System.out.println("Masukkan perintah: (dalam angka)");
@@ -183,7 +193,7 @@ public class App {
                         }
                     }
                     ArrayList<Integer> validActivities = new ArrayList<Integer>();
-                    for (int i = 1; i <= 10; i++) {
+                    for (int i = 1; i <= 11; i++) {
                         validActivities.add(i);
                     }
 
@@ -214,9 +224,39 @@ public class App {
                             // Tidak ada table and chair di ruangan ini
                             System.out.println("Tidak ada meja dan kursi di ruangan ini!");
                         } else {
-                            System.out.println("Kamu makan!");
+                            System.out.println("Kamu memilih untuk makan!");
                             menu.getCurrentSim().goToObject((NonFoodObjects) tableValidator);
-                            // TODO Makan
+                            System.out.println("Berikut daftar makanan yang dapat kamu makan!");
+                            menu.getCurrentSim().getInventory().printFoodList();
+                            System.out.println("Makanan apa yang ingin kamu makan?");
+                            String foodName = userInput.nextLine();
+                            String loweredFood = foodName.toLowerCase();
+
+                            ArrayList<String> validFoods = new ArrayList<String>();
+                            for (Food food : menu.getCurrentSim().getInventory().getFoods()) {
+                                validFoods.add(food.getName().toLowerCase());
+                            }
+
+                            while (!validFoods.contains(loweredFood)) {
+                                System.out.println("Masukkan makanan yang valid!");
+                                foodName = userInput.nextLine();
+                                loweredFood = foodName.toLowerCase();
+                            }
+
+                            if (menu.getCurrentSim().getInventory().getFood(loweredFood).getType().equals("Dishes")) {
+                                timeThread.start();
+                                tableValidator.eatDish(menu.getCurrentSim(),
+                                        (Dishes) menu.getCurrentSim().getInventory().getFood(loweredFood));
+                            }
+
+                            else if (menu.getCurrentSim().getInventory().getFood(loweredFood).getType()
+                                    .equals("Ingredients")) {
+                                timeThread.start();
+                                tableValidator
+                                        .eatIngredients(menu.getCurrentSim(),
+                                                (Ingredients) menu.getCurrentSim().getInventory().getFood(loweredFood));
+                            }
+
                         }
                     }
 
@@ -243,16 +283,16 @@ public class App {
                 }
 
                 else if (commandNum == 10) {
-                    menu.getCurrentSim().getInventory()
-                            .addObject(new Book("BukuUwu", 1000, 5, "Meemaw"));
-                    menu.getCurrentSim().getInventory()
-                            .addObject(new Book("BukuAwa", 1000, 5, "Meemaw"));
-                    menu.getCurrentSim().getInventory()
-                            .addObject(new Book("BukuIwi", 1000, 5, "Meemaw"));
-                    menu.getCurrentSim().getInventory()
-                            .addObject(new Book("BukuEwe", 1000, 5, "Meemaw"));
-                    menu.getCurrentSim().getInventory().addObject(new SingleBed("myBed"));
-                    menu.getCurrentSim().getInventory().addObject(new SingleBed("herBed"));
+                    // menu.getCurrentSim().getInventory()
+                    // .addObject(new Book("BukuUwu", 1000, 5, "Meemaw"));
+                    // menu.getCurrentSim().getInventory()
+                    // .addObject(new Book("BukuAwa", 1000, 5, "Meemaw"));
+                    // menu.getCurrentSim().getInventory()
+                    // .addObject(new Book("BukuIwi", 1000, 5, "Meemaw"));
+                    // menu.getCurrentSim().getInventory()
+                    // .addObject(new Book("BukuEwe", 1000, 5, "Meemaw"));
+                    // menu.getCurrentSim().getInventory().addObject(new SingleBed("myBed"));
+                    // menu.getCurrentSim().getInventory().addObject(new SingleBed("herBed"));
                     System.out.println();
                     menu.getCurrentSim().getInventory().printInventory();
                     System.out.println();

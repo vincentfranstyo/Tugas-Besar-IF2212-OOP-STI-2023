@@ -3,6 +3,7 @@ package com.BNMO.SIMS;
 import com.BNMO.Utilities.*;
 import com.BNMO.Object.NonFoodObjects.NonFoodObjects;
 import com.BNMO.Object.Object;
+import com.BNMO.Object.Food.Food;
 import com.BNMO.Buildings.*;
 
 import java.util.ArrayList;
@@ -18,7 +19,7 @@ public class Sim {
     private int mood;
     private int health;
     private String status = "Nothing";
-    private Inventory inventory;
+    private Inventory<Object> inventory;
     private Point location;
     private Time currentJobDuration;
     private static ArrayList<Sim> sims = new ArrayList<>();
@@ -54,7 +55,7 @@ public class Sim {
         this.health = 80;
         this.status = "Nothing";
         this.isAlive = true;
-        this.inventory = new Inventory(this);
+        this.inventory = new Inventory<Object>(this);
         this.location = new Point(0, 0);
         this.currentHouse = new House(this.location, this);
         this.currentRoom = currentHouse.getRooms().next();
@@ -99,7 +100,7 @@ public class Sim {
 
     // Ini ku tambahin biar bisa akses inventory soalnya pas deleteRoom berarti
     // semua object di room harus dimasukin lagi ke inventory owner
-    public Inventory getInventory() {
+    public Inventory<Object> getInventory() {
         return inventory;
     }
 
@@ -293,4 +294,5 @@ public class Sim {
         // menghapus room
         // menambah Object
     }
+
 }
