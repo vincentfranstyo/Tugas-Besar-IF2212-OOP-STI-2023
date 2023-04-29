@@ -143,6 +143,7 @@ public class App {
                     System.out.println("Berikut adalah info rumah kamu:");
                     menu.getCurrentSim().getCurrentHouse().printRooms();
                     // TODO CLI layout
+                    world.printHouseLayout(menu.getCurrentSim().getCurrentHouse());
                     System.out.println();
                 } else if (commandNum == 4) {
                     System.out.println();
@@ -265,7 +266,7 @@ public class App {
                     }
                 }
 
-                else if (commandNum == 8) {
+                else if (commandNum == 9) {
                     System.out.println();
                     System.out.println("Pilihan Update:");
                     System.out.println("[1] Menambah Ruangan");
@@ -304,7 +305,7 @@ public class App {
                         // TODO delete object in current room and add to inventory owner
                     }
 
-                } else if (commandNum == 9) {
+                } else if (commandNum == 10) {
                     System.out.println();
                     System.out.println("Berikut adalah barang-barang yang bisa kamu beli!");
                     System.out.println("Masukkan barang yang ingin kamu beli!");
@@ -317,7 +318,7 @@ public class App {
                     menu.getCurrentSim().buy(wantedItem);
                 }
 
-                else if (commandNum == 10) {
+                else if (commandNum == 11) {
                     // menu.getCurrentSim().getInventory()
                     // .addObject(new Book("BukuUwu", 1000, 5, "Meemaw"));
                     // menu.getCurrentSim().getInventory()
