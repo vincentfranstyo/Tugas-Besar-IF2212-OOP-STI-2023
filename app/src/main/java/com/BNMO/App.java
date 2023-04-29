@@ -5,6 +5,8 @@
 package com.BNMO;
 
 import java.util.Scanner;
+import java.util.concurrent.atomic.AtomicBoolean;
+import java.util.concurrent.atomic.AtomicInteger;
 import java.util.ArrayList;
 import java.util.NoSuchElementException;
 
@@ -21,17 +23,20 @@ import com.BNMO.Object.Food.*;
 
 import com.BNMO.Utilities.*;
 import com.BNMO.SIMS.Sim;
-import com.BNMO.World;
 
 public class App {
-    private static int time = 0;
-
     public static void main(String[] args) {
+        AtomicInteger dailyWorkDuration = new AtomicInteger(0);
+        AtomicInteger dailySleptDur = new AtomicInteger(0);
+        AtomicBoolean notEnoughSleep = new AtomicBoolean(false);
         Thread timeThread = new Thread(new Runnable() {
+
             @Override
             public void run() {
                 int i = 1;
                 while (true) {
+                    dailyWorkDuration.set(0);
+                    dailySleptDur.set(0);
                     try {
                         System.out.println("Hari ke-" + i + " telah dimulai!");
                         System.out.println();
@@ -47,6 +52,13 @@ public class App {
                         System.out.println();
                         System.out.println("Hari telah berganti!");
                         System.out.println();
+
+                        if (dailySleptDur.get() < 180) {
+                            notEnoughSleep.set(true);
+                            System.out.println("Kamu tidak cukup tidur!");
+                            System.out.println();
+
+                        }
                         i++;
                     } catch (InterruptedException e) {
                         e.printStackTrace();
@@ -54,7 +66,6 @@ public class App {
                 }
             }
         });
-        timeThread.start();
 
         Scanner userInput = new Scanner(System.in);
         System.out.println("Selamat Datang di Sim-Plicity!");
@@ -221,6 +232,119 @@ public class App {
                     }
 
                     if (activityNum == 1) {
+                        System.out.println();
+                        System.out.println("Kamu memilih untuk bekerja!");
+                        System.out.println("Berikut adalah efek akibat bekerja:");
+                        System.out.println("Fullness: -10 / 30 detik");
+                        System.out.println("Mood: -10 / 30 detik");
+                        System.out.println("Gaji : + sesuai dengan pekerjaan yang dimiliki / 4 menit");
+                        System.out.println();
+                        System.out.println(
+                                "Berapa lama kamu ingin bekerja? (dalam satuan detik, kelipatan 120, dan tidak boleh lebih dari 240)");
+                        String workTime = userInput.nextLine();
+                        int workDur;
+                        while (true) {
+                            try {
+                                workDur = Integer.parseInt(workTime);
+                                if (workDur % 120 != 0 || workDur <= 0 || workDur > 240) {
+                                    System.out.println("Masukan harus kelipatan 120, dan tidak boleh lebih dari 240!");
+                                    workTime = userInput.nextLine();
+                                    continue;
+                                    // TODO cek apakah akan memvalidasi dengan benar
+                                }
+                                break;
+                            } catch (NumberFormatException e) {
+                                System.out.println("Masukan harus dalam bentuk angka! (dalam satuan detik)");
+                                workTime = userInput.nextLine();
+                            }
+                        }
+                        timeThread.start();
+                        menu.getCurrentSim().work(new Time(workDur));
+
+                        if (workDur < 240) {
+                            dailyWorkDuration.set(dailyWorkDuration.get() + workDur);
+                        }
+
+                    } else if (activityNum == 2) {
+                        System.out.println();
+                        System.out.println("Kamu memilih untuk berolahraga!");
+                        System.out.println("Berikut adalah efek akibat berolahraga:");
+                        System.out.println("Fullness: -5 / 20 detik");
+                        System.out.println("Mood: +10 / 20 detik");
+                        System.out.println("Health: +5 / 20 detik");
+                        System.out.println();
+
+                        System.out.println(
+                                "Berapa lama kamu ingin berolahraga? (dalam satuan detik, kelipatan 20)");
+                        String exerciseTime = userInput.nextLine();
+                        int exerciseDur;
+
+                        while (true) {
+                            try {
+                                exerciseDur = Integer.parseInt(exerciseTime);
+                                if (exerciseDur % 20 != 0 || exerciseDur <= 0) {
+                                    System.out.println("Masukan harus kelipatan 20!");
+                                    exerciseTime = userInput.nextLine();
+                                    continue;
+                                }
+                                break;
+                            } catch (NumberFormatException e) {
+                                System.out.println("Masukan harus dalam bentuk angka! (dalam satuan detik)");
+                                exerciseTime = userInput.nextLine();
+                            }
+                        }
+
+                        timeThread.start();
+                        menu.getCurrentSim().workout(new Time(exerciseDur));
+                    } else if (activityNum == 3) {
+                        Bed bedValidator = null;
+                        while (menu.getCurrentSim().getCurrentRoom().getObjects().hasNext()) {
+                            if (menu.getCurrentSim().getCurrentRoom().getObjects().next() instanceof Bed) {
+                                bedValidator = (Bed) menu.getCurrentSim().getCurrentRoom().getObjects().next();
+                                break;
+                            }
+                        }
+
+                        if (bedValidator == null) {
+                            // Tidak ada bed di ruangan ini
+                            System.out.println("Tidak ada tempat tidur di ruangan ini!");
+                        } else {
+                            System.out.println();
+                            System.out.println("Kamu memilih untuk tidur!");
+                            System.out.println();
+                            System.out.println("Berikut adalah efek tidur:");
+                            System.out.println("Mood: +30 / 4 menit");
+                            System.out.println("Health: +20 / 4 menit");
+                            System.out.println();
+
+                            System.out.println("Berikut adalah efek tidak tidur:");
+                            System.out.println("Mood: -10 / 10 menit");
+
+                            System.out.println("Berapa lama kamu ingin tidur? (dalam satuan detik)");
+                            String sleepTime = userInput.nextLine();
+                            int sleepDur;
+
+                            while (true) {
+                                try {
+                                    sleepDur = Integer.parseInt(sleepTime);
+                                    if (sleepDur <= 180) {
+                                        System.out.println("Masukan harus lebih dari 180 detik (3 menit)!");
+                                        sleepTime = userInput.nextLine();
+                                        continue;
+                                    }
+                                    break;
+                                } catch (NumberFormatException e) {
+                                    System.out.println("Masukan harus dalam bentuk angka! (dalam satuan detik)");
+                                    sleepTime = userInput.nextLine();
+                                }
+                            }
+                            menu.getCurrentSim().goToObject((NonFoodObjects) bedValidator);
+                            dailySleptDur.set(dailySleptDur.get() + sleepDur);
+                            timeThread.start();
+                            bedValidator.sleep(new Time(sleepDur), menu.getCurrentSim());
+                        }
+
+                    } else if (activityNum == 4) {
                         TableAndChair tableValidator = null;
                         while (menu.getCurrentSim().getCurrentRoom().getObjects().hasNext()) {
                             if (menu.getCurrentSim().getCurrentRoom().getObjects().next() instanceof TableAndChair) {
@@ -266,9 +390,7 @@ public class App {
                                                 (Ingredients) menu.getCurrentSim().getInventory().getFood(loweredFood));
                             }
                         }
-                    }
-
-                    else if (activityNum == 2) {
+                    } else if (activityNum == 5) {
 
                     }
 

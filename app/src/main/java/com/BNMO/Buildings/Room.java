@@ -95,7 +95,6 @@ public class Room {
     public void removeObject(Object o, Point Loc, Sim owner) {
         if (objects.contains(o)) {
             ((NonFoodObjects) o).setPosition(null);
-            ;
             owner.getInventory().addObject(o);
             objects.remove(o);
             this.totalObject--;

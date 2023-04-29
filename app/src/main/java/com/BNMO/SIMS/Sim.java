@@ -184,20 +184,19 @@ public class Sim {
 
     public void work(Time time) {
         int duration = time.convertToSecond();
-
         Thread statusThread = new Thread(new Runnable() {
             @Override
             public void run() {
-
                 try {
-                    setFullness(getFullness() - 10 * duration / 30);
-                    setMood(getMood() - 10 * duration / 30);
-                    setMoney(getMoney() + getJob().getSalary() * duration / 240);
                     Time jobDurTime = new Time(getCurrentJobDuration().convertToSecond() + duration / 60);
                     setCurrentJobDuration(jobDurTime);
                     setStatus("Working");
                     System.out.println(getName() + "is working...");
-                    Thread.sleep(2000); // Sleep for 2 seconds
+                    Thread.sleep(2000); // Sleep for 2 second
+                    System.out.println(getName() + "is done working");
+                    setFullness(getFullness() - 10 * duration / 30);
+                    setMood(getMood() - 10 * duration / 30);
+                    setMoney(getMoney() + getJob().getSalary() * duration / 240);
                 } catch (InterruptedException e) {
                     e.printStackTrace();
                 } finally {
@@ -205,21 +204,28 @@ public class Sim {
                 }
             }
         });
-
-        statusThread.start();
-        try {
-            statusThread.join();
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
     }
 
     public void workout(Time time) {
         int duration = time.convertToSecond();
-
-        setFullness(getFullness() - 5 * duration / 20);
-        setMood(getMood() + 10 * duration / 20);
-        setHealth(getHealth() + 5 * duration / 20);
+        Thread workoutThread = new Thread(new Runnable() {
+            @Override
+            public void run() {
+                try {
+                    setStatus("Working Out");
+                    System.out.println(getName() + "is working out...");
+                    Thread.sleep(duration * 1000);
+                    System.out.println(getName() + "is done working out");
+                    setFullness(getFullness() - 5 * duration / 20);
+                    setMood(getMood() + 10 * duration / 20);
+                    setHealth(getHealth() + 5 * duration / 20);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                } finally {
+                    setStatus("Nothing");
+                }
+            }
+        });
     }
 
     public void changeJob(String jobName) {
