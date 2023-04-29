@@ -157,6 +157,14 @@ public class World {
             System.out.println();
         }
 
+        System.out.println();
+        System.out.println("LEGENDA PETA SIM-PLICITY");
+        System.out.println("__ || : Jalan Raya");
+        System.out.println("/\\\\/ : Perempatan");
+        System.out.println("+ : Lahan Kosong");
+        System.out.println("# : Rumah SIM");
+        System.out.println("* (0,0) -> Kiri Atas ");
+        System.out.println("* (64,64) -> Kanan Bawah");
     }
 
 }

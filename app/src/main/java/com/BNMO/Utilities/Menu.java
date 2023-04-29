@@ -89,6 +89,15 @@ public class Menu {
             System.out.println();
         }
 
+        System.out.println();
+        System.out.println("LEGENDA PETA SIM-PLICITY");
+        System.out.println("__ || : Jalan Raya");
+        System.out.println("/\\\\/ : Perempatan");
+        System.out.println("+ : Lahan Kosong");
+        System.out.println("# : Rumah SIM");
+        System.out.println("* (0,0) -> Kiri Atas ");
+        System.out.println("* (64,64) -> Kanan Bawah");
+
         System.out.println("2. Pemain diminta untuk membuat sebuah Sim terlebih dahulu");
         System.out.println("3. Sebuah rumah dengan 1 ruangan berukuran 6x6 akan digenerate setelah SIM dibuat");
         System.out.println("4. Sim akan diletakkan di rumah tersebut dan bebas melakukan aksi apapun");
