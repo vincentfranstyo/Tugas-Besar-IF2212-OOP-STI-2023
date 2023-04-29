@@ -147,7 +147,7 @@ public class World {
         for (int i = 0; i < houseList.size(); i++) {
             int xValue = houseList.get(i).getLocation().getX() * 2;
             int yValue = houseList.get(i).getLocation().getX() * 2;
-            map[yValue][xValue] = "H";
+            map[yValue][xValue] = "#";
         }
 
         for (int i=0; i < map.length; i++){
