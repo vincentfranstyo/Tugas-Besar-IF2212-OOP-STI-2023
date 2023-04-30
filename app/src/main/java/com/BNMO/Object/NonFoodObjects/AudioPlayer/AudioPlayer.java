@@ -19,8 +19,8 @@ public class AudioPlayer extends NonFoodObjects {
     private int battery;
     Clip clip;
 
-    public AudioPlayer(String name, int length, int width, int price) {
-        super(name, length, width, price);
+    public AudioPlayer(String name) {
+        super(name, 2, 2, 300);
         this.battery = 100;
         this.shop = new ArrayList<>();
         this.library = new ArrayList<>();

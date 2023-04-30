@@ -6,8 +6,8 @@ public class Journal extends Book {
     private int countWritten;
     private List<Page> pages;
 
-    public Journal(String title, int price, int numOfPages, String author) {
-        super()
+    public Journal(String title) {
+        super(title);
         this.setType("Journal");
     }
 

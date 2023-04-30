@@ -8,11 +8,11 @@ public class Book extends NonFoodObjects {
     private int numOfPages;
     private String author;
 
-    public Book(String title, int numOfPages, String author) {
+    public Book(String title) {
         super(title, 1, 1, 100);
         this.setType("Book");
-        this.numOfPages = numOfPages;
-        this.author = author;
+        this.numOfPages = 400;
+        this.author = "Rehan";
     }
 
     public int getNumOfPages() {

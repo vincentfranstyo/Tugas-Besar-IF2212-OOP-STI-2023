@@ -77,20 +77,21 @@ public abstract class Object {
         buyableObjects.add(new GasStove("Gas Stove"));
         buyableObjects.add(new ElectricStove("Electric Stove"));
         buyableObjects.add(new TV("TV", new Channel("MTV", 1, "News")));
-        buyableObjects.add(new TableAndChair("TableAndChair"));
+        buyableObjects.add(new TableAndChair("Table And Chair"));
         buyableObjects.add(new Piano("Piano"));
         buyableObjects.add(new Book("Book"));
-        buyableObjects.add("Audio Player");
-        buyableObjects.add("Clock");
-        buyableObjects.add("Journal");
+        buyableObjects.add(new AudioPlayer("Audio Player"));
+        buyableObjects.add(new Clock("Clock"));
+        buyableObjects.add(new Journal("Journal"));
+        buyableObjects.add(new Toilet("Toilet"));
         return buyableObjects;
     }
 
     public static void printBuyableObjects() {
         System.out.println("Buyable objects: ");
         int i = 0;
-        for (String object : getBuyableObjects()) {
-            System.out.println(i + 1 + ". " + object);
+        for (Object object : getBuyableObjects()) {
+            System.out.println(i + 1 + ". " + object.getType());
             i++;
         }
     }

@@ -10,8 +10,8 @@ import java.util.concurrent.atomic.AtomicInteger;
 import java.util.ArrayList;
 import java.util.NoSuchElementException;
 
-import com.BNMO.Object.NonFoodObjects.NonFoodObjects;
 import com.BNMO.Object.Object;
+import com.BNMO.Object.NonFoodObjects.NonFoodObjects;
 import com.BNMO.Object.NonFoodObjects.AudioPlayer.AudioPlayer;
 import com.BNMO.Object.NonFoodObjects.TV.TV;
 import com.BNMO.Object.NonFoodObjects.TableAndChair.TableAndChair;
@@ -592,7 +592,8 @@ public class App {
                             String loweredWantedFurniture = wantedFurniture.toLowerCase().replaceAll("\\s+", "");
 
                             for (int i = 0; i < Object.getBuyableObjects().size(); i++) {
-                                validObjs.add(Object.getBuyableObjects().get(i).toLowerCase().replaceAll("\\s+", ""));
+                                validObjs.add(Object.getBuyableObjects().get(i).getType().toLowerCase()
+                                        .replaceAll("\\s+", ""));
                             }
 
                             while (!validObjs.contains(loweredWantedFurniture)) {
@@ -604,7 +605,7 @@ public class App {
 
                             objIdx = validObjs.indexOf(loweredWantedFurniture);
 
-                            wantedObject = new Object(Object.getBuyableObjects().get(objIdx), "Non Food Objects");
+                            wantedObject = Object.getBuyableObjects().get(objIdx);
                         }
 
                         menu.getCurrentSim().buy(wantedObject);
