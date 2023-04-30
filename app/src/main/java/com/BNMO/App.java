@@ -435,7 +435,7 @@ public class App {
                                 if (menu.getCurrentSim().getCurrentRoom().getLeft() == null)
                                     System.out.println("Left");
                                 System.out.println("Pilih Arah Ruangan yang Akan Dibangun: ");
-                                String choice = userInput.next();
+                                String choice = userInput.nextLine();
                                 System.out.println("Masukkan Nama Ruangan: ");
                                 String roomName = userInput.nextLine();
                                 System.out.println();

@@ -178,13 +178,13 @@ public class World {
         for (int i = 0; i < 5; i++){
             for (int j = 0; j < 5; j++){
                 if (i == 0){
-                    houseLayout.get(i).add("_");
+                    houseLayout.get(i).add("--");
                 }
                 else if (i == 2){
-                    houseLayout.get(i).add("");
+                    houseLayout.get(i).add("  ");
                 }
                 else if (i == 4){
-                    houseLayout.get(i).add("_");
+                    houseLayout.get(i).add("--");
                 }
                 else if (j == 0){
                     houseLayout.get(i).add("|");
@@ -193,7 +193,7 @@ public class World {
                     houseLayout.get(i).add("|");
                 }
                 else{
-                    houseLayout.get(i).add(" ");
+                    houseLayout.get(i).add("   ");
                 }
             }
         } 
@@ -214,27 +214,35 @@ public class World {
                 }
 
                 if(!checker){
-                    int start;
+                    int startY = 0;
+                    int startX = 0;
                     for (int i = 0; i < houseLayout.size(); i++){
-                        if(houseLayout.get(i).contains(currentRoom.getNameRoom())){
-                            start = i;
+                        if(houseLayout.get(i).contains(currentRoom.getFront().getNameRoom())){
+                            for (int j = 0; j < houseLayout.get(i).size(); j++){
+                                if(houseLayout.get(i).get(j).equals(currentRoom.getFront().getNameRoom())){
+                                    startY = i;
+                                    startX = j;
+                                }
+                            }
                         }
                     }
+                    
+
                     for (int i = 0; i < 5; i++){
                         houseLayout.add(new ArrayList<>());
                     }
+
                     yCount = houseLayout.size();
-                    for (int i = yCount - 5; i < yCount; i++){
-                        int xCount = houseLayout.get(i).size();
-                        for (int j = xCount; j < xCount + 5; j++){
+                    for (int i = startY + 3; i < startY + 8; i++){
+                        for (int j = startX; j < startX + 5; j++){
                             if (i % 5 == 0){
-                                houseLayout.get(i).add("_");
+                                houseLayout.get(i).add("--");
                             }
                             else if (i % 5 == 2){
-                                houseLayout.get(i).add("");
+                                houseLayout.get(i).add("  ");
                             }
                             else if (i % 5 == 4){
-                                houseLayout.get(i).add("_");
+                                houseLayout.get(i).add("--");
                             }
                             else if (j % 5 == 0){
                                 houseLayout.get(i).add("|");
@@ -243,12 +251,11 @@ public class World {
                                 houseLayout.get(i).add("|");
                             }
                             else{
-                                houseLayout.get(i).add(" ");
+                                houseLayout.get(i).add("   ");
                             }
                         }
                     } 
-                    int indeks = houseLayout.size();
-                    houseLayout.get(indeks-3).set(0, currentRoom.getNameRoom());
+                    houseLayout.get(startY + 5).set(startX, currentRoom.getNameRoom());
                 }
             }
 
@@ -261,35 +268,80 @@ public class World {
                 }
 
                 if(!checker){
-                    for (int i = 0; i < 5; i++){
-                        houseLayout.add(0,new ArrayList<>());
+                    int startY = 0;
+                    int startX = 0;
+                    for (int i = 0; i < houseLayout.size(); i++){
+                        if(houseLayout.get(i).contains(currentRoom.getBehind().getNameRoom())){
+                            for (int j = 0; j < houseLayout.get(i).size(); j++){
+                                if(houseLayout.get(i).get(j).equals(currentRoom.getBehind().getNameRoom())){
+                                    startY = i;
+                                    startX = j;
+                                }
+                            }
+                        }
                     }
 
                     for (int i = 0; i < 5; i++){
-                        int xCount = houseLayout.get(i).size();
-                        for (int j = xCount; j < xCount + 5; j++){
-                            if (i % 5 == 0){
-                                houseLayout.get(i).add("_");
-                            }
-                            else if (i % 5 == 2){
-                                houseLayout.get(i).add("");
-                            }
-                            else if (i % 5 == 4){
-                                houseLayout.get(i).add("_");
-                            }
-                            else if (j % 5 == 0){
-                                houseLayout.get(i).add("|");
-                            }
-                            else if (j % 5 == 4){
-                                houseLayout.get(i).add("|");
-                            }
-                            else{
-                                houseLayout.get(i).add(" ");
-                            }
+                        if (startY == 2){
+                            houseLayout.add(0,new ArrayList<>());
                         }
-                    } 
-                    houseLayout.get(2).set(0, currentRoom.getNameRoom());
+                        else {
+                            houseLayout.add(startY-7, new ArrayList<>());
+                        }
+                    }
+                    
+                    if (startY == 2){
+                        for (int i = 0; i < 5; i++){
+                            for (int j = startX; j < startX + 5; j++){
+                                if (i % 5 == 0){
+                                    houseLayout.get(i).add("--");
+                                }
+                                else if (i % 5 == 2){
+                                    houseLayout.get(i).add("  ");
+                                }
+                                else if (i % 5 == 4){
+                                    houseLayout.get(i).add("--");
+                                }
+                                else if (j % 5 == 0){
+                                    houseLayout.get(i).add("|");
+                                }
+                                else if (j % 5 == 4){
+                                    houseLayout.get(i).add("|");
+                                }
+                                else{
+                                    houseLayout.get(i).add("   ");
+                                }
+                            }
+                        } 
+                        houseLayout.get(2).set(startX, currentRoom.getNameRoom());
+                    }
+                    else {
+                        for (int i = startY - 7; i < startY - 2; i++){
+                            for (int j = startX; j < startX + 5; j++){
+                                if (i % 5 == 0){
+                                    houseLayout.get(i).add("--");
+                                }
+                                else if (i % 5 == 2){
+                                    houseLayout.get(i).add("  ");
+                                }
+                                else if (i % 5 == 4){
+                                    houseLayout.get(i).add("--");
+                                }
+                                else if (j % 5 == 0){
+                                    houseLayout.get(i).add("|");
+                                }
+                                else if (j % 5 == 4){
+                                    houseLayout.get(i).add("|");
+                                }
+                                else{
+                                    houseLayout.get(i).add("   ");
+                                }
+                            }
+                        } 
+                        houseLayout.get(startY - 5).set(startX, currentRoom.getNameRoom());
+                    }
                 }
+                    
             }
 
             if (currentRoom.getLeft() != null){
@@ -301,33 +353,59 @@ public class World {
                 }
 
                 if(!checker){
-                    yCount = houseLayout.size();
-                    for (int i = yCount - 5; i < yCount; i++){
-                        int xCount = houseLayout.get(i).size();
-                        for (int j = xCount; j < xCount + 5; j++){
-                            if (i % 5 == 0){
-                                houseLayout.get(i).add("_");
-                            }
-                            else if (i % 5 == 2){
-                                houseLayout.get(i).add("");
-                            }
-                            else if (i % 5 == 4){
-                                houseLayout.get(i).add("_");
-                            }
-                            else if (j % 5 == 0){
-                                houseLayout.get(i).add("|");
-                            }
-                            else if (j % 5 == 4){
-                                houseLayout.get(i).add("|");
-                            }
-                            else{
-                                houseLayout.get(i).add(" ");
+                    int startY = 0;
+                    int startX = 0;
+                    for (int i = 0; i < houseLayout.size(); i++){
+                        if(houseLayout.get(i).contains(currentRoom.getLeft().getNameRoom())){
+                            for (int j = 0; j < houseLayout.get(i).size(); j++){
+                                if(houseLayout.get(i).get(j).equals(currentRoom.getLeft().getNameRoom())){
+                                    startY = i;
+                                    startX = j;
+                                }
                             }
                         }
+                    }
+
+                    int tempYlower = startY - 2;
+                    int tempYupper = startY + 3;
+
+                    for (int i = 0; i < houseLayout.size(); i++){
+                        if ((i >= (tempYlower)) && (i < tempYupper)){
+                            for (int j = startX + 5; j < startX + 10; j++){
+                                if (i % 5 == 0){
+                                    houseLayout.get(i).add("--");
+                                }
+                                else if (i % 5 == 2){
+                                    houseLayout.get(i).add("  ");
+                                }
+                                else if (i % 5 == 4){
+                                    houseLayout.get(i).add("--");
+                                }
+                                else if (j % 5 == 0){
+                                    houseLayout.get(i).add("|");
+                                }
+                                else if (j % 5 == 4){
+                                    houseLayout.get(i).add("|");
+                                }
+                                else{
+                                    houseLayout.get(i).add("   ");
+                                }
+                            }
+                        }
+                        else{
+                            try {
+                                String temp = houseLayout.get(i).get(startX+5);
+                            }
+                            catch (IndexOutOfBoundsException e) {
+                                for (int j = startX + 5; j < startX + 10; j++){
+                                    houseLayout.get(i).add("  ");
+                                }
+                            }
+                            
+                            
+                        }
                     } 
-                    int indeks = houseLayout.size();
-                    int indekx = houseLayout.get(indeks-1).size();
-                    houseLayout.get(indeks-3).set(indekx-5, currentRoom.getNameRoom());
+                    houseLayout.get(startY).set(startX+5, currentRoom.getNameRoom());
                 }
             }
 
@@ -340,32 +418,103 @@ public class World {
                 }
 
                 if(!checker){
-                    yCount = houseLayout.size();
-                    for (int i = yCount - 5; i < yCount; i++){
-                        int xCount = houseLayout.get(i).size();
-                        for (int j = 0; j < 5; j++){
-                            if (i % 5 == 0){
-                                houseLayout.get(i).add(j,"_");
-                            }
-                            else if (i % 5 == 2){
-                                houseLayout.get(i).add(j,"");
-                            }
-                            else if (i % 5 == 4){
-                                houseLayout.get(i).add(j,"_");
-                            }
-                            else if (j % 5 == 0){
-                                houseLayout.get(i).add(j,"|");
-                            }
-                            else if (j % 5 == 4){
-                                houseLayout.get(i).add(j,"|");
-                            }
-                            else{
-                                houseLayout.get(i).add(j," ");
+                    int startY = 0;
+                    int startX = 0;
+                    for (int i = 0; i < houseLayout.size(); i++){
+                        if(houseLayout.get(i).contains(currentRoom.getRight().getNameRoom())){
+                            for (int j = 0; j < houseLayout.get(i).size(); j++){
+                                if(houseLayout.get(i).get(j).equals(currentRoom.getRight().getNameRoom())){
+                                    startY = i;
+                                    startX = j;
+                                }
                             }
                         }
-                    } 
-                    int indeks = houseLayout.size();
-                    houseLayout.get(indeks-3).set(0, currentRoom.getNameRoom());
+                    }
+                    if (startX == 0){
+                        int tempYlower = startY - 2;
+                        int tempYupper = startY + 3;
+
+                        for (int i = 0; i < houseLayout.size(); i++){
+                            if ((i >= (tempYlower)) && (i < tempYupper)){
+                                for (int j = 0; j < 5; j++){
+                                    if (i % 5 == 0){
+                                        houseLayout.get(i).add(j,"---");
+                                    }
+                                    else if (i % 5 == 2){
+                                        houseLayout.get(i).add(j," ");
+                                    }
+                                    else if (i % 5 == 4){
+                                        houseLayout.get(i).add(j,"---");
+                                    }
+                                    else if (j % 5 == 0){
+                                        houseLayout.get(i).add(j,"|");
+                                    }
+                                    else if (j % 5 == 4){
+                                        houseLayout.get(i).add(j,"|");
+                                    }
+                                    else{
+                                        houseLayout.get(i).add(j,"   ");
+                                    }
+                                }
+                            }
+                            else{
+                                try {
+                                    String temp = houseLayout.get(i).get(startX-5);
+                                }
+                                catch (IndexOutOfBoundsException e) {
+                                    for (int j = 0; j < 5; j++){
+                                        houseLayout.get(i).add(j,"  ");
+                                    }
+                                }
+                                
+                            }
+                        } 
+                        
+                        houseLayout.get(startY).set(0, currentRoom.getNameRoom());
+                    }
+                    else {
+                        int tempYlower = startY - 2;
+                        int tempYupper = startY + 3;
+
+                        for (int i = 0; i < houseLayout.size(); i++){
+                            if ((i >= (tempYlower)) && (i < tempYupper)){
+                                for (int j = startX - 5; j < startX; j++){
+                                    if (i % 5 == 0){
+                                        houseLayout.get(i).add(j,"---");
+                                    }
+                                    else if (i % 5 == 2){
+                                        houseLayout.get(i).add(j," ");
+                                    }
+                                    else if (i % 5 == 4){
+                                        houseLayout.get(i).add(j,"---");
+                                    }
+                                    else if (j % 5 == 0){
+                                        houseLayout.get(i).add(j,"|");
+                                    }
+                                    else if (j % 5 == 4){
+                                        houseLayout.get(i).add(j,"|");
+                                    }
+                                    else{
+                                        houseLayout.get(i).add(j,"   ");
+                                    }
+                                }
+                            }
+                            else{
+                                try {
+                                    String temp = houseLayout.get(i).get(startX-5);
+                                }
+                                catch (IndexOutOfBoundsException e) {
+                                    for (int j = 0; j < 5; j++){
+                                        houseLayout.get(i).add(j,"  ");
+                                    }
+                                }
+                                
+                            }
+                        } 
+                        
+                        houseLayout.get(startY).set(startX-5, currentRoom.getNameRoom());
+                    }
+                    
                 }
             }
             
