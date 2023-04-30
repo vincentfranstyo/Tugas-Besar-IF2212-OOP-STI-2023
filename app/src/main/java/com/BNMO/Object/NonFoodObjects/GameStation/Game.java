@@ -1,9 +1,11 @@
+package com.BNMO.Object.NonFoodObjects.GameStation;
+
 public class Game {
     private String name;
     private int gameID;
     private int funPoint;
 
-    public Game (String name, int gameID, int funPoint) {
+    public Game(String name, int gameID, int funPoint) {
         this.name = name;
         this.gameID = gameID;
         this.funPoint = funPoint;
@@ -32,5 +34,5 @@ public class Game {
     public void setFunPoint(int funPoint) {
         this.funPoint = funPoint;
     }
-    
+
 }
