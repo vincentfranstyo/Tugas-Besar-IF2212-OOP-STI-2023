@@ -11,6 +11,7 @@ import java.util.ArrayList;
 import java.util.NoSuchElementException;
 
 import com.BNMO.Object.NonFoodObjects.NonFoodObjects;
+import com.BNMO.Object.Object;
 import com.BNMO.Object.NonFoodObjects.AudioPlayer.AudioPlayer;
 import com.BNMO.Object.NonFoodObjects.TV.TV;
 import com.BNMO.Object.NonFoodObjects.TableAndChair.TableAndChair;
@@ -434,7 +435,8 @@ public class App {
                             Dishes toBeCooked = new Dishes(Food.getDishes().get(dishIndex));
                             boolean cancelCook = false;
 
-                            while (!toBeCooked.checkIngredients(menu.getCurrentSim()) && !cancelCook) {
+                            // TODO TobeChecked again
+                            do {
                                 while (!validDishes.contains(loweredDish) && !cancelCook) {
                                     System.out.println("Masukkan makanan yang valid!");
                                     dishName = userInput.nextLine();
@@ -456,8 +458,8 @@ public class App {
                                 } else {
                                     toBeCooked = new Dishes(Food.getDishes().get(dishIndex));
                                 }
+                            } while (!toBeCooked.checkIngredients(menu.getCurrentSim()) && !cancelCook);
 
-                            }
                             if (!cancelCook) {
                                 timeThread.start();
                                 stoveValidator.cookDish(menu.getCurrentSim(), toBeCooked);
@@ -466,7 +468,10 @@ public class App {
                             }
                         }
                     } else if (activityNum == 6) {
+                        System.out.println("Kamu memilih untuk berkunjung!");
+                        // TODO visit
                     } else if (activityNum == 7) {
+                        System.out.println("Kamu memilih untuk buang air!");
                     } else if (activityNum == 8) {
                         System.out.println();
                         System.out.println("Pilihan Update:");
@@ -523,6 +528,104 @@ public class App {
                         } else if (numUpHouseInt == 4) {
                             // TODO delete object in current room and add to inventory owner
                         }
+                    } else if (activityNum == 9) {
+                        System.out.println();
+                        System.out.println("Berikut adalah kategori barang yang bisa kamu beli!");
+                        System.out.println("[1] Makanan");
+                        System.out.println("[2] Furnitur");
+
+                        System.out.print("Masukkan pilihan (dalam angka): ");
+                        String numBuy = userInput.nextLine();
+                        int numBuyInt;
+                        while (true) {
+                            try {
+                                numBuyInt = Integer.parseInt(numBuy);
+                                if (numBuyInt != 1 && numBuyInt != 2) {
+                                    System.out.println("Masukan harus dalam bentuk angka 1 atau 2!");
+                                    System.out.println("Masukkan pilihan (dalam angka): ");
+                                    numBuy = userInput.nextLine();
+                                }
+                                break;
+                            } catch (NumberFormatException e) {
+                                System.out.println("Masukan harus dalam bentuk angka!");
+                                System.out.println("Masukkan pilihan (dalam angka): ");
+                                numBuy = userInput.nextLine();
+                            }
+                        }
+
+                        ArrayList<String> validObjs = new ArrayList<String>();
+                        int objIdx;
+                        Object wantedObject = null;
+
+                        if (numBuyInt == 1) {
+                            System.out.println("Berikut adalah makanan yang bisa kamu beli!");
+                            Food.printIngredients();
+                            System.out.println();
+
+                            System.out.print("Masukkan nama makanan yang ingin kamu beli: ");
+
+                            String wantedFood = userInput.nextLine();
+                            String loweredWantedFood = wantedFood.toLowerCase().replaceAll("\\s+", "");
+
+                            for (int i = 0; i < Food.getIngredientList().size(); i++) {
+                                validObjs.add(Food.getIngredientList().get(i).toLowerCase().replaceAll("\\s+", ""));
+                            }
+
+                            while (!validObjs.contains(loweredWantedFood)) {
+                                System.out.println("Makanan tidak ditemukan!");
+                                System.out.print("Masukkan nama makanan yang ingin kamu beli: ");
+                                wantedFood = userInput.nextLine();
+                                loweredWantedFood = wantedFood.toLowerCase().replaceAll("\\s+", "");
+                            }
+
+                            objIdx = validObjs.indexOf(loweredWantedFood);
+
+                            wantedObject = new Ingredients(Food.getIngredientList().get(objIdx));
+                        } else if (numBuyInt == 2) {
+                            System.out.println("Berikut adalah furnitur yang bisa kamu beli!");
+                            Object.printBuyableObjects();
+                            System.out.println();
+
+                            System.out.print("Masukkan nama furnitur yang ingin kamu beli: ");
+
+                            String wantedFurniture = userInput.nextLine();
+                            String loweredWantedFurniture = wantedFurniture.toLowerCase().replaceAll("\\s+", "");
+
+                            for (int i = 0; i < Object.getBuyableObjects().size(); i++) {
+                                validObjs.add(Object.getBuyableObjects().get(i).toLowerCase().replaceAll("\\s+", ""));
+                            }
+
+                            while (!validObjs.contains(loweredWantedFurniture)) {
+                                System.out.println("Furnitur tidak ditemukan!");
+                                System.out.print("Masukkan nama furnitur yang ingin kamu beli: ");
+                                wantedFurniture = userInput.nextLine();
+                                loweredWantedFurniture = wantedFurniture.toLowerCase().replaceAll("\\s+", "");
+                            }
+
+                            objIdx = validObjs.indexOf(loweredWantedFurniture);
+
+                            wantedObject = new Object(Object.getBuyableObjects().get(objIdx), "Non Food Objects");
+                        }
+
+                        menu.getCurrentSim().buy(wantedObject);
+
+                        System.out.println();
+                    } else if (activityNum == 10) {
+
+                    } else if (activityNum == 11) {
+
+                    } else if (activityNum == 12) {
+
+                    } else if (activityNum == 13) {
+
+                    } else if (activityNum == 14) {
+
+                    } else if (activityNum == 15) {
+
+                    } else if (activityNum == 16) {
+
+                    } else if (activityNum == 17) {
+
                     }
                 } else if (commandNum == 9) {
                     System.out.println();
@@ -577,7 +680,9 @@ public class App {
             userInput.close();
             System.exit(0);
 
-        } else {
+        } else
+
+        {
             System.out.println("Terima kasih telah bermain!");
         }
     }

@@ -7,7 +7,7 @@ public class Journal extends Book {
     private List<Page> pages;
 
     public Journal(String title, int price, int numOfPages, String author) {
-        super(title, price, numOfPages, author);
+        super()
         this.setType("Journal");
     }
 
