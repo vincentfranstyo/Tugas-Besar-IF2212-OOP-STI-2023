@@ -85,18 +85,27 @@ public class House {
             System.out.println("Tidak Bisa Menambah Ruangan Pada Rumah Orang Lain!");
         }
     }
-    public void deleteRoom(Room delRoom) {
-        if (rooms.contains(delRoom)) {
-            rooms.remove(delRoom);
-            totalRoom--;
-            Iterator<Object> objectsRoom = delRoom.getObjects();
-            // Memindahkan semua object yang ada di dalam room ke dalam inventory
-            while (objectsRoom.hasNext()) {
-                owner.getInventory().addObject(objectsRoom.next());
+    public void deleteRoom(Sim sim, Room delRoom) {
+        if(sim.getName().equals(owner.getName())){
+            if (rooms.contains(delRoom)) {
+                rooms.remove(delRoom);
+                if(delRoom.getFront() != null) delRoom.getFront().setBehind(null);
+                if(delRoom.getBehind() != null) delRoom.getBehind().setFront(null);
+                if(delRoom.getLeft() != null) delRoom.getLeft().setRight(null);
+                if(delRoom.getRight() != null) delRoom.getRight().setLeft(null);
+                totalRoom--;
+                Iterator<Object> objectsRoom = delRoom.getObjects();
+                // Memindahkan semua object yang ada di dalam room ke dalam inventory
+                while (objectsRoom.hasNext()) {
+                    owner.getInventory().addObject(objectsRoom.next());
+                }
+                System.out.println("Room " + delRoom.getNameRoom() + " Berhasil di Delete dari Rumah " + owner.getName());
+            } else {
+                System.out.println("Tidak Ada Room " + delRoom.getNameRoom() + " Pada Rumah " + owner.getName());
             }
-            System.out.println("Room " + delRoom.getNameRoom() + " Berhasil di Delete dari Rumah " + owner.getName());
-        } else {
-            System.out.println("Tidak Ada Room " + delRoom.getNameRoom() + " Pada Rumah " + owner.getName());
+        }
+        else{
+            System.out.println("Tidak Bisa Menghapus Ruangan Pada Rumah Orang Lain!");
         }
     }
 

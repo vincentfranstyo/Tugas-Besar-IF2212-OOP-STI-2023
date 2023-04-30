@@ -91,7 +91,14 @@ public class Room {
     }
     public void removeObject(Object o, Point Loc, Sim owner){
         if(objects.contains(o)){
-            ((NonFoodObjects) o).setPosition(null);;
+            ((NonFoodObjects) o).setPosition(null);
+            for(int i=0; i<6; i++){
+                for(int j=0; j<6; j++){
+                    if(mapObj[i][j] == o){
+                        mapObj[i][j] = null;
+                    }
+                }
+            }
             owner.getInventory().addObject(o);
             objects.remove(o);
             this.totalObject--;
@@ -165,13 +172,44 @@ public class Room {
     public int getLength(){
         return length;
     }
+    public void printObjRoom(){
+        char[][] por = new char[6][6];
+        Iterator<Object> itr = getObjects();
+        for(int i=0; i<6; i++){
+            for(int j=0; j<6; j++){
+                if(mapObj[i][j] != null){
+                    por[i][j] = '.';
+                }
+                else{
+                    por[i][j] = ' ';
+                }
+            }
+        }
+        while(itr.hasNext()){
+            Object o = itr.next();
+            por[((NonFoodObjects)o).getPosition().getX()-1][((NonFoodObjects)o).getPosition().getY()-1] = o.getName().charAt(0);
+        }
+        // System.out.println("|------|");
+        for(int y=5; y>-1; y--){
+            System.out.print("|");
+            for(int x=0; x<6; x++){
+                System.out.print(por[x][y]);
+                if(x != 5) System.out.print(" ");
+            }
+            System.out.print("|\n");
+        }
+        // System.out.println("|------|");
+        
+    }
     // public static void main(String[] args) {
+    //     Sim B = new Sim("rei");
     //     Room A = new Room("Main Room", null, null, null, null);
-    //     Object mattress = new SingleBed("Single Bed", null);
-    //     Object toilet = new Toilet("WC", null);
-    //     Object tablenchair = new TableAndChair("Table and Chair", null);
-    //     A.addObject(mattress, new Point(1,1));
-    //     A.addObject(toilet, new Point(6,6));
-    //     A.addObject(tablenchair, new Point(4,1));
+    //     Object mattress = new SingleBed("Single Bed");
+    //     Object toilet = new Toilet("WC");
+    //     Object tablenchair = new TableAndChair("Table and Chair");
+    //     A.addObject(mattress, new Point(1,1), "horizontal");
+    //     A.addObject(toilet, new Point(6,6), "horizontal");
+    //     A.addObject(tablenchair, new Point(1,3), "horizontal");
+    //     A.printObjRoom();
     // }
 }

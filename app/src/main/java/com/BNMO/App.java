@@ -5,8 +5,10 @@ package com.BNMO;
 
 import java.util.Scanner;
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.NoSuchElementException;
 
+import com.BNMO.Object.Object;
 import com.BNMO.Object.NonFoodObjects.NonFoodObjects;
 import com.BNMO.Object.NonFoodObjects.AudioPlayer.AudioPlayer;
 import com.BNMO.Object.NonFoodObjects.TV.TV;
@@ -129,27 +131,32 @@ public class App {
                 }
 
                 if (commandNum == 1) {
+                    // HELP
                     System.out.println();
                     System.out.println("Kamu memanggil help!");
                     menu.help();
                     System.out.println();
                 } else if (commandNum == 2) {
+                    // INFO SIM
                     System.out.println();
                     System.out.println("Berikut adalah info sim kamu:");
                     menu.viewSimInfo();
                     System.out.println();
                 } else if (commandNum == 3) {
+                    // INFO RUMAH
                     System.out.println();
                     System.out.println("Berikut adalah info rumah kamu:");
                     menu.getCurrentSim().getCurrentHouse().printRooms();
                     // TODO CLI layout
                     System.out.println();
                 } else if (commandNum == 4) {
+                    // MAP
                     System.out.println();
                     System.out.println("Berikut adalah Map:");
                     // TODO info dunia + layout
                     world.printMap();
                 } else if (commandNum == 5) {
+                    // Create New SIM
                     System.out.println();
                     System.out.println("Masukkan nama sim yang ingin kamu tambahkan: ");
                     String newSimName = userInput.nextLine();
@@ -157,6 +164,7 @@ public class App {
                     menu.viewSimList();
                     System.out.println();
                 } else if (commandNum == 6) {
+                    // Change SIM
                     System.out.println();
                     System.out.println("Masukkan nama sim yang ingin kamu mainkan: ");
                     String wantedSim = userInput.nextLine();
@@ -164,7 +172,12 @@ public class App {
                     System.out.println();
                 }
 
-                else if (commandNum == 7) {
+                else if (commandNum == 7){
+                    // Change JOB
+                }
+
+                else if (commandNum == 8) {
+                    // DO Activity
                     System.out.println();
                     System.out.println("Berikut adalah aktivitas-aktivitas yang bisa kamu lakukan!");
                     System.out.println("[1] Makan");
@@ -265,7 +278,7 @@ public class App {
                     }
                 }
 
-                else if (commandNum == 8) {
+                else if (commandNum == 9) {
                     System.out.println();
                     System.out.println("Pilihan Update:");
                     System.out.println("[1] Menambah Ruangan");
@@ -287,24 +300,79 @@ public class App {
                             if(menu.getCurrentSim().getCurrentRoom().getBehind() == null) System.out.println("Behind");
                             if(menu.getCurrentSim().getCurrentRoom().getLeft() == null) System.out.println("Left");                
                             System.out.println("Pilih Arah Ruangan yang Akan Dibangun: ");
-                            String choice = userInput.next();
+                            String choice = userInput.nextLine();
                             System.out.println("Masukkan Nama Ruangan: ");
-                            String roomName = userInput.next();
+                            String roomName = userInput.nextLine();
                             System.out.println();
-                            menu.getCurrentSim().getCurrentHouse().addRoom(initSim, menu.getCurrentSim().getCurrentRoom(), roomName, choice);
+                            menu.getCurrentSim().getCurrentHouse().addRoom(menu.getCurrentSim(), menu.getCurrentSim().getCurrentRoom(), roomName, choice);
                         }
                     }
                     else if(numUpHouse == 2){
                         // TODO Delete Current Room (Room pada house Hanya bisa di delete jika lebih dari 1) & move ke some room pada house
+                        menu.getCurrentSim().getCurrentHouse().deleteRoom(menu.getCurrentSim(), menu.getCurrentSim().getCurrentRoom());
                     }
                     else if(numUpHouse == 3){
-                        // TODO add object in current room 
+                        // TODO add object in current room
+                        System.out.println("Object Dalam Inventory Yang Dapat Ditambahkan Pada Ruangan:");
+                        int i=1;
+                        Iterator<Object> itr = menu.getCurrentSim().getInventory().getObjects().iterator();
+                        while(itr.hasNext()){
+                            Object o = itr.next();
+                            if(o instanceof NonFoodObjects){
+                                System.out.println("["+i+"] " + o.getName());
+                                i++;
+                            }
+                        }
+                        int choice = userInput.nextInt();
+                        itr = menu.getCurrentSim().getInventory().getObjects().iterator();
+                        Object objAdd = null;
+                        i = 1;
+                        while(itr.hasNext()){
+                            Object o = itr.next();
+                            if(o instanceof NonFoodObjects){
+                                if(i == choice){
+                                    objAdd = o;
+                                }
+                                else{
+                                    i++;
+                                }
+                            }
+                        }
+                        if(objAdd != null){
+                            menu.getCurrentSim().getInventory().removeObject(objAdd.getName());
+                            System.out.print("Masukkan Lokasi Object Pada Ruangan 6x6:");
+                            int x = userInput.nextInt(), y = userInput.nextInt();
+                            System.out.print("Masukkan Arah Object Pada Ruangan (Vertikal/Horizontal): ");
+                            String direction = userInput.nextLine();
+                            System.out.println();
+                            menu.getCurrentSim().getCurrentRoom().addObject(objAdd, new Point(x, y), direction);
+                        }
                     }
                     else if(numUpHouse == 4){
                         // TODO delete object in current room and add to inventory owner
+                        Iterator<Object> itr = menu.getCurrentSim().getCurrentRoom().getObjects();
+                        System.out.println("Object Pada Ruangan Yang Dapat Dihapus:");
+                        int i = 1;
+                        while(itr.hasNext()){
+                            System.out.println("["+i+"] "+itr.next().getName());
+                        }
+                        System.out.print("\nMasukkan Angka Object Yang Ingin Dihapus: ");
+                        int choice = userInput.nextInt();
+                        i = 1;
+                        itr = menu.getCurrentSim().getCurrentRoom().getObjects();
+                        Object objRemove = null;
+                        while(itr.hasNext()){
+                            if(i==choice){
+                                objRemove = itr.next();
+                            }
+                        }
+                        if(objRemove != null){
+                            menu.getCurrentSim().getCurrentRoom().removeObject(objRemove, ((NonFoodObjects)objRemove).getPosition(), menu.getCurrentSim());
+                            System.out.println("Object "+objRemove.getName()+" Berhasil Dihapus Dari Ruangan" );
+                        }
                     }
 
-                } else if (commandNum == 9) {
+                } else if (commandNum == 10) {
                     System.out.println();
                     System.out.println("Berikut adalah barang-barang yang bisa kamu beli!");
                     System.out.println("Masukkan barang yang ingin kamu beli!");
@@ -317,7 +385,7 @@ public class App {
                     menu.getCurrentSim().buy(wantedItem);
                 }
 
-                else if (commandNum == 10) {
+                else if (commandNum == 11) {
                     // menu.getCurrentSim().getInventory()
                     // .addObject(new Book("BukuUwu", 1000, 5, "Meemaw"));
                     // menu.getCurrentSim().getInventory()
@@ -333,7 +401,7 @@ public class App {
                     System.out.println();
                 }
 
-                else if (commandNum == 11) {
+                else if (commandNum == 12) {
                     menu.exit();
                     break;
                 }
