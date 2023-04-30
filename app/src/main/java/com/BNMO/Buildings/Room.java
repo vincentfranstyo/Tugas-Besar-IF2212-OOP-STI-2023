@@ -18,7 +18,8 @@ public class Room {
     private int totalObject;
     private Object[][] mapObj;
     private static int price = 1500;
-    public Room(String nRoom, Room front, Room right, Room behind, Room left){
+
+    public Room(String nRoom, Room front, Room right, Room behind, Room left) {
         this.nameRoom = nRoom;
         this.front = front;
         this.right = right;
@@ -28,15 +29,15 @@ public class Room {
         this.mapObj = new Object[6][6];
         this.totalObject = 0;
     }
-    private boolean availableLoc(Point Loc, int width, int length){
-        if((Loc.getX() < 1 && (Loc.getX()+length > 7)) || (Loc.getY() < 1 && (Loc.getY()+width > 7))){
+
+    private boolean availableLoc(Point Loc, int width, int length) {
+        if ((Loc.getX() < 1 && (Loc.getX() + length > 7)) || (Loc.getY() < 1 && (Loc.getY() + width > 7))) {
             return false;
-        }
-        else{
+        } else {
             boolean available = true;
-            for(int i=Loc.getX(); i<length+Loc.getX(); i++){
-                for(int j=Loc.getY(); j<width+Loc.getY(); j++){
-                    if(mapObj[i-1][j-1] != null){
+            for (int i = Loc.getX(); i < length + Loc.getX(); i++) {
+                for (int j = Loc.getY(); j < width + Loc.getY(); j++) {
+                    if (mapObj[i - 1][j - 1] != null) {
                         available = false;
                         break;
                     }
@@ -45,60 +46,54 @@ public class Room {
             return available;
         }
     }
-    public void addObject(Object o, Point loc, String direction){
+
+    public void addObject(Object o, Point loc, String direction) {
         // Cek location yang diinput, location merupakan titik kiri atas dari object
-        if(o instanceof NonFoodObjects){
-            if(direction.toLowerCase().equals("horizontal")){
-                while(!availableLoc(loc, ((NonFoodObjects) o).getWidth(), ((NonFoodObjects) o).getLength())){
+        if (o instanceof NonFoodObjects) {
+            if (direction.toLowerCase().equals("horizontal")) {
+                while (!availableLoc(loc, ((NonFoodObjects) o).getWidth(), ((NonFoodObjects) o).getLength())) {
                     System.out.print("Location Not Available, Please Input Location Object Again: ");
                     Scanner sc = new Scanner(System.in);
                     try {
-                        loc.setX(sc.nextInt()); loc.setY(sc.nextInt());
-                    } catch (NoSuchElementException e){
+                        loc.setX(sc.nextInt());
+                        loc.setY(sc.nextInt());
+                    } catch (NoSuchElementException e) {
                         sc.close();
                     }
                 }
                 ((NonFoodObjects) o).setPosition(loc);
-                for(int i=loc.getX(); i<loc.getX()+((NonFoodObjects) o).getLength(); i++){
-                    for(int j=loc.getY(); j<loc.getY()+((NonFoodObjects) o).getWidth(); j++){
-                        setMapObj(i-1, j-1, o);
+                for (int i = loc.getX(); i < loc.getX() + ((NonFoodObjects) o).getLength(); i++) {
+                    for (int j = loc.getY(); j < loc.getY() + ((NonFoodObjects) o).getWidth(); j++) {
+                        setMapObj(i - 1, j - 1, o);
                     }
                 }
-            }
-            else if(direction.toLowerCase().equals("vertikal")){
-                while(!availableLoc(loc, ((NonFoodObjects) o).getLength(), ((NonFoodObjects) o).getWidth())){
+            } else if (direction.toLowerCase().equals("vertikal")) {
+                while (!availableLoc(loc, ((NonFoodObjects) o).getLength(), ((NonFoodObjects) o).getWidth())) {
                     System.out.print("Location Not Available, Please Input Location Object Again: ");
                     Scanner sc = new Scanner(System.in);
                     try {
-                        loc.setX(sc.nextInt()); loc.setY(sc.nextInt());
-                    } catch (NoSuchElementException e){
+                        loc.setX(sc.nextInt());
+                        loc.setY(sc.nextInt());
+                    } catch (NoSuchElementException e) {
                         sc.close();
                     }
                 }
                 ((NonFoodObjects) o).setPosition(loc);
-                for(int i=loc.getX(); i<loc.getX()+((NonFoodObjects) o).getWidth(); i++){
-                    for(int j=loc.getY(); j<loc.getY()+((NonFoodObjects) o).getLength(); j++){
-                        setMapObj(i-1, j-1, o);
+                for (int i = loc.getX(); i < loc.getX() + ((NonFoodObjects) o).getWidth(); i++) {
+                    for (int j = loc.getY(); j < loc.getY() + ((NonFoodObjects) o).getLength(); j++) {
+                        setMapObj(i - 1, j - 1, o);
                     }
                 }
             }
             this.objects.add(totalObject, o);
             this.totalObject++;
-        }
-        else{
+        } else {
             System.out.println("Object Tersebut Tidak Dapat Diletakkan Pada Ruangan");
         }
     }
     public void removeObject(Object o, Point Loc, Sim owner){
         if(objects.contains(o)){
-            ((NonFoodObjects) o).setPosition(null);
-            for(int i=0; i<6; i++){
-                for(int j=0; j<6; j++){
-                    if(mapObj[i][j] == o){
-                        mapObj[i][j] = null;
-                    }
-                }
-            }
+            ((NonFoodObjects) o).setPosition(null);;
             owner.getInventory().addObject(o);
             objects.remove(o);
             this.totalObject--;
@@ -154,22 +149,28 @@ public class Room {
     public int getTotalObject() {
         return totalObject;
     }
-    public static int getPrice(){
+
+    public static int getPrice() {
         return price;
     }
-    public void setMapObj(int x, int y, Object o){
+
+    public void setMapObj(int x, int y, Object o) {
         this.mapObj[x][y] = o;
     }
-    public Object getObjFromMap(int x, int y){
+
+    public Object getObjFromMap(int x, int y) {
         return mapObj[x][y];
     }
-    public Object[][] getMapObj(){
+
+    public Object[][] getMapObj() {
         return mapObj;
     }
-    public int getWidth(){
+
+    public int getWidth() {
         return width;
     }
-    public int getLength(){
+
+    public int getLength() {
         return length;
     }
     public void printObjRoom(){
@@ -202,14 +203,12 @@ public class Room {
         
     }
     // public static void main(String[] args) {
-    //     Sim B = new Sim("rei");
     //     Room A = new Room("Main Room", null, null, null, null);
-    //     Object mattress = new SingleBed("Single Bed");
-    //     Object toilet = new Toilet("WC");
-    //     Object tablenchair = new TableAndChair("Table and Chair");
-    //     A.addObject(mattress, new Point(1,1), "horizontal");
-    //     A.addObject(toilet, new Point(6,6), "horizontal");
-    //     A.addObject(tablenchair, new Point(1,3), "horizontal");
-    //     A.printObjRoom();
+    //     Object mattress = new SingleBed("Single Bed", null);
+    //     Object toilet = new Toilet("WC", null);
+    //     Object tablenchair = new TableAndChair("Table and Chair", null);
+    //     A.addObject(mattress, new Point(1,1));
+    //     A.addObject(toilet, new Point(6,6));
+    //     A.addObject(tablenchair, new Point(4,1));
     // }
 }

@@ -24,9 +24,10 @@ public class TableAndChair extends NonFoodObjects {
                         setIsOccupied(true);
                         sim.setStatus("Is eating");
                         System.out.println(sim.getName() + " are eating " + dish.getName());
-                        sim.setFullness(sim.getFullness() + (dish.getSatiety() * (duration / 30)));
                         sim.getInventory().removeObject(dish.getName());
                         Thread.sleep(duration * 1000);
+                        System.out.println(sim.getName() + " are done eating " + dish.getName());
+                        sim.setFullness(sim.getFullness() + (dish.getSatiety() * (duration / 30)));
                     } else {
                         System.out.println("You don't have " + dish.getName() + " in your inventory.");
                     }
@@ -54,9 +55,10 @@ public class TableAndChair extends NonFoodObjects {
                         setIsOccupied(true);
                         sim.setStatus("Is eating");
                         System.out.println(sim.getName() + " are eating " + ing.getName());
-                        sim.setFullness(sim.getFullness() + (ing.getSatiety() * (duration / 30)));
                         sim.getInventory().removeObject(ing.getName());
                         Thread.sleep(duration * 1000);
+                        System.out.println(sim.getName() + " are done eating " + ing.getName());
+                        sim.setFullness(sim.getFullness() + (ing.getSatiety() * (duration / 30)));
                     } else {
                         System.out.println("You don't have " + ing.getName() + " in your inventory.");
                     }

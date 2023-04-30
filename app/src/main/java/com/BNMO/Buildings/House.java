@@ -28,60 +28,55 @@ public class House {
         this.initRoom.addObject(new Toilet("Toilet 1"), new Point(6, 1), "horizontal");
         this.initRoom.addObject(new GasStove("Kompor Gas 1"), new Point(1, 6), "horizontal");
         this.initRoom.addObject(new TableAndChair("Meja Makan 1"), new Point(1, 3), "horizontal");
-        this.initRoom.addObject(new Clock("Jam 1", null), new Point(5, 1), "horizontal");
+        this.initRoom.addObject(new Clock("Jam 1"), new Point(5, 1), "horizontal");
         this.initRoom.addObject(new SingleBed("Kasur 1"), new Point(6, 3), "vertikal");
     }
-    public void addRoom(Sim sim, Room curRoom, String rName, String direction){
-        if(sim.getName().equals(owner.getName())){
-            if(sim.getMoney() >= Room.getPrice()){
+
+    public void addRoom(Sim sim, Room curRoom, String rName, String direction) {
+        if (sim.getName().equals(owner.getName())) {
+            if (sim.getMoney() >= Room.getPrice()) {
                 Room newRoom = new Room(rName, null, null, null, null);
                 boolean valid = true;
-                if(direction.toLowerCase().equals("front")){
+                if (direction.toLowerCase().equals("front")) {
                     newRoom.setBehind(curRoom);
                     curRoom.setFront(newRoom);
-                }
-                else if(direction.toLowerCase().equals("right")){
+                } else if (direction.toLowerCase().equals("right")) {
                     newRoom.setLeft(curRoom);
                     curRoom.setRight(newRoom);
-                }
-                else if(direction.toLowerCase().equals("behind")){
+                } else if (direction.toLowerCase().equals("behind")) {
                     newRoom.setFront(curRoom);
                     curRoom.setBehind(newRoom);
-                }
-                else if(direction.toLowerCase().equals("left")){
+                } else if (direction.toLowerCase().equals("left")) {
                     newRoom.setRight(curRoom);
                     curRoom.setLeft(newRoom);
-                }
-                else{
+                } else {
                     valid = false;
                 }
-                if(valid){
-                    sim.setMoney(sim.getMoney()-Room.getPrice());
+                if (valid) {
+                    sim.setMoney(sim.getMoney() - Room.getPrice());
                     Thread t = new Thread(new Runnable() {
-                    public void run(){
-                        try {
-                            // Pilih ruangan yang ingin di bangun (Above, Right, Below, atau Left) dari currentRoom lalu instansiasi sebuah room baru dengan posisi yang dipilih                          
-                            Thread.sleep(1080000); // 18 menit
-                            rooms.add(newRoom);
-                            synchronized(this){
-                                totalRoom++;
+                        public void run() {
+                            try {
+                                // Pilih ruangan yang ingin di bangun (Above, Right, Below, atau Left) dari
+                                // currentRoom lalu instansiasi sebuah room baru dengan posisi yang dipilih
+                                Thread.sleep(1080000); // 18 menit
+                                rooms.add(newRoom);
+                                synchronized (this) {
+                                    totalRoom++;
+                                }
+                            } catch (InterruptedException e) {
+                                e.printStackTrace();
                             }
-                        } catch (InterruptedException e) {
-                            e.printStackTrace();
                         }
-                    } 
                     });
                     t.start();
-                }
-                else{
+                } else {
                     System.out.println("Input Arah Ruangan Salah!");
                 }
-            }
-            else{
+            } else {
                 System.out.println("Tidak Bisa Menambah Ruangan Karena Uang Tidak Cukup!");
             }
-        }
-        else{
+        } else {
             System.out.println("Tidak Bisa Menambah Ruangan Pada Rumah Orang Lain!");
         }
     }
@@ -132,17 +127,29 @@ public class House {
     public void setLocation(Point newLoc) {
         this.location = newLoc;
     }
-    public void printRooms(){
+
+    public void printRooms() {
         Iterator<Room> itrRoom = getRooms();
-        while(itrRoom.hasNext()){
+        while (itrRoom.hasNext()) {
             System.out.println(itrRoom.next().getNameRoom());
         }
         System.out.println();
     }
+
+    public Room getRoom(String nameRoom) {
+        Iterator<Room> itrRoom = getRooms();
+        while (itrRoom.hasNext()) {
+            Room curRoom = itrRoom.next();
+            if (curRoom.getNameRoom().equals(nameRoom)) {
+                return curRoom;
+            }
+        }
+        return null;
+    }
     // public static void main(String[] args) {
-    //     Sim budi = new Sim("Budi");
-    //     House budiHouse = new House(new Point(3, 4), budi);
-    //     budi.move(budiHouse.initRoom);
-    //     budiHouse.addRoom(budi.getCurrentRoom());
+    // Sim budi = new Sim("Budi");
+    // House budiHouse = new House(new Point(3, 4), budi);
+    // budi.move(budiHouse.initRoom);
+    // budiHouse.addRoom(budi.getCurrentRoom());
     // }
 }
