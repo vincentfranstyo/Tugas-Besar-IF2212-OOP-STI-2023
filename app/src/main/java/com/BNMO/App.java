@@ -566,6 +566,7 @@ public class App {
                                 if(o instanceof NonFoodObjects){
                                     if(i == choiceInt){
                                         objAdd = o;
+                                        break;
                                     }
                                     else{
                                         i++;
@@ -581,6 +582,9 @@ public class App {
                                 System.out.println();
                                 menu.getCurrentSim().getCurrentRoom().addObject(objAdd, new Point(x, y), direction);
                             }
+                            else{
+                                System.out.println("Tidak Ada Object Yang Dapat Ditambahkan Pada Ruangan!");
+                            }
                         }
                         else if(numUpHouseInt == 4){
                             // TODO delete object in current room and add to inventory owner
@@ -589,6 +593,7 @@ public class App {
                             int i = 1;
                             while(itr.hasNext()){
                                 System.out.println("["+i+"] "+itr.next().getName());
+                                i++;
                             }
                             System.out.print("\nMasukkan Angka Object Yang Ingin Dihapus: ");
                             int choice = userInput.nextInt();
@@ -596,13 +601,23 @@ public class App {
                             itr = menu.getCurrentSim().getCurrentRoom().getObjects();
                             Object objRemove = null;
                             while(itr.hasNext()){
+                                Object o = itr.next();
                                 if(i==choice){
-                                    objRemove = itr.next();
+                                    objRemove = o;
+                                    break;
+                                }
+                                else{
+                                    i++;
                                 }
                             }
                             if(objRemove != null){
                                 menu.getCurrentSim().getCurrentRoom().removeObject(objRemove, ((NonFoodObjects)objRemove).getPosition(), menu.getCurrentSim());
                                 System.out.println("Object "+objRemove.getName()+" Berhasil Dihapus Dari Ruangan" );
+                                System.out.println();
+                            }
+                            else{
+                                System.out.println("Tidak Ada Object Yang Dihapus");
+                                System.out.println();
                             }
                         }
                     } else if (activityNum == 9) {

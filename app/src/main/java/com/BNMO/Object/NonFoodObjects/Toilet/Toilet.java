@@ -7,6 +7,7 @@ import com.BNMO.Utilities.*;
 public class Toilet extends NonFoodObjects {
     public Toilet(String name) {
         super(name, 1, 1, 50);
+        this.setType("Toilet");
     }
 
     public void useToilet(Time time, Sim sim) {
