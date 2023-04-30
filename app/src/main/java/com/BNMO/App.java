@@ -31,8 +31,6 @@ public class App {
         Thread dailyThread = new Thread(dayThread);
         dailyThread.start();
         dayThread.pauseThread();
-        dayThread.resumeThread();
-        dayThread.pauseThread();
         Scanner userInput = new Scanner(System.in);
         System.out.println("Selamat Datang di Sim-Plicity!");
         System.out.print("Apakah kamu ingin memulai permainan? (Y/N) ");

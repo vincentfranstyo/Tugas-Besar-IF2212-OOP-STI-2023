@@ -59,6 +59,7 @@ public class Sim {
         this.location = new Point(0, 0);
         this.currentHouse = new House(this.location, this);
         this.currentRoom = currentHouse.getRooms().next();
+        this.currentJobDuration = new Time();
         sims.add(this);
     }
 

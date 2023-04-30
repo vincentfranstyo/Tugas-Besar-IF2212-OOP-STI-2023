@@ -14,6 +14,8 @@ public class DayThread implements Runnable {
     public void pauseThread() {
         paused = true;
         System.out.println("Hari telah dijeda!");
+        System.out.println("Silahkan melakukan aksi aktif untuk melanjutkan hari!");
+        System.out.println();
     }
 
     public void resumeThread() {
@@ -58,7 +60,8 @@ public class DayThread implements Runnable {
 
     @Override
     public void run() {
-        int i = 1;
+        int i = 720;
+        int day = 1;
         while (true) {
             synchronized (lock) {
                 while (paused) {
@@ -69,32 +72,33 @@ public class DayThread implements Runnable {
                     }
                 }
             }
-            // TODO ini jadiin cek per detik aja
+            if (i % 720 == 0) {
+                System.out.println();
+                day++;
+                System.out.println("Hari ke-" + day + " dimulai!");
+                System.out.println();
+            }
             try {
-                System.out.println("Hari ke-" + i + " telah dimulai!");
-                System.out.println();
-                Thread.sleep(360000);
-                System.out.println();
-                System.out.println("Telah berlalu setengah hari!");
-                System.out.println();
-                Thread.sleep(300000);
-                System.out.println();
-                System.out.println("Hari ini tersisa 1 menit dalam waktu nyata!");
-                System.out.println();
-                Thread.sleep(60000);
-                System.out.println();
-                System.out.println("Hari telah berganti!");
-                System.out.println();
+                Thread.sleep(1000);
                 i++;
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            } finally {
+                if (i % 660 == 0) {
+                    System.out.println("Hari ini tersisa 1 menit lagi!");
+                    System.out.println();
+                } else if (i % 360 == 0) {
+                    System.out.println("Telah berlalu setengah hari!");
+                    System.out.println();
+                } else if (i % 180 == 0) {
+                    System.out.println("Hari ini telah berlalu 3 menit!");
+                }
 
-                if (dailySleptDur.get() < 180) {
+                if (dailySleptDur.get() < 180 && i % 720 == 0) {
                     notEnoughSleep.set(true);
                     System.out.println("Kamu tidak cukup tidur!");
                     System.out.println();
-
                 }
-            } catch (InterruptedException e) {
-                e.printStackTrace();
             }
         }
     }
