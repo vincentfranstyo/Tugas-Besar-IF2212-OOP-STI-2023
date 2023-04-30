@@ -10,7 +10,8 @@ public class Toilet extends NonFoodObjects {
         this.setType("Toilet");
     }
 
-    public void useToilet(Time time, Sim sim) {
+    public void useToilet(Sim sim) {
+        Time time = new Time(10)
         try {
             if (!getIsOccupied()) {
                 if (sim.getStatus().equals("Nothing")) {
@@ -18,9 +19,9 @@ public class Toilet extends NonFoodObjects {
                     System.out.println(sim.getName() + " is using the toilet.");
                     setIsOccupied(true);
                     sim.setStatus("Using toilet");
+                    Thread.sleep(duration * 1000);
                     sim.setFullness(sim.getFullness() - (20 * (duration / 10)));
                     sim.setMood(sim.getMood() + (10 * (duration / 10)));
-                    Thread.sleep(time.convertToSecond() * 1000);
                 } else {
                     System.out.println("You can't use the toilet while doing something else.");
                 }

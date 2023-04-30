@@ -7,6 +7,7 @@ import com.BNMO.Utilities.*;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
+import java.util.InputMismatchException;
 
 public class TV extends NonFoodObjects {
     private List<Channel> channels;
@@ -32,8 +33,7 @@ public class TV extends NonFoodObjects {
     public void turnOn() {
         if (getIsOn()) {
             System.out.println("The TV is already on");
-        }
-        else {
+        } else {
             setIsOn(true);
             System.out.println("The TV is on");
         }
@@ -43,8 +43,7 @@ public class TV extends NonFoodObjects {
         if (getIsOn()) {
             setIsOn(false);
             System.out.println("The TV is off");
-        }
-        else {
+        } else {
             System.out.println("The TV is already off");
         }
     }
@@ -183,20 +182,17 @@ public class TV extends NonFoodObjects {
                                 sim.setMood(sim.getMood() + (2 * duration / 20));
                                 sim.setHealth(sim.getHealth() - (2 * duration / 20));
                                 sim.setFullness(sim.getFullness() - (2 * duration / 20));
-                            }
-                            else {
+                            } else {
                                 sim.setMood(sim.getMood() + (2 * duration / 20));
                                 sim.setHealth(sim.getHealth() - (3 * duration / 20));
                                 sim.setFullness(sim.getFullness() - (2 * duration / 20));
                             }
-                            }
-                        else {
+                        } else {
                             System.out.println("You haven't scanned for channels yet");
                         }
+                    } else {
+                        System.out.println("You can't watch TV while you are " + sim.getStatus());
                     }
-                else {
-                    System.out.println("You can't watch TV while you are " + sim.getStatus());
-                }
                 } else {
                     System.out.println("The TV is off");
                 }
@@ -210,85 +206,85 @@ public class TV extends NonFoodObjects {
         }
     }
 
-public void menuTV(Sim sim) {
-    Scanner scanner = new Scanner(System.in);
-    boolean exit = false;
+    public void menuTV(Sim sim) {
+        Scanner scanner = new Scanner(System.in);
+        boolean exit = false;
 
-    System.out.println("Hello " + sim.getName() + "!");
-    while (!exit) {
-        System.out.println("What would you like to do?");
-        System.out.println("[1] Turn on the TV");
-        System.out.println("[2] Turn off the TV");
-        System.out.println("[3] Scan for channels");
-        System.out.println("[4] Add a channel");
-        System.out.println("[5] Remove a channel");
-        System.out.println("[6] Show available channels");
-        System.out.println("[7] Watch TV");
-        System.out.println("[8] Go back to main menu");
-        System.out.print("Enter your choice: ");
-        int choice = scanner.nextInt();
+        System.out.println("Hello " + sim.getName() + "!");
+        while (!exit) {
+            System.out.println("What would you like to do?");
+            System.out.println("[1] Turn on the TV");
+            System.out.println("[2] Turn off the TV");
+            System.out.println("[3] Scan for channels");
+            System.out.println("[4] Add a channel");
+            System.out.println("[5] Remove a channel");
+            System.out.println("[6] Show available channels");
+            System.out.println("[7] Watch TV");
+            System.out.println("[8] Go back to main menu");
+            System.out.print("Enter your choice: ");
+            int choice = scanner.nextInt();
 
-        switch (choice) {
-            case 1:
-                turnOn();
-                break;
-            case 2:
-                turnOff();
-                System.out.print("The TV is off");
-                break;
-            case 3:
-                scanChannel();
-                System.out.print("Successfully added 10 channels!");
-                break;
-            case 4:
-                System.out.print("Enter channel name: ");
-                String name = scanner.next();
-                System.out.print("Enter channel genre: ");
-                String genre = scanner.next();
-                addChannel(name, genre);
-                break;
-            case 5:
-                System.out.print("Enter channel ID: ");
-                try {
-                    int id = scanner.nextInt();
-                    removeChannel(id);
-                } catch (InputMismatchException e) {
-                    System.out.println("Invalid input. Please enter a valid integer for the channel ID.");
-                    scanner.nextLine(); // Consume the invalid input to avoid an infinite loop
-                }
-                break;
-            case 6:
-                showChannel();
-                break;
-            case 7:
-                System.out.print("How long do you want to watch the TV?");
-                System.out.print("Enter the duration in seconds: ");
-                int duration = scanner.nextInt();
-                System.out.println("Which channel do you want to watch?");
-                showChannel();
-                System.out.print("Enter channel name: ");
-                scanner.nextLine(); // Consume the newline character left by scanner.nextInt()
-                String channelName = scanner.nextLine();
+            switch (choice) {
+                case 1:
+                    turnOn();
+                    break;
+                case 2:
+                    turnOff();
+                    System.out.print("The TV is off");
+                    break;
+                case 3:
+                    scanChannel();
+                    System.out.print("Successfully added 10 channels!");
+                    break;
+                case 4:
+                    System.out.print("Enter channel name: ");
+                    String name = scanner.next();
+                    System.out.print("Enter channel genre: ");
+                    String genre = scanner.next();
+                    addChannel(name, genre);
+                    break;
+                case 5:
+                    System.out.print("Enter channel ID: ");
+                    try {
+                        int id = scanner.nextInt();
+                        removeChannel(id);
+                    } catch (InputMismatchException e) {
+                        System.out.println("Invalid input. Please enter a valid integer for the channel ID.");
+                        scanner.nextLine(); // Consume the invalid input to avoid an infinite loop
+                    }
+                    break;
+                case 6:
+                    showChannel();
+                    break;
+                case 7:
+                    System.out.print("How long do you want to watch the TV?");
+                    System.out.print("Enter the duration in seconds: ");
+                    int duration = scanner.nextInt();
+                    System.out.println("Which channel do you want to watch?");
+                    showChannel();
+                    System.out.print("Enter channel name: ");
+                    scanner.nextLine(); // Consume the newline character left by scanner.nextInt()
+                    String channelName = scanner.nextLine();
 
-                boolean foundChannel = false;
-                    for(Channel channel: channels) {
-                        if(channel.getName().equalsIgnoreCase(channelName)) {
+                    boolean foundChannel = false;
+                    for (Channel channel : channels) {
+                        if (channel.getName().equalsIgnoreCase(channelName)) {
                             watchTV(new Time(duration), sim, channel);
                             foundChannel = true;
                             break;
                         }
                     }
-                    if(!foundChannel) {
+                    if (!foundChannel) {
                         System.out.println("Invalid channel name or the channel doesn't exist. Please try again.");
                     }
                     break;
-            case 8:
-                exit = true;
-                break;
-            default:
-                System.out.println("Invalid choice. Please try again.");
-                break;
+                case 8:
+                    exit = true;
+                    break;
+                default:
+                    System.out.println("Invalid choice. Please try again.");
+                    break;
+            }
         }
     }
-}
 }
