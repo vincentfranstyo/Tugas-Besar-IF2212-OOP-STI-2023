@@ -39,7 +39,7 @@ public class Dishes extends Food {
         this.cookingTime = this.getSatiety() * 3 / 2;
     }
 
-    public ArrayList<Ingredients> getIngredients() {
+    public ArrayList<Ingredients> getCurrentDishIngredients() {
         return ingredients;
     }
 
@@ -49,8 +49,8 @@ public class Dishes extends Food {
 
     public boolean checkIngredients(Sim sim) {
         boolean hasIngredients = true;
-        for (int i = 0; i < getIngredients().size(); i++) {
-            if (!sim.getInventory().getObjects().contains(getIngredients().get(i))) {
+        for (int i = 0; i < getCurrentDishIngredients().size(); i++) {
+            if (!sim.getInventory().getObjects().contains(getCurrentDishIngredients().get(i))) {
                 hasIngredients = false;
             }
         }

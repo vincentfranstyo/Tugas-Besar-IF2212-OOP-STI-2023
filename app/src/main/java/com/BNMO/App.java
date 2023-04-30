@@ -328,7 +328,7 @@ public class App {
                                 try {
                                     sleepDur = Integer.parseInt(sleepTime);
                                     if (sleepDur <= 180) {
-                                        System.out.println("Masukan harus lebih dari 180 detik (3 menit)!");
+                                        System.out.println("Masukan harus lebih dari 180 detik (d3 menit)!");
                                         sleepTime = userInput.nextLine();
                                         continue;
                                     }
@@ -392,9 +392,9 @@ public class App {
                         }
                     } else if (activityNum == 5) {
 
-                    }
-
-                    else if (activityNum == 8) {
+                    } else if (activityNum == 6) {
+                    } else if (activityNum == 7) {
+                    } else if (activityNum == 8) {
                         System.out.println();
                         System.out.println("Pilihan Update:");
                         System.out.println("[1] Menambah Ruangan");

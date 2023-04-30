@@ -26,7 +26,7 @@ public class Ingredients extends Food {
         } else if (getName().equals("Kacang")) {
             this.setPrice(2);
             this.setSatiety(2);
-        } else if (getName().equals("Susus")) {
+        } else if (getName().equals("Susu")) {
             this.setPrice(2);
             this.setSatiety(1);
         }
