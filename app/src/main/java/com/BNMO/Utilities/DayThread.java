@@ -13,11 +13,13 @@ public class DayThread implements Runnable {
 
     public void pauseThread() {
         paused = true;
+        System.out.println("Hari telah dijeda!");
     }
 
     public void resumeThread() {
         synchronized (lock) {
             paused = false;
+            System.out.println("Hari telah dilanjutkan!");
             lock.notifyAll();
         }
     }
@@ -67,6 +69,7 @@ public class DayThread implements Runnable {
                     }
                 }
             }
+            // TODO ini jadiin cek per detik
             try {
                 System.out.println("Hari ke-" + i + " telah dimulai!");
                 System.out.println();

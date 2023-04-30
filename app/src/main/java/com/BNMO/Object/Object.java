@@ -19,7 +19,7 @@ public abstract class Object {
     private String type;
     private String category;
     private int price;
-    private static ArrayList<NonFoodObjects> buyableObjects;
+    private static ArrayList<NonFoodObjects> buyableObjects = new ArrayList<>();
 
     public Object(String name, String category) {
         this.name = name;
@@ -76,7 +76,7 @@ public abstract class Object {
         buyableObjects.add(new KingBed("King Bed"));
         buyableObjects.add(new GasStove("Gas Stove"));
         buyableObjects.add(new ElectricStove("Electric Stove"));
-        buyableObjects.add(new TV("TV", new Channel("MTV", 1, "News")));
+        buyableObjects.add(new TV("TV"));
         buyableObjects.add(new TableAndChair("Table And Chair"));
         buyableObjects.add(new Piano("Piano"));
         buyableObjects.add(new Book("Book"));

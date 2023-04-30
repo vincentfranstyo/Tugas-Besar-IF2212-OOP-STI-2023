@@ -5,8 +5,6 @@
 package com.BNMO;
 
 import java.util.Scanner;
-import java.util.concurrent.atomic.AtomicBoolean;
-import java.util.concurrent.atomic.AtomicInteger;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.NoSuchElementException;
@@ -32,6 +30,8 @@ public class App {
         DayThread dayThread = new DayThread();
         Thread dailyThread = new Thread(dayThread);
         dailyThread.start();
+        dayThread.pauseThread();
+        dayThread.resumeThread();
         dayThread.pauseThread();
         Scanner userInput = new Scanner(System.in);
         System.out.println("Selamat Datang di Sim-Plicity!");
@@ -232,6 +232,7 @@ public class App {
                         }
                         dayThread.resumeThread();
                         menu.getCurrentSim().work(new Time(workDur));
+                        dayThread.pauseThread();
 
                         if (workDur < 240) {
                             dayThread.setDailyWorkDuration(dayThread.getDailyWorkDuration() + workDur);
@@ -268,11 +269,14 @@ public class App {
 
                         dayThread.resumeThread();
                         menu.getCurrentSim().workout(new Time(exerciseDur));
+                        dayThread.pauseThread();
                     } else if (activityNum == 3) {
                         Bed bedValidator = null;
-                        while (menu.getCurrentSim().getCurrentRoom().getObjects().hasNext()) {
-                            if (menu.getCurrentSim().getCurrentRoom().getObjects().next() instanceof Bed) {
-                                bedValidator = (Bed) menu.getCurrentSim().getCurrentRoom().getObjects().next();
+                        Iterator<Object> iter = menu.getCurrentSim().getCurrentRoom().getObjects();
+                        while (iter.hasNext()) {
+                            Object obj = iter.next();
+                            if (obj instanceof Bed) {
+                                bedValidator = (Bed) obj;
                                 break;
                             }
                         }
@@ -292,15 +296,16 @@ public class App {
                             System.out.println("Berikut adalah efek tidak tidur:");
                             System.out.println("Mood: -10 / 10 menit");
 
-                            System.out.println("Berapa lama kamu ingin tidur? (dalam satuan detik)");
+                            System.out.println(
+                                    "Berapa lama kamu ingin tidur? (dalam satuan detik dan lebih dari 3 menit)");
                             String sleepTime = userInput.nextLine();
                             int sleepDur;
 
                             while (true) {
                                 try {
                                     sleepDur = Integer.parseInt(sleepTime);
-                                    if (sleepDur <= 180) {
-                                        System.out.println("Masukan harus lebih dari 180 detik (d3 menit)!");
+                                    if (sleepDur < 180) {
+                                        System.out.println("Masukan harus lebih dari 180 detik (3 menit)!");
                                         sleepTime = userInput.nextLine();
                                         continue;
                                     }
@@ -314,14 +319,16 @@ public class App {
                             dayThread.setDailySleptDur(dayThread.getDailySleptDur() + sleepDur);
                             dayThread.resumeThread();
                             bedValidator.sleep(new Time(sleepDur), menu.getCurrentSim());
+                            dayThread.pauseThread();
                         }
 
                     } else if (activityNum == 4) {
                         TableAndChair tableValidator = null;
-                        while (menu.getCurrentSim().getCurrentRoom().getObjects().hasNext()) {
-                            if (menu.getCurrentSim().getCurrentRoom().getObjects().next() instanceof TableAndChair) {
-                                tableValidator = (TableAndChair) menu.getCurrentSim().getCurrentRoom().getObjects()
-                                        .next();
+                        Iterator<Object> iter = menu.getCurrentSim().getCurrentRoom().getObjects();
+                        while (iter.hasNext()) {
+                            Object obj = iter.next();
+                            if (obj instanceof TableAndChair) {
+                                tableValidator = (TableAndChair) obj;
                                 break;
                             }
                         }

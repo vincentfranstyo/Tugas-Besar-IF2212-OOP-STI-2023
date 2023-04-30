@@ -11,7 +11,7 @@ public class Toilet extends NonFoodObjects {
     }
 
     public void useToilet(Sim sim) {
-        Time time = new Time(10)
+        Time time = new Time(10);
         try {
             if (!getIsOccupied()) {
                 if (sim.getStatus().equals("Nothing")) {
