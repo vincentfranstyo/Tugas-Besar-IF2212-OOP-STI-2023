@@ -56,19 +56,35 @@ public class Inventory<T extends Object> {
         System.out.println("Inventory of " + getOwner().getName());
         ArrayList<String> listedObjs = new ArrayList<String>();
         for (T object : objects) {
-            if (!listedObjs.contains(object.getType())) {
-                listedObjs.add(object.getType());
-                System.out.println(object.getCategory() + ": " + object.getType() + " x"
-                        + getObjectNum(object.getClass().getName()));
+            if (object.getCategory().equals("Non Food Objects")) {
+                if (!listedObjs.contains(object.getType())) {
+                    listedObjs.add(object.getType());
+                    System.out.println(object.getCategory() + ": " + object.getType() + " x"
+                            + getObjectNum(object.getClass().getName()));
+                }
+            } else {
+                if (!listedObjs.contains(object.getName())) {
+                    listedObjs.add(object.getName());
+                    System.out.println(object.getType() + ": " + object.getName() + " x"
+                            + getObjectNum(object.getName()));
+                }
             }
+
         }
     }
 
     public int getObjectNum(String className) {
         int num = 0;
         for (T object : objects) {
-            if (object.getClass().getName().equals(className)) {
-                num++;
+            if (object.getCategory().equals("Non Food Objects"){
+                if (object.getClass().getName().equals(className)) {
+                    num++;
+                }
+            }
+            else{
+                if (object.getName().equals(className)) {
+                    num++;
+                }
             }
         }
         return num;
@@ -87,7 +103,7 @@ public class Inventory<T extends Object> {
     public ArrayList<Food> getFoods() {
         ArrayList<Food> foods = new ArrayList<>();
         for (T object : objects) {
-            if (object.getType().equals("Food")) {
+            if (object.getCategory().equals("Food")) {
                 foods.add((Food) object);
             }
         }
@@ -106,7 +122,7 @@ public class Inventory<T extends Object> {
         ArrayList<Food> foodList = getFoods();
         Food[] foods = foodList.toArray(new Food[foodList.size()]);
         for (Food fo : foods) {
-            if (fo.getName().toLowerCase().equals(foodName)) {
+            if (fo.getName().toLowerCase().replaceAll("\\s+", "").equals(foodName)) {
                 return fo;
             }
         }

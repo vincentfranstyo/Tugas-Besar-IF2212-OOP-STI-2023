@@ -16,15 +16,19 @@ public class Piano extends NonFoodObjects {
                 setIsOccupied(true);
                 if (sim.getStatus().equals("Nothing")) {
                     int duration = time.convertToSecond();
+                    System.out.println(sim.getName() + " are playing piano");
+                    Thread.sleep(duration * 1000);
+                    System.out.println(sim.getName() + " are done playing piano");
                     sim.setStatus("Playing piano");
                     sim.setMood(sim.getMood() + 5 * duration / 20);
-                    Thread.sleep(duration * 1000);
                 } else {
                     System.out.println("You can't play the piano while you are " + sim.getStatus());
                 }
             }
         } catch (InterruptedException e) {
             e.printStackTrace();
+        } finally {
+            setIsOccupied(false);
         }
     }
 }

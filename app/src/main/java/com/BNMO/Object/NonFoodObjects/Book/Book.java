@@ -46,9 +46,9 @@ public class Book extends NonFoodObjects {
                 if (sim.getStatus().equals("Nothing")) {
                     System.out.println(sim.getName() + " is reading " + this.getName() + ".");
                     int duration = time.convertToSecond();
+                    Thread.sleep(duration * 1000);
                     sim.setMood(sim.getMood() + (10 * (duration / 240)));
                     sim.setFullness(sim.getFullness() - (10 * (duration / 240)));
-                    Thread.sleep(duration * 1000);
                     System.out.println(sim.getName() + " has finished reading " + this.getName() + ".");
                 } else {
                     System.out.println("You can't read the book while you are " + sim.getStatus());

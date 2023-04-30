@@ -32,6 +32,8 @@ public class Toilet extends NonFoodObjects {
             }
         } catch (InterruptedException e) {
             e.printStackTrace();
+        } finally {
+            setIsOccupied(false);
         }
     }
 }

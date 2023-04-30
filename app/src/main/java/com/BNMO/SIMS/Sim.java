@@ -189,12 +189,12 @@ public class Sim {
             Time jobDurTime = new Time(getCurrentJobDuration().convertToSecond() + duration / 60);
             setCurrentJobDuration(jobDurTime);
             setStatus("Working");
-            System.out.println(getName() + "is working...");
-            Thread.sleep(duration); // Sleep for 2 second
-            System.out.println(getName() + "is done working");
-            setFullness(getFullness() - 10 * duration / 30);
-            setMood(getMood() - 10 * duration / 30);
-            setMoney(getMoney() + getJob().getSalary() * duration / 240);
+            System.out.println(getName() + " is working...");
+            Thread.sleep(duration * 1000); // Sleep for 2 second
+            System.out.println(getName() + " is done working");
+            setFullness(getFullness() - 10 * (duration / 30));
+            setMood(getMood() - 10 * (duration / 30));
+            setMoney(getMoney() + (getJob().getSalary() * (duration / 240)));
         } catch (InterruptedException e) {
             e.printStackTrace();
         } finally {
@@ -206,12 +206,12 @@ public class Sim {
         int duration = time.convertToSecond();
         try {
             setStatus("Working Out");
-            System.out.println(getName() + "is working out...");
+            System.out.println(getName() + " is working out...");
             Thread.sleep(duration * 1000);
-            System.out.println(getName() + "is done working out");
-            setFullness(getFullness() - 5 * duration / 20);
-            setMood(getMood() + 10 * duration / 20);
-            setHealth(getHealth() + 5 * duration / 20);
+            System.out.println(getName() + " is done working out");
+            setFullness(getFullness() - 5 * (duration / 20));
+            setMood(getMood() + 10 * (duration / 20));
+            setHealth(getHealth() + 5 * (duration / 20));
         } catch (InterruptedException e) {
             e.printStackTrace();
         } finally {
@@ -249,12 +249,14 @@ public class Sim {
 
         Random rand = new Random();
         int randomNum = rand.nextInt(1, 5);
-        System.out.println("You will get your item in " + randomNum + " minutes");
+        System.out.println("Kamu akan mendapatkan item dalam " + randomNum + " menit");
         try {
             Thread.sleep(randomNum * 60000);
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
+
+        System.out.println("Item mu telah sampai");
     }
 
     public void move(Room room) {

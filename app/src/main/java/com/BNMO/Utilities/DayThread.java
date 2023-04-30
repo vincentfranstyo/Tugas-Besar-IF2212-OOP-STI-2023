@@ -10,10 +10,12 @@ public class DayThread implements Runnable {
     private AtomicBoolean eaten = new AtomicBoolean(false);
     private boolean paused = false;
     private final Object lock = new Object();
+    int day = 0;
+    int i = 720;
 
     public void pauseThread() {
         paused = true;
-        System.out.println("Hari telah dijeda!");
+        System.out.println("Hari ke-" + day + " telah dijeda!");
         System.out.println("Silahkan melakukan aksi aktif untuk melanjutkan hari!");
         System.out.println();
     }
@@ -21,7 +23,7 @@ public class DayThread implements Runnable {
     public void resumeThread() {
         synchronized (lock) {
             paused = false;
-            System.out.println("Hari telah dilanjutkan!");
+            System.out.println("Hari ke-" + day + " telah dilanjutkan!");
             lock.notifyAll();
         }
     }
@@ -60,8 +62,6 @@ public class DayThread implements Runnable {
 
     @Override
     public void run() {
-        int i = 720;
-        int day = 1;
         while (true) {
             synchronized (lock) {
                 while (paused) {

@@ -35,13 +35,13 @@ public class TableAndChair extends NonFoodObjects {
                 } else {
                     System.out.println("You can't eat while doing something else.");
                 }
-            }
-
-            else {
+            } else {
                 System.out.println("Too bad! The table is in use, please find another table!");
             }
         } catch (InterruptedException e) {
             e.printStackTrace();
+        } finally {
+            setIsOccupied(false);
         }
     }
 

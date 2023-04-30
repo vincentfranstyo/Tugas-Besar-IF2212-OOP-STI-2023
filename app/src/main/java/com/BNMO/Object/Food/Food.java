@@ -22,6 +22,7 @@ public abstract class Food extends Object {
     }
 
     public static ArrayList<String> getDishes() {
+        dishesList = new ArrayList<>();
         dishesList.add("Nasi Ayam");
         dishesList.add("Nasi Kari");
         dishesList.add("Susu Kacang");
@@ -34,9 +35,11 @@ public abstract class Food extends Object {
         for (int i = 0; i < getDishes().size(); i++) {
             System.out.println(i + 1 + ". " + getDishes().get(i));
         }
+        // System.out.println(getDishes().size());
     }
 
     public static ArrayList<String> getIngredientList() {
+        ingredientList = new ArrayList<>();
         ingredientList.add("Nasi");
         ingredientList.add("Kentang");
         ingredientList.add("Ayam");

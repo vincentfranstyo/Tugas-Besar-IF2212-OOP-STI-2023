@@ -2,6 +2,8 @@ package com.BNMO.Object.NonFoodObjects.Book;
 
 import java.util.List;
 
+import com.BNMO.SIMS.Sim;
+
 public class Journal extends Book {
     private int countWritten;
     private List<Page> pages;
@@ -23,7 +25,7 @@ public class Journal extends Book {
         this.countWritten = countWritten;
     }
 
-    public void writeJournal(Journal journal, String content) {
+    public void writeJournal(Journal journal, Sim sim, String content) {
         List<Page> pages = journal.getPages();
         setCountWritten(getCountWritten() + 1);
         Page newPage = new Page(getCountWritten(), content);
