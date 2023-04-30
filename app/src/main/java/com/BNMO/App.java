@@ -185,20 +185,9 @@ public class App {
                     String wantedSim = userInput.nextLine();
                     menu.changeSim(wantedSim);
                     System.out.println();
-<<<<<<< HEAD
-                }
-
-                else if (commandNum == 7){
-                    // Change JOB
-                }
-
-                else if (commandNum == 8) {
-                    // DO Activity
-=======
                 } else if (commandNum == 7) {
                     // TODO ganti pekerjaan
                 } else if (commandNum == 8) {
->>>>>>> 26865db98a366b25009a28d17f842c997ce44468
                     System.out.println();
                     System.out.println("Berikut adalah aktivitas-aktivitas yang bisa kamu lakukan!");
                     System.out.println("[1] Kerja");
