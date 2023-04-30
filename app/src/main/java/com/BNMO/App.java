@@ -541,7 +541,8 @@ public class App {
                             while(itr.hasNext()){
                                 Object o = itr.next();
                                 if(o instanceof NonFoodObjects){
-                                    System.out.println("["+i+"] " + o.getName());
+                                    System.out.println("["+i+"] " + o.getType() + " x"
+                                        + menu.getCurrentSim().getInventory().getObjectNum(o.getClass().getName()));
                                     i++;
                                 }
                             }
@@ -575,12 +576,39 @@ public class App {
                             }
                             if(objAdd != null){
                                 menu.getCurrentSim().getInventory().removeObject(objAdd.getName());
-                                System.out.print("Masukkan Lokasi Object Pada Ruangan 6x6:");
-                                int x = userInput.nextInt(), y = userInput.nextInt();
+                                System.out.println("Lokasi Object Pada Ruangan 6x6:");
+                                System.out.print("Masukkan Nilai X: ");
+                                String x = userInput.nextLine();
+                                int xInt;
+                                while (true) {
+                                    try {
+                                        xInt = Integer.parseInt(x);
+                                        break;
+                                    } catch (NumberFormatException e) {
+                                        System.out.println("Masukan harus dalam bentuk angka!");
+                                        System.out.print("Masukkan Nilai X: ");
+                                        x = userInput.nextLine();
+                                    }
+                                }
+                                System.out.print("Masukkan Nilai Y: ");
+                                String y = userInput.nextLine();
+                                int yInt;
+                                while (true) {
+                                    try {
+                                        yInt = Integer.parseInt(y);
+                                        break;
+                                    } catch (NumberFormatException e) {
+                                        System.out.println("Masukan harus dalam bentuk angka!");
+                                        System.out.print("Masukkan Nilai X: ");
+                                        y = userInput.nextLine();
+                                    }
+                                }
                                 System.out.print("Masukkan Arah Object Pada Ruangan (Vertikal/Horizontal): ");
                                 String direction = userInput.nextLine();
                                 System.out.println();
-                                menu.getCurrentSim().getCurrentRoom().addObject(objAdd, new Point(x, y), direction);
+                                menu.getCurrentSim().getCurrentRoom().addObject(objAdd, new Point(xInt, yInt), direction);
+                                System.out.println("Object Berhasil Ditambahkan Pada Ruangan!");
+                                System.out.println();
                             }
                             else{
                                 System.out.println("Tidak Ada Object Yang Dapat Ditambahkan Pada Ruangan!");
