@@ -69,7 +69,7 @@ public class DayThread implements Runnable {
                     }
                 }
             }
-            // TODO ini jadiin cek per detik
+            // TODO ini jadiin cek per detik aja
             try {
                 System.out.println("Hari ke-" + i + " telah dimulai!");
                 System.out.println();
