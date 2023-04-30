@@ -18,6 +18,7 @@ import com.BNMO.Object.NonFoodObjects.Toilet.Toilet;
 import com.BNMO.Object.NonFoodObjects.Book.Book;
 import com.BNMO.Object.NonFoodObjects.Bed.*;
 import com.BNMO.Object.NonFoodObjects.Piano.Piano;
+import com.BNMO.Object.NonFoodObjects.Stove.*;
 import com.BNMO.Buildings.*;
 import com.BNMO.Object.Food.*;
 
@@ -391,7 +392,79 @@ public class App {
                             }
                         }
                     } else if (activityNum == 5) {
+                        Stove stoveValidator = null;
+                        while (menu.getCurrentSim().getCurrentRoom().getObjects().hasNext()) {
+                            if (menu.getCurrentSim().getCurrentRoom().getObjects().next() instanceof Stove) {
+                                stoveValidator = (Stove) menu.getCurrentSim().getCurrentRoom().getObjects().next();
+                                break;
+                            }
+                        }
 
+                        if (stoveValidator == null) {
+                            System.out.println("Tidak ada kompor di ruangan ini!");
+                        }
+
+                        else {
+                            menu.getCurrentSim().goToObject((NonFoodObjects) stoveValidator);
+                            System.out.println("Kamu memilih untuk memasak!");
+                            System.out.println("Berikut daftar makanan yang dapat kamu masak!");
+                            Food.printDishes();
+
+                            System.out.println("Makanan apa yang ingin kamu masak?");
+                            String dishName = userInput.nextLine();
+                            String loweredDish = dishName.toLowerCase().replaceAll("\\s+", "");
+
+                            ArrayList<String> validDishes = new ArrayList<String>();
+                            for (String dish : Food.getDishes()) {
+                                validDishes.add(dish.toLowerCase().replaceAll("\\s+", ""));
+                            }
+                            while (!validDishes.contains(loweredDish)) {
+                                System.out.println("Masukkan makanan yang valid!");
+                                dishName = userInput.nextLine();
+                                loweredDish = dishName.toLowerCase().replaceAll("\\s+", "");
+                            }
+
+                            int dishIndex = 0;
+                            for (int i = 0; i < validDishes.size(); i++) {
+                                if (validDishes.get(i).equals(loweredDish)) {
+                                    dishIndex = i;
+                                    break;
+                                }
+                            }
+                            Dishes toBeCooked = new Dishes(Food.getDishes().get(dishIndex));
+                            boolean cancelCook = false;
+
+                            while (!toBeCooked.checkIngredients(menu.getCurrentSim()) && !cancelCook) {
+                                while (!validDishes.contains(loweredDish) && !cancelCook) {
+                                    System.out.println("Masukkan makanan yang valid!");
+                                    dishName = userInput.nextLine();
+                                    loweredDish = dishName.toLowerCase().replaceAll("\\s+", "");
+                                }
+                                for (int i = 0; i < validDishes.size(); i++) {
+                                    if (validDishes.get(i).equals(loweredDish)) {
+                                        dishIndex = i;
+                                        break;
+                                    }
+                                }
+                                System.out.println("Bahan-bahan tidak cukup!");
+                                System.out.println("Masukkan makanan lainnya atau ketik 'cancel' untuk membatalkan!");
+                                dishName = userInput.nextLine();
+                                loweredDish = dishName.toLowerCase().replaceAll("\\s+", "");
+                                if (loweredDish.equals("cancel")) {
+                                    cancelCook = true;
+                                    break;
+                                } else {
+                                    toBeCooked = new Dishes(Food.getDishes().get(dishIndex));
+                                }
+
+                            }
+                            if (!cancelCook) {
+                                timeThread.start();
+                                stoveValidator.cookDish(menu.getCurrentSim(), toBeCooked);
+                            } else {
+                                System.out.println("Pemasakan dibatalkan!");
+                            }
+                        }
                     } else if (activityNum == 6) {
                     } else if (activityNum == 7) {
                     } else if (activityNum == 8) {
@@ -504,9 +577,7 @@ public class App {
             userInput.close();
             System.exit(0);
 
-        } else
-
-        {
+        } else {
             System.out.println("Terima kasih telah bermain!");
         }
     }
