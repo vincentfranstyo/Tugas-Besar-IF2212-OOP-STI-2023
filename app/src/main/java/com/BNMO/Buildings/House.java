@@ -32,6 +32,59 @@ public class House {
         this.initRoom.addObject(new SingleBed("Kasur 1"), new Point(6, 3), "vertikal");
     }
 
+    private void fixDirectRoom(){
+        for(Room r: rooms){
+            if(r.getFront() != null){
+                if(r.getFront().getRight() != null){
+                    if(r.getRight() != null){
+                        r.getRight().setFront(r.getFront().getRight());
+                    }
+                }
+                if(r.getFront().getLeft() != null){
+                    if(r.getLeft() != null){
+                        r.getLeft().setFront(r.getFront().getLeft());
+                    }
+                }
+            }
+            if(r.getBehind() != null){
+                if(r.getBehind().getRight() != null){
+                    if(r.getRight() != null){
+                        r.getRight().setBehind(r.getBehind().getRight());
+                    }
+                }
+                if(r.getBehind().getLeft() != null){
+                    if(r.getLeft() != null){
+                        r.getLeft().setBehind(r.getBehind().getLeft());
+                    }
+                }
+            }
+            if(r.getRight() != null){
+                if(r.getRight().getFront() != null){
+                    if(r.getFront() != null){
+                        r.getFront().setRight(r.getRight().getFront());
+                    }
+                }
+                if(r.getRight().getBehind() != null){
+                    if(r.getBehind() != null){
+                        r.getBehind().setRight(r.getRight().getBehind());
+                    }
+                }
+            }
+            if(r.getLeft() != null){
+                if(r.getLeft().getFront() != null){
+                    if(r.getFront() != null){
+                        r.getFront().setLeft(r.getLeft().getFront());
+                    }
+                }
+                if(r.getLeft().getBehind() != null){
+                    if(r.getBehind() != null){
+                        r.getBehind().setLeft(r.getLeft().getBehind());
+                    }
+                }
+            }
+        }
+    }
+
     public void addRoom(Sim sim, Room curRoom, String rName, String direction) {
         if (sim.getName().equals(owner.getName())) {
             if (sim.getMoney() >= Room.getPrice()) {
@@ -64,6 +117,7 @@ public class House {
                                 synchronized (this) {
                                     totalRoom++;
                                 }
+                                fixDirectRoom();
                             } catch (InterruptedException e) {
                                 e.printStackTrace();
                             }
@@ -95,6 +149,7 @@ public class House {
                     owner.getInventory().addObject(objectsRoom.next());
                 }
                 System.out.println("Room " + delRoom.getNameRoom() + " Berhasil di Delete dari Rumah " + owner.getName());
+                fixDirectRoom();
             } else {
                 System.out.println("Tidak Ada Room " + delRoom.getNameRoom() + " Pada Rumah " + owner.getName());
             }
