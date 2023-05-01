@@ -71,9 +71,35 @@ public class Room {
                 while (!availableLoc(loc, ((NonFoodObjects) o).getLength(), ((NonFoodObjects) o).getWidth())) {
                     System.out.print("Location Not Available, Please Input Location Object Again: ");
                     Scanner sc = new Scanner(System.in);
+                    System.out.print("Masukkan Nilai");
                     try {
-                        loc.setX(sc.nextInt());
-                        loc.setY(sc.nextInt());
+                        System.out.print("Masukkan Nilai X: ");
+                        String x = sc.nextLine();
+                        int xInt;
+                        while (true) {
+                            try {
+                                xInt = Integer.parseInt(x);
+                                break;
+                            } catch (NumberFormatException e) {
+                                System.out.println("Masukan harus dalam bentuk angka!");
+                                System.out.print("Masukkan Nilai X: ");
+                                x = sc.nextLine();
+                            }
+                        }
+                        System.out.print("Masukkan Nilai Y: ");
+                        String y = sc.nextLine();
+                        int yInt;
+                        while (true) {
+                            try {
+                                yInt = Integer.parseInt(y);
+                                break;
+                            } catch (NumberFormatException e) {
+                                System.out.println("Masukan harus dalam bentuk angka!");
+                                System.out.print("Masukkan Nilai X: ");
+                                y = sc.nextLine();
+                            }
+                        }
+                        loc.setPoint(xInt, yInt);
                     } catch (NoSuchElementException e) {
                         sc.close();
                     }
@@ -93,7 +119,16 @@ public class Room {
     }
     public void removeObject(Object o, Point Loc, Sim owner){
         if(objects.contains(o)){
-            ((NonFoodObjects) o).setPosition(null);;
+            ((NonFoodObjects) o).setPosition(null);
+            for(int i=0; i<6; i++){
+                for(int j=0; j<6; j++){
+                    if(mapObj[i][j] != null){
+                        if(mapObj[i][j].getName().equals(o.getName())){
+                            mapObj[i][j] = null;
+                        }
+                    }
+                }
+            }
             owner.getInventory().addObject(o);
             objects.remove(o);
             this.totalObject--;

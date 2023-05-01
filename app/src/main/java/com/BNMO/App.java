@@ -588,6 +588,10 @@ public class App {
                             }
                             if (objAdd != null) {
                                 menu.getCurrentSim().getInventory().removeObject(objAdd.getName());
+                                System.out.println();
+                                System.out.println("Kondisi Ruangan");
+                                menu.getCurrentSim().getCurrentRoom().printObjRoom();
+                                System.out.println();
                                 System.out.println("Lokasi Object Pada Ruangan 6x6:");
                                 System.out.print("Masukkan Nilai X: ");
                                 String x = userInput.nextLine();
