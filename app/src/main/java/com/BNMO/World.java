@@ -165,6 +165,7 @@ public class World {
 
     public void printHouseLayout(House house) {
         ArrayList<ArrayList<String>> houseLayout = new ArrayList<>();
+        int countRoom = 0;
         int yCount = houseLayout.size();
         for (int i = 0; i < 5; i++) {
             houseLayout.add(new ArrayList<>());
@@ -189,7 +190,8 @@ public class World {
         }
         Iterator<Room> rooms = house.getRooms();
         Room curRoom = rooms.next();
-        houseLayout.get(2).set(3, curRoom.getNameRoom());
+        countRoom++;
+        houseLayout.get(2).set(3,Integer.toString(countRoom));
 
         Iterator<Room> kamar = house.getRooms();
         while (kamar.hasNext()) {
