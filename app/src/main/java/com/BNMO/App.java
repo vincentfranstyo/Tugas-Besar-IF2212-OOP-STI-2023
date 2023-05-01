@@ -182,7 +182,7 @@ public class App {
                         }
                     }
                     ArrayList<Integer> validActivities = new ArrayList<Integer>();
-                    for (int i = 1; i <= 11; i++) {
+                    for (int i = 1; i <= 15; i++) {
                         validActivities.add(i);
                     }
 
