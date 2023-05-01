@@ -142,13 +142,18 @@ public class AudioPlayer extends NonFoodObjects {
 
     public void showLibrary() {
         if (getIsOn()) {
-            System.out.println("Library");
-            System.out.println("=================");
-            for (Music music : getLibrary()) {
-                System.out.println(
-                        music.getName() + " - " + music.getArtist() + "(" + music.getLength().displayHHMMSS() + ")");
+            if (!getLibrary().isEmpty()) {
+                System.out.println("Library");
+                System.out.println("=================");
+                for (Music music : getLibrary()) {
+                    System.out.println(
+                            music.getName() + " - " + music.getArtist() + "(" + music.getLength().displayHHMMSS() + ")");
+                }
+                System.out.println("");
             }
-            System.out.println("");
+            else {
+                System.out.println("Library is empty!");
+            }
         } else {
             System.out.println("Turn on the audio player first!");
         }
@@ -220,96 +225,102 @@ public class AudioPlayer extends NonFoodObjects {
                             // removePlaylist();
                             break;
                         case 8:
-                            showShop();
-                            System.out.print("Select the music you want to buy: ");
-                            int musicID = Integer.parseInt(scanner.nextLine());
-                            for (Music music : getMusic()) {
-                                if (music.getMusicID() == musicID) {
-                                    buy(music, new Sim("Budi"));
+                            if (getIsOn()) {
+                                showShop();
+                                System.out.print("Select the music you want to buy: ");
+                                int musicID = Integer.parseInt(scanner.nextLine());
+                                for (Music music : getMusic()) {
+                                    if (music.getMusicID() == musicID) {
+                                        buy(music, new Sim("Budi"));
+                                    }
                                 }
+                            }
+                            else {
+                                System.out.println("Turn on the audio player first!");
                             }
                             break;
                         case 9:
-                            showLibrary();
+                            if (getIsOn()) {
+                                showLibrary();
+                            }
+                            else {
+                                System.out.println("Turn on the audio player first!");
+                            }
                             break;
                         case 10:
-                            System.out.println("Select the music you want to play: ");
-                            System.out.println("[1] Back To December");
-                            System.out.println("[2] The Story Of Us");
-                            System.out.println("[3] Kibou");
-                            System.out.print("Enter your choice: ");
-                            int choice2 = Integer.parseInt(scanner.nextLine());
-                            try {
-                                AudioInputStream audioIn = null;
-                                // Open the audio file
-                                if (choice2 == 1) {
-                                    System.out.println("Playing Back To December....");
-                                    audioIn = AudioSystem
-                                            .getAudioInputStream(AudioPlayer.class.getResource("Back To December.wav"));
-                                } else if (choice2 == 2) {
-                                    System.out.println("Playing The Story Of Us....");
-                                    audioIn = AudioSystem
-                                            .getAudioInputStream(AudioPlayer.class.getResource("The Story Of Us.wav"));
-                                } else if (choice2 == 3) {
-                                    System.out.println("Playing Kibou....");
-                                    audioIn = AudioSystem
-                                            .getAudioInputStream(AudioPlayer.class.getResource("Kibou.wav"));
+                            if (getIsOn()) {
+                                if (getLibrary().isEmpty()) {
+                                    System.out.println("Library is empty!");
+                                    break;
                                 }
-                                // Get a clip to play the audio
-                                Clip clip = AudioSystem.getClip();
+                                System.out.println("Select the music you want to play: ");
+                                showLibrary();
+                                System.out.print("Enter the title: ");
+                                String title = scanner.nextLine().toLowerCase();
+                                try {
+                                    AudioInputStream audioIn = null;
+                                    // Open the audio file
+                                    System.out.println("Playing " + title + "....");
+                                    audioIn = AudioSystem.getAudioInputStream(AudioPlayer.class.getResource("Back To December.wav"));
+                                    // Get a clip to play the audio
+                                    Clip clip = AudioSystem.getClip();
 
-                                // Open the clip and load the audio data from the input stream
-                                clip.open(audioIn);
+                                    // Open the clip and load the audio data from the input stream
+                                    clip.open(audioIn);
 
-                                // Start playing the audio
-                                clip.start();
-                                Scanner reader = new Scanner(System.in);
-                                Thread inputThread = new Thread(() -> {
-                                    try {
-                                        while (clip.isRunning()) {
-                                            String input = reader.nextLine();
-                                            if (input.equalsIgnoreCase("stop")) {
-                                                stopRequested.set(true); // set stopRequested to true
-                                                break;
+                                    // Start playing the audio
+                                    clip.start();
+                                    Scanner reader = new Scanner(System.in);
+                                    Thread inputThread = new Thread(() -> {
+                                        try {
+                                            while (clip.isRunning()) {
+                                                String input = reader.nextLine();
+                                                if (input.equalsIgnoreCase("stop")) {
+                                                    stopRequested.set(true); // set stopRequested to true
+                                                    break;
+                                                }
+                                                Thread.sleep(10);
                                             }
-                                            Thread.sleep(10);
+                                        } catch (Exception e) {
+                                            e.printStackTrace();
                                         }
-                                    } catch (Exception e) {
-                                        e.printStackTrace();
+                                    });
+                                    inputThread.start();
+
+                                    long totalLength = clip.getMicrosecondLength();
+                                    // Wait for the audio to finish playing
+                                    while (!clip.isRunning() && !stopRequested.get()) // modified condition
+                                        Thread.sleep(10);
+
+                                    // Display the remaining time every 1 second
+                                    long prevRemaining = -1;
+                                    while (clip.isRunning() && !stopRequested.get()) { // modified condition
+                                        long remaining = (totalLength - clip.getMicrosecondPosition()) / 1000000;
+                                        Time timeLeft = new Time(remaining);
+                                        String strRemaining = timeLeft.displayHHMMSS();
+                                        // Only update the remaining time if it has changed
+                                        if (remaining != prevRemaining) {
+                                            System.out.print("\r" + strRemaining + " ");
+                                            prevRemaining = remaining;
+                                        }
+
+                                        Thread.sleep(1000); // Wait 1 second before displaying the next update
                                     }
-                                });
-                                inputThread.start();
 
-                                long totalLength = clip.getMicrosecondLength();
-                                // Wait for the audio to finish playing
-                                while (!clip.isRunning() && !stopRequested.get()) // modified condition
-                                    Thread.sleep(10);
-
-                                // Display the remaining time every 1 second
-                                long prevRemaining = -1;
-                                while (clip.isRunning() && !stopRequested.get()) { // modified condition
-                                    long remaining = (totalLength - clip.getMicrosecondPosition()) / 1000000;
-                                    Time timeLeft = new Time(remaining);
-                                    String strRemaining = timeLeft.displayHHMMSS();
-                                    // Only update the remaining time if it has changed
-                                    if (remaining != prevRemaining) {
-                                        System.out.print("\r" + strRemaining + " ");
-                                        prevRemaining = remaining;
-                                    }
-
-                                    Thread.sleep(1000); // Wait 1 second before displaying the next update
+                                    // Clear the line after the loop ends
+                                    System.out.print("\r" + " ".repeat(20) + "\r");
+                                    // Close the clip and input stream
+                                    clip.close();
+                                    audioIn.close();
+                                    inputThread.interrupt();
+                                    stopRequested.set(false); // reset stopRequested to false
+                                    reader.close();
+                                } catch (Exception e) {
+                                    e.printStackTrace();
                                 }
-
-                                // Clear the line after the loop ends
-                                System.out.print("\r" + " ".repeat(20) + "\r");
-                                // Close the clip and input stream
-                                clip.close();
-                                audioIn.close();
-                                inputThread.interrupt();
-                                stopRequested.set(false); // reset stopRequested to false
-                                reader.close();
-                            } catch (Exception e) {
-                                e.printStackTrace();
+                            }
+                            else {
+                                System.out.println("Turn on the audio player first!");
                             }
                             break;
                         default:
