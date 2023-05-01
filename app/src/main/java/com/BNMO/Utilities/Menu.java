@@ -6,7 +6,7 @@ import java.util.*;
 
 public class Menu {
     private boolean gameStarted = false;
-    private Sim currentSim;
+    private static Sim currentSim;
     private ArrayList<Sim> simList;
 
     public Menu(Sim initSim) {
@@ -151,7 +151,7 @@ public class Menu {
         return gameStarted;
     }
 
-    public Sim getCurrentSim() {
+    public static Sim getCurrentSim() {
         return currentSim;
     }
 }

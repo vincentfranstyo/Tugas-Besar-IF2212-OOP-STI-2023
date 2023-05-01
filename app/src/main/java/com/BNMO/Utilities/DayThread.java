@@ -5,13 +5,15 @@ import java.util.concurrent.atomic.AtomicInteger;
 
 public class DayThread implements Runnable {
     private AtomicInteger dailyWorkDuration = new AtomicInteger(0);
-    private AtomicInteger dailySleptDur = new AtomicInteger(0);
+    private AtomicBoolean slept = new AtomicBoolean(false);
     private AtomicBoolean notEnoughSleep = new AtomicBoolean(false);
     private AtomicBoolean eaten = new AtomicBoolean(false);
+    private AtomicBoolean poopedAfterAte = new AtomicBoolean(false);
+    private AtomicBoolean notPoopedYet = new AtomicBoolean(false);
     private boolean paused = false;
     private final Object lock = new Object();
-    int day = 0;
     int i = 720;
+    int day;
 
     public void pauseThread() {
         paused = true;
@@ -23,13 +25,14 @@ public class DayThread implements Runnable {
     public void resumeThread() {
         synchronized (lock) {
             paused = false;
-            System.out.println("Hari ke-" + day + " telah dilanjutkan!");
+            if (day == 0)
+                System.out.println("Hari ke-" + day + " telah dilanjutkan!");
             lock.notifyAll();
         }
     }
 
-    public int getDailySleptDur() {
-        return dailySleptDur.get();
+    public boolean getSlept() {
+        return slept.get();
     }
 
     public int getDailyWorkDuration() {
@@ -40,12 +43,12 @@ public class DayThread implements Runnable {
         return notEnoughSleep.get();
     }
 
-    public boolean getEaten() {
-        return eaten.get();
+    public boolean getPoopedAfterAte() {
+        return poopedAfterAte.get();
     }
 
-    public void setDailySleptDur(int dailySleptDur) {
-        this.dailySleptDur.set(dailySleptDur);
+    public void setSlept(boolean slept) {
+        this.slept.set(slept);
     }
 
     public void setDailyWorkDuration(int dailyWorkDuration) {
@@ -56,6 +59,14 @@ public class DayThread implements Runnable {
         this.notEnoughSleep.set(notEnoughSleep);
     }
 
+    public void setPoopedAfterAte(boolean poopedAfterAte) {
+        this.poopedAfterAte.set(poopedAfterAte);
+    }
+
+    public boolean getEaten() {
+        return eaten.get();
+    }
+
     public void setEaten(boolean eaten) {
         this.eaten.set(eaten);
     }
@@ -63,6 +74,7 @@ public class DayThread implements Runnable {
     @Override
     public void run() {
         while (true) {
+            day = i / 720;
             synchronized (lock) {
                 while (paused) {
                     try {
@@ -78,6 +90,38 @@ public class DayThread implements Runnable {
                 System.out.println("Hari ke-" + day + " dimulai!");
                 System.out.println();
             }
+
+            // Dampak tidak tidur 10 menit
+            int notSleptMark = 0;
+            if (!getSlept()) {
+                notSleptMark = i;
+            } else {
+                notEnoughSleep.set(false);
+            }
+
+            if (!getSlept() && ((i - notSleptMark) % 600 == 0)) {
+                notEnoughSleep.set(true);
+                Menu.getCurrentSim().setMood(Menu.getCurrentSim().getMood() - 5);
+                Menu.getCurrentSim().setHealth(Menu.getCurrentSim().getHealth() - 5);
+                System.out.println("Kamu kurang tidur, sehingga mempengaruhi mood dan health kamu!");
+            }
+
+            // Dampak tidak buang air 4 menit setelah makan
+            int notPoopedMark = 0;
+            if (getEaten() && !getPoopedAfterAte()) {
+                notPoopedMark = i;
+            } else {
+                notPoopedYet.set(false);
+            }
+
+            if (getEaten() && !getPoopedAfterAte() && ((i - notPoopedMark) % 240 == 0)) {
+                notPoopedYet.set(true);
+                Menu.getCurrentSim().setMood(Menu.getCurrentSim().getMood() - 5);
+                Menu.getCurrentSim().setHealth(Menu.getCurrentSim().getHealth() - 5);
+                System.out.println("Kamu belum buang air setelah makan, sehingga mempengaruhi mood dan health kamu!");
+            }
+            notPoopedYet.set(false);
+
             try {
                 Thread.sleep(1000);
                 i++;
@@ -92,12 +136,6 @@ public class DayThread implements Runnable {
                     System.out.println();
                 } else if (i % 180 == 0) {
                     System.out.println("Hari ini telah berlalu 3 menit!");
-                }
-
-                if (dailySleptDur.get() < 180 && i % 720 == 0) {
-                    notEnoughSleep.set(true);
-                    System.out.println("Kamu tidak cukup tidur!");
-                    System.out.println();
                 }
             }
         }

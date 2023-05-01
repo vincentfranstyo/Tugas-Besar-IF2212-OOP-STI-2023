@@ -313,9 +313,9 @@ public class App {
                                 }
                             }
                             menu.getCurrentSim().goToObject((NonFoodObjects) bedValidator);
-                            dayThread.setDailySleptDur(dayThread.getDailySleptDur() + sleepDur);
                             dayThread.resumeThread();
                             bedValidator.sleep(new Time(sleepDur), menu.getCurrentSim());
+                            dayThread.setSlept(true);
                             dayThread.pauseThread();
                         }
 
@@ -368,23 +368,21 @@ public class App {
                                     }
                                 }
                             }
-
                             if (!cancelEating) {
+                                dayThread.resumeThread();
                                 if (menu.getCurrentSim().getInventory().getFood(loweredFood).getType()
                                         .equals("Dishes")) {
-                                    dayThread.resumeThread();
                                     tableValidator.eatDish(menu.getCurrentSim(),
                                             (Dishes) menu.getCurrentSim().getInventory().getFood(loweredFood));
-                                    dayThread.pauseThread();
                                 }
 
                                 else if (menu.getCurrentSim().getInventory().getFood(loweredFood).getType()
                                         .equals("Ingredients")) {
-                                    dayThread.resumeThread();
                                     tableValidator.eatIngredients(menu.getCurrentSim(),
                                             (Ingredients) menu.getCurrentSim().getInventory().getFood(loweredFood));
-                                    dayThread.pauseThread();
                                 }
+                                dayThread.setEaten(true);
+                                dayThread.pauseThread();
                             }
                         }
                     } else if (activityNum == 5) {
@@ -488,6 +486,7 @@ public class App {
                             System.out.println("Kamu memilih untuk buang air!");
                             dayThread.resumeThread();
                             toiletValidator.useToilet(menu.getCurrentSim());
+                            dayThread.setPoopedAfterAte(true);
                             dayThread.pauseThread();
                         }
 
@@ -940,8 +939,6 @@ public class App {
                 }
             }
             userInput.close();
-            System.exit(0);
-
         } else
 
         {
