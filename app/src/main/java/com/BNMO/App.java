@@ -121,9 +121,10 @@ public class App {
                     // INFO RUMAH
                     System.out.println();
                     System.out.println("Berikut adalah info ruangan kamu:");
+                    world.printHouseLayout(menu.getCurrentSim().getCurrentHouse());
+                    System.out.println();
                     menu.getCurrentSim().getCurrentHouse().printRooms();
                     // TODO CLI layout
-                    world.printHouseLayout(menu.getCurrentSim().getCurrentHouse());
                     System.out.println();
                 } else if (commandNum == 4) {
                     // MAP
