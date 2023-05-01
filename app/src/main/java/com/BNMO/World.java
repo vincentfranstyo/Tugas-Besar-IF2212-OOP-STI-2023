@@ -189,7 +189,7 @@ public class World {
         }
         Iterator<Room> rooms = house.getRooms();
         Room curRoom = rooms.next();
-        houseLayout.get(2).set(0, curRoom.getNameRoom());
+        houseLayout.get(2).set(3, curRoom.getNameRoom());
 
         Iterator<Room> kamar = house.getRooms();
         while (kamar.hasNext()) {
