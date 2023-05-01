@@ -119,6 +119,7 @@ public class Menu {
         System.out.println("Fullness: " + currentSim.getFullness());
         System.out.println("Mood: " + currentSim.getMood());
         System.out.println("Health: " + currentSim.getHealth());
+        System.out.println("Current Location: " + currentSim.getCurrentRoom().getNameRoom());
     }
 
     public void addSim(Sim sim) {

@@ -32,52 +32,52 @@ public class House {
         this.initRoom.addObject(new SingleBed("Kasur 1"), new Point(6, 3), "vertikal");
     }
 
-    private void fixDirectRoom(){
-        for(Room r: rooms){
-            if(r.getFront() != null){
-                if(r.getFront().getRight() != null){
-                    if(r.getRight() != null){
+    private void fixDirectRoom() {
+        for (Room r : rooms) {
+            if (r.getFront() != null) {
+                if (r.getFront().getRight() != null) {
+                    if (r.getRight() != null) {
                         r.getRight().setFront(r.getFront().getRight());
                     }
                 }
-                if(r.getFront().getLeft() != null){
-                    if(r.getLeft() != null){
+                if (r.getFront().getLeft() != null) {
+                    if (r.getLeft() != null) {
                         r.getLeft().setFront(r.getFront().getLeft());
                     }
                 }
             }
-            if(r.getBehind() != null){
-                if(r.getBehind().getRight() != null){
-                    if(r.getRight() != null){
+            if (r.getBehind() != null) {
+                if (r.getBehind().getRight() != null) {
+                    if (r.getRight() != null) {
                         r.getRight().setBehind(r.getBehind().getRight());
                     }
                 }
-                if(r.getBehind().getLeft() != null){
-                    if(r.getLeft() != null){
+                if (r.getBehind().getLeft() != null) {
+                    if (r.getLeft() != null) {
                         r.getLeft().setBehind(r.getBehind().getLeft());
                     }
                 }
             }
-            if(r.getRight() != null){
-                if(r.getRight().getFront() != null){
-                    if(r.getFront() != null){
+            if (r.getRight() != null) {
+                if (r.getRight().getFront() != null) {
+                    if (r.getFront() != null) {
                         r.getFront().setRight(r.getRight().getFront());
                     }
                 }
-                if(r.getRight().getBehind() != null){
-                    if(r.getBehind() != null){
+                if (r.getRight().getBehind() != null) {
+                    if (r.getBehind() != null) {
                         r.getBehind().setRight(r.getRight().getBehind());
                     }
                 }
             }
-            if(r.getLeft() != null){
-                if(r.getLeft().getFront() != null){
-                    if(r.getFront() != null){
+            if (r.getLeft() != null) {
+                if (r.getLeft().getFront() != null) {
+                    if (r.getFront() != null) {
                         r.getFront().setLeft(r.getLeft().getFront());
                     }
                 }
-                if(r.getLeft().getBehind() != null){
-                    if(r.getBehind() != null){
+                if (r.getLeft().getBehind() != null) {
+                    if (r.getBehind() != null) {
                         r.getBehind().setLeft(r.getLeft().getBehind());
                     }
                 }
@@ -112,7 +112,7 @@ public class House {
                             try {
                                 // Pilih ruangan yang ingin di bangun (Above, Right, Below, atau Left) dari
                                 // currentRoom lalu instansiasi sebuah room baru dengan posisi yang dipilih
-                                Thread.sleep(1080000); // 18 menit
+                                Thread.sleep(10000); // 18 menit
                                 rooms.add(newRoom);
                                 synchronized (this) {
                                     totalRoom++;
@@ -134,27 +134,32 @@ public class House {
             System.out.println("Tidak Bisa Menambah Ruangan Pada Rumah Orang Lain!");
         }
     }
+
     public void deleteRoom(Sim sim, Room delRoom) {
-        if(sim.getName().equals(owner.getName())){
+        if (sim.getName().equals(owner.getName())) {
             if (rooms.contains(delRoom)) {
                 rooms.remove(delRoom);
-                if(delRoom.getFront() != null) delRoom.getFront().setBehind(null);
-                if(delRoom.getBehind() != null) delRoom.getBehind().setFront(null);
-                if(delRoom.getLeft() != null) delRoom.getLeft().setRight(null);
-                if(delRoom.getRight() != null) delRoom.getRight().setLeft(null);
+                if (delRoom.getFront() != null)
+                    delRoom.getFront().setBehind(null);
+                if (delRoom.getBehind() != null)
+                    delRoom.getBehind().setFront(null);
+                if (delRoom.getLeft() != null)
+                    delRoom.getLeft().setRight(null);
+                if (delRoom.getRight() != null)
+                    delRoom.getRight().setLeft(null);
                 totalRoom--;
                 Iterator<Object> objectsRoom = delRoom.getObjects();
                 // Memindahkan semua object yang ada di dalam room ke dalam inventory
                 while (objectsRoom.hasNext()) {
                     owner.getInventory().addObject(objectsRoom.next());
                 }
-                System.out.println("Room " + delRoom.getNameRoom() + " Berhasil di Delete dari Rumah " + owner.getName());
+                System.out
+                        .println("Room " + delRoom.getNameRoom() + " Berhasil di Delete dari Rumah " + owner.getName());
                 fixDirectRoom();
             } else {
                 System.out.println("Tidak Ada Room " + delRoom.getNameRoom() + " Pada Rumah " + owner.getName());
             }
-        }
-        else{
+        } else {
             System.out.println("Tidak Bisa Menghapus Ruangan Pada Rumah Orang Lain!");
         }
     }

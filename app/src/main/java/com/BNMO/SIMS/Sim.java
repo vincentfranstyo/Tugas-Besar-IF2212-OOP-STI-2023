@@ -49,10 +49,10 @@ public class Sim {
         this.job = jobs.get(index);
 
         this.name = name;
-        this.money = 100;
-        this.fullness = 80;
-        this.mood = 80;
-        this.health = 80;
+        this.money = 1000000; // 100
+        this.fullness = 1000000; // 80
+        this.mood = 1000000; // 80
+        this.health = 1000000; // 80
         this.status = "Nothing";
         this.isAlive = true;
         this.inventory = new Inventory<Object>(this);

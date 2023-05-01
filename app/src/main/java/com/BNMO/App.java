@@ -542,10 +542,12 @@ public class App {
                         } else if (numUpHouseInt == 2) {
                             // TODO Delete Current Room (Room pada house Hanya bisa di delete jika lebih
                             // dari 1) & move ke some room pada house
+                            // TODO delete room dihapus aja
                             menu.getCurrentSim().getCurrentHouse().deleteRoom(menu.getCurrentSim(),
                                     menu.getCurrentSim().getCurrentRoom());
                         } else if (numUpHouseInt == 3) {
                             // TODO add object in current room
+                            // TODO display keadaan ruangan sekarang
                             System.out.println("Object Dalam Inventory Yang Dapat Ditambahkan Pada Ruangan:");
                             int i = 1;
                             Iterator<Object> itr = menu.getCurrentSim().getInventory().getObjects().iterator();
@@ -882,18 +884,29 @@ public class App {
                     System.out.println();
                     System.out.println("Ruangan mana yang ingin kamu tuju? (Masukkan nama ruangan)");
                     String roomName = userInput.nextLine();
-                    String loweredRoomName = roomName.toLowerCase();
+                    String loweredRoomName = roomName.toLowerCase().replaceAll("\\s+", "");
                     ArrayList<String> validRooms = new ArrayList<String>();
-                    while (menu.getCurrentSim().getCurrentHouse().getRooms().hasNext()) {
-                        validRooms.add(
-                                menu.getCurrentSim().getCurrentHouse().getRooms().next().getNameRoom().toLowerCase());
+                    Iterator<Room> itr = menu.getCurrentSim().getCurrentHouse().getRooms();
+                    while (itr.hasNext()) {
+                        validRooms.add(itr.next().getNameRoom().toLowerCase().replaceAll("\\s+", ""));
                     }
                     while (!validRooms.contains(loweredRoomName)) {
                         System.out.println("Masukkan ruangan yang valid!");
                         roomName = userInput.nextLine();
-                        loweredRoomName = roomName.toLowerCase();
+                        loweredRoomName = roomName.toLowerCase().replaceAll("\\s+", "");
                     }
-                    menu.getCurrentSim().move(menu.getCurrentSim().getCurrentHouse().getRoom(loweredRoomName));
+                    Room targetedRoom = null;
+                    itr = menu.getCurrentSim().getCurrentHouse().getRooms();
+
+                    while (itr.hasNext()) {
+                        Room r = itr.next();
+                        if (r.getNameRoom().toLowerCase().replaceAll("\\s+", "").equals(loweredRoomName)) {
+                            targetedRoom = r;
+                            System.out.println("Kamu berada di " + targetedRoom.getNameRoom() + "!");
+                            break;
+                        }
+                    }
+                    menu.getCurrentSim().move(targetedRoom);
                 }
 
                 else if (commandNum == 11) {
