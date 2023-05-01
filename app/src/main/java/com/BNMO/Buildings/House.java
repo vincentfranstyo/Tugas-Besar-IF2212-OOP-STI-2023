@@ -126,12 +126,15 @@ public class House {
                     t.start();
                 } else {
                     System.out.println("Input Arah Ruangan Salah!");
+                    System.out.println();
                 }
             } else {
                 System.out.println("Tidak Bisa Menambah Ruangan Karena Uang Tidak Cukup!");
+                System.out.println();
             }
         } else {
             System.out.println("Tidak Bisa Menambah Ruangan Pada Rumah Orang Lain!");
+            System.out.println();
         }
     }
     public void deleteRoom(Sim sim, Room delRoom) {
@@ -149,13 +152,16 @@ public class House {
                     owner.getInventory().addObject(objectsRoom.next());
                 }
                 System.out.println("Room " + delRoom.getNameRoom() + " Berhasil di Delete dari Rumah " + owner.getName());
+                System.out.println();
                 fixDirectRoom();
             } else {
                 System.out.println("Tidak Ada Room " + delRoom.getNameRoom() + " Pada Rumah " + owner.getName());
+                System.out.println();
             }
         }
         else{
             System.out.println("Tidak Bisa Menghapus Ruangan Pada Rumah Orang Lain!");
+            System.out.println();
         }
     }
 
