@@ -202,7 +202,7 @@ public class House {
         while (itrRoom.hasNext()) {
             counter++;
             Room temp = itrRoom.next();
-            System.out.println(counter + temp.getNameRoom());
+            System.out.println(counter + ". " + temp.getNameRoom());
             temp.printObjRoom();
         }
         System.out.println();
