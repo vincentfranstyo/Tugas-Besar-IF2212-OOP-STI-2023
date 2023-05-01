@@ -112,7 +112,7 @@ public class House {
                             try {
                                 // Pilih ruangan yang ingin di bangun (Above, Right, Below, atau Left) dari
                                 // currentRoom lalu instansiasi sebuah room baru dengan posisi yang dipilih
-                                Thread.sleep(10000); // 18 menit
+                                Thread.sleep(1080000); // 18 menit
                                 rooms.add(newRoom);
                                 synchronized (this) {
                                     totalRoom++;
@@ -156,13 +156,11 @@ public class House {
                 while (objectsRoom.hasNext()) {
                     owner.getInventory().addObject(objectsRoom.next());
                 }
-<<<<<<< HEAD
                 System.out
                         .println("Room " + delRoom.getNameRoom() + " Berhasil di Delete dari Rumah " + owner.getName());
-=======
-                System.out.println("Room " + delRoom.getNameRoom() + " Berhasil di Delete dari Rumah " + owner.getName());
+                System.out
+                        .println("Room " + delRoom.getNameRoom() + " Berhasil di Delete dari Rumah " + owner.getName());
                 System.out.println();
->>>>>>> 12fb29d60dd82c8ae3d5adc2e0cdb0a72123b493
                 fixDirectRoom();
             } else {
                 System.out.println("Tidak Ada Room " + delRoom.getNameRoom() + " Pada Rumah " + owner.getName());
