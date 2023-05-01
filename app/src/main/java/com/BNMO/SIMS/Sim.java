@@ -190,7 +190,7 @@ public class Sim {
             setCurrentJobDuration(jobDurTime);
             setStatus("Working");
             System.out.println(getName() + " is working...");
-            Thread.sleep(duration * 1000); // Sleep for 2 second
+            Thread.sleep(1000);
             System.out.println(getName() + " is done working");
             setFullness(getFullness() - 10 * (duration / 30));
             setMood(getMood() - 10 * (duration / 30));

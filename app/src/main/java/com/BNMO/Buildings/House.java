@@ -112,7 +112,7 @@ public class House {
                             try {
                                 // Pilih ruangan yang ingin di bangun (Above, Right, Below, atau Left) dari
                                 // currentRoom lalu instansiasi sebuah room baru dengan posisi yang dipilih
-                                Thread.sleep(1080000); // 18 menit
+                                Thread.sleep(1000); // 18 menit // 1080000
                                 rooms.add(newRoom);
                                 synchronized (this) {
                                     totalRoom++;
