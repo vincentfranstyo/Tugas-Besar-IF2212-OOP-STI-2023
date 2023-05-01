@@ -175,7 +175,7 @@ public class World {
                 if (i == 0) {
                     houseLayout.get(i).add("--");
                 } else if (i == 2) {
-                    houseLayout.get(i).add(" ");
+                    houseLayout.get(i).add("  ");
                 } else if (i == 4) {
                     houseLayout.get(i).add("--");
                 } else if (j == 0) {
@@ -189,7 +189,7 @@ public class World {
         }
         Iterator<Room> rooms = house.getRooms();
         Room curRoom = rooms.next();
-        houseLayout.get(2).set(0, curRoom.getNameRoom());
+        houseLayout.get(2).set(2, curRoom.getNameRoom());
 
         Iterator<Room> kamar = house.getRooms();
         while (kamar.hasNext()) {
@@ -224,15 +224,15 @@ public class World {
                     yCount = houseLayout.size();
                     for (int i = startY + 3; i < startY + 8; i++) {
                         if (startX != 0) {
-                            for (int j = 0; j < startX; j++) {
+                            for (int j = 0; j < startX - 2; j++) {
                                 houseLayout.get(i).add("  ");
                             }
                         }
-                        for (int j = startX; j < startX + 5; j++) {
+                        for (int j = startX - 2; j < startX + 3; j++) {
                             if (i % 5 == 0) {
                                 houseLayout.get(i).add("--");
                             } else if (i % 5 == 2) {
-                                houseLayout.get(i).add(" ");
+                                houseLayout.get(i).add("  ");
                             } else if (i % 5 == 4) {
                                 houseLayout.get(i).add("--");
                             } else if (j % 5 == 0) {
@@ -282,15 +282,15 @@ public class World {
                     if (startY == 2) {
                         for (int i = 0; i < 5; i++) {
                             if (startX != 0) {
-                                for (int j = 0; j < startX; j++) {
+                                for (int j = 0; j < startX - 2; j++) {
                                     houseLayout.get(i).add("  ");
                                 }
                             }
-                            for (int j = startX; j < startX + 5; j++) {
+                            for (int j = startX - 2; j < startX + 3; j++) {
                                 if (i % 5 == 0) {
                                     houseLayout.get(i).add("--");
                                 } else if (i % 5 == 2) {
-                                    houseLayout.get(i).add(" ");
+                                    houseLayout.get(i).add("  ");
                                 } else if (i % 5 == 4) {
                                     houseLayout.get(i).add("--");
                                 } else if (j % 5 == 0) {
@@ -306,11 +306,11 @@ public class World {
                         houseLayout.get(2).set(startX, currentRoom.getNameRoom());
                     } else {
                         for (int i = startY - 7; i < startY - 2; i++) {
-                            for (int j = startX; j < startX + 5; j++) {
+                            for (int j = startX - 2; j < startX + 3; j++) {
                                 if (i % 5 == 0) {
                                     houseLayout.get(i).add("--");
                                 } else if (i % 5 == 2) {
-                                    houseLayout.get(i).add(" ");
+                                    houseLayout.get(i).add("  ");
                                 } else if (i % 5 == 4) {
                                     houseLayout.get(i).add("--");
                                 } else if (j % 5 == 0) {
@@ -356,11 +356,11 @@ public class World {
 
                     for (int i = 0; i < houseLayout.size(); i++) {
                         if ((i >= (tempYlower)) && (i < tempYupper)) {
-                            for (int j = startX + 5; j < startX + 10; j++) {
+                            for (int j = startX + 3; j < startX + 8; j++) {
                                 if (i % 5 == 0) {
                                     houseLayout.get(i).add("--");
                                 } else if (i % 5 == 2) {
-                                    houseLayout.get(i).add(" ");
+                                    houseLayout.get(i).add("  ");
                                 } else if (i % 5 == 4) {
                                     houseLayout.get(i).add("--");
                                 } else if (j % 5 == 0) {
@@ -375,8 +375,8 @@ public class World {
                             try {
                                 String temp = houseLayout.get(i).get(startX + 5);
                             } catch (IndexOutOfBoundsException e) {
-                                for (int j = startX + 5; j < startX + 10; j++) {
-                                    houseLayout.get(i).add(" ");
+                                for (int j = startX + 3; j < startX + 8; j++) {
+                                    houseLayout.get(i).add("  ");
                                 }
                             }
 
@@ -407,7 +407,7 @@ public class World {
                             }
                         }
                     }
-                    if (startX == 0) {
+                    if (startX == 2) {
                         int tempYlower = startY - 2;
                         int tempYupper = startY + 3;
 
@@ -417,7 +417,7 @@ public class World {
                                     if (i % 5 == 0) {
                                         houseLayout.get(i).add(j, "--");
                                     } else if (i % 5 == 2) {
-                                        houseLayout.get(i).add(j, " ");
+                                        houseLayout.get(i).add(j, "  ");
                                     } else if (i % 5 == 4) {
                                         houseLayout.get(i).add(j, "--");
                                     } else if (j % 5 == 0) {
@@ -440,20 +440,20 @@ public class World {
                             }
                         }
 
-                        houseLayout.get(startY).set(0, currentRoom.getNameRoom());
+                        houseLayout.get(startY).set(2, currentRoom.getNameRoom());
                     } else {
                         int tempYlower = startY - 2;
                         int tempYupper = startY + 3;
 
                         for (int i = 0; i < houseLayout.size(); i++) {
                             if ((i >= (tempYlower)) && (i < tempYupper)) {
-                                for (int j = startX - 5; j < startX; j++) {
+                                for (int j = startX - 2; j < startX + 3; j++) {
                                     if (i % 5 == 0) {
-                                        houseLayout.get(i).add(j, "---");
+                                        houseLayout.get(i).add(j, "--");
                                     } else if (i % 5 == 2) {
-                                        houseLayout.get(i).add(j, " ");
+                                        houseLayout.get(i).add(j, "  ");
                                     } else if (i % 5 == 4) {
-                                        houseLayout.get(i).add(j, "---");
+                                        houseLayout.get(i).add(j, "--");
                                     } else if (j % 5 == 0) {
                                         houseLayout.get(i).add(j, "|");
                                     } else if (j % 5 == 4) {
@@ -480,6 +480,21 @@ public class World {
                 }
             }
 
+        }
+        rooms = house.getRooms();
+        int counter = 0;
+        while (rooms.hasNext()){
+            counter++;
+            Room roomCur = rooms.next();
+            yCount = houseLayout.size();
+            for (int i = 0; i < yCount; i++) {
+                int xCount = houseLayout.get(i).size();
+                for (int j = 0; j < xCount; j++) {
+                    if(houseLayout.get(i).get(j).equals(roomCur.getNameRoom())){
+                        houseLayout.get(i).set(j,Integer.toString(counter));
+                    }
+                }
+            }
         }
 
         yCount = houseLayout.size();

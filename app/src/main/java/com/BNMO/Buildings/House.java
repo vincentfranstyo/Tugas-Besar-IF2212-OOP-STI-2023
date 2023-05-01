@@ -204,6 +204,7 @@ public class House {
             Room temp = itrRoom.next();
             System.out.println(counter + ". " + temp.getNameRoom());
             temp.printObjRoom();
+            System.out.println();
         }
         System.out.println();
     }
