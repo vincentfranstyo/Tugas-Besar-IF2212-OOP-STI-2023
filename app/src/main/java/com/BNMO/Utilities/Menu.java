@@ -106,7 +106,7 @@ public class Menu {
         System.out.println("Terima kasih telah bermain Sim-Plicity!");
     }
 
-    public void viewSimInfo() {
+    public static void viewSimInfo() {
         System.out.println("Info Sim:");
         System.out.println("Nama: " + currentSim.getName());
         System.out.println("Job: " + currentSim.getJob().getName());
