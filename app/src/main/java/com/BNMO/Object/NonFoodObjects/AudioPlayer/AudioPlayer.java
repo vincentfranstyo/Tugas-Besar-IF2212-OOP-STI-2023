@@ -103,10 +103,10 @@ public class AudioPlayer extends NonFoodObjects {
     public void charge(Time time) {
         int duration = time.convertToSecond();
 
-        if (getBattery() + duration / 20 > 100) {
+        if ((getBattery() + duration / 2) > 100) {
             setBattery(100);
         } else {
-            setBattery((getBattery() + duration / 20));
+            setBattery((getBattery() + duration / 2));
         }
         System.out.println("Battery is charged to " + getBattery() + "%");
     }
@@ -231,6 +231,10 @@ public class AudioPlayer extends NonFoodObjects {
                     inputThread.interrupt();
                     stopRequested.set(false); // reset stopRequested to false
                     reader.close();
+
+                    sim.setMood(getMood() + music.getLength().convertToSecond() / 30);
+                    sim.setHealth(getHealth() - 10);
+                    setBattery(getBattery() - Math.ceil(music.getLength().convertToSecond() / 3 0));
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
@@ -242,7 +246,7 @@ public class AudioPlayer extends NonFoodObjects {
         }
     }
 
-    public void audioPlayerMenu() {
+    public void audioPlayerMenu(Sim sim) {
         Scanner scanner = new Scanner(System.in);
         System.out.println("Hi there! Welcome to " + getName() + "!");
         System.out.println("What would you like to do?");
@@ -257,6 +261,7 @@ public class AudioPlayer extends NonFoodObjects {
         System.out.println("[9] Show Library");
         System.out.println("[10] Play music");
         System.out.println("[11] Help");
+        System.out.println("[12] Exit");
 
         boolean done = false;
         final AtomicBoolean stopRequested = new AtomicBoolean(false);
@@ -281,7 +286,9 @@ public class AudioPlayer extends NonFoodObjects {
                             turnOff();
                             break;
                         case 3:
-                            charge(new Time(0, 0, 50, 20));
+                            System.out.print("Enter how long you want to charge (in seconds): ");
+                            int chargeTime = Integer.parseInt(scanner.nextLine());
+                            charge(new Time(chargeTime));
                             break;
                         case 4:
                             if (getIsOn()) {
@@ -320,7 +327,25 @@ public class AudioPlayer extends NonFoodObjects {
                             }
                             break;
                         case 7:
-                            // removePlaylist();
+                            if (getIsOn()) {
+                                System.out.println("Here are your playlists:");
+                                int counter = 1;
+                                for (Playlist playlist : getPlaylists()) {
+                                    System.out.println(counter + ". " +  playlist.getName() + "[ID: " + playlist.getPlaylistID() + "]");
+                                    counter++;
+                                }
+                                System.out.print("Enter the ID of the playlist you want to remove: ");
+                                int playlistID = Integer.parseInt(scanner.nextLine());
+                                for (Playlist playlist : getPlaylists()) {
+                                    if (playlist.getPlaylistID() == playlistID) {
+                                        getPlaylists().remove(playlist);
+                                        System.out.println("Playlist " + playlist.getName() + " has been removed!");
+                                    }
+                                }
+                            }
+                            else {
+                                System.out.println("Turn on the audio player first!");
+                            }
                             break;
                         case 8:
                             if (getIsOn()) {
@@ -329,7 +354,7 @@ public class AudioPlayer extends NonFoodObjects {
                                 int musicID = Integer.parseInt(scanner.nextLine());
                                 for (Music music : getMusic()) {
                                     if (music.getMusicID() == musicID) {
-                                        buy(music, new Sim("Budi"));
+                                        buy(music, sim);
                                     }
                                 }
                             }
@@ -352,7 +377,6 @@ public class AudioPlayer extends NonFoodObjects {
                             else {
                                 System.out.println("Turn on the audio player first!");
                             }
-                                
                             break;
                         case 11:
                             System.out.println("Welcome to " + getName() + "!");
@@ -361,6 +385,11 @@ public class AudioPlayer extends NonFoodObjects {
                             System.out.println("You can play a music by entering its titlel.");
                             System.out.println("You can also add, remove, or play a playlist.");
                             System.out.println("Have fun listening!");
+                            break;
+                        case 12:
+                            done = true;
+                            System.out.println("Exiting " + getName() + " ...." + " Bye!");
+                            break;
                         default:
                             break;
                     }
