@@ -7,12 +7,11 @@ import java.util.*;
 public class Menu {
     private static boolean gameStarted = false;
     private static Sim currentSim;
-    private static ArrayList<Sim> simList;
+    private static ArrayList<Sim> simList = new ArrayList<Sim>();
 
     public static void start() {
-        gameStarted = true;
-        simList = new ArrayList<Sim>();
-        simList.add(currentSim);
+        setGameStarted(true);
+        addSim(currentSim);
         System.out.println("Permainan Akan Segera Dimulai...");
         System.out.println("Selamat Bermain !!!");
     }
@@ -103,7 +102,7 @@ public class Menu {
     }
 
     public static void exit() {
-        gameStarted = false;
+        setGameStarted(false);
         System.out.println("Terima kasih telah bermain Sim-Plicity!");
     }
 
@@ -159,6 +158,8 @@ public class Menu {
         currentSim = sim;
     }
 
-    
+    public static ArrayList getSimList(){
+        return simList;
+    }
     
 }
