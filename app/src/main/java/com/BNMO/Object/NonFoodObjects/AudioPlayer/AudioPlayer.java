@@ -147,11 +147,11 @@ public class AudioPlayer extends NonFoodObjects {
                 System.out.println("=================");
                 for (Music music : getLibrary()) {
                     System.out.println(
-                            music.getName() + " - " + music.getArtist() + "(" + music.getLength().displayHHMMSS() + ")");
+                            music.getName() + " - " + music.getArtist() + "(" + music.getLength().displayHHMMSS()
+                                    + ")");
                 }
                 System.out.println("");
-            }
-            else {
+            } else {
                 System.out.println("Library is empty!");
             }
         } else {
@@ -167,6 +167,7 @@ public class AudioPlayer extends NonFoodObjects {
         System.out.println("Select the music you want to play: ");
         showLibrary();
         System.out.print("Enter the title: ");
+        Scanner scanner = new Scanner(System.in);
         String title = scanner.nextLine().toLowerCase();
         boolean musicFound = false;
 
@@ -206,7 +207,7 @@ public class AudioPlayer extends NonFoodObjects {
                     long totalLength = clip.getMicrosecondLength();
                     // Wait for the audio to finish playing
                     while (!clip.isRunning() && !stopRequested.get()) // modified condition
-                    Thread.sleep(10);
+                        Thread.sleep(10);
 
                     // Display the remaining time every 1 second
                     long prevRemaining = -1;
@@ -234,7 +235,7 @@ public class AudioPlayer extends NonFoodObjects {
 
                     sim.setMood(getMood() + music.getLength().convertToSecond() / 30);
                     sim.setHealth(getHealth() - 10);
-                    setBattery(getBattery() - Math.ceil(music.getLength().convertToSecond() / 3 0));
+                    setBattery(getBattery() - Math.ceil(music.getLength().convertToSecond() / 30));
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
@@ -305,8 +306,7 @@ public class AudioPlayer extends NonFoodObjects {
                                     System.out.println(count + ". " + playlist.getName());
                                     count++;
                                 }
-                            }
-                            else {
+                            } else {
                                 System.out.println("Turn on the audio player first!");
                             }
                             break;
@@ -321,8 +321,7 @@ public class AudioPlayer extends NonFoodObjects {
                                 playlists.add(new Playlist(name, desc, playlistID));
                                 System.out.println(" ");
                                 System.out.print("Playlist " + name + " has been added!");
-                            }
-                            else {
+                            } else {
                                 System.out.println("Turn on the audio player first!");
                             }
                             break;
@@ -331,7 +330,8 @@ public class AudioPlayer extends NonFoodObjects {
                                 System.out.println("Here are your playlists:");
                                 int counter = 1;
                                 for (Playlist playlist : getPlaylists()) {
-                                    System.out.println(counter + ". " +  playlist.getName() + "[ID: " + playlist.getPlaylistID() + "]");
+                                    System.out.println(counter + ". " + playlist.getName() + "[ID: "
+                                            + playlist.getPlaylistID() + "]");
                                     counter++;
                                 }
                                 System.out.print("Enter the ID of the playlist you want to remove: ");
@@ -342,8 +342,7 @@ public class AudioPlayer extends NonFoodObjects {
                                         System.out.println("Playlist " + playlist.getName() + " has been removed!");
                                     }
                                 }
-                            }
-                            else {
+                            } else {
                                 System.out.println("Turn on the audio player first!");
                             }
                             break;
@@ -357,24 +356,21 @@ public class AudioPlayer extends NonFoodObjects {
                                         buy(music, sim);
                                     }
                                 }
-                            }
-                            else {
+                            } else {
                                 System.out.println("Turn on the audio player first!");
                             }
                             break;
                         case 9:
                             if (getIsOn()) {
                                 showLibrary();
-                            }
-                            else {
+                            } else {
                                 System.out.println("Turn on the audio player first!");
                             }
                             break;
                         case 10:
                             if (getIsOn()) {
                                 playMusic(sim);
-                            }
-                            else {
+                            } else {
                                 System.out.println("Turn on the audio player first!");
                             }
                             break;
