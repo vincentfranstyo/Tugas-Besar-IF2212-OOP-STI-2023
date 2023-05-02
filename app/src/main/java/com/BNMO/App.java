@@ -812,6 +812,24 @@ public class App {
 
                     } else if (activityNum == 12) {
                         // TODO mendengarkan musik
+                        AudioPlayer audioplayer = null;
+                        Iterator<Object> itr = menu.getCurrentSim().getCurrentRoom().getObjects();
+
+                        while (itr.hasNext()) {
+                            Object o = itr.next();
+                            if (o instanceof AudioPlayer) {
+                                audioplayer = (AudioPlayer) o;
+                                break;
+                            }
+                        }
+
+                        if (audioplayer == null) {
+                            System.out.println("Tidak ada audio player di ruangan ini!");
+                        } else {
+                            dayThread.resumeThread();
+                            audioplayer.playMusic(menu.getCurrentSim());
+                            dayThread.pauseThread();
+                        }
 
                     } else if (activityNum == 13) {
                         // TODO menonton TV
