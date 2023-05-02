@@ -162,7 +162,6 @@ public class AudioPlayer extends NonFoodObjects {
     public void playMusic(Sim sim) {
         if (getLibrary().isEmpty()) {
             System.out.println("Library is empty! You can buy music from the shop.");
-            break;
         }
         System.out.println("Select the music you want to play: ");
         showLibrary();
@@ -170,6 +169,7 @@ public class AudioPlayer extends NonFoodObjects {
         Scanner scanner = new Scanner(System.in);
         String title = scanner.nextLine().toLowerCase();
         boolean musicFound = false;
+        final AtomicBoolean stopRequested = new AtomicBoolean(false); // create a new AtomicBoolean and set it to false
 
         for (Music music : getLibrary()) {
             if (music.getName().toLowerCase().equals(title)) {
@@ -233,9 +233,9 @@ public class AudioPlayer extends NonFoodObjects {
                     stopRequested.set(false); // reset stopRequested to false
                     reader.close();
 
-                    sim.setMood(getMood() + music.getLength().convertToSecond() / 30);
-                    sim.setHealth(getHealth() - 10);
-                    setBattery(getBattery() - Math.ceil(music.getLength().convertToSecond() / 30));
+                    sim.setMood(sim.getMood() + music.getLength().convertToSecond() / 30);
+                    sim.setHealth(sim.getHealth() - 10);
+                    setBattery(getBattery() - (int) Math.ceil(music.getLength().convertToSecond() / 30));
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
@@ -265,7 +265,6 @@ public class AudioPlayer extends NonFoodObjects {
         System.out.println("[12] Exit");
 
         boolean done = false;
-        final AtomicBoolean stopRequested = new AtomicBoolean(false);
         while (!done) {
             try {
                 System.out.print("Enter your choice: ");
