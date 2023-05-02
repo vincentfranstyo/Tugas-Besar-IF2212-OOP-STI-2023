@@ -17,7 +17,7 @@ public class Room {
     private int width = 6;
     private int totalObject;
     private Object[][] mapObj;
-    private static int price = 1500;
+    private static int price = 1;
 
     public Room(String nRoom, Room front, Room right, Room behind, Room left) {
         this.nameRoom = nRoom;

@@ -26,10 +26,13 @@ public class World {
             xRandom--;
         }
 
-        int yRandom = rand.nextInt(65);
+        Random rand2 = new Random();
+
+        int yRandom = rand2.nextInt(65);
         if (yRandom == 0) {
             yRandom++;
-        } else if (yRandom % 5 == 0) {
+        }  
+        if (yRandom % 5 == 0) {
             yRandom--;
         }
 
@@ -134,9 +137,10 @@ public class World {
 
         for (int i = 0; i < houseList.size(); i++) {
             int xValue = houseList.get(i).getLocation().getX() * 2;
-            int yValue = houseList.get(i).getLocation().getX() * 2;
+            int yValue = houseList.get(i).getLocation().getY() * 2;
             map[yValue][xValue] = "#";
         }
+        
 
         for (int i = 0; i < map.length; i++) {
             for (int j = 0; j < map[i].length; j++) {
@@ -157,7 +161,7 @@ public class World {
         System.out.println("DAFTAR RUMAH:");
         for (int i = 0; i < houseList.size(); i++) {
             int xValue = houseList.get(i).getLocation().getX();
-            int yValue = houseList.get(i).getLocation().getX();
+            int yValue = houseList.get(i).getLocation().getY();
             System.out.println("(" + xValue + "," + yValue + ")");
         }
         System.out.println();
@@ -216,10 +220,11 @@ public class World {
                             }
                         }
                     }
-
-                    for (int i = 0; i < 5; i++) {
-                        houseLayout.add(new ArrayList<>());
-                    }
+                    
+                        for (int i = 0; i < 5; i++) {
+                            houseLayout.add(new ArrayList<>());
+                        }
+                    
 
                     yCount = houseLayout.size();
                     for (int i = startY + 3; i < startY + 8; i++) {
@@ -270,7 +275,11 @@ public class World {
                             }
                         }
                     }
-
+                    System.out.println(houseLayout.get(startY).get(startX));
+                    System.out.println(currentRoom.getBehind().getNameRoom());
+                    System.out.println(startX);
+                    System.out.println(startY);
+                    
                     for (int i = 0; i < 5; i++) {
                         if (startY == 2) {
                             houseLayout.add(0, new ArrayList<>());
@@ -278,6 +287,8 @@ public class World {
                             houseLayout.add(startY - 7, new ArrayList<>());
                         }
                     }
+                    
+
 
                     if (startY == 2) {
                         for (int i = 0; i < 5; i++) {
