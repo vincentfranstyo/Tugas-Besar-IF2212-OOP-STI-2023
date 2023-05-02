@@ -6,27 +6,39 @@ import java.util.concurrent.atomic.AtomicInteger;
 public class DayThread implements Runnable {
     private AtomicInteger dailyWorkDuration = new AtomicInteger(0);
     private AtomicBoolean slept = new AtomicBoolean(false);
-    private AtomicBoolean notEnoughSleep = new AtomicBoolean(false);
+    private AtomicBoolean sleepPenalty = new AtomicBoolean(false);
     private AtomicBoolean eaten = new AtomicBoolean(false);
     private AtomicBoolean poopedAfterAte = new AtomicBoolean(false);
-    private AtomicBoolean notPoopedYet = new AtomicBoolean(false);
+    private AtomicBoolean poopPenalty = new AtomicBoolean(false);
     private boolean paused = false;
     private final Object lock = new Object();
+    int notSleptMark = -1;
+    int notPoopedMark = -1;
     int i = 720;
     int day;
 
     public void pauseThread() {
         paused = true;
-        System.out.println("Hari ke-" + day + " telah dijeda!");
-        System.out.println("Silahkan melakukan aksi aktif untuk melanjutkan hari!");
-        System.out.println();
+        if (day == 0) {
+            System.out.println("Hari ke-" + day + 1 + " telah dijeda!");
+            System.out.println("Silahkan melakukan aksi aktif untuk melanjutkan hari!");
+            System.out.println();
+        } else {
+            System.out.println("Hari ke-" + day + " telah dijeda!");
+            System.out.println("Silahkan melakukan aksi aktif untuk melanjutkan hari!");
+            System.out.println();
+        }
+
     }
 
     public void resumeThread() {
         synchronized (lock) {
             paused = false;
-            if (day == 0)
+            if (day == 0) {
+                System.out.println("Hari ke-" + day + 1 + " telah dilanjutkan!");
+            } else {
                 System.out.println("Hari ke-" + day + " telah dilanjutkan!");
+            }
             lock.notifyAll();
         }
     }
@@ -39,8 +51,8 @@ public class DayThread implements Runnable {
         return dailyWorkDuration.get();
     }
 
-    public boolean getNotEnoughSleep() {
-        return notEnoughSleep.get();
+    public boolean getSleepPenalty() {
+        return sleepPenalty.get();
     }
 
     public boolean getPoopedAfterAte() {
@@ -55,8 +67,8 @@ public class DayThread implements Runnable {
         this.dailyWorkDuration.set(dailyWorkDuration);
     }
 
-    public void setNotEnoughSleep(boolean notEnoughSleep) {
-        this.notEnoughSleep.set(notEnoughSleep);
+    public void setNotEnoughSleep(boolean sleepPenalty) {
+        this.sleepPenalty.set(sleepPenalty);
     }
 
     public void setPoopedAfterAte(boolean poopedAfterAte) {
@@ -69,6 +81,14 @@ public class DayThread implements Runnable {
 
     public void setEaten(boolean eaten) {
         this.eaten.set(eaten);
+    }
+
+    public boolean getPoopPenalty() {
+        return poopPenalty.get();
+    }
+
+    public void setPoopPenalty(boolean poopPenalty) {
+        this.poopPenalty.set(poopPenalty);
     }
 
     @Override
@@ -86,41 +106,9 @@ public class DayThread implements Runnable {
             }
             if (i % 720 == 0) {
                 System.out.println();
-                day++;
                 System.out.println("Hari ke-" + day + " dimulai!");
                 System.out.println();
             }
-
-            // Dampak tidak tidur 10 menit
-            int notSleptMark = 0;
-            if (!getSlept()) {
-                notSleptMark = i;
-            } else {
-                notEnoughSleep.set(false);
-            }
-
-            if (!getSlept() && ((i - notSleptMark) % 600 == 0)) {
-                notEnoughSleep.set(true);
-                Menu.getCurrentSim().setMood(Menu.getCurrentSim().getMood() - 5);
-                Menu.getCurrentSim().setHealth(Menu.getCurrentSim().getHealth() - 5);
-                System.out.println("Kamu kurang tidur, sehingga mempengaruhi mood dan health kamu!");
-            }
-
-            // Dampak tidak buang air 4 menit setelah makan
-            int notPoopedMark = 0;
-            if (getEaten() && !getPoopedAfterAte()) {
-                notPoopedMark = i;
-            } else {
-                notPoopedYet.set(false);
-            }
-
-            if (getEaten() && !getPoopedAfterAte() && ((i - notPoopedMark) % 240 == 0)) {
-                notPoopedYet.set(true);
-                Menu.getCurrentSim().setMood(Menu.getCurrentSim().getMood() - 5);
-                Menu.getCurrentSim().setHealth(Menu.getCurrentSim().getHealth() - 5);
-                System.out.println("Kamu belum buang air setelah makan, sehingga mempengaruhi mood dan health kamu!");
-            }
-            notPoopedYet.set(false);
 
             try {
                 Thread.sleep(1000);
@@ -137,6 +125,41 @@ public class DayThread implements Runnable {
                 } else if (i % 180 == 0) {
                     System.out.println("Hari ini telah berlalu 3 menit!");
                 }
+            }
+            if (getSleepPenalty() && ((i - notSleptMark) % 600 == 0)) {
+                System.out.println("ini i : " + i);
+                System.out.println("ini moodnya skrg " + Menu.getCurrentSim().getMood());
+                System.out.println("ini healthnya skrg " + Menu.getCurrentSim().getHealth());
+                Menu.getCurrentSim().setMood(Menu.getCurrentSim().getMood() - 5);
+                Menu.getCurrentSim().setHealth(Menu.getCurrentSim().getHealth() - 5);
+                System.out.println("Kamu kurang tidur, sehingga mempengaruhi mood dan health kamu!");
+                notSleptMark = -1;
+            }
+
+            if (getPoopPenalty() && ((i - notPoopedMark) % 240 == 0)) {
+                Menu.getCurrentSim().setMood(Menu.getCurrentSim().getMood() - 5);
+                Menu.getCurrentSim().setHealth(Menu.getCurrentSim().getHealth() - 5);
+                System.out.println("Kamu belum buang air setelah makan, sehingga mempengaruhi mood dan health kamu!");
+                notPoopedMark = -1;
+                poopPenalty.set(false);
+            }
+
+            // Dampak tidak tidur 10 menit
+            if (!getSlept() && notSleptMark == -1) {
+                System.out.println("not slept mark is triggered");
+                notSleptMark = i;
+                sleepPenalty.set(true);
+            } else if (getSlept()) {
+                sleepPenalty.set(false);
+            }
+
+            // Dampak tidak buang air 4 menit setelah makan
+            if (getEaten() && !getPoopedAfterAte() && notPoopedMark == -1) {
+                System.out.println("not pooped mark is triggered");
+                notPoopedMark = i;
+                poopPenalty.set(true);
+            } else if (getPoopedAfterAte()) {
+                poopPenalty.set(false);
             }
         }
     }

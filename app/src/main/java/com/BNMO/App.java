@@ -320,6 +320,7 @@ public class App {
                         }
 
                     } else if (activityNum == 4) {
+                        Menu.getCurrentSim().getInventory().addObject(new Ingredients("Nasi"));
                         TableAndChair tableValidator = null;
                         Iterator<Object> iter = Menu.getCurrentSim().getCurrentRoom().getObjects();
                         while (iter.hasNext()) {
@@ -344,11 +345,6 @@ public class App {
                             ArrayList<String> validFoods = new ArrayList<String>();
                             for (Food food : Menu.getCurrentSim().getInventory().getFoods()) {
                                 validFoods.add(food.getName().toLowerCase().replaceAll("\\s+", ""));
-                            }
-                            System.out.println("Daftar makanan valid");
-                            for (String food : validFoods) {
-                                System.out.println(food);
-                                System.out.println(loweredFood);
                             }
 
                             boolean cancelEating = false;
@@ -487,6 +483,7 @@ public class App {
                             dayThread.resumeThread();
                             toiletValidator.useToilet(Menu.getCurrentSim());
                             dayThread.setPoopedAfterAte(true);
+                            dayThread.setEaten(false);
                             dayThread.pauseThread();
                         }
 
