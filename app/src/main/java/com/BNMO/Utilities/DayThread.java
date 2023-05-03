@@ -10,12 +10,14 @@ public class DayThread implements Runnable {
     private AtomicBoolean eaten = new AtomicBoolean(false);
     private AtomicBoolean poopedAfterAte = new AtomicBoolean(false);
     private AtomicBoolean poopPenalty = new AtomicBoolean(false);
-    private boolean paused = false;
+    private static boolean paused = false;
     private final Object lock = new Object();
-    int notSleptMark = -1;
-    int notPoopedMark = -1;
-    int i = 720;
-    int day;
+    private static int notSleptMark = -1;
+    private static int notPoopedMark = -1;
+    private static int i = 720;
+    private static int day;
+    private static int mins;
+    private static int secs;
 
     public void pauseThread() {
         paused = true;
@@ -28,7 +30,12 @@ public class DayThread implements Runnable {
             System.out.println("Silahkan melakukan aksi aktif untuk melanjutkan hari!");
             System.out.println();
         }
+    }
 
+    public static void timeLeftForTheDay() {
+        mins = i % 720 / 60;
+        secs = i % 720 % 60;
+        System.out.println(String.format("%02d", mins) + ":" + String.format("%02d", secs) + " out of 12 mins");
     }
 
     public void resumeThread() {
@@ -116,7 +123,7 @@ public class DayThread implements Runnable {
             } catch (InterruptedException e) {
                 e.printStackTrace();
             } finally {
-                
+
             }
             if (getSleepPenalty() && ((i - notSleptMark) % 600 == 0)) {
                 System.out.println("ini i : " + i);

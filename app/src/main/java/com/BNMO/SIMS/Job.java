@@ -1,9 +1,11 @@
 package com.BNMO.SIMS;
+
 import java.util.HashMap;
 import java.util.Map;
 
 public class Job {
-    int salary;
+    private String name;
+    private int salary;
     private Map<String, Integer> jobs = new HashMap<>();
 
     public Job(String name, int salary) {

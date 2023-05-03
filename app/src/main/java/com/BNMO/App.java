@@ -18,6 +18,7 @@ import com.BNMO.Object.NonFoodObjects.Toilet.Toilet;
 import com.BNMO.Object.NonFoodObjects.Book.*;
 import com.BNMO.Object.NonFoodObjects.Bed.*;
 import com.BNMO.Object.NonFoodObjects.Piano.Piano;
+import com.BNMO.Object.NonFoodObjects.Clock.Clock;
 import com.BNMO.Object.NonFoodObjects.Stove.*;
 import com.BNMO.Buildings.*;
 import com.BNMO.Object.Food.*;
@@ -893,8 +894,25 @@ public class App {
 
                     }
                 } else if (commandNum == 9) {
-                    System.out.println();
-                    // TODO melihat waktu
+                    Clock clockCheck = null;
+
+                    Iterator<Object> itr = Menu.getCurrentSim().getCurrentRoom().getObjects();
+
+                    while (itr.hasNext()) {
+                        Object o = itr.next();
+                        if (o instanceof Clock) {
+                            clockCheck = (Clock) o;
+                            break;
+                        }
+                    }
+
+                    if (clockCheck == null) {
+                        System.out.println("Tidak ada piano di ruangan ini!");
+                    } else {
+                        System.out.println();
+                        clockCheck.use();
+                    }
+
                 } else if (commandNum == 10) {
                     System.out.println();
                     System.out.println("Daftar Ruangan:");

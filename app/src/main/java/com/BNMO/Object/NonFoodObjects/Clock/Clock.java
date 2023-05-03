@@ -2,6 +2,7 @@ package com.BNMO.Object.NonFoodObjects.Clock;
 
 import com.BNMO.Object.NonFoodObjects.NonFoodObjects;
 import com.BNMO.SIMS.Sim;
+import com.BNMO.Buildings.House;
 import com.BNMO.Utilities.*;
 
 public class Clock extends NonFoodObjects {
@@ -11,8 +12,13 @@ public class Clock extends NonFoodObjects {
         this.setType("Clock");
     }
 
-    public void use(Sim sim) {
+    public static void use() {
         // show all ongoing action along with the duration left
-        System.out.println("left duration");
+        System.out.println("Today's clock");
+        DayThread.timeLeftForTheDay();
+        System.out.println();
+        System.out.println("Durasi pembangunan tersisa: " + House.getCountTime() + " menit");
+        System.out.println();
+        System.out.println("Durasi pembelian barang tersisa: ");
     }
 }

@@ -1,6 +1,8 @@
 package com.BNMO.Buildings;
 
 import java.util.*;
+import java.util.concurrent.atomic.AtomicInteger;
+
 import com.BNMO.Object.Object;
 import com.BNMO.SIMS.Sim;
 import com.BNMO.Utilities.*;
@@ -16,6 +18,7 @@ public class House {
     private Sim owner;
     private Point location;
     private Room initRoom;
+    private static AtomicInteger countTime = new AtomicInteger(0);
 
     public House(Point loc, Sim owner) {
         this.rooms = new ArrayList<Room>();
@@ -112,10 +115,15 @@ public class House {
                             try {
                                 // Pilih ruangan yang ingin di bangun (Above, Right, Below, atau Left) dari
                                 // currentRoom lalu instansiasi sebuah room baru dengan posisi yang dipilih
-                                for(int countTime = 17; countTime>-1; countTime--){
+                                for (setCountTime(17); getCountTime() > -1; setCountTime(getCountTime() - 1)) {
                                     Thread.sleep(60000); // 18 menit // 1080000 : 1 menit = 60000
-                                    if(countTime != 0) System.out.println("Waktu Pembangunan Ruangan "+newRoom.getNameRoom()+" Tersisa "+countTime+" Menit.");
-                                    else System.out.println("Ruangan "+newRoom.getNameRoom()+" Telah Berhasil Dibangun!");
+                                    if (getCountTime() != 0) {
+                                        System.out.println("Waktu Pembangunan Ruangan " + newRoom.getNameRoom()
+                                                + " Tersisa " + getCountTime() + " Menit.");
+                                    } else {
+                                        System.out.println(
+                                                "Ruangan " + newRoom.getNameRoom() + " Telah Berhasil Dibangun!");
+                                    }
                                 }
                                 rooms.add(newRoom);
                                 synchronized (this) {
@@ -223,6 +231,15 @@ public class House {
         }
         return null;
     }
+
+    public static int getCountTime() {
+        return countTime.get();
+    }
+
+    public void setCountTime(int countTime) {
+        this.countTime.set(countTime);
+    }
+
     // public static void main(String[] args) {
     // Sim budi = new Sim("Budi");
     // House budiHouse = new House(new Point(3, 4), budi);
