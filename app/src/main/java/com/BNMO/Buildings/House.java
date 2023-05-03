@@ -198,10 +198,12 @@ public class House {
 
     public void printRooms() {
         Iterator<Room> itrRoom = getRooms();
+        int i=1;
         while (itrRoom.hasNext()) {
             Room temp = itrRoom.next();
-            System.out.println(temp.getNameRoom());
+            System.out.println(i+". "+temp.getNameRoom());
             temp.printObjRoom();
+            i++;
         }
         System.out.println();
     }
