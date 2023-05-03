@@ -3,8 +3,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class Job {
-    private String name;
-    private int salary;
+    int salary;
     private Map<String, Integer> jobs = new HashMap<>();
 
     public Job(String name, int salary) {

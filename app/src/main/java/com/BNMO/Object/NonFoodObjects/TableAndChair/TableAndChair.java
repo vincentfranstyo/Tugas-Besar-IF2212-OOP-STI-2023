@@ -14,64 +14,54 @@ public class TableAndChair extends NonFoodObjects {
         this.setType("Table and Chair");
     }
 
-    public void eatDish(Sim sim, Dishes dish) {
+    public void eat(Sim sim, Dishes dish, Ingredients ing) {
         Time time = new Time(30);
-        try {
-            if (!getIsOccupied()) {
-                if (sim.getStatus().equals("Nothing")) {
+
+        if (!getIsOccupied()) {
+            if (sim.getStatus().equals("Nothing")) {
+                if (dish != null) {
                     if (sim.getInventory().getObjects().contains(dish)) {
-                        int duration = time.convertToSecond();
-                        setIsOccupied(true);
-                        sim.setStatus("Is eating");
-                        System.out.println(sim.getName() + " are eating " + dish.getName());
-                        sim.getInventory().removeObject(dish.getName());
-                        Thread.sleep(duration * 1000);
-                        System.out.println(sim.getName() + " are done eating " + dish.getName());
-                        sim.setFullness(sim.getFullness() + (dish.getSatiety() * (duration / 30)));
+                        try {
+                            int duration = time.convertToSecond();
+                            setIsOccupied(true);
+                            sim.setStatus("Is eating");
+                            System.out.println(sim.getName() + " are eating " + dish.getName());
+                            sim.getInventory().removeObject(dish.getName());
+                            Thread.sleep(duration * 1000);
+                            System.out.println(sim.getName() + " are done eating " + dish.getName());
+                            sim.setFullness(sim.getFullness() + (dish.getSatiety() * (duration / 30)));
+                        } catch (InterruptedException e) {
+                            e.printStackTrace();
+                        } finally {
+                            setIsOccupied(false);
+                        }
                     } else {
                         System.out.println("You don't have " + dish.getName() + " in your inventory.");
                     }
-
                 } else {
-                    System.out.println("You can't eat while doing something else.");
-                }
-            } else {
-                System.out.println("Too bad! The table is in use, please find another table!");
-            }
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        } finally {
-            setIsOccupied(false);
-        }
-    }
-
-    public void eatIngredients(Sim sim, Ingredients ing) {
-        Time time = new Time(30);
-        try {
-            if (!getIsOccupied()) {
-                if (sim.getStatus().equals("Nothing")) {
                     if (sim.getInventory().getObjects().contains(ing)) {
-                        int duration = time.convertToSecond();
-                        setIsOccupied(true);
-                        sim.setStatus("Is eating");
-                        System.out.println(sim.getName() + " are eating " + ing.getName());
-                        sim.getInventory().removeObject(ing.getName());
-                        Thread.sleep(duration * 1000);
-                        System.out.println(sim.getName() + " are done eating " + ing.getName());
-                        sim.setFullness(sim.getFullness() + (ing.getSatiety() * (duration / 30)));
-                        setIsOccupied(false);
+                        try {
+                            int duration = time.convertToSecond();
+                            setIsOccupied(true);
+                            sim.setStatus("Is eating");
+                            System.out.println(sim.getName() + " are eating " + ing.getName());
+                            sim.getInventory().removeObject(ing.getName());
+                            Thread.sleep(duration * 1000);
+                            System.out.println(sim.getName() + " are done eating " + ing.getName());
+                            sim.setFullness(sim.getFullness() + (ing.getSatiety() * (duration / 30)));
+                            setIsOccupied(false);
+                        } catch (InterruptedException e) {
+                            e.printStackTrace();
+                        }
                     } else {
                         System.out.println("You don't have " + ing.getName() + " in your inventory.");
                     }
-
-                } else {
-                    System.out.println("You can't eat while doing something else.");
                 }
             } else {
-                System.out.println("Too bad! The table is in use, please find another table!");
+                System.out.println("You can't eat while doing something else.");
             }
-        } catch (InterruptedException e) {
-            e.printStackTrace();
+        } else {
+            System.out.println("Too bad! The table is in use, please find another table!");
         }
     }
 }

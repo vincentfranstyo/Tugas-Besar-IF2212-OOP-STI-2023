@@ -116,15 +116,7 @@ public class DayThread implements Runnable {
             } catch (InterruptedException e) {
                 e.printStackTrace();
             } finally {
-                if (i % 660 == 0) {
-                    System.out.println("Hari ini tersisa 1 menit lagi!");
-                    System.out.println();
-                } else if (i % 360 == 0) {
-                    System.out.println("Telah berlalu setengah hari!");
-                    System.out.println();
-                } else if (i % 180 == 0) {
-                    System.out.println("Hari ini telah berlalu 3 menit!");
-                }
+                
             }
             if (getSleepPenalty() && ((i - notSleptMark) % 600 == 0)) {
                 System.out.println("ini i : " + i);
