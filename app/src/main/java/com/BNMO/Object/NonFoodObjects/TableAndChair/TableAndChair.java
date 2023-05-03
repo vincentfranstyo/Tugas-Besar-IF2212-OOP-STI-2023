@@ -59,6 +59,7 @@ public class TableAndChair extends NonFoodObjects {
                         Thread.sleep(duration * 1000);
                         System.out.println(sim.getName() + " are done eating " + ing.getName());
                         sim.setFullness(sim.getFullness() + (ing.getSatiety() * (duration / 30)));
+                        setIsOccupied(false);
                     } else {
                         System.out.println("You don't have " + ing.getName() + " in your inventory.");
                     }

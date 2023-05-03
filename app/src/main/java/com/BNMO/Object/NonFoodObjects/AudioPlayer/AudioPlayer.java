@@ -103,10 +103,10 @@ public class AudioPlayer extends NonFoodObjects {
     public void charge(Time time) {
         int duration = time.convertToSecond();
 
-        if (getBattery() + duration / 20 > 100) {
+        if ((getBattery() + duration / 2) > 100) {
             setBattery(100);
         } else {
-            setBattery((getBattery() + duration / 20));
+            setBattery((getBattery() + duration / 2));
         }
         System.out.println("Battery is charged to " + getBattery() + "%");
     }
@@ -142,19 +142,112 @@ public class AudioPlayer extends NonFoodObjects {
 
     public void showLibrary() {
         if (getIsOn()) {
-            System.out.println("Library");
-            System.out.println("=================");
-            for (Music music : getLibrary()) {
-                System.out.println(
-                        music.getName() + " - " + music.getArtist() + "(" + music.getLength().displayHHMMSS() + ")");
+            if (!getLibrary().isEmpty()) {
+                System.out.println("Library");
+                System.out.println("=================");
+                for (Music music : getLibrary()) {
+                    System.out.println(
+                            music.getName() + " - " + music.getArtist() + "(" + music.getLength().displayHHMMSS()
+                                    + ")");
+                }
+                System.out.println("");
+            } else {
+                System.out.println("Library is empty!");
             }
-            System.out.println("");
         } else {
             System.out.println("Turn on the audio player first!");
         }
     }
 
-    public void audioPlayerMenu() {
+    public void playMusic(Sim sim) {
+        if (getLibrary().isEmpty()) {
+            System.out.println("Library is empty! You can buy music from the shop.");
+        }
+        System.out.println("Select the music you want to play: ");
+        showLibrary();
+        System.out.print("Enter the title: ");
+        Scanner scanner = new Scanner(System.in);
+        String title = scanner.nextLine().toLowerCase();
+        boolean musicFound = false;
+        final AtomicBoolean stopRequested = new AtomicBoolean(false); // create a new AtomicBoolean and set it to false
+
+        for (Music music : getLibrary()) {
+            if (music.getName().toLowerCase().equals(title)) {
+                musicFound = true;
+                try {
+                    AudioInputStream audioIn = null;
+                    // Open the audio file
+                    System.out.println("Playing " + music.getName() + "....");
+                    audioIn = AudioSystem.getAudioInputStream(AudioPlayer.class.getResource(music.getName() + ".wav"));
+                    // Get a clip to play the audio
+                    Clip clip = AudioSystem.getClip();
+
+                    // Open the clip and load the audio data from the input stream
+                    clip.open(audioIn);
+
+                    // Start playing the audio
+                    clip.start();
+                    Scanner reader = new Scanner(System.in);
+                    Thread inputThread = new Thread(() -> {
+                        try {
+                            while (clip.isRunning()) {
+                                String input = reader.nextLine();
+                                if (input.equalsIgnoreCase("stop")) {
+                                    stopRequested.set(true); // set stopRequested to true
+                                    break;
+                                }
+                                Thread.sleep(10);
+                            }
+                        } catch (Exception e) {
+                            e.printStackTrace();
+                        }
+                    });
+                    inputThread.start();
+
+                    long totalLength = clip.getMicrosecondLength();
+                    // Wait for the audio to finish playing
+                    while (!clip.isRunning() && !stopRequested.get()) // modified condition
+                        Thread.sleep(10);
+
+                    // Display the remaining time every 1 second
+                    long prevRemaining = -1;
+                    while (clip.isRunning() && !stopRequested.get()) { // modified condition
+                        long remaining = (totalLength - clip.getMicrosecondPosition()) / 1000000;
+                        Time timeLeft = new Time(remaining);
+                        String strRemaining = timeLeft.displayHHMMSS();
+                        // Only update the remaining time if it has changed
+                        if (remaining != prevRemaining) {
+                            System.out.print("\r" + strRemaining + " ");
+                            prevRemaining = remaining;
+                        }
+
+                        Thread.sleep(1000); // Wait 1 second before displaying the next update
+                    }
+
+                    // Clear the line after the loop ends
+                    System.out.print("\r" + " ".repeat(20) + "\r");
+                    // Close the clip and input stream
+                    clip.close();
+                    audioIn.close();
+                    inputThread.interrupt();
+                    stopRequested.set(false); // reset stopRequested to false
+                    reader.close();
+
+                    sim.setMood(sim.getMood() + music.getLength().convertToSecond() / 30);
+                    sim.setHealth(sim.getHealth() - 10);
+                    setBattery(getBattery() - (int) Math.ceil(music.getLength().convertToSecond() / 30));
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            }
+            if (!musicFound) {
+                System.out.println("Music not found!");
+                break;
+            }
+        }
+    }
+
+    public void audioPlayerMenu(Sim sim) {
         Scanner scanner = new Scanner(System.in);
         System.out.println("Hi there! Welcome to " + getName() + "!");
         System.out.println("What would you like to do?");
@@ -168,9 +261,10 @@ public class AudioPlayer extends NonFoodObjects {
         System.out.println("[8] Buy music");
         System.out.println("[9] Show Library");
         System.out.println("[10] Play music");
+        System.out.println("[11] Help");
+        System.out.println("[12] Exit");
 
         boolean done = false;
-        final AtomicBoolean stopRequested = new AtomicBoolean(false);
         while (!done) {
             try {
                 System.out.print("Enter your choice: ");
@@ -192,125 +286,104 @@ public class AudioPlayer extends NonFoodObjects {
                             turnOff();
                             break;
                         case 3:
-                            charge(new Time(0, 0, 50, 20));
+                            System.out.print("Enter how long you want to charge (in seconds): ");
+                            int chargeTime = Integer.parseInt(scanner.nextLine());
+                            charge(new Time(chargeTime));
                             break;
                         case 4:
-                            showShop();
+                            if (getIsOn()) {
+                                showShop();
+                            } else {
+                                System.out.println("Turn on the audio player first!");
+                            }
                             break;
                         case 5:
-                            int count = 1;
-                            System.out.println("Here are your playlists:");
-                            for (Playlist playlist : getPlaylists()) {
-                                System.out.println(count + ". " + playlist.getName());
-                                count++;
+                            if (getIsOn()) {
+                                int count = 1;
+                                System.out.println("Here are your playlists:");
+                                for (Playlist playlist : getPlaylists()) {
+                                    System.out.println(count + ". " + playlist.getName());
+                                    count++;
+                                }
+                            } else {
+                                System.out.println("Turn on the audio player first!");
                             }
                             break;
                         case 6:
-                            System.out.print("Enter the playlist name: ");
-                            String name = scanner.nextLine();
-                            System.out.print("Enter the playlist description: ");
-                            String desc = scanner.nextLine();
-                            System.out.print("Enter the playlistID: ");
-                            int playlistID = Integer.parseInt(scanner.nextLine());
-                            playlists.add(new Playlist(name, desc, playlistID));
-                            System.out.println(" ");
-                            System.out.print("Playlist " + name + " has been added!");
+                            if (getIsOn()) {
+                                System.out.print("Enter the playlist name: ");
+                                String name = scanner.nextLine();
+                                System.out.print("Enter the playlist description: ");
+                                String desc = scanner.nextLine();
+                                System.out.print("Enter the playlistID: ");
+                                int playlistID = Integer.parseInt(scanner.nextLine());
+                                playlists.add(new Playlist(name, desc, playlistID));
+                                System.out.println(" ");
+                                System.out.print("Playlist " + name + " has been added!");
+                            } else {
+                                System.out.println("Turn on the audio player first!");
+                            }
                             break;
                         case 7:
-                            // removePlaylist();
+                            if (getIsOn()) {
+                                System.out.println("Here are your playlists:");
+                                int counter = 1;
+                                for (Playlist playlist : getPlaylists()) {
+                                    System.out.println(counter + ". " + playlist.getName() + "[ID: "
+                                            + playlist.getPlaylistID() + "]");
+                                    counter++;
+                                }
+                                System.out.print("Enter the ID of the playlist you want to remove: ");
+                                int playlistID = Integer.parseInt(scanner.nextLine());
+                                for (Playlist playlist : getPlaylists()) {
+                                    if (playlist.getPlaylistID() == playlistID) {
+                                        getPlaylists().remove(playlist);
+                                        System.out.println("Playlist " + playlist.getName() + " has been removed!");
+                                    }
+                                }
+                            } else {
+                                System.out.println("Turn on the audio player first!");
+                            }
                             break;
                         case 8:
-                            showShop();
-                            System.out.print("Select the music you want to buy: ");
-                            int musicID = Integer.parseInt(scanner.nextLine());
-                            for (Music music : getMusic()) {
-                                if (music.getMusicID() == musicID) {
-                                    buy(music, new Sim("Budi"));
+                            if (getIsOn()) {
+                                showShop();
+                                System.out.print("Select the music you want to buy: ");
+                                int musicID = Integer.parseInt(scanner.nextLine());
+                                for (Music music : getMusic()) {
+                                    if (music.getMusicID() == musicID) {
+                                        buy(music, sim);
+                                    }
                                 }
+                            } else {
+                                System.out.println("Turn on the audio player first!");
                             }
                             break;
                         case 9:
-                            showLibrary();
+                            if (getIsOn()) {
+                                showLibrary();
+                            } else {
+                                System.out.println("Turn on the audio player first!");
+                            }
                             break;
                         case 10:
-                            System.out.println("Select the music you want to play: ");
-                            System.out.println("[1] Back To December");
-                            System.out.println("[2] The Story Of Us");
-                            System.out.println("[3] Kibou");
-                            System.out.print("Enter your choice: ");
-                            int choice2 = Integer.parseInt(scanner.nextLine());
-                            try {
-                                AudioInputStream audioIn = null;
-                                // Open the audio file
-                                if (choice2 == 1) {
-                                    System.out.println("Playing Back To December....");
-                                    audioIn = AudioSystem
-                                            .getAudioInputStream(AudioPlayer.class.getResource("Back To December.wav"));
-                                } else if (choice2 == 2) {
-                                    System.out.println("Playing The Story Of Us....");
-                                    audioIn = AudioSystem
-                                            .getAudioInputStream(AudioPlayer.class.getResource("The Story Of Us.wav"));
-                                } else if (choice2 == 3) {
-                                    System.out.println("Playing Kibou....");
-                                    audioIn = AudioSystem
-                                            .getAudioInputStream(AudioPlayer.class.getResource("Kibou.wav"));
-                                }
-                                // Get a clip to play the audio
-                                Clip clip = AudioSystem.getClip();
-
-                                // Open the clip and load the audio data from the input stream
-                                clip.open(audioIn);
-
-                                // Start playing the audio
-                                clip.start();
-                                Scanner reader = new Scanner(System.in);
-                                Thread inputThread = new Thread(() -> {
-                                    try {
-                                        while (clip.isRunning()) {
-                                            String input = reader.nextLine();
-                                            if (input.equalsIgnoreCase("stop")) {
-                                                stopRequested.set(true); // set stopRequested to true
-                                                break;
-                                            }
-                                            Thread.sleep(10);
-                                        }
-                                    } catch (Exception e) {
-                                        e.printStackTrace();
-                                    }
-                                });
-                                inputThread.start();
-
-                                long totalLength = clip.getMicrosecondLength();
-                                // Wait for the audio to finish playing
-                                while (!clip.isRunning() && !stopRequested.get()) // modified condition
-                                    Thread.sleep(10);
-
-                                // Display the remaining time every 1 second
-                                long prevRemaining = -1;
-                                while (clip.isRunning() && !stopRequested.get()) { // modified condition
-                                    long remaining = (totalLength - clip.getMicrosecondPosition()) / 1000000;
-                                    Time timeLeft = new Time(remaining);
-                                    String strRemaining = timeLeft.displayHHMMSS();
-                                    // Only update the remaining time if it has changed
-                                    if (remaining != prevRemaining) {
-                                        System.out.print("\r" + strRemaining + " ");
-                                        prevRemaining = remaining;
-                                    }
-
-                                    Thread.sleep(1000); // Wait 1 second before displaying the next update
-                                }
-
-                                // Clear the line after the loop ends
-                                System.out.print("\r" + " ".repeat(20) + "\r");
-                                // Close the clip and input stream
-                                clip.close();
-                                audioIn.close();
-                                inputThread.interrupt();
-                                stopRequested.set(false); // reset stopRequested to false
-                                reader.close();
-                            } catch (Exception e) {
-                                e.printStackTrace();
+                            if (getIsOn()) {
+                                playMusic(sim);
+                            } else {
+                                System.out.println("Turn on the audio player first!");
                             }
+                            break;
+                        case 11:
+                            System.out.println("Welcome to " + getName() + "!");
+                            System.out.println("In order to use this audio player, you need to turn it on first.");
+                            System.out.println("To play a music, you need to buy it first from the shop.");
+                            System.out.println("You can play a music by entering its titlel.");
+                            System.out.println("You can also add, remove, or play a playlist.");
+                            System.out.println("Have fun listening!");
+                            break;
+                        case 12:
+                            done = true;
+                            System.out.println("Exiting " + getName() + " ...." + " Bye!");
                             break;
                         default:
                             break;

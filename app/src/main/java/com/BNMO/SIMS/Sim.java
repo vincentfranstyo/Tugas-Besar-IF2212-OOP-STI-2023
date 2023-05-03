@@ -50,9 +50,9 @@ public class Sim {
 
         this.name = name;
         this.money = 1000000; // 100
-        this.fullness = 1000000; // 80
-        this.mood = 1000000; // 80
-        this.health = 1000000; // 80
+        this.fullness = 80; // 80
+        this.mood = 80; // 80
+        this.health = 80; // 80
         this.status = "Nothing";
         this.isAlive = true;
         this.inventory = new Inventory<Object>(this);
@@ -135,8 +135,9 @@ public class Sim {
         } else if (fullness < 0) {
             this.fullness = 0;
             setAlive(false);
-        } else
+        } else {
             this.fullness = fullness;
+        }
     }
 
     public void setMood(int mood) {
@@ -145,8 +146,10 @@ public class Sim {
         } else if (mood < 0) {
             this.mood = 0;
             setAlive(false);
-        } else
+        } else {
             this.mood = mood;
+        }
+
     }
 
     public void setHealth(int health) {
@@ -155,8 +158,9 @@ public class Sim {
         } else if (health < 0) {
             this.health = 0;
             setAlive(false);
-        } else
+        } else {
             this.health = health;
+        }
     }
 
     public void setStatus(String status) {
@@ -190,7 +194,7 @@ public class Sim {
             setCurrentJobDuration(jobDurTime);
             setStatus("Working");
             System.out.println(getName() + " is working...");
-            Thread.sleep(duration * 1000); // Sleep for 2 second
+            Thread.sleep(duration * 1000);
             System.out.println(getName() + " is done working");
             setFullness(getFullness() - 10 * (duration / 30));
             setMood(getMood() - 10 * (duration / 30));

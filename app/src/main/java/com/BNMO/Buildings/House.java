@@ -112,7 +112,11 @@ public class House {
                             try {
                                 // Pilih ruangan yang ingin di bangun (Above, Right, Below, atau Left) dari
                                 // currentRoom lalu instansiasi sebuah room baru dengan posisi yang dipilih
-                                Thread.sleep(1080000); // 18 menit
+                                for(int countTime = 17; countTime>-1; countTime--){
+                                    Thread.sleep(60000); // 18 menit // 1080000 : 1 menit = 60000
+                                    if(countTime != 0) System.out.println("Waktu Pembangunan Ruangan "+newRoom.getNameRoom()+" Tersisa "+countTime+" Menit.");
+                                    else System.out.println("Ruangan "+newRoom.getNameRoom()+" Telah Berhasil Dibangun!");
+                                }
                                 rooms.add(newRoom);
                                 synchronized (this) {
                                     totalRoom++;
@@ -198,12 +202,13 @@ public class House {
 
     public void printRooms() {
         Iterator<Room> itrRoom = getRooms();
-        int i=1;
+        int counter = 0;
         while (itrRoom.hasNext()) {
+            counter++;
             Room temp = itrRoom.next();
-            System.out.println(i+". "+temp.getNameRoom());
+            System.out.println(counter + ". " + temp.getNameRoom());
             temp.printObjRoom();
-            i++;
+            System.out.println();
         }
         System.out.println();
     }
