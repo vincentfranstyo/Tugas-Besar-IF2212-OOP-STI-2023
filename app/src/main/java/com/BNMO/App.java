@@ -58,7 +58,7 @@ public class App {
             Menu.viewSimInfo();
             System.out.println();
 
-            while (Menu.isGameStarted()) {
+            while (Menu.isGameStarted() && Menu.getCurrentSim().isAlive()) {
                 System.out.println("Apa yang ingin kamu lakukan?");
                 System.out.println("[1] Help");
                 System.out.println("[2] Lihat info sim");
@@ -368,13 +368,13 @@ public class App {
                                 dayThread.resumeThread();
                                 if (Menu.getCurrentSim().getInventory().getFood(loweredFood).getType()
                                         .equals("Dishes")) {
-                                    tableValidator.eatDish(Menu.getCurrentSim(),
-                                            (Dishes) Menu.getCurrentSim().getInventory().getFood(loweredFood));
+                                    tableValidator.eat(Menu.getCurrentSim(),
+                                            (Dishes) Menu.getCurrentSim().getInventory().getFood(loweredFood), null);
                                 }
 
                                 else if (Menu.getCurrentSim().getInventory().getFood(loweredFood).getType()
                                         .equals("Ingredients")) {
-                                    tableValidator.eatIngredients(Menu.getCurrentSim(),
+                                    tableValidator.eat(Menu.getCurrentSim(), null,
                                             (Ingredients) Menu.getCurrentSim().getInventory().getFood(loweredFood));
                                 }
                                 dayThread.setEaten(true);
@@ -952,11 +952,13 @@ public class App {
                     System.out.println("Perintah tidak dikenali!");
                     System.out.println();
                 }
+
+                if (!Menu.getCurrentSim().isAlive()) {
+                    break;
+                }
             }
             userInput.close();
-        } else
-
-        {
+        } else {
             System.out.println("Terima kasih telah bermain!");
         }
     }

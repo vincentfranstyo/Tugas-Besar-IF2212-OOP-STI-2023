@@ -135,6 +135,7 @@ public class Sim {
         } else if (fullness < 0) {
             this.fullness = 0;
             setAlive(false);
+            System.out.println("Kamu mati karena kelaparan.");
         } else {
             this.fullness = fullness;
         }
@@ -146,6 +147,7 @@ public class Sim {
         } else if (mood < 0) {
             this.mood = 0;
             setAlive(false);
+            System.out.println("Kamu mati karena depresi.");
         } else {
             this.mood = mood;
         }
@@ -158,6 +160,7 @@ public class Sim {
         } else if (health < 0) {
             this.health = 0;
             setAlive(false);
+            System.out.println("Kamu mati karena sakit.");
         } else {
             this.health = health;
         }
