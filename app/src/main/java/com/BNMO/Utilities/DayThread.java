@@ -52,8 +52,8 @@ public class DayThread implements Runnable {
     }
 
     public static void timeLeftForTheDay() {
-        mins = getDaySec() % 720 / 60;
-        secs = getDaySec() % 720 % 60;
+        mins = (getDaySec() + 1) % 720 / 60;
+        secs = (getDaySec() + 1) % 720 % 60;
         System.out.println(String.format("%02d", mins) + ":" + String.format("%02d", secs) + " out of 12 mins");
     }
 

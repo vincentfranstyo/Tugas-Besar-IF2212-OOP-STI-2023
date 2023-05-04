@@ -706,7 +706,7 @@ public class App {
                                 System.out.println("Tidak Ada Object Yang Dihapus");
                                 System.out.println();
                             }
-                        } else{
+                        } else {
                             System.out.println("Pilihan Input Tidak Tersedia!");
                         }
                     } else if (activityNum == 9) {
@@ -775,6 +775,10 @@ public class App {
                             for (int i = 0; i < Object.getBuyableObjects().size(); i++) {
                                 validObjs.add(Object.getBuyableObjects().get(i).getType().toLowerCase()
                                         .replaceAll("\\s+", ""));
+                            }
+
+                            for (int i = 0; i < validObjs.size(); i++) {
+                                System.out.println(validObjs.get(i));
                             }
 
                             while (!validObjs.contains(loweredWantedFurniture)) {
@@ -1022,10 +1026,12 @@ public class App {
                 }
 
                 if (!menu.getCurrentSim().isAlive()) {
+                    System.out.println("Kamu telah mati!");
                     break;
                 }
             }
             userInput.close();
+            System.exit(0);
         } else {
             System.out.println("Terima kasih telah bermain!");
         }

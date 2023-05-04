@@ -81,15 +81,18 @@ public class GameStation extends NonFoodObjects {
                 @Override
                 public void run() {
                     try {
+                        setIsOccupied(true);
                         sim.setStatus("Playing " + game.getName());
                         System.out.println("Playing " + game.getName());
                         setBattery(getBattery() - 10);
-                        sim.setMood(sim.getMood() + game.getFunPoint());
                         Thread.sleep(15000); // Sleep for 15 second
+                        System.out.println("Finished playing " + game.getName());
+                        sim.setMood(sim.getMood() + game.getFunPoint());
                     } catch (InterruptedException e) {
                         e.printStackTrace();
                     } finally {
                         sim.setStatus("Nothing");
+                        setIsOccupied(false);
                     }
                 }
             });
