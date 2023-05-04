@@ -137,7 +137,7 @@ public class House {
                                         else if((newCurrSec-currentSec)%60==0){
                                             System.out.println("Waktu Pembangunan Ruangan " + newRoom.getNameRoom()
                                                     + " Tersisa " + (18-((newCurrSec-currentSec)/60)) + " Menit.");
-                                            Thread.sleep(1000);
+                                            Thread.sleep(2000);
                                         }
                                     }
                                 }
