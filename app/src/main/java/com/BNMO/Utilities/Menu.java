@@ -5,9 +5,21 @@ import com.BNMO.SIMS.Sim;
 import java.util.*;
 
 public class Menu {
+    private static Menu instance;
     private static boolean gameStarted = false;
     private static Sim currentSim;
     private static ArrayList<Sim> simList = new ArrayList<Sim>();
+
+    private Menu() {
+
+    }
+
+    public static Menu getInstance() {
+        if (instance == null) {
+            instance = new Menu();
+        }
+        return instance;
+    }
 
     public static void start() {
         setGameStarted(true);
@@ -146,7 +158,7 @@ public class Menu {
         return gameStarted;
     }
 
-    public static void setGameStarted(Boolean start){
+    public static void setGameStarted(Boolean start) {
         gameStarted = start;
     }
 
@@ -154,12 +166,12 @@ public class Menu {
         return currentSim;
     }
 
-    public static void setCurrentSim(Sim sim){
+    public static void setCurrentSim(Sim sim) {
         currentSim = sim;
     }
 
-    public static ArrayList getSimList(){
+    public static ArrayList getSimList() {
         return simList;
     }
-    
+
 }

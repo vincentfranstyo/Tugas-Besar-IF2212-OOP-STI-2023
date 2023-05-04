@@ -236,8 +236,8 @@ public class House {
         return countTime.get();
     }
 
-    public void setCountTime(int countTime) {
-        this.countTime.set(countTime);
+    public static void setCountTime(int countTimeVar) {
+        countTime.set(countTimeVar);
     }
 
     // public static void main(String[] args) {

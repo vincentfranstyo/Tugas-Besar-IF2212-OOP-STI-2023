@@ -28,7 +28,7 @@ import com.BNMO.SIMS.Sim;
 
 public class App {
     public static void main(String[] args) {
-        DayThread dayThread = new DayThread();
+        DayThread dayThread = DayThread.getInstance();
         Thread dailyThread = new Thread(dayThread);
         dailyThread.start();
         dayThread.pauseThread();
@@ -37,6 +37,8 @@ public class App {
         System.out.print("Apakah kamu ingin memulai permainan? (Y/N) ");
         String startGame = userInput.nextLine();
         System.out.println();
+
+        Menu menu = Menu.getInstance();
 
         while (!startGame.equals("Y") && !startGame.equals("N")) {
             System.out.println("Masukkan Y atau N!");
@@ -49,17 +51,17 @@ public class App {
             System.out.println("Masukkan nama sim: ");
             String simName = userInput.nextLine();
             Sim initSim = new Sim(simName);
-            Menu.setCurrentSim(initSim);
+            menu.setCurrentSim(initSim);
             System.out.println();
-            Menu.start();
+            menu.start();
 
-            World world = new World(initSim);
+            World world = World.getInstance();
 
             System.out.println();
-            Menu.viewSimInfo();
+            menu.viewSimInfo();
             System.out.println();
 
-            while (Menu.isGameStarted() && Menu.getCurrentSim().isAlive()) {
+            while (menu.isGameStarted() && menu.getCurrentSim().isAlive()) {
                 System.out.println("Apa yang ingin kamu lakukan?");
                 System.out.println("[1] Help");
                 System.out.println("[2] Lihat info sim");
@@ -110,21 +112,21 @@ public class App {
                     // HELP
                     System.out.println();
                     System.out.println("Kamu memanggil help!");
-                    Menu.help();
+                    menu.help();
                     System.out.println();
                 } else if (commandNum == 2) {
                     // INFO SIM
                     System.out.println();
                     System.out.println("Berikut adalah info sim kamu:");
-                    Menu.viewSimInfo();
+                    menu.viewSimInfo();
                     System.out.println();
                 } else if (commandNum == 3) {
                     // INFO RUMAH
                     System.out.println();
                     System.out.println("Berikut adalah info ruangan kamu:");
-                    world.printHouseLayout(Menu.getCurrentSim().getCurrentHouse());
+                    world.printHouseLayout(menu.getCurrentSim().getCurrentHouse());
                     System.out.println();
-                    Menu.getCurrentSim().getCurrentHouse().printRooms();
+                    menu.getCurrentSim().getCurrentHouse().printRooms();
                     // TODO CLI layout
                     System.out.println();
                 } else if (commandNum == 4) {
@@ -138,15 +140,15 @@ public class App {
                     System.out.println();
                     System.out.println("Masukkan nama sim yang ingin kamu tambahkan: ");
                     String newSimName = userInput.nextLine();
-                    Menu.addSim(new Sim(newSimName));
-                    Menu.viewSimList();
+                    menu.addSim(new Sim(newSimName));
+                    menu.viewSimList();
                     System.out.println();
                 } else if (commandNum == 6) {
                     // Change SIM
                     System.out.println();
                     System.out.println("Masukkan nama sim yang ingin kamu mainkan: ");
                     String wantedSim = userInput.nextLine();
-                    Menu.changeSim(wantedSim);
+                    menu.changeSim(wantedSim);
                     System.out.println();
                 } else if (commandNum == 7) {
                     // TODO ganti pekerjaan
@@ -163,7 +165,7 @@ public class App {
                     System.out.println("[8] Upgrade rumah");
                     System.out.println("[9] Membeli barang");
                     System.out.println("[10] Membaca");
-                    System.out.println("[11] Menulis");
+                    System.out.println("[11] menulis");
                     System.out.println("[12] Mendengarkan musik");
                     System.out.println("[13] Menonton TV");
                     System.out.println("[14] Bermain piano");
@@ -229,7 +231,7 @@ public class App {
                             }
                         }
                         dayThread.resumeThread();
-                        Menu.getCurrentSim().work(new Time(workDur));
+                        menu.getCurrentSim().work(new Time(workDur));
                         dayThread.pauseThread();
 
                         if (workDur < 240) {
@@ -266,11 +268,11 @@ public class App {
                         }
 
                         dayThread.resumeThread();
-                        Menu.getCurrentSim().workout(new Time(exerciseDur));
+                        menu.getCurrentSim().workout(new Time(exerciseDur));
                         dayThread.pauseThread();
                     } else if (activityNum == 3) {
                         Bed bedValidator = null;
-                        Iterator<Object> iter = Menu.getCurrentSim().getCurrentRoom().getObjects();
+                        Iterator<Object> iter = menu.getCurrentSim().getCurrentRoom().getObjects();
                         while (iter.hasNext()) {
                             Object obj = iter.next();
                             if (obj instanceof Bed) {
@@ -313,17 +315,17 @@ public class App {
                                     sleepTime = userInput.nextLine();
                                 }
                             }
-                            Menu.getCurrentSim().goToObject((NonFoodObjects) bedValidator);
+                            menu.getCurrentSim().goToObject((NonFoodObjects) bedValidator);
                             dayThread.resumeThread();
-                            bedValidator.sleep(new Time(sleepDur), Menu.getCurrentSim());
+                            bedValidator.sleep(new Time(sleepDur), menu.getCurrentSim());
                             dayThread.setSlept(true);
                             dayThread.pauseThread();
                         }
 
                     } else if (activityNum == 4) {
-                        Menu.getCurrentSim().getInventory().addObject(new Ingredients("Nasi"));
+                        menu.getCurrentSim().getInventory().addObject(new Ingredients("Nasi"));
                         TableAndChair tableValidator = null;
-                        Iterator<Object> iter = Menu.getCurrentSim().getCurrentRoom().getObjects();
+                        Iterator<Object> iter = menu.getCurrentSim().getCurrentRoom().getObjects();
                         while (iter.hasNext()) {
                             Object obj = iter.next();
                             if (obj instanceof TableAndChair) {
@@ -336,15 +338,15 @@ public class App {
                             System.out.println("Tidak ada meja dan kursi di ruangan ini!");
                         } else {
                             System.out.println("Kamu memilih untuk makan!");
-                            Menu.getCurrentSim().goToObject((NonFoodObjects) tableValidator);
+                            menu.getCurrentSim().goToObject((NonFoodObjects) tableValidator);
                             System.out.println("Berikut daftar makanan yang dapat kamu makan!");
-                            Menu.getCurrentSim().getInventory().printFoodList();
+                            menu.getCurrentSim().getInventory().printFoodList();
                             System.out.println("Makanan apa yang ingin kamu makan?");
                             String foodName = userInput.nextLine();
                             String loweredFood = foodName.toLowerCase().replaceAll("\\s+", "");
 
                             ArrayList<String> validFoods = new ArrayList<String>();
-                            for (Food food : Menu.getCurrentSim().getInventory().getFoods()) {
+                            for (Food food : menu.getCurrentSim().getInventory().getFoods()) {
                                 validFoods.add(food.getName().toLowerCase().replaceAll("\\s+", ""));
                             }
 
@@ -367,16 +369,16 @@ public class App {
                             }
                             if (!cancelEating) {
                                 dayThread.resumeThread();
-                                if (Menu.getCurrentSim().getInventory().getFood(loweredFood).getType()
+                                if (menu.getCurrentSim().getInventory().getFood(loweredFood).getType()
                                         .equals("Dishes")) {
-                                    tableValidator.eat(Menu.getCurrentSim(),
-                                            (Dishes) Menu.getCurrentSim().getInventory().getFood(loweredFood), null);
+                                    tableValidator.eat(menu.getCurrentSim(),
+                                            (Dishes) menu.getCurrentSim().getInventory().getFood(loweredFood), null);
                                 }
 
-                                else if (Menu.getCurrentSim().getInventory().getFood(loweredFood).getType()
+                                else if (menu.getCurrentSim().getInventory().getFood(loweredFood).getType()
                                         .equals("Ingredients")) {
-                                    tableValidator.eat(Menu.getCurrentSim(), null,
-                                            (Ingredients) Menu.getCurrentSim().getInventory().getFood(loweredFood));
+                                    tableValidator.eat(menu.getCurrentSim(), null,
+                                            (Ingredients) menu.getCurrentSim().getInventory().getFood(loweredFood));
                                 }
                                 dayThread.setEaten(true);
                                 dayThread.pauseThread();
@@ -384,7 +386,7 @@ public class App {
                         }
                     } else if (activityNum == 5) {
                         Stove stoveValidator = null;
-                        Iterator<Object> itr = Menu.getCurrentSim().getCurrentRoom().getObjects();
+                        Iterator<Object> itr = menu.getCurrentSim().getCurrentRoom().getObjects();
                         while (itr.hasNext()) {
                             Object obj = itr.next();
                             if (obj instanceof Stove) {
@@ -398,7 +400,7 @@ public class App {
                         }
 
                         else {
-                            Menu.getCurrentSim().goToObject((NonFoodObjects) stoveValidator);
+                            menu.getCurrentSim().goToObject((NonFoodObjects) stoveValidator);
                             System.out.println("Kamu memilih untuk memasak!");
                             System.out.println("Berikut daftar makanan yang dapat kamu masak!");
                             Food.printDishes();
@@ -450,11 +452,11 @@ public class App {
                                 } else {
                                     toBeCooked = new Dishes(Food.getDishes().get(dishIndex));
                                 }
-                            } while (!toBeCooked.checkIngredients(Menu.getCurrentSim()) && !cancelCook);
+                            } while (!toBeCooked.checkIngredients(menu.getCurrentSim()) && !cancelCook);
 
                             if (!cancelCook) {
                                 dayThread.resumeThread();
-                                stoveValidator.cookDish(Menu.getCurrentSim(), toBeCooked);
+                                stoveValidator.cookDish(menu.getCurrentSim(), toBeCooked);
                                 dayThread.pauseThread();
                             } else {
                                 System.out.println("Pemasakan dibatalkan!");
@@ -465,7 +467,7 @@ public class App {
                         // TODO visit
                     } else if (activityNum == 7) {
                         Toilet toiletValidator = null;
-                        Iterator<Object> itr = Menu.getCurrentSim().getCurrentRoom().getObjects();
+                        Iterator<Object> itr = menu.getCurrentSim().getCurrentRoom().getObjects();
                         while (itr.hasNext()) {
                             Object obj = itr.next();
                             if (obj instanceof Toilet) {
@@ -479,10 +481,10 @@ public class App {
                         }
 
                         else {
-                            Menu.getCurrentSim().goToObject((NonFoodObjects) toiletValidator);
+                            menu.getCurrentSim().goToObject((NonFoodObjects) toiletValidator);
                             System.out.println("Kamu memilih untuk buang air!");
                             dayThread.resumeThread();
-                            toiletValidator.useToilet(Menu.getCurrentSim());
+                            toiletValidator.useToilet(menu.getCurrentSim());
                             dayThread.setPoopedAfterAte(true);
                             dayThread.setEaten(false);
                             dayThread.pauseThread();
@@ -512,47 +514,47 @@ public class App {
                         System.out.println();
                         if (numUpHouseInt == 1) {
                             // TODO add room in side current room
-                            if (Menu.getCurrentSim().getCurrentRoom().getFront() != null
-                                    && Menu.getCurrentSim().getCurrentRoom().getRight() != null
-                                    && Menu.getCurrentSim().getCurrentRoom().getBehind() != null
-                                    && Menu.getCurrentSim().getCurrentRoom().getLeft() != null) {
+                            if (menu.getCurrentSim().getCurrentRoom().getFront() != null
+                                    && menu.getCurrentSim().getCurrentRoom().getRight() != null
+                                    && menu.getCurrentSim().getCurrentRoom().getBehind() != null
+                                    && menu.getCurrentSim().getCurrentRoom().getLeft() != null) {
                                 System.out.println(
                                         "Tidak Dapat Menambah Ruangan Karena Sudah Ada Ruangan Pada Setip Sisi Ruangan Sekerang");
                             } else {
                                 System.out.println("Arah Ruangan:");
-                                if (Menu.getCurrentSim().getCurrentRoom().getFront() == null)
+                                if (menu.getCurrentSim().getCurrentRoom().getFront() == null)
                                     System.out.println("Front");
-                                if (Menu.getCurrentSim().getCurrentRoom().getRight() == null)
+                                if (menu.getCurrentSim().getCurrentRoom().getRight() == null)
                                     System.out.println("Right");
-                                if (Menu.getCurrentSim().getCurrentRoom().getBehind() == null)
+                                if (menu.getCurrentSim().getCurrentRoom().getBehind() == null)
                                     System.out.println("Behind");
-                                if (Menu.getCurrentSim().getCurrentRoom().getLeft() == null)
+                                if (menu.getCurrentSim().getCurrentRoom().getLeft() == null)
                                     System.out.println("Left");
                                 System.out.println("Pilih Arah Ruangan yang Akan Dibangun: ");
                                 String choice = userInput.nextLine();
                                 System.out.println("Masukkan Nama Ruangan: ");
                                 String roomName = userInput.nextLine();
                                 System.out.println();
-                                Menu.getCurrentSim().getCurrentHouse().addRoom(Menu.getCurrentSim(),
-                                        Menu.getCurrentSim().getCurrentRoom(), roomName, choice);
+                                menu.getCurrentSim().getCurrentHouse().addRoom(menu.getCurrentSim(),
+                                        menu.getCurrentSim().getCurrentRoom(), roomName, choice);
                             }
                         } else if (numUpHouseInt == 2) {
                             // TODO Delete Current Room (Room pada house Hanya bisa di delete jika lebih
                             // dari 1) & move ke some room pada house
                             // TODO delete room dihapus aja
-                            Menu.getCurrentSim().getCurrentHouse().deleteRoom(Menu.getCurrentSim(),
-                                    Menu.getCurrentSim().getCurrentRoom());
+                            menu.getCurrentSim().getCurrentHouse().deleteRoom(menu.getCurrentSim(),
+                                    menu.getCurrentSim().getCurrentRoom());
                         } else if (numUpHouseInt == 3) {
                             // TODO add object in current room
                             // TODO display keadaan ruangan sekarang
                             System.out.println("Object Dalam Inventory Yang Dapat Ditambahkan Pada Ruangan:");
                             int i = 1;
-                            Iterator<Object> itr = Menu.getCurrentSim().getInventory().getObjects().iterator();
+                            Iterator<Object> itr = menu.getCurrentSim().getInventory().getObjects().iterator();
                             while (itr.hasNext()) {
                                 Object o = itr.next();
                                 if (o instanceof NonFoodObjects) {
                                     System.out.println("[" + i + "] " + o.getType() + " x"
-                                            + Menu.getCurrentSim().getInventory().getObjectNum(o.getClass().getName()));
+                                            + menu.getCurrentSim().getInventory().getObjectNum(o.getClass().getName()));
                                     i++;
                                 }
                             }
@@ -569,7 +571,7 @@ public class App {
                                     choice = userInput.nextLine();
                                 }
                             }
-                            itr = Menu.getCurrentSim().getInventory().getObjects().iterator();
+                            itr = menu.getCurrentSim().getInventory().getObjects().iterator();
                             Object objAdd = null;
                             i = 1;
                             while (itr.hasNext()) {
@@ -584,10 +586,10 @@ public class App {
                                 }
                             }
                             if (objAdd != null) {
-                                Menu.getCurrentSim().getInventory().removeObject(objAdd.getName());
+                                menu.getCurrentSim().getInventory().removeObject(objAdd.getName());
                                 System.out.println();
                                 System.out.println("Kondisi Ruangan");
-                                Menu.getCurrentSim().getCurrentRoom().printObjRoom();
+                                menu.getCurrentSim().getCurrentRoom().printObjRoom();
                                 System.out.println();
                                 System.out.println("Lokasi Object Pada Ruangan 6x6:");
                                 System.out.print("Masukkan Nilai X: ");
@@ -619,7 +621,7 @@ public class App {
                                 System.out.print("Masukkan Arah Object Pada Ruangan (Vertikal/Horizontal): ");
                                 String direction = userInput.nextLine();
                                 System.out.println();
-                                Menu.getCurrentSim().getCurrentRoom().addObject(objAdd, new Point(xInt, yInt),
+                                menu.getCurrentSim().getCurrentRoom().addObject(objAdd, new Point(xInt, yInt),
                                         direction);
                                 System.out.println("Object Berhasil Ditambahkan Pada Ruangan!");
                                 System.out.println();
@@ -628,7 +630,7 @@ public class App {
                             }
                         } else if (numUpHouseInt == 4) {
                             // TODO delete object in current room and add to inventory owner
-                            Iterator<Object> itr = Menu.getCurrentSim().getCurrentRoom().getObjects();
+                            Iterator<Object> itr = menu.getCurrentSim().getCurrentRoom().getObjects();
                             System.out.println("Object Pada Ruangan Yang Dapat Dihapus:");
                             int i = 1;
                             while (itr.hasNext()) {
@@ -638,7 +640,7 @@ public class App {
                             System.out.print("\nMasukkan Angka Object Yang Ingin Dihapus: ");
                             int choice = userInput.nextInt();
                             i = 1;
-                            itr = Menu.getCurrentSim().getCurrentRoom().getObjects();
+                            itr = menu.getCurrentSim().getCurrentRoom().getObjects();
                             Object objRemove = null;
                             while (itr.hasNext()) {
                                 Object o = itr.next();
@@ -650,8 +652,8 @@ public class App {
                                 }
                             }
                             if (objRemove != null) {
-                                Menu.getCurrentSim().getCurrentRoom().removeObject(objRemove,
-                                        ((NonFoodObjects) objRemove).getPosition(), Menu.getCurrentSim());
+                                menu.getCurrentSim().getCurrentRoom().removeObject(objRemove,
+                                        ((NonFoodObjects) objRemove).getPosition(), menu.getCurrentSim());
                                 System.out.println("Object " + objRemove.getName() + " Berhasil Dihapus Dari Ruangan");
                                 System.out.println();
                             } else {
@@ -738,14 +740,14 @@ public class App {
 
                             wantedObject = Object.getBuyableObjects().get(objIdx);
                         }
-                        Menu.getCurrentSim().buy(wantedObject);
+                        menu.getCurrentSim().buy(wantedObject);
 
                         System.out.println();
                     } else if (activityNum == 10) {
                         // TODO membaca
                         System.out.println();
                         Book book = null;
-                        Iterator<Object> itr = Menu.getCurrentSim().getCurrentRoom().getObjects();
+                        Iterator<Object> itr = menu.getCurrentSim().getCurrentRoom().getObjects();
                         while (itr.hasNext()) {
                             Object o = itr.next();
                             if (o instanceof Book) {
@@ -778,15 +780,15 @@ public class App {
                                 timeInt = Integer.parseInt(time);
                             }
                             dayThread.resumeThread();
-                            book.read(new Time(timeInt), Menu.getCurrentSim(), book);
+                            book.read(new Time(timeInt), menu.getCurrentSim(), book);
                             dayThread.pauseThread();
                         }
 
                     } else if (activityNum == 11) {
-                        // TODO Menulis
+                        // TODO menulis
                         System.out.println();
                         Journal journal = null;
-                        Iterator<Object> itr = Menu.getCurrentSim().getCurrentRoom().getObjects();
+                        Iterator<Object> itr = menu.getCurrentSim().getCurrentRoom().getObjects();
 
                         while (itr.hasNext()) {
                             Object o = itr.next();
@@ -804,14 +806,14 @@ public class App {
                             System.out.println("Apa yang ingin kamu tuliskan ke dalam jurnal?");
                             String text = userInput.nextLine();
                             dayThread.resumeThread();
-                            journal.writeJournal(journal, Menu.getCurrentSim(), text);
+                            journal.writeJournal(journal, menu.getCurrentSim(), text);
                             dayThread.pauseThread();
                         }
 
                     } else if (activityNum == 12) {
                         // TODO mendengarkan musik
                         AudioPlayer audioplayer = null;
-                        Iterator<Object> itr = Menu.getCurrentSim().getCurrentRoom().getObjects();
+                        Iterator<Object> itr = menu.getCurrentSim().getCurrentRoom().getObjects();
 
                         while (itr.hasNext()) {
                             Object o = itr.next();
@@ -825,14 +827,14 @@ public class App {
                             System.out.println("Tidak ada audio player di ruangan ini!");
                         } else {
                             dayThread.resumeThread();
-                            audioplayer.playMusic(Menu.getCurrentSim());
+                            audioplayer.playMusic(menu.getCurrentSim());
                             dayThread.pauseThread();
                         }
 
                     } else if (activityNum == 13) {
                         // TODO menonton TV
                         TV tv = null;
-                        Iterator<Object> itr = Menu.getCurrentSim().getCurrentRoom().getObjects();
+                        Iterator<Object> itr = menu.getCurrentSim().getCurrentRoom().getObjects();
 
                         while (itr.hasNext()) {
                             Object o = itr.next();
@@ -845,14 +847,14 @@ public class App {
                             System.out.println("Tidak ada TV di ruangan ini!");
                         } else {
                             dayThread.resumeThread();
-                            tv.menuTV(Menu.getCurrentSim());
+                            tv.menuTV(menu.getCurrentSim());
                             dayThread.pauseThread();
                         }
                     } else if (activityNum == 14) {
                         // TODO bermain piano
                         Piano piano = null;
 
-                        Iterator<Object> itr = Menu.getCurrentSim().getCurrentRoom().getObjects();
+                        Iterator<Object> itr = menu.getCurrentSim().getCurrentRoom().getObjects();
 
                         while (itr.hasNext()) {
                             Object o = itr.next();
@@ -885,7 +887,7 @@ public class App {
                                 timeInt = Integer.parseInt(time);
                             }
                             dayThread.resumeThread();
-                            piano.playPiano(new Time(timeInt), Menu.getCurrentSim());
+                            piano.playPiano(new Time(timeInt), menu.getCurrentSim());
                             dayThread.pauseThread();
                         }
 
@@ -896,7 +898,7 @@ public class App {
                 } else if (commandNum == 9) {
                     Clock clockCheck = null;
 
-                    Iterator<Object> itr = Menu.getCurrentSim().getCurrentRoom().getObjects();
+                    Iterator<Object> itr = menu.getCurrentSim().getCurrentRoom().getObjects();
 
                     while (itr.hasNext()) {
                         Object o = itr.next();
@@ -916,13 +918,13 @@ public class App {
                 } else if (commandNum == 10) {
                     System.out.println();
                     System.out.println("Daftar Ruangan:");
-                    Menu.getCurrentSim().getCurrentHouse().printRooms();
+                    menu.getCurrentSim().getCurrentHouse().printRooms();
                     System.out.println();
                     System.out.println("Ruangan mana yang ingin kamu tuju? (Masukkan nama ruangan)");
                     String roomName = userInput.nextLine();
                     String loweredRoomName = roomName.toLowerCase().replaceAll("\\s+", "");
                     ArrayList<String> validRooms = new ArrayList<String>();
-                    Iterator<Room> itr = Menu.getCurrentSim().getCurrentHouse().getRooms();
+                    Iterator<Room> itr = menu.getCurrentSim().getCurrentHouse().getRooms();
                     while (itr.hasNext()) {
                         validRooms.add(itr.next().getNameRoom().toLowerCase().replaceAll("\\s+", ""));
                     }
@@ -932,7 +934,7 @@ public class App {
                         loweredRoomName = roomName.toLowerCase().replaceAll("\\s+", "");
                     }
                     Room targetedRoom = null;
-                    itr = Menu.getCurrentSim().getCurrentHouse().getRooms();
+                    itr = menu.getCurrentSim().getCurrentHouse().getRooms();
 
                     while (itr.hasNext()) {
                         Room r = itr.next();
@@ -942,27 +944,27 @@ public class App {
                             break;
                         }
                     }
-                    Menu.getCurrentSim().move(targetedRoom);
+                    menu.getCurrentSim().move(targetedRoom);
                 }
 
                 else if (commandNum == 11) {
-                    // Menu.getCurrentSim().getInventory()
+                    // menu.getCurrentSim().getInventory()
                     // .addObject(new Book("BukuUwu", 1000, 5, "Meemaw"));
-                    // Menu.getCurrentSim().getInventory()
+                    // menu.getCurrentSim().getInventory()
                     // .addObject(new Book("BukuAwa", 1000, 5, "Meemaw"));
-                    // Menu.getCurrentSim().getInventory()
+                    // menu.getCurrentSim().getInventory()
                     // .addObject(new Book("BukuIwi", 1000, 5, "Meemaw"));
-                    // Menu.getCurrentSim().getInventory()
+                    // menu.getCurrentSim().getInventory()
                     // .addObject(new Book("BukuEwe", 1000, 5, "Meemaw"));
-                    // Menu.getCurrentSim().getInventory().addObject(new SingleBed("myBed"));
-                    // Menu.getCurrentSim().getInventory().addObject(new SingleBed("herBed"));
+                    // menu.getCurrentSim().getInventory().addObject(new SingleBed("myBed"));
+                    // menu.getCurrentSim().getInventory().addObject(new SingleBed("herBed"));
                     System.out.println();
-                    Menu.getCurrentSim().getInventory().printInventory();
+                    menu.getCurrentSim().getInventory().printInventory();
                     System.out.println();
                 }
 
                 else if (commandNum == 12) {
-                    Menu.exit();
+                    menu.exit();
                     break;
                 }
 
@@ -971,7 +973,7 @@ public class App {
                     System.out.println();
                 }
 
-                if (!Menu.getCurrentSim().isAlive()) {
+                if (!menu.getCurrentSim().isAlive()) {
                     break;
                 }
             }

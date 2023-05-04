@@ -11,8 +11,9 @@ public class World {
     private int width;
     private ArrayList<House> houseList;
     private static int totalBuild = 0;
+    private static World instance;
 
-    public World(Sim initSim) {
+    private World(Sim initSim) {
         this.length = 64;
         this.width = 64;
         this.houseList = new ArrayList<House>();
@@ -31,7 +32,7 @@ public class World {
         int yRandom = rand2.nextInt(65);
         if (yRandom == 0) {
             yRandom++;
-        }  
+        }
         if (yRandom % 5 == 0) {
             yRandom--;
         }
@@ -39,6 +40,14 @@ public class World {
         Point initPoint = new Point(xRandom, yRandom);
         House initHouse = new House(initPoint, initSim);
         addHouse(initHouse);
+    }
+
+    public static World getInstance() {
+        Menu menu = Menu.getInstance();
+        if (instance == null) {
+            instance = new World(menu.getCurrentSim());
+        }
+        return instance;
     }
 
     public int getLength() {
@@ -140,7 +149,6 @@ public class World {
             int yValue = houseList.get(i).getLocation().getY() * 2;
             map[yValue][xValue] = "#";
         }
-        
 
         for (int i = 0; i < map.length; i++) {
             for (int j = 0; j < map[i].length; j++) {
@@ -220,11 +228,10 @@ public class World {
                             }
                         }
                     }
-                    
-                        for (int i = 0; i < 5; i++) {
-                            houseLayout.add(new ArrayList<>());
-                        }
-                    
+
+                    for (int i = 0; i < 5; i++) {
+                        houseLayout.add(new ArrayList<>());
+                    }
 
                     yCount = houseLayout.size();
                     for (int i = startY + 3; i < startY + 8; i++) {
@@ -279,7 +286,7 @@ public class World {
                     System.out.println(currentRoom.getBehind().getNameRoom());
                     System.out.println(startX);
                     System.out.println(startY);
-                    
+
                     for (int i = 0; i < 5; i++) {
                         if (startY == 2) {
                             houseLayout.add(0, new ArrayList<>());
@@ -287,8 +294,6 @@ public class World {
                             houseLayout.add(startY - 7, new ArrayList<>());
                         }
                     }
-                    
-
 
                     if (startY == 2) {
                         for (int i = 0; i < 5; i++) {
@@ -494,15 +499,15 @@ public class World {
         }
         rooms = house.getRooms();
         int counter = 0;
-        while (rooms.hasNext()){
+        while (rooms.hasNext()) {
             counter++;
             Room roomCur = rooms.next();
             yCount = houseLayout.size();
             for (int i = 0; i < yCount; i++) {
                 int xCount = houseLayout.get(i).size();
                 for (int j = 0; j < xCount; j++) {
-                    if(houseLayout.get(i).get(j).equals(roomCur.getNameRoom())){
-                        houseLayout.get(i).set(j,Integer.toString(counter));
+                    if (houseLayout.get(i).get(j).equals(roomCur.getNameRoom())) {
+                        houseLayout.get(i).set(j, Integer.toString(counter));
                     }
                 }
             }
