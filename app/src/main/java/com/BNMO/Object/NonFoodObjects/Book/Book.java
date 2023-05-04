@@ -56,6 +56,8 @@ public class Book extends NonFoodObjects {
             }
         } catch (InterruptedException e) {
             e.printStackTrace();
+        } finally {
+            setIsOccupied(false);
         }
     }
 }
