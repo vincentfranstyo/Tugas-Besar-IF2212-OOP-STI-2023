@@ -110,7 +110,7 @@ public class House {
                 }
                 if (valid) {
                     sim.setMoney(sim.getMoney() - Room.getPrice());
-                    DayThread dayThread = DayThread.getInstance()
+                    DayThread dayThread = DayThread.getInstance();
                     int currentSec = dayThread.getDaySec();
                     Thread t = new Thread(new Runnable() {
                         public void run() {
@@ -136,11 +136,11 @@ public class House {
                                             System.out.println(
                                                     "Ruangan " + newRoom.getNameRoom() + " Telah Berhasil Dibangun!");
                                             break;
-                                        }
-                                        else if((newCurrSec-currentSec)%60==0){
-                                            if(!DayThread.getPaused()){
+                                        } else if ((newCurrSec - currentSec) % 60 == 0) {
+                                            if (!DayThread.getPaused()) {
                                                 System.out.println("Waktu Pembangunan Ruangan " + newRoom.getNameRoom()
-                                                    + " Tersisa " + (18-((newCurrSec-currentSec)/60)) + " Menit.");
+                                                        + " Tersisa " + (18 - ((newCurrSec - currentSec) / 60))
+                                                        + " Menit.");
                                             }
                                             Thread.sleep(1500);
                                         }

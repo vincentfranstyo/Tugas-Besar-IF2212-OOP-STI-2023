@@ -193,7 +193,7 @@ public class Sim {
     public void work(Time time) {
         int duration = time.convertToSecond();
         try {
-            Time jobDurTime = new Time(getCurrentJobDuration().convertToSecond() + duration / 60);
+            Time jobDurTime = new Time(getCurrentJobDuration().convertToSecond() + duration);
             setCurrentJobDuration(jobDurTime);
             setStatus("Working");
             System.out.println(getName() + " is working...");
@@ -227,7 +227,7 @@ public class Sim {
     }
 
     public void changeJob(String jobName) {
-        if (currentJobDuration.convertToSecond() >= 720) {
+        if (currentJobDuration.convertToSecond() > 120) {
             // Check if the jobName key exists in the map
             if (getJob().getJobs().containsKey(jobName)) {
                 int salary = getJob().getJobs().get(jobName);

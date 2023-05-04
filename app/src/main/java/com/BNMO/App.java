@@ -24,6 +24,7 @@ import com.BNMO.Buildings.*;
 import com.BNMO.Object.Food.*;
 
 import com.BNMO.Utilities.*;
+import com.BNMO.SIMS.Job;
 import com.BNMO.SIMS.Sim;
 
 public class App {
@@ -152,6 +153,20 @@ public class App {
                     System.out.println();
                 } else if (commandNum == 7) {
                     // TODO ganti pekerjaan
+                    System.out.println();
+                    System.out.println("Berikut adalah pekerjaan-pekerjaan yang bisa kamu pilih!");
+                    Job.printListOfJobs();
+
+                    while (true) {
+                        System.out.println("Masukkan nama pekerjaan yang kamu inginkan: ");
+                        String wantedJob = userInput.nextLine();
+                        if (Job.isJobExist(wantedJob)) {
+                            menu.getCurrentSim().changeJob(wantedJob);
+                            break;
+                        } else {
+                            System.out.println("Pekerjaan tidak ditemukan!");
+                        }
+                    }
                 } else if (commandNum == 8) {
                     System.out.println();
                     System.out.println("Berikut adalah aktivitas-aktivitas yang bisa kamu lakukan!");
@@ -615,18 +630,18 @@ public class App {
                                 String direction = userInput.nextLine();
                                 System.out.println();
                                 int width, length;
-                                if(direction.toLowerCase().equals("horizontal")){
+                                if (direction.toLowerCase().equals("horizontal")) {
                                     width = ((NonFoodObjects) objAdd).getWidth();
                                     length = ((NonFoodObjects) objAdd).getLength();
-                                }
-                                else if(direction.toLowerCase().equals("vertikal")){
+                                } else if (direction.toLowerCase().equals("vertikal")) {
                                     width = ((NonFoodObjects) objAdd).getLength();
                                     length = ((NonFoodObjects) objAdd).getWidth();
+                                } else {
+                                    width = 0;
+                                    length = 0;
                                 }
-                                else{
-                                    width = 0; length = 0;
-                                }
-                                while(!menu.getCurrentSim().getCurrentRoom().availableLoc(new Point(xInt, yInt), width, length) || (width == 0 && length == 0)){
+                                while (!menu.getCurrentSim().getCurrentRoom().availableLoc(new Point(xInt, yInt), width,
+                                        length) || (width == 0 && length == 0)) {
                                     System.out.println("Location Not Available, Please Input Location Object Again!");
                                     System.out.print("Masukkan Nilai X: ");
                                     x = userInput.nextLine();
@@ -654,18 +669,17 @@ public class App {
                                     }
                                     System.out.print("Masukkan Arah Object Pada Ruangan (Vertikal/Horizontal): ");
                                     direction = userInput.nextLine();
-                                    if(direction.toLowerCase().equals("horizontal")){
+                                    if (direction.toLowerCase().equals("horizontal")) {
                                         width = ((NonFoodObjects) objAdd).getWidth();
                                         length = ((NonFoodObjects) objAdd).getLength();
-                                    }
-                                    else if(direction.toLowerCase().equals("vertikal")){
+                                    } else if (direction.toLowerCase().equals("vertikal")) {
                                         width = ((NonFoodObjects) objAdd).getLength();
                                         length = ((NonFoodObjects) objAdd).getWidth();
+                                    } else {
+                                        width = 0;
+                                        length = 0;
                                     }
-                                    else{
-                                        width = 0; length = 0;
-                                    }
-                                    System.out.println();    
+                                    System.out.println();
                                 }
                                 menu.getCurrentSim().getCurrentRoom().addObject(objAdd, new Point(xInt, yInt),
                                         direction);
@@ -775,10 +789,6 @@ public class App {
                             for (int i = 0; i < Object.getBuyableObjects().size(); i++) {
                                 validObjs.add(Object.getBuyableObjects().get(i).getType().toLowerCase()
                                         .replaceAll("\\s+", ""));
-                            }
-
-                            for (int i = 0; i < validObjs.size(); i++) {
-                                System.out.println(validObjs.get(i));
                             }
 
                             while (!validObjs.contains(loweredWantedFurniture)) {

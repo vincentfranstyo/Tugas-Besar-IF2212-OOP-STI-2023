@@ -19,7 +19,7 @@ public abstract class Object {
     private String type;
     private String category;
     private int price;
-    private static ArrayList<NonFoodObjects> buyableObjects = new ArrayList<>();
+    private static ArrayList<NonFoodObjects> buyableObjects;
 
     public Object(String name, String category) {
         this.name = name;
@@ -71,6 +71,7 @@ public abstract class Object {
     }
 
     public static ArrayList<NonFoodObjects> getBuyableObjects() {
+        buyableObjects = new ArrayList<>();
         buyableObjects.add(new SingleBed("Single Bed"));
         buyableObjects.add(new QueenBed("Queen Bed"));
         buyableObjects.add(new KingBed("King Bed"));

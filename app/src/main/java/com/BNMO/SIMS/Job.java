@@ -2,11 +2,12 @@ package com.BNMO.SIMS;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.ArrayList;
 
 public class Job {
     private String name;
     private int salary;
-    private Map<String, Integer> jobs = new HashMap<>();
+    private static Map<String, Integer> jobs = new HashMap<>();
 
     public Job(String name, int salary) {
         this.name = name;
@@ -50,5 +51,23 @@ public class Job {
 
     public void setJobs(Map<String, Integer> jobs) {
         this.jobs = jobs;
+    }
+
+    public static void printListOfJobs() {
+        System.out.println("List of Jobs:");
+        int i = 1;
+        for (Map.Entry<String, Integer> entry : jobs.entrySet()) {
+            System.out.println(i + ". " + entry.getKey() + ", gaji: " + entry.getValue());
+            i++;
+        }
+    }
+
+    public static boolean isJobExist(String jobName) {
+        ArrayList<String> validJobs = new ArrayList<>();
+        for (Map.Entry<String, Integer> entry : jobs.entrySet()) {
+            validJobs.add(entry.getKey().toLowerCase().replaceAll("\\s+", ""));
+        }
+
+        return validJobs.contains(jobName.toLowerCase().replaceAll("\\s+", ""));
     }
 }
