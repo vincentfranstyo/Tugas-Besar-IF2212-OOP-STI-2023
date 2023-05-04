@@ -5,6 +5,12 @@ import com.BNMO.Object.NonFoodObjects.NonFoodObjects;
 import com.BNMO.Object.Object;
 import com.BNMO.Object.Food.Food;
 import com.BNMO.Buildings.*;
+import com.BNMO.Object.NonFoodObjects.Toilet.Toilet;
+import com.BNMO.Object.NonFoodObjects.Bed.SingleBed;
+import com.BNMO.Object.NonFoodObjects.TableAndChair.TableAndChair;
+import com.BNMO.Object.NonFoodObjects.Stove.GasStove;
+import com.BNMO.Object.NonFoodObjects.Clock.Clock;
+import com.BNMO.World;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -22,7 +28,7 @@ public class Sim {
     private Inventory<Object> inventory;
     private Point location;
     private Time currentJobDuration;
-    private static ArrayList<Sim> sims = new ArrayList<>();
+    private static ArrayList<Sim> sims = new ArrayList<Sim>();
     private boolean isAlive;
     private House currentHouse;
     private Room currentRoom;
@@ -56,11 +62,22 @@ public class Sim {
         this.status = "Nothing";
         this.isAlive = true;
         this.inventory = new Inventory<Object>(this);
-        this.location = new Point(0, 0);
+        System.out.println("kena location");
+        this.location = new Point(2, 2); // TODO ini harusnya random tpi ngecek dulu
+
+        World world = World.getInstance();
         this.currentHouse = new House(this.location, this);
         this.currentRoom = currentHouse.getRooms().next();
+        world.addHouse(currentHouse);
+
         this.currentJobDuration = new Time();
+        this.inventory.addObject(new Toilet("Toilet 1"));
+        this.inventory.addObject(new GasStove("Kompor Gas 1"));
+        this.inventory.addObject(new TableAndChair("Meja Makan 1"));
+        this.inventory.addObject(new Clock("Jam 1"));
+        this.inventory.addObject(new SingleBed("Kasur 1"));
         sims.add(this);
+
     }
 
     public String getName() {
@@ -190,6 +207,10 @@ public class Sim {
         this.currentRoom = currentRoom;
     }
 
+    public static ArrayList<Sim> getSims() {
+        return sims;
+    }
+
     public void work(Time time) {
         int duration = time.convertToSecond();
         try {
@@ -227,9 +248,11 @@ public class Sim {
     }
 
     public void changeJob(String jobName) {
-        if (currentJobDuration.convertToSecond() > 120) {
+        System.out.println("Current job duration: " + currentJobDuration.convertToSecond() + " seconds");
+        if (currentJobDuration.convertToSecond() >= 120) {
             // Check if the jobName key exists in the map
             if (getJob().getJobs().containsKey(jobName)) {
+                System.out.println("Changing job to " + jobName);
                 int salary = getJob().getJobs().get(jobName);
                 setJob(new Job(jobName, salary));
                 setCurrentJobDuration(new Time(0, 0, 0));
@@ -287,18 +310,8 @@ public class Sim {
         }
     }
 
-    public void moveObject(Object object) {
-
-    }
-
     public void goToObject(NonFoodObjects nfo) {
         setLocation(nfo.getPosition());
-    }
-
-    public void updateHouse(House house) {
-        // menambah room
-        // menghapus room
-        // menambah Object
     }
 
 }

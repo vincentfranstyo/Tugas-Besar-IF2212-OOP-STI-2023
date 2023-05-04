@@ -8,7 +8,7 @@ import java.util.ArrayList;
 
 public class Inventory<T extends Object> {
     private Sim owner;
-    private ArrayList<T> objects;
+    private ArrayList<T> objects = new ArrayList<>();
     private boolean status;
     private int capacity;
 
@@ -76,12 +76,11 @@ public class Inventory<T extends Object> {
     public int getObjectNum(String className) {
         int num = 0;
         for (T object : objects) {
-            if (object.getCategory().equals("Non Food Objects")){
+            if (object.getCategory().equals("Non Food Objects")) {
                 if (object.getClass().getName().equals(className)) {
                     num++;
                 }
-            }
-            else{
+            } else {
                 if (object.getName().equals(className)) {
                     num++;
                 }

@@ -37,7 +37,7 @@ public class Job {
         return salary;
     }
 
-    public Map<String, Integer> getJobs() {
+    public static Map<String, Integer> getJobs() {
         return jobs;
     }
 
@@ -49,8 +49,8 @@ public class Job {
         this.salary = salary;
     }
 
-    public void setJobs(Map<String, Integer> jobs) {
-        this.jobs = jobs;
+    public void setJobs(Map<String, Integer> jobsList) {
+        jobs = jobsList;
     }
 
     public static void printListOfJobs() {
@@ -69,5 +69,13 @@ public class Job {
         }
 
         return validJobs.contains(jobName.toLowerCase().replaceAll("\\s+", ""));
+    }
+
+    public static int getJobIndex(String jobName) {
+        ArrayList<String> validJobs = new ArrayList<>();
+        for (Map.Entry<String, Integer> entry : jobs.entrySet()) {
+            validJobs.add(entry.getKey().toLowerCase().replaceAll("\\s+", ""));
+        }
+        return validJobs.indexOf(jobName.toLowerCase().replaceAll("\\s+", ""));
     }
 }
