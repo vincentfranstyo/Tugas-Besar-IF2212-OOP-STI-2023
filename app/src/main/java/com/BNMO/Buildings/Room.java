@@ -30,7 +30,7 @@ public class Room {
         this.totalObject = 0;
     }
 
-    private boolean availableLoc(Point Loc, int width, int length) {
+    public boolean availableLoc(Point Loc, int width, int length) {
         if ((Loc.getX() < 1 && (Loc.getX() + length > 7)) || (Loc.getY() < 1 && (Loc.getY() + width > 7))) {
             return false;
         } else {
@@ -48,19 +48,9 @@ public class Room {
     }
 
     public void addObject(Object o, Point loc, String direction) {
-        // Cek location yang diinput, location merupakan titik kiri atas dari object
+        // Cek location yang diinput, location merupakan titik kiri bawah dari object
         if (o instanceof NonFoodObjects) {
             if (direction.toLowerCase().equals("horizontal")) {
-                while (!availableLoc(loc, ((NonFoodObjects) o).getWidth(), ((NonFoodObjects) o).getLength())) {
-                    System.out.print("Location Not Available, Please Input Location Object Again: ");
-                    Scanner sc = new Scanner(System.in);
-                    try {
-                        loc.setX(sc.nextInt());
-                        loc.setY(sc.nextInt());
-                    } catch (NoSuchElementException e) {
-                        sc.close();
-                    }
-                }
                 ((NonFoodObjects) o).setPosition(loc);
                 for (int i = loc.getX(); i < loc.getX() + ((NonFoodObjects) o).getLength(); i++) {
                     for (int j = loc.getY(); j < loc.getY() + ((NonFoodObjects) o).getWidth(); j++) {
@@ -68,42 +58,6 @@ public class Room {
                     }
                 }
             } else if (direction.toLowerCase().equals("vertikal")) {
-                while (!availableLoc(loc, ((NonFoodObjects) o).getLength(), ((NonFoodObjects) o).getWidth())) {
-                    System.out.print("Location Not Available, Please Input Location Object Again: ");
-                    Scanner sc = new Scanner(System.in);
-                    System.out.print("Masukkan Nilai");
-                    try {
-                        System.out.print("Masukkan Nilai X: ");
-                        String x = sc.nextLine();
-                        int xInt;
-                        while (true) {
-                            try {
-                                xInt = Integer.parseInt(x);
-                                break;
-                            } catch (NumberFormatException e) {
-                                System.out.println("Masukan harus dalam bentuk angka!");
-                                System.out.print("Masukkan Nilai X: ");
-                                x = sc.nextLine();
-                            }
-                        }
-                        System.out.print("Masukkan Nilai Y: ");
-                        String y = sc.nextLine();
-                        int yInt;
-                        while (true) {
-                            try {
-                                yInt = Integer.parseInt(y);
-                                break;
-                            } catch (NumberFormatException e) {
-                                System.out.println("Masukan harus dalam bentuk angka!");
-                                System.out.print("Masukkan Nilai X: ");
-                                y = sc.nextLine();
-                            }
-                        }
-                        loc.setPoint(xInt, yInt);
-                    } catch (NoSuchElementException e) {
-                        sc.close();
-                    }
-                }
                 ((NonFoodObjects) o).setPosition(loc);
                 for (int i = loc.getX(); i < loc.getX() + ((NonFoodObjects) o).getWidth(); i++) {
                     for (int j = loc.getY(); j < loc.getY() + ((NonFoodObjects) o).getLength(); j++) {
