@@ -494,9 +494,8 @@ public class App {
                         System.out.println();
                         System.out.println("Pilihan Update:");
                         System.out.println("[1] Menambah Ruangan");
-                        System.out.println("[2] Menghapus Ruangan Sekarang");
-                        System.out.println("[3] Menambah Object Pada Ruangan Sekarang");
-                        System.out.println("[4] Menghapus Object Pada Ruangan Sekarang");
+                        System.out.println("[2] Menambah Object Pada Ruangan Sekarang");
+                        System.out.println("[3] Menghapus Object Pada Ruangan Sekarang");
                         System.out.print("Masukkan Pilihan (dalam angka): ");
                         String numUpHouse = userInput.nextLine();
                         int numUpHouseInt;
@@ -539,12 +538,6 @@ public class App {
                                         menu.getCurrentSim().getCurrentRoom(), roomName, choice);
                             }
                         } else if (numUpHouseInt == 2) {
-                            // TODO Delete Current Room (Room pada house Hanya bisa di delete jika lebih
-                            // dari 1) & move ke some room pada house
-                            // TODO delete room dihapus aja
-                            menu.getCurrentSim().getCurrentHouse().deleteRoom(menu.getCurrentSim(),
-                                    menu.getCurrentSim().getCurrentRoom());
-                        } else if (numUpHouseInt == 3) {
                             // TODO add object in current room
                             // TODO display keadaan ruangan sekarang
                             System.out.println("Object Dalam Inventory Yang Dapat Ditambahkan Pada Ruangan:");
@@ -628,7 +621,7 @@ public class App {
                             } else {
                                 System.out.println("Tidak Ada Object Yang Dapat Ditambahkan Pada Ruangan!");
                             }
-                        } else if (numUpHouseInt == 4) {
+                        } else if (numUpHouseInt == 3) {
                             // TODO delete object in current room and add to inventory owner
                             Iterator<Object> itr = menu.getCurrentSim().getCurrentRoom().getObjects();
                             System.out.println("Object Pada Ruangan Yang Dapat Dihapus:");
@@ -660,6 +653,8 @@ public class App {
                                 System.out.println("Tidak Ada Object Yang Dihapus");
                                 System.out.println();
                             }
+                        } else{
+                            System.out.println("Pilihan Input Tidak Tersedia!");
                         }
                     } else if (activityNum == 9) {
                         System.out.println();
