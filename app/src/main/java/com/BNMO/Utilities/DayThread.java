@@ -117,6 +117,10 @@ public class DayThread implements Runnable {
         poopPenalty.set(poopPenaltyVar);
     }
 
+    public static boolean getPaused(){
+        return paused;
+    }
+
     @Override
     public void run() {
         Menu menu = Menu.getInstance();

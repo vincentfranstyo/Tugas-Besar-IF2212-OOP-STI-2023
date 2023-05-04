@@ -135,9 +135,11 @@ public class House {
                                             break;
                                         }
                                         else if((newCurrSec-currentSec)%60==0){
-                                            System.out.println("Waktu Pembangunan Ruangan " + newRoom.getNameRoom()
+                                            if(!DayThread.getPaused()){
+                                                System.out.println("Waktu Pembangunan Ruangan " + newRoom.getNameRoom()
                                                     + " Tersisa " + (18-((newCurrSec-currentSec)/60)) + " Menit.");
-                                            Thread.sleep(2000);
+                                            }
+                                            Thread.sleep(1500);
                                         }
                                     }
                                 }
