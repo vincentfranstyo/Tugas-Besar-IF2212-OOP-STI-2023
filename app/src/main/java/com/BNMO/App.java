@@ -614,6 +614,59 @@ public class App {
                                 System.out.print("Masukkan Arah Object Pada Ruangan (Vertikal/Horizontal): ");
                                 String direction = userInput.nextLine();
                                 System.out.println();
+                                int width, length;
+                                if(direction.toLowerCase().equals("horizontal")){
+                                    width = ((NonFoodObjects) objAdd).getWidth();
+                                    length = ((NonFoodObjects) objAdd).getLength();
+                                }
+                                else if(direction.toLowerCase().equals("vertikal")){
+                                    width = ((NonFoodObjects) objAdd).getLength();
+                                    length = ((NonFoodObjects) objAdd).getWidth();
+                                }
+                                else{
+                                    width = 0; length = 0;
+                                }
+                                while(!menu.getCurrentSim().getCurrentRoom().availableLoc(new Point(xInt, yInt), width, length) || (width == 0 && length == 0)){
+                                    System.out.println("Location Not Available, Please Input Location Object Again!");
+                                    System.out.print("Masukkan Nilai X: ");
+                                    x = userInput.nextLine();
+                                    while (true) {
+                                        try {
+                                            xInt = Integer.parseInt(x);
+                                            break;
+                                        } catch (NumberFormatException e) {
+                                            System.out.println("Masukan harus dalam bentuk angka!");
+                                            System.out.print("Masukkan Nilai X: ");
+                                            x = userInput.nextLine();
+                                        }
+                                    }
+                                    System.out.print("Masukkan Nilai Y: ");
+                                    y = userInput.nextLine();
+                                    while (true) {
+                                        try {
+                                            yInt = Integer.parseInt(y);
+                                            break;
+                                        } catch (NumberFormatException e) {
+                                            System.out.println("Masukan harus dalam bentuk angka!");
+                                            System.out.print("Masukkan Nilai X: ");
+                                            y = userInput.nextLine();
+                                        }
+                                    }
+                                    System.out.print("Masukkan Arah Object Pada Ruangan (Vertikal/Horizontal): ");
+                                    direction = userInput.nextLine();
+                                    if(direction.toLowerCase().equals("horizontal")){
+                                        width = ((NonFoodObjects) objAdd).getWidth();
+                                        length = ((NonFoodObjects) objAdd).getLength();
+                                    }
+                                    else if(direction.toLowerCase().equals("vertikal")){
+                                        width = ((NonFoodObjects) objAdd).getLength();
+                                        length = ((NonFoodObjects) objAdd).getWidth();
+                                    }
+                                    else{
+                                        width = 0; length = 0;
+                                    }
+                                    System.out.println();    
+                                }
                                 menu.getCurrentSim().getCurrentRoom().addObject(objAdd, new Point(xInt, yInt),
                                         direction);
                                 System.out.println("Object Berhasil Ditambahkan Pada Ruangan!");
