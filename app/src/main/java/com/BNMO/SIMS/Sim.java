@@ -295,6 +295,7 @@ public class Sim {
                             if(!dayThread.getPaused()){
                                 if(newCurrentSec-currentSec == randomNum*60){
                                     System.out.println("Item mu telah sampai");
+                                    break;
                                 }
                                 else if((newCurrentSec-currentSec)%60 == 0){
                                     System.out.println("Item mu akan sampai dalam "+(randomNum-((newCurrentSec-currentSec)%60))+" menit");
