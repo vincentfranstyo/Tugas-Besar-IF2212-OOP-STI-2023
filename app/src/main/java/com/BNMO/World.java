@@ -299,13 +299,13 @@ public class World {
                         houseLayout.get(startY + 2).set(startX + 2, currentRoom.getFront().getNameRoom());
                         houseLayout.get(startY + 2).set(startX + 1, " ");
 
-                        for (int i = startY; i < startY + 5; i++) {
-                            for (int j = 0; j < houseLayout.get(longY).size(); j++) {
-                                if (currentRoom.getLeft() != null){
-                                    houseLayout.get(i).add(j,"  ");
-                                }
-                            }
-                        }
+                        // for (int i = startY; i < startY + 5; i++) {
+                        //     for (int j = 0; j < houseLayout.get(longY).size(); j++) {
+                        //         if (currentRoom.getLeft() != null){
+                        //             houseLayout.get(i).add(j,"  ");
+                        //         }
+                        //     }
+                        // }
                         
                         
                     }
@@ -483,13 +483,13 @@ public class World {
                         houseLayout.get(startY + 2).set(startX + 2, currentRoom.getBehind().getNameRoom());
                         houseLayout.get(startY + 2).set(startX + 1, " ");
 
-                        for (int i = startY; i < startY + 5; i++) {
-                            for (int j = 0; j < houseLayout.get(longY).size(); j++) {
-                                if (currentRoom.getLeft() != null){
-                                    houseLayout.get(i).add(j,"  ");
-                                }
-                            }
-                        }
+                        // for (int i = startY; i < startY + 5; i++) {
+                        //     for (int j = 0; j < houseLayout.get(longY).size(); j++) {
+                        //         if (currentRoom.getLeft() != null){
+                        //             houseLayout.get(i).add(j,"  ");
+                        //         }
+                        //     }
+                        // }
                         
                         
                     }
@@ -648,14 +648,14 @@ public class World {
                             }
                         } else {
                             for (int j = startX; j < startX + 5; j++) {
-                                if(houseLayout.get(i).size() < longY){
+                                
                                     if (currentRoom.getLeft().getFront() == null && i < startY){
                                         houseLayout.get(i).add(j,"  ");
                                     }
                                     if (currentRoom.getLeft().getBehind() == null && i >= startY + 5){
                                         houseLayout.get(i).add(j,"  ");
                                     }
-                                }
+                                    
                             }
 
                         }
@@ -666,7 +666,6 @@ public class World {
                                 if (houseLayout.get(i).get(j).equals(currentRoom.getNameRoom())){
                                     houseLayout.get(i).set(j - 5, currentRoom.getLeft().getNameRoom());
                                     houseLayout.get(i).set(j-4, " ");
-                                    System.out.println(j);
                                 }
                                 
                             }
@@ -758,7 +757,6 @@ public class World {
                                 if (houseLayout.get(i).get(j).equals(currentRoom.getNameRoom())){
                                     houseLayout.get(i).set(j + 5, currentRoom.getRight().getNameRoom());
                                     houseLayout.get(i).set(j+4, " ");
-                                    System.out.println(j);
                                 }
                                 
                             }
