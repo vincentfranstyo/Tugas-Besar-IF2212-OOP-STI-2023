@@ -288,18 +288,23 @@ public class Sim {
         // }
         Thread t = new Thread(new Runnable(){
             public void run(){
-                while(true){
-                    int newCurrentSec = dayThread.getDaySec();
-                    if(newCurrentSec-currentSec != 0){
-                        if(!dayThread.getPaused()){
-                            if(newCurrentSec-currentSec == randomNum*60){
-                                System.out.println("Item mu telah sampai");
-                            }
-                            else if((newCurrentSec-currentSec)%60 == 0){
-                                System.out.println("Item mu akan sampai dalam "+(randomNum-((newCurrentSec-currentSec)%60))+" menit");
+                try {
+                    while(true){
+                        int newCurrentSec = dayThread.getDaySec();
+                        if(newCurrentSec-currentSec != 0){
+                            if(!dayThread.getPaused()){
+                                if(newCurrentSec-currentSec == randomNum*60){
+                                    System.out.println("Item mu telah sampai");
+                                }
+                                else if((newCurrentSec-currentSec)%60 == 0){
+                                    System.out.println("Item mu akan sampai dalam "+(randomNum-((newCurrentSec-currentSec)%60))+" menit");
+                                    Thread.sleep(1500);
+                                }
                             }
                         }
                     }
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
                 }
             }
         });
