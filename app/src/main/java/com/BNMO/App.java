@@ -251,9 +251,11 @@ public class App {
                     System.out.println("[15] Bermain game");
                     System.out.println();
 
-                    System.out.println("Masukkan perintah: (dalam angka)");
+                    System.out.println("Masukkan perintah: (dalam angka, cancel untuk membatalkan)");
                     String activity = userInput.nextLine();
-                    int activityNum;
+                    int activityNum = 0;
+                    boolean cancelAct = false;
+
                     ArrayList<Integer> validActivities = new ArrayList<Integer>();
                     for (int i = 1; i <= 15; i++) {
                         validActivities.add(i);
@@ -261,500 +263,474 @@ public class App {
 
                     while (true) {
                         try {
-                            activityNum = Integer.parseInt(activity);
-                            if (validActivities.contains(activityNum)) {
-                                System.out.println("Masukkan perintah yang valid!");
+                            if (activity.equals("cancel")) {
+                                cancelAct = true;
                                 break;
+                            } else {
+                                activityNum = Integer.parseInt(activity);
+                                if (validActivities.contains(activityNum)) {
+                                    break;
+                                } else {
+                                    throw new Exception("Perintah tidak ditemukan!");
+                                }
                             }
-                        } catch (NumberFormatException e) {
-                            System.out.println("Masukan harus dalam bentuk angka!");
+
+                        } catch (Exception e) {
+                            System.out.println(e.getMessage());
                             activity = userInput.nextLine();
                         }
                     }
 
-                    if (activityNum == 1) {
-                        System.out.println();
-                        System.out.println("Kamu memilih untuk bekerja!");
-                        System.out.println("Berikut adalah efek akibat bekerja:");
-                        System.out.println("Fullness: -10 / 30 detik");
-                        System.out.println("Mood: -10 / 30 detik");
-                        System.out.println("Gaji : + sesuai dengan pekerjaan yang dimiliki / 4 menit");
-                        System.out.println();
-                        System.out.println(
-                                "Berapa lama kamu ingin bekerja? (dalam satuan detik, kelipatan 120, dan tidak boleh lebih dari 240)");
-                        String workTime = userInput.nextLine();
-                        int workDur = 0;
-                        while (true) {
-                            try {
-                                if (workTime.equals("cancel")) {
-                                    break;
-                                } else {
-                                    workDur = Integer.parseInt(workTime);
-                                    if (workDur % 120 != 0 || workDur <= 0 || workDur > 240) {
-                                        System.out.println(
-                                                "Masukan harus kelipatan 120, dan tidak boleh lebih dari 240!");
-                                        workTime = userInput.nextLine();
-                                        continue;
-                                        // TODO cek apakah akan memvalidasi dengan benar
-                                    }
-                                    break;
-                                }
-                            } catch (NumberFormatException e) {
-                                System.out.println("Masukan harus dalam bentuk angka! (dalam satuan detik)");
-                                workTime = userInput.nextLine();
-                            }
-                        }
+                    if (activity.equals("cancel")) {
+                        System.out.println("Kamu membatalkan aktivitas!");
+                    }
 
-                        if (workTime.equals("cancel")) {
+                    else {
+
+                        if (activityNum == 1) {
                             System.out.println();
-                            System.out.println("Kamu membatalkan bekerja!");
+                            System.out.println("Kamu memilih untuk bekerja!");
+                            System.out.println("Berikut adalah efek akibat bekerja:");
+                            System.out.println("Fullness: -10 / 30 detik");
+                            System.out.println("Mood: -10 / 30 detik");
+                            System.out.println("Gaji : + sesuai dengan pekerjaan yang dimiliki / 4 menit");
                             System.out.println();
-                            continue;
-                        } else {
-                            dayThread.resumeThread();
-                            menu.getCurrentSim().work(new Time(workDur));
-                            dayThread.pauseThread();
-                        }
-
-                        if (dayThread.getDailyWorkDuration() > 240) {
-                            System.out.println("Kamu sudah bekerja terlalu lama hari ini!");
-                        } else {
-                            dayThread.setDailyWorkDuration(dayThread.getDailyWorkDuration() + workDur);
-                        }
-
-                    } else if (activityNum == 2) {
-                        System.out.println();
-                        System.out.println("Kamu memilih untuk berolahraga!");
-                        System.out.println("Berikut adalah efek akibat berolahraga:");
-                        System.out.println("Fullness: -5 / 20 detik");
-                        System.out.println("Mood: +10 / 20 detik");
-                        System.out.println("Health: +5 / 20 detik");
-                        System.out.println();
-
-                        System.out.println(
-                                "Berapa lama kamu ingin berolahraga? (dalam satuan detik, kelipatan 20, ketik \"cancel\" jika ingin membatalkan)");
-                        String exerciseTime = userInput.nextLine();
-                        int exerciseDur = 0;
-
-                        while (true) {
-                            try {
-                                if (exerciseTime.equals("cancel")) {
-                                    break;
-                                } else {
-                                    exerciseDur = Integer.parseInt(exerciseTime);
-                                    if (exerciseDur % 20 != 0 || exerciseDur <= 0) {
-                                        System.out.println(
-                                                "Masukan harus kelipatan 20! (dalam satuan detik, ketik \"cancel\" jika ingin membatalkan)");
-                                        exerciseTime = userInput.nextLine();
-                                        continue;
-                                    }
-                                    break;
-                                }
-                            } catch (NumberFormatException e) {
-                                System.out.println(
-                                        "Masukan harus dalam bentuk angka! (dalam satuan detik, ketik \"cancel\" jika ingin membatalkan)");
-                                exerciseTime = userInput.nextLine();
-                            }
-                        }
-
-                        if (exerciseTime.equals("cancel")) {
-                            System.out.println();
-                            System.out.println("Kamu membatalkan berolahraga!");
-                            System.out.println();
-                            continue;
-                        } else {
-                            dayThread.resumeThread();
-                            menu.getCurrentSim().workout(new Time(exerciseDur));
-                            dayThread.pauseThread();
-                        }
-
-                    } else if (activityNum == 3) {
-                        Bed bedValidator = null;
-                        Iterator<Object> iter = menu.getCurrentSim().getCurrentRoom().getObjects();
-                        while (iter.hasNext()) {
-                            Object obj = iter.next();
-                            if (obj instanceof Bed) {
-                                bedValidator = (Bed) obj;
-                                break;
-                            }
-                        }
-
-                        if (bedValidator == null) {
-                            // Tidak ada bed di ruangan ini
-                            System.out.println("Tidak ada tempat tidur di ruangan ini!");
-                        } else {
-                            System.out.println();
-                            System.out.println("Kamu memilih untuk tidur!");
-                            System.out.println();
-                            System.out.println("Berikut adalah efek tidur:");
-                            System.out.println("Mood: +30 / 4 menit");
-                            System.out.println("Health: +20 / 4 menit");
-                            System.out.println();
-
-                            System.out.println("Berikut adalah efek tidak tidur:");
-                            System.out.println("Mood: -10 / 10 menit");
-
                             System.out.println(
-                                    "Berapa lama kamu ingin tidur? (dalam satuan detik dan lebih dari 3 menit)");
-                            String sleepTime = userInput.nextLine();
-                            int sleepDur = 0;
-
+                                    "Berapa lama kamu ingin bekerja? (dalam satuan detik, kelipatan 120, dan tidak boleh lebih dari 240)");
+                            String workTime = userInput.nextLine();
+                            int workDur = 0;
                             while (true) {
                                 try {
-                                    if (sleepTime.equals("cancel")) {
+                                    if (workTime.equals("cancel")) {
                                         break;
                                     } else {
-                                        sleepDur = Integer.parseInt(sleepTime);
-                                        if (sleepDur < 180) {
-                                            System.out.println("Masukan harus lebih dari 180 detik (3 menit)!");
-                                            sleepTime = userInput.nextLine();
+                                        workDur = Integer.parseInt(workTime);
+                                        if (workDur % 120 != 0 || workDur <= 0 || workDur > 240) {
+                                            System.out.println(
+                                                    "Masukan harus kelipatan 120, dan tidak boleh lebih dari 240!");
+                                            workTime = userInput.nextLine();
                                             continue;
+                                            // TODO cek apakah akan memvalidasi dengan benar
                                         }
                                         break;
                                     }
                                 } catch (NumberFormatException e) {
                                     System.out.println("Masukan harus dalam bentuk angka! (dalam satuan detik)");
-                                    sleepTime = userInput.nextLine();
+                                    workTime = userInput.nextLine();
                                 }
                             }
-                            if (sleepTime.equals("cancel")) {
+
+                            if (workTime.equals("cancel")) {
                                 System.out.println();
-                                System.out.println("Kamu membatalkan tidur!");
+                                System.out.println("Kamu membatalkan bekerja!");
                                 System.out.println();
                                 continue;
                             } else {
-                                menu.getCurrentSim().goToObject((NonFoodObjects) bedValidator);
                                 dayThread.resumeThread();
-                                bedValidator.sleep(new Time(sleepDur), menu.getCurrentSim());
-                                dayThread.setSlept(true);
+                                menu.getCurrentSim().work(new Time(workDur));
                                 dayThread.pauseThread();
                             }
-                        }
 
-                    } else if (activityNum == 4) {
-                        // TODO makan
-                        menu.getCurrentSim().getInventory().addObject(new Ingredients("Nasi")); // TODO to be deleted
-                        TableAndChair tableValidator = null;
-                        Iterator<Object> iter = menu.getCurrentSim().getCurrentRoom().getObjects();
-                        while (iter.hasNext()) {
-                            Object obj = iter.next();
-                            if (obj instanceof TableAndChair) {
-                                tableValidator = (TableAndChair) obj;
-                                break;
-                            }
-                        }
-                        if (tableValidator == null) {
-                            // Tidak ada table and chair di ruangan ini
-                            System.out.println("Tidak ada meja dan kursi di ruangan ini!");
-                        } else {
-                            System.out.println("Kamu memilih untuk makan!");
-                            menu.getCurrentSim().goToObject((NonFoodObjects) tableValidator);
-                            System.out.println("Berikut daftar makanan yang dapat kamu makan!");
-                            menu.getCurrentSim().getInventory().printFoodList();
-                            System.out.println("Makanan apa yang ingin kamu makan?");
-                            String foodName = userInput.nextLine();
-                            String loweredFood = foodName.toLowerCase().replaceAll("\\s+", "");
-
-                            ArrayList<String> validFoods = new ArrayList<String>();
-                            for (Food food : menu.getCurrentSim().getInventory().getFoods()) {
-                                validFoods.add(food.getName().toLowerCase().replaceAll("\\s+", ""));
+                            if (dayThread.getDailyWorkDuration() > 240) {
+                                System.out.println("Kamu sudah bekerja terlalu lama hari ini!");
+                            } else {
+                                dayThread.setDailyWorkDuration(dayThread.getDailyWorkDuration() + workDur);
                             }
 
-                            boolean cancelEating = false;
+                        } else if (activityNum == 2) {
+                            System.out.println();
+                            System.out.println("Kamu memilih untuk berolahraga!");
+                            System.out.println("Berikut adalah efek akibat berolahraga:");
+                            System.out.println("Fullness: -5 / 20 detik");
+                            System.out.println("Mood: +10 / 20 detik");
+                            System.out.println("Health: +5 / 20 detik");
+                            System.out.println();
+
+                            System.out.println(
+                                    "Berapa lama kamu ingin berolahraga? (dalam satuan detik, kelipatan 20, ketik \"cancel\" jika ingin membatalkan)");
+                            String exerciseTime = userInput.nextLine();
+                            int exerciseDur = 0;
 
                             while (true) {
                                 try {
-                                    if (loweredFood.equals("cancel")) {
-                                        cancelEating = true;
+                                    if (exerciseTime.equals("cancel")) {
                                         break;
                                     } else {
-                                        if (!validFoods.contains(loweredFood)) {
-                                            throw new Exception("Makanan tidak ditemukan!");
-                                        } else {
-                                            menu.getCurrentSim().getInventory().getFood(loweredFood);
-                                            break;
+                                        exerciseDur = Integer.parseInt(exerciseTime);
+                                        if (exerciseDur % 20 != 0 || exerciseDur <= 0) {
+                                            System.out.println(
+                                                    "Masukan harus kelipatan 20! (dalam satuan detik, ketik \"cancel\" jika ingin membatalkan)");
+                                            exerciseTime = userInput.nextLine();
+                                            continue;
                                         }
+                                        break;
                                     }
-                                } catch (Exception e) {
-                                    System.out.println(e.getMessage());
-                                    foodName = userInput.nextLine();
-                                    loweredFood = foodName.toLowerCase().replaceAll("\\s+", "");
+                                } catch (NumberFormatException e) {
+                                    System.out.println(
+                                            "Masukan harus dalam bentuk angka! (dalam satuan detik, ketik \"cancel\" jika ingin membatalkan)");
+                                    exerciseTime = userInput.nextLine();
                                 }
                             }
 
-                            if (cancelEating) {
+                            if (exerciseTime.equals("cancel")) {
                                 System.out.println();
-                                System.out.println("Kamu membatalkan makan!");
+                                System.out.println("Kamu membatalkan berolahraga!");
                                 System.out.println();
                                 continue;
                             } else {
                                 dayThread.resumeThread();
-                                if (menu.getCurrentSim().getInventory().getFood(loweredFood).getType()
-                                        .equals("Dishes")) {
-                                    tableValidator.eat(menu.getCurrentSim(),
-                                            (Dishes) menu.getCurrentSim().getInventory().getFood(loweredFood), null);
-                                }
-
-                                else if (menu.getCurrentSim().getInventory().getFood(loweredFood).getType()
-                                        .equals("Ingredients")) {
-                                    tableValidator.eat(menu.getCurrentSim(), null,
-                                            (Ingredients) menu.getCurrentSim().getInventory().getFood(loweredFood));
-                                }
-                                dayThread.setEaten(true);
+                                menu.getCurrentSim().workout(new Time(exerciseDur));
                                 dayThread.pauseThread();
                             }
-                        }
-                    } else if (activityNum == 5) {
-                        Stove stoveValidator = null;
-                        Iterator<Object> itr = menu.getCurrentSim().getCurrentRoom().getObjects();
-                        while (itr.hasNext()) {
-                            Object obj = itr.next();
-                            if (obj instanceof Stove) {
-                                stoveValidator = (Stove) obj;
-                                break;
-                            }
-                        }
 
-                        if (stoveValidator == null) {
-                            System.out.println("Tidak ada kompor di ruangan ini!");
-                        }
-
-                        else {
-                            menu.getCurrentSim().goToObject((NonFoodObjects) stoveValidator);
-                            System.out.println("Kamu memilih untuk memasak!");
-                            System.out.println("Berikut daftar makanan yang dapat kamu masak!");
-                            Food.printDishes();
-
-                            System.out.println("Makanan apa yang ingin kamu masak?");
-                            String dishName = userInput.nextLine();
-                            String loweredDish = dishName.toLowerCase().replaceAll("\\s+", "");
-
-                            ArrayList<String> validDishes = new ArrayList<String>();
-                            for (String dish : Food.getDishes()) {
-                                validDishes.add(dish.toLowerCase().replaceAll("\\s+", ""));
-                            }
-
-                            int dishIndex = 0;
-                            for (int i = 0; i < validDishes.size(); i++) {
-                                if (validDishes.get(i).equals(loweredDish)) {
-                                    dishIndex = i;
+                        } else if (activityNum == 3) {
+                            Bed bedValidator = null;
+                            Iterator<Object> iter = menu.getCurrentSim().getCurrentRoom().getObjects();
+                            while (iter.hasNext()) {
+                                Object obj = iter.next();
+                                if (obj instanceof Bed) {
+                                    bedValidator = (Bed) obj;
                                     break;
                                 }
                             }
-                            Dishes toBeCooked = new Dishes(Food.getDishes().get(dishIndex));
-                            boolean cancelCook = false;
 
-                            // TODO TobeChecked again
+                            if (bedValidator == null) {
+                                // Tidak ada bed di ruangan ini
+                                System.out.println("Tidak ada tempat tidur di ruangan ini!");
+                            } else {
+                                System.out.println();
+                                System.out.println("Kamu memilih untuk tidur!");
+                                System.out.println();
+                                System.out.println("Berikut adalah efek tidur:");
+                                System.out.println("Mood: +30 / 4 menit");
+                                System.out.println("Health: +20 / 4 menit");
+                                System.out.println();
 
-                            while (true) {
-                                try {
-                                    if (loweredDish.equals("cancel")) {
-                                        cancelCook = true;
-                                        break;
-                                    } else {
-                                        if (!validDishes.contains(loweredDish)) {
-                                            throw new Exception(
-                                                    "Makanan tidak ditemukan! (atau ketik 'cancel' untuk membatalkan)");
+                                System.out.println("Berikut adalah efek tidak tidur:");
+                                System.out.println("Mood: -10 / 10 menit");
+
+                                System.out.println(
+                                        "Berapa lama kamu ingin tidur? (dalam satuan detik dan lebih dari 3 menit)");
+                                String sleepTime = userInput.nextLine();
+                                int sleepDur = 0;
+
+                                while (true) {
+                                    try {
+                                        if (sleepTime.equals("cancel")) {
+                                            break;
                                         } else {
-                                            for (int i = 0; i < validDishes.size(); i++) {
-                                                if (validDishes.get(i).equals(loweredDish)) {
-                                                    dishIndex = i;
-                                                    break;
-                                                }
+                                            sleepDur = Integer.parseInt(sleepTime);
+                                            if (sleepDur < 180) {
+                                                System.out.println("Masukan harus lebih dari 180 detik (3 menit)!");
+                                                sleepTime = userInput.nextLine();
+                                                continue;
                                             }
-                                            toBeCooked = new Dishes(Food.getDishes().get(dishIndex));
-                                            if (!toBeCooked.checkIngredients(menu.getCurrentSim())) {
-                                                throw new Exception(
-                                                        "Bahan-bahan tidak cukup! (atau ketik 'cancel' untuk membatalkan)");
+                                            break;
+                                        }
+                                    } catch (NumberFormatException e) {
+                                        System.out.println("Masukan harus dalam bentuk angka! (dalam satuan detik)");
+                                        sleepTime = userInput.nextLine();
+                                    }
+                                }
+                                if (sleepTime.equals("cancel")) {
+                                    System.out.println();
+                                    System.out.println("Kamu membatalkan tidur!");
+                                    System.out.println();
+                                    continue;
+                                } else {
+                                    menu.getCurrentSim().goToObject((NonFoodObjects) bedValidator);
+                                    dayThread.resumeThread();
+                                    bedValidator.sleep(new Time(sleepDur), menu.getCurrentSim());
+                                    dayThread.setSlept(true);
+                                    dayThread.pauseThread();
+                                }
+                            }
+
+                        } else if (activityNum == 4) {
+                            // TODO makan
+                            menu.getCurrentSim().getInventory().addObject(new Ingredients("Nasi")); // TODO to be
+                                                                                                    // deleted
+                            TableAndChair tableValidator = null;
+                            Iterator<Object> iter = menu.getCurrentSim().getCurrentRoom().getObjects();
+                            while (iter.hasNext()) {
+                                Object obj = iter.next();
+                                if (obj instanceof TableAndChair) {
+                                    tableValidator = (TableAndChair) obj;
+                                    break;
+                                }
+                            }
+                            if (tableValidator == null) {
+                                // Tidak ada table and chair di ruangan ini
+                                System.out.println("Tidak ada meja dan kursi di ruangan ini!");
+                            } else {
+                                System.out.println("Kamu memilih untuk makan!");
+                                menu.getCurrentSim().goToObject((NonFoodObjects) tableValidator);
+                                System.out.println("Berikut daftar makanan yang dapat kamu makan!");
+                                menu.getCurrentSim().getInventory().printFoodList();
+                                System.out.println("Makanan apa yang ingin kamu makan?");
+                                String foodName = userInput.nextLine();
+                                String loweredFood = foodName.toLowerCase().replaceAll("\\s+", "");
+
+                                ArrayList<String> validFoods = new ArrayList<String>();
+                                for (Food food : menu.getCurrentSim().getInventory().getFoods()) {
+                                    validFoods.add(food.getName().toLowerCase().replaceAll("\\s+", ""));
+                                }
+
+                                boolean cancelEating = false;
+
+                                while (true) {
+                                    try {
+                                        if (loweredFood.equals("cancel")) {
+                                            cancelEating = true;
+                                            break;
+                                        } else {
+                                            if (!validFoods.contains(loweredFood)) {
+                                                throw new Exception("Makanan tidak ditemukan!");
                                             } else {
+                                                menu.getCurrentSim().getInventory().getFood(loweredFood);
                                                 break;
                                             }
                                         }
+                                    } catch (Exception e) {
+                                        System.out.println(e.getMessage());
+                                        foodName = userInput.nextLine();
+                                        loweredFood = foodName.toLowerCase().replaceAll("\\s+", "");
                                     }
-                                } catch (Exception e) {
-                                    System.out.println(e.getMessage());
-                                    dishName = userInput.nextLine();
-                                    loweredDish = dishName.toLowerCase().replaceAll("\\s+", "");
+                                }
+
+                                if (cancelEating) {
+                                    System.out.println();
+                                    System.out.println("Kamu membatalkan makan!");
+                                    System.out.println();
+                                    continue;
+                                } else {
+                                    dayThread.resumeThread();
+                                    if (menu.getCurrentSim().getInventory().getFood(loweredFood).getType()
+                                            .equals("Dishes")) {
+                                        tableValidator.eat(menu.getCurrentSim(),
+                                                (Dishes) menu.getCurrentSim().getInventory().getFood(loweredFood),
+                                                null);
+                                    }
+
+                                    else if (menu.getCurrentSim().getInventory().getFood(loweredFood).getType()
+                                            .equals("Ingredients")) {
+                                        tableValidator.eat(menu.getCurrentSim(), null,
+                                                (Ingredients) menu.getCurrentSim().getInventory().getFood(loweredFood));
+                                    }
+                                    dayThread.setEaten(true);
+                                    dayThread.pauseThread();
                                 }
                             }
-
-                            if (!cancelCook) {
-                                dayThread.resumeThread();
-                                stoveValidator.cookDish(menu.getCurrentSim(), toBeCooked);
-                                dayThread.pauseThread();
-                            } else {
-                                System.out.println("Pemasakan dibatalkan!");
-                                continue;
-                            }
-                        }
-                    } else if (activityNum == 6) {
-                        System.out.println("Kamu memilih untuk berkunjung!");
-                        // TODO visit
-                    } else if (activityNum == 7) {
-                        Toilet toiletValidator = null;
-                        Iterator<Object> itr = menu.getCurrentSim().getCurrentRoom().getObjects();
-                        while (itr.hasNext()) {
-                            Object obj = itr.next();
-                            if (obj instanceof Toilet) {
-                                toiletValidator = (Toilet) obj;
-                                break;
-                            }
-                        }
-
-                        if (toiletValidator == null) {
-                            System.out.println("Tidak ada toilet di ruangan ini!");
-                        }
-
-                        else {
-                            menu.getCurrentSim().goToObject((NonFoodObjects) toiletValidator);
-                            System.out.println("Kamu memilih untuk buang air!");
-                            dayThread.resumeThread();
-                            toiletValidator.useToilet(menu.getCurrentSim());
-                            dayThread.setPoopedAfterAte(true);
-                            dayThread.setEaten(false);
-                            dayThread.pauseThread();
-                        }
-
-                    } else if (activityNum == 8) {
-                        System.out.println();
-                        System.out.println("Pilihan Update:");
-                        System.out.println("[1] Menambah Ruangan");
-                        System.out.println("[2] Menambah Object Pada Ruangan Sekarang");
-                        System.out.println("[3] Menghapus Object Pada Ruangan Sekarang");
-                        System.out.print("Masukkan Pilihan (dalam angka): ");
-                        String numUpHouse = userInput.nextLine();
-                        int numUpHouseInt;
-                        while (true) {
-                            try {
-                                numUpHouseInt = Integer.parseInt(numUpHouse);
-                                break;
-                            } catch (NumberFormatException e) {
-                                System.out.println("Masukan harus dalam bentuk angka!");
-                                System.out.println("Masukkan pilihan (dalam angka): ");
-                                numUpHouse = userInput.nextLine();
-                            }
-                        }
-
-                        System.out.println();
-                        if (numUpHouseInt == 1) {
-                            // TODO add room in side current room
-                            if (menu.getCurrentSim().getCurrentRoom().getFront() != null
-                                    && menu.getCurrentSim().getCurrentRoom().getRight() != null
-                                    && menu.getCurrentSim().getCurrentRoom().getBehind() != null
-                                    && menu.getCurrentSim().getCurrentRoom().getLeft() != null) {
-                                System.out.println(
-                                        "Tidak Dapat Menambah Ruangan Karena Sudah Ada Ruangan Pada Setip Sisi Ruangan Sekerang");
-                            } else {
-                                System.out.println("Arah Ruangan:");
-                                if (menu.getCurrentSim().getCurrentRoom().getFront() == null)
-                                    System.out.println("Front");
-                                if (menu.getCurrentSim().getCurrentRoom().getRight() == null)
-                                    System.out.println("Right");
-                                if (menu.getCurrentSim().getCurrentRoom().getBehind() == null)
-                                    System.out.println("Behind");
-                                if (menu.getCurrentSim().getCurrentRoom().getLeft() == null)
-                                    System.out.println("Left");
-                                System.out.println("Pilih Arah Ruangan yang Akan Dibangun: ");
-                                String choice = userInput.nextLine();
-                                System.out.println("Masukkan Nama Ruangan: ");
-                                String roomName = userInput.nextLine();
-                                System.out.println();
-                                menu.getCurrentSim().getCurrentHouse().addRoom(menu.getCurrentSim(),
-                                        menu.getCurrentSim().getCurrentRoom(), roomName, choice);
-                            }
-                        } else if (numUpHouseInt == 2) {
-                            // TODO add object in current room
-                            // TODO display keadaan ruangan sekarang
-                            System.out.println("Object Dalam Inventory Yang Dapat Ditambahkan Pada Ruangan:");
-                            int i = 1;
-                            Iterator<Object> itr = menu.getCurrentSim().getInventory().getObjects().iterator();
+                        } else if (activityNum == 5) {
+                            Stove stoveValidator = null;
+                            Iterator<Object> itr = menu.getCurrentSim().getCurrentRoom().getObjects();
                             while (itr.hasNext()) {
-                                Object o = itr.next();
-                                if (o instanceof NonFoodObjects) {
-                                    System.out.println("[" + i + "] " + o.getType() + " x"
-                                            + menu.getCurrentSim().getInventory().getObjectNum(o.getClass().getName()));
-                                    i++;
+                                Object obj = itr.next();
+                                if (obj instanceof Stove) {
+                                    stoveValidator = (Stove) obj;
+                                    break;
                                 }
                             }
-                            System.out.println("Masukkan Angka Object Yang Ingin Ditambahkan Pada Ruangan: ");
-                            String choice = userInput.nextLine();
-                            int choiceInt;
+
+                            if (stoveValidator == null) {
+                                System.out.println("Tidak ada kompor di ruangan ini!");
+                            }
+
+                            else {
+                                menu.getCurrentSim().goToObject((NonFoodObjects) stoveValidator);
+                                System.out.println("Kamu memilih untuk memasak!");
+                                System.out.println("Berikut daftar makanan yang dapat kamu masak!");
+                                Food.printDishes();
+
+                                System.out.println("Makanan apa yang ingin kamu masak?");
+                                String dishName = userInput.nextLine();
+                                String loweredDish = dishName.toLowerCase().replaceAll("\\s+", "");
+
+                                ArrayList<String> validDishes = new ArrayList<String>();
+                                for (String dish : Food.getDishes()) {
+                                    validDishes.add(dish.toLowerCase().replaceAll("\\s+", ""));
+                                }
+
+                                int dishIndex = 0;
+                                for (int i = 0; i < validDishes.size(); i++) {
+                                    if (validDishes.get(i).equals(loweredDish)) {
+                                        dishIndex = i;
+                                        break;
+                                    }
+                                }
+                                Dishes toBeCooked = new Dishes(Food.getDishes().get(dishIndex));
+                                boolean cancelCook = false;
+
+                                // TODO TobeChecked again
+
+                                while (true) {
+                                    try {
+                                        if (loweredDish.equals("cancel")) {
+                                            cancelCook = true;
+                                            break;
+                                        } else {
+                                            if (!validDishes.contains(loweredDish)) {
+                                                throw new Exception(
+                                                        "Makanan tidak ditemukan! (atau ketik 'cancel' untuk membatalkan)");
+                                            } else {
+                                                for (int i = 0; i < validDishes.size(); i++) {
+                                                    if (validDishes.get(i).equals(loweredDish)) {
+                                                        dishIndex = i;
+                                                        break;
+                                                    }
+                                                }
+                                                toBeCooked = new Dishes(Food.getDishes().get(dishIndex));
+                                                if (!toBeCooked.checkIngredients(menu.getCurrentSim())) {
+                                                    throw new Exception(
+                                                            "Bahan-bahan tidak cukup! (atau ketik 'cancel' untuk membatalkan)");
+                                                } else {
+                                                    break;
+                                                }
+                                            }
+                                        }
+                                    } catch (Exception e) {
+                                        System.out.println(e.getMessage());
+                                        dishName = userInput.nextLine();
+                                        loweredDish = dishName.toLowerCase().replaceAll("\\s+", "");
+                                    }
+                                }
+
+                                if (!cancelCook) {
+                                    dayThread.resumeThread();
+                                    stoveValidator.cookDish(menu.getCurrentSim(), toBeCooked);
+                                    dayThread.pauseThread();
+                                } else {
+                                    System.out.println("Pemasakan dibatalkan!");
+                                    continue;
+                                }
+                            }
+                        } else if (activityNum == 6) {
+                            System.out.println("Kamu memilih untuk berkunjung!");
+                            // TODO visit
+                        } else if (activityNum == 7) {
+                            Toilet toiletValidator = null;
+                            Iterator<Object> itr = menu.getCurrentSim().getCurrentRoom().getObjects();
+                            while (itr.hasNext()) {
+                                Object obj = itr.next();
+                                if (obj instanceof Toilet) {
+                                    toiletValidator = (Toilet) obj;
+                                    break;
+                                }
+                            }
+
+                            if (toiletValidator == null) {
+                                System.out.println("Tidak ada toilet di ruangan ini!");
+                            }
+
+                            else {
+                                menu.getCurrentSim().goToObject((NonFoodObjects) toiletValidator);
+                                System.out.println("Kamu memilih untuk buang air!");
+                                dayThread.resumeThread();
+                                toiletValidator.useToilet(menu.getCurrentSim());
+                                dayThread.setPoopedAfterAte(true);
+                                dayThread.setEaten(false);
+                                dayThread.pauseThread();
+                            }
+
+                        } else if (activityNum == 8) {
+                            System.out.println();
+                            System.out.println("Pilihan Update:");
+                            System.out.println("[1] Menambah Ruangan");
+                            System.out.println("[2] Menambah Object Pada Ruangan Sekarang");
+                            System.out.println("[3] Menghapus Object Pada Ruangan Sekarang");
+                            System.out.print("Masukkan Pilihan (dalam angka): ");
+                            String numUpHouse = userInput.nextLine();
+                            int numUpHouseInt;
                             while (true) {
                                 try {
-                                    choiceInt = Integer.parseInt(choice);
+                                    numUpHouseInt = Integer.parseInt(numUpHouse);
                                     break;
                                 } catch (NumberFormatException e) {
                                     System.out.println("Masukan harus dalam bentuk angka!");
                                     System.out.println("Masukkan pilihan (dalam angka): ");
-                                    choice = userInput.nextLine();
+                                    numUpHouse = userInput.nextLine();
                                 }
                             }
-                            itr = menu.getCurrentSim().getInventory().getObjects().iterator();
-                            Object objAdd = null;
-                            i = 1;
-                            while (itr.hasNext()) {
-                                Object o = itr.next();
-                                if (o instanceof NonFoodObjects) {
-                                    if (i == choiceInt) {
-                                        objAdd = o;
-                                        break;
-                                    } else {
+
+                            System.out.println();
+                            if (numUpHouseInt == 1) {
+                                // TODO add room in side current room
+                                if (menu.getCurrentSim().getCurrentRoom().getFront() != null
+                                        && menu.getCurrentSim().getCurrentRoom().getRight() != null
+                                        && menu.getCurrentSim().getCurrentRoom().getBehind() != null
+                                        && menu.getCurrentSim().getCurrentRoom().getLeft() != null) {
+                                    System.out.println(
+                                            "Tidak Dapat Menambah Ruangan Karena Sudah Ada Ruangan Pada Setip Sisi Ruangan Sekerang");
+                                } else {
+                                    System.out.println("Arah Ruangan:");
+                                    if (menu.getCurrentSim().getCurrentRoom().getFront() == null)
+                                        System.out.println("Front");
+                                    if (menu.getCurrentSim().getCurrentRoom().getRight() == null)
+                                        System.out.println("Right");
+                                    if (menu.getCurrentSim().getCurrentRoom().getBehind() == null)
+                                        System.out.println("Behind");
+                                    if (menu.getCurrentSim().getCurrentRoom().getLeft() == null)
+                                        System.out.println("Left");
+                                    System.out.println("Pilih Arah Ruangan yang Akan Dibangun: ");
+                                    String choice = userInput.nextLine();
+                                    System.out.println("Masukkan Nama Ruangan: ");
+                                    String roomName = userInput.nextLine();
+                                    System.out.println();
+                                    menu.getCurrentSim().getCurrentHouse().addRoom(menu.getCurrentSim(),
+                                            menu.getCurrentSim().getCurrentRoom(), roomName, choice);
+                                }
+                            } else if (numUpHouseInt == 2) {
+                                // TODO add object in current room
+                                // TODO display keadaan ruangan sekarang
+                                System.out.println("Object Dalam Inventory Yang Dapat Ditambahkan Pada Ruangan:");
+                                int i = 1;
+                                Iterator<Object> itr = menu.getCurrentSim().getInventory().getObjects().iterator();
+                                while (itr.hasNext()) {
+                                    Object o = itr.next();
+                                    if (o instanceof NonFoodObjects) {
+                                        System.out.println("[" + i + "] " + o.getType() + " x"
+                                                + menu.getCurrentSim().getInventory()
+                                                        .getObjectNum(o.getClass().getName()));
                                         i++;
                                     }
                                 }
-                            }
-                            if (objAdd != null) {
-                                menu.getCurrentSim().getInventory().removeObject(objAdd.getName());
-                                System.out.println();
-                                System.out.println("Kondisi Ruangan");
-                                menu.getCurrentSim().getCurrentRoom().printObjRoom();
-                                System.out.println();
-                                System.out.println("Lokasi Object Pada Ruangan 6x6:");
-                                System.out.print("Masukkan Nilai X: ");
-                                String x = userInput.nextLine();
-                                int xInt;
+                                System.out.println("Masukkan Angka Object Yang Ingin Ditambahkan Pada Ruangan: ");
+                                String choice = userInput.nextLine();
+                                int choiceInt;
                                 while (true) {
                                     try {
-                                        xInt = Integer.parseInt(x);
+                                        choiceInt = Integer.parseInt(choice);
                                         break;
                                     } catch (NumberFormatException e) {
                                         System.out.println("Masukan harus dalam bentuk angka!");
-                                        System.out.print("Masukkan Nilai X: ");
-                                        x = userInput.nextLine();
+                                        System.out.println("Masukkan pilihan (dalam angka): ");
+                                        choice = userInput.nextLine();
                                     }
                                 }
-                                System.out.print("Masukkan Nilai Y: ");
-                                String y = userInput.nextLine();
-                                int yInt;
-                                while (true) {
-                                    try {
-                                        yInt = Integer.parseInt(y);
-                                        break;
-                                    } catch (NumberFormatException e) {
-                                        System.out.println("Masukan harus dalam bentuk angka!");
-                                        System.out.print("Masukkan Nilai X: ");
-                                        y = userInput.nextLine();
+                                itr = menu.getCurrentSim().getInventory().getObjects().iterator();
+                                Object objAdd = null;
+                                i = 1;
+                                while (itr.hasNext()) {
+                                    Object o = itr.next();
+                                    if (o instanceof NonFoodObjects) {
+                                        if (i == choiceInt) {
+                                            objAdd = o;
+                                            break;
+                                        } else {
+                                            i++;
+                                        }
                                     }
                                 }
-                                System.out.print("Masukkan Arah Object Pada Ruangan (Vertikal/Horizontal): ");
-                                String direction = userInput.nextLine();
-                                System.out.println();
-                                int width, length;
-                                if (direction.toLowerCase().equals("horizontal")) {
-                                    width = ((NonFoodObjects) objAdd).getWidth();
-                                    length = ((NonFoodObjects) objAdd).getLength();
-                                } else if (direction.toLowerCase().equals("vertikal")) {
-                                    width = ((NonFoodObjects) objAdd).getLength();
-                                    length = ((NonFoodObjects) objAdd).getWidth();
-                                } else {
-                                    width = 0;
-                                    length = 0;
-                                }
-                                while (!menu.getCurrentSim().getCurrentRoom().availableLoc(new Point(xInt, yInt), width,
-                                        length) || (width == 0 && length == 0)) {
-                                    System.out.println("Location Not Available, Please Input Location Object Again!");
+                                if (objAdd != null) {
+                                    menu.getCurrentSim().getInventory().removeObject(objAdd.getName());
+                                    System.out.println();
+                                    System.out.println("Kondisi Ruangan");
+                                    menu.getCurrentSim().getCurrentRoom().printObjRoom();
+                                    System.out.println();
+                                    System.out.println("Lokasi Object Pada Ruangan 6x6:");
                                     System.out.print("Masukkan Nilai X: ");
-                                    x = userInput.nextLine();
+                                    String x = userInput.nextLine();
+                                    int xInt;
                                     while (true) {
                                         try {
                                             xInt = Integer.parseInt(x);
@@ -766,7 +742,8 @@ public class App {
                                         }
                                     }
                                     System.out.print("Masukkan Nilai Y: ");
-                                    y = userInput.nextLine();
+                                    String y = userInput.nextLine();
+                                    int yInt;
                                     while (true) {
                                         try {
                                             yInt = Integer.parseInt(y);
@@ -778,7 +755,9 @@ public class App {
                                         }
                                     }
                                     System.out.print("Masukkan Arah Object Pada Ruangan (Vertikal/Horizontal): ");
-                                    direction = userInput.nextLine();
+                                    String direction = userInput.nextLine();
+                                    System.out.println();
+                                    int width, length;
                                     if (direction.toLowerCase().equals("horizontal")) {
                                         width = ((NonFoodObjects) objAdd).getWidth();
                                         length = ((NonFoodObjects) objAdd).getLength();
@@ -789,317 +768,360 @@ public class App {
                                         width = 0;
                                         length = 0;
                                     }
+                                    while (!menu.getCurrentSim().getCurrentRoom().availableLoc(new Point(xInt, yInt),
+                                            width,
+                                            length) || (width == 0 && length == 0)) {
+                                        System.out
+                                                .println("Location Not Available, Please Input Location Object Again!");
+                                        System.out.print("Masukkan Nilai X: ");
+                                        x = userInput.nextLine();
+                                        while (true) {
+                                            try {
+                                                xInt = Integer.parseInt(x);
+                                                break;
+                                            } catch (NumberFormatException e) {
+                                                System.out.println("Masukan harus dalam bentuk angka!");
+                                                System.out.print("Masukkan Nilai X: ");
+                                                x = userInput.nextLine();
+                                            }
+                                        }
+                                        System.out.print("Masukkan Nilai Y: ");
+                                        y = userInput.nextLine();
+                                        while (true) {
+                                            try {
+                                                yInt = Integer.parseInt(y);
+                                                break;
+                                            } catch (NumberFormatException e) {
+                                                System.out.println("Masukan harus dalam bentuk angka!");
+                                                System.out.print("Masukkan Nilai X: ");
+                                                y = userInput.nextLine();
+                                            }
+                                        }
+                                        System.out.print("Masukkan Arah Object Pada Ruangan (Vertikal/Horizontal): ");
+                                        direction = userInput.nextLine();
+                                        if (direction.toLowerCase().equals("horizontal")) {
+                                            width = ((NonFoodObjects) objAdd).getWidth();
+                                            length = ((NonFoodObjects) objAdd).getLength();
+                                        } else if (direction.toLowerCase().equals("vertikal")) {
+                                            width = ((NonFoodObjects) objAdd).getLength();
+                                            length = ((NonFoodObjects) objAdd).getWidth();
+                                        } else {
+                                            width = 0;
+                                            length = 0;
+                                        }
+                                        System.out.println();
+                                    }
+                                    menu.getCurrentSim().getCurrentRoom().addObject(objAdd, new Point(xInt, yInt),
+                                            direction);
+                                    System.out.println("Object Berhasil Ditambahkan Pada Ruangan!");
                                     System.out.println();
-                                }
-                                menu.getCurrentSim().getCurrentRoom().addObject(objAdd, new Point(xInt, yInt),
-                                        direction);
-                                System.out.println("Object Berhasil Ditambahkan Pada Ruangan!");
-                                System.out.println();
-                            } else {
-                                System.out.println("Tidak Ada Object Yang Dapat Ditambahkan Pada Ruangan!");
-                            }
-                        } else if (numUpHouseInt == 3) {
-                            // TODO delete object in current room and add to inventory owner
-                            Iterator<Object> itr = menu.getCurrentSim().getCurrentRoom().getObjects();
-                            System.out.println("Object Pada Ruangan Yang Dapat Dihapus:");
-                            int i = 1;
-                            while (itr.hasNext()) {
-                                System.out.println("[" + i + "] " + itr.next().getName());
-                                i++;
-                            }
-                            System.out.print("\nMasukkan Angka Object Yang Ingin Dihapus: ");
-                            int choice = userInput.nextInt();
-                            i = 1;
-                            itr = menu.getCurrentSim().getCurrentRoom().getObjects();
-                            Object objRemove = null;
-                            while (itr.hasNext()) {
-                                Object o = itr.next();
-                                if (i == choice) {
-                                    objRemove = o;
-                                    break;
                                 } else {
+                                    System.out.println("Tidak Ada Object Yang Dapat Ditambahkan Pada Ruangan!");
+                                }
+                            } else if (numUpHouseInt == 3) {
+                                // TODO delete object in current room and add to inventory owner
+                                Iterator<Object> itr = menu.getCurrentSim().getCurrentRoom().getObjects();
+                                System.out.println("Object Pada Ruangan Yang Dapat Dihapus:");
+                                int i = 1;
+                                while (itr.hasNext()) {
+                                    System.out.println("[" + i + "] " + itr.next().getName());
                                     i++;
                                 }
-                            }
-                            if (objRemove != null) {
-                                menu.getCurrentSim().getCurrentRoom().removeObject(objRemove,
-                                        ((NonFoodObjects) objRemove).getPosition(), menu.getCurrentSim());
-                                System.out.println("Object " + objRemove.getName() + " Berhasil Dihapus Dari Ruangan");
-                                System.out.println();
+                                System.out.print("\nMasukkan Angka Object Yang Ingin Dihapus: ");
+                                int choice = userInput.nextInt();
+                                i = 1;
+                                itr = menu.getCurrentSim().getCurrentRoom().getObjects();
+                                Object objRemove = null;
+                                while (itr.hasNext()) {
+                                    Object o = itr.next();
+                                    if (i == choice) {
+                                        objRemove = o;
+                                        break;
+                                    } else {
+                                        i++;
+                                    }
+                                }
+                                if (objRemove != null) {
+                                    menu.getCurrentSim().getCurrentRoom().removeObject(objRemove,
+                                            ((NonFoodObjects) objRemove).getPosition(), menu.getCurrentSim());
+                                    System.out.println(
+                                            "Object " + objRemove.getName() + " Berhasil Dihapus Dari Ruangan");
+                                    System.out.println();
+                                } else {
+                                    System.out.println("Tidak Ada Object Yang Dihapus");
+                                    System.out.println();
+                                }
                             } else {
-                                System.out.println("Tidak Ada Object Yang Dihapus");
-                                System.out.println();
+                                System.out.println("Pilihan Input Tidak Tersedia!");
                             }
-                        } else {
-                            System.out.println("Pilihan Input Tidak Tersedia!");
-                        }
-                    } else if (activityNum == 9) {
-                        System.out.println();
-                        System.out.println("Berikut adalah kategori barang yang bisa kamu beli!");
-                        System.out.println("[1] Makanan");
-                        System.out.println("[2] Furnitur");
+                        } else if (activityNum == 9) {
+                            System.out.println();
+                            System.out.println("Berikut adalah kategori barang yang bisa kamu beli!");
+                            System.out.println("[1] Makanan");
+                            System.out.println("[2] Furnitur");
 
-                        System.out.print("Masukkan pilihan (dalam angka): ");
-                        String numBuy = userInput.nextLine();
-                        int numBuyInt;
-                        while (true) {
-                            try {
-                                numBuyInt = Integer.parseInt(numBuy);
-                                if (numBuyInt != 1 && numBuyInt != 2) {
-                                    System.out.println("Masukan harus dalam bentuk angka 1 atau 2!");
+                            System.out.print("Masukkan pilihan (dalam angka): ");
+                            String numBuy = userInput.nextLine();
+                            int numBuyInt;
+                            while (true) {
+                                try {
+                                    numBuyInt = Integer.parseInt(numBuy);
+                                    if (numBuyInt != 1 && numBuyInt != 2) {
+                                        System.out.println("Masukan harus dalam bentuk angka 1 atau 2!");
+                                        System.out.println("Masukkan pilihan (dalam angka): ");
+                                        numBuy = userInput.nextLine();
+                                    }
+                                    break;
+                                } catch (NumberFormatException e) {
+                                    System.out.println("Masukan harus dalam bentuk angka!");
                                     System.out.println("Masukkan pilihan (dalam angka): ");
                                     numBuy = userInput.nextLine();
                                 }
-                                break;
-                            } catch (NumberFormatException e) {
-                                System.out.println("Masukan harus dalam bentuk angka!");
-                                System.out.println("Masukkan pilihan (dalam angka): ");
-                                numBuy = userInput.nextLine();
-                            }
-                        }
-
-                        ArrayList<String> validObjs = new ArrayList<String>();
-                        int objIdx;
-                        Object wantedObject = null;
-                        boolean isCancel = false;
-
-                        if (numBuyInt == 1) {
-                            System.out.println("Berikut adalah makanan yang bisa kamu beli!");
-                            Food.printIngredients();
-                            System.out.println();
-
-                            System.out.print(
-                                    "Masukkan nama makanan yang ingin kamu beli: (ketik 'cancel' untuk membatalkan))");
-
-                            String wantedFood = userInput.nextLine();
-                            String loweredWantedFood = wantedFood.toLowerCase().replaceAll("\\s+", "");
-                            isCancel = false;
-
-                            for (int i = 0; i < Food.getIngredientList().size(); i++) {
-                                validObjs.add(Food.getIngredientList().get(i).toLowerCase().replaceAll("\\s+", ""));
                             }
 
-                            while (true) {
-                                try {
-                                    if (loweredWantedFood.equals("cancel")) {
-                                        isCancel = true;
-                                        break;
-                                    } else {
-                                        if (!validObjs.contains(loweredWantedFood)) {
-                                            throw new Exception("Makanan tidak ditemukan!");
-                                        } else {
+                            ArrayList<String> validObjs = new ArrayList<String>();
+                            int objIdx;
+                            Object wantedObject = null;
+                            boolean isCancel = false;
+
+                            if (numBuyInt == 1) {
+                                System.out.println("Berikut adalah makanan yang bisa kamu beli!");
+                                Food.printIngredients();
+                                System.out.println();
+
+                                System.out.println(
+                                        "Masukkan nama makanan yang ingin kamu beli: (ketik 'cancel' untuk membatalkan)");
+
+                                String wantedFood = userInput.nextLine();
+                                String loweredWantedFood = wantedFood.toLowerCase().replaceAll("\\s+", "");
+                                isCancel = false;
+
+                                for (int i = 0; i < Food.getIngredientList().size(); i++) {
+                                    validObjs.add(Food.getIngredientList().get(i).toLowerCase().replaceAll("\\s+", ""));
+                                }
+
+                                while (true) {
+                                    try {
+                                        if (loweredWantedFood.equals("cancel")) {
+                                            isCancel = true;
                                             break;
+                                        } else {
+                                            if (!validObjs.contains(loweredWantedFood)) {
+                                                throw new Exception("Makanan tidak ditemukan!");
+                                            } else {
+                                                break;
+                                            }
                                         }
+                                    } catch (Exception e) {
+                                        System.out.println(e.getMessage());
+                                        System.out.print("Masukkan nama makanan yang ingin kamu beli: ");
+                                        wantedFood = userInput.nextLine();
+                                        loweredWantedFood = wantedFood.toLowerCase().replaceAll("\\s+", "");
                                     }
-                                } catch (Exception e) {
-                                    System.out.println(e.getMessage());
-                                    System.out.print("Masukkan nama makanan yang ingin kamu beli: ");
-                                    wantedFood = userInput.nextLine();
-                                    loweredWantedFood = wantedFood.toLowerCase().replaceAll("\\s+", "");
+                                }
+                                objIdx = validObjs.indexOf(loweredWantedFood);
+                                wantedObject = new Ingredients(Food.getIngredientList().get(objIdx));
+
+                            } else if (numBuyInt == 2) {
+                                System.out.println("Berikut adalah furnitur yang bisa kamu beli!");
+                                Object.printBuyableObjects();
+                                System.out.println();
+
+                                System.out.println(
+                                        "Masukkan nama furnitur yang ingin kamu beli: (ketik 'cancel' untuk membatalkan)");
+
+                                String wantedFurniture = userInput.nextLine();
+                                String loweredWantedFurniture = wantedFurniture.toLowerCase().replaceAll("\\s+", "");
+                                isCancel = false;
+
+                                for (int i = 0; i < Object.getBuyableObjects().size(); i++) {
+                                    validObjs.add(Object.getBuyableObjects().get(i).getType().toLowerCase()
+                                            .replaceAll("\\s+", ""));
+                                }
+
+                                while (true) {
+                                    try {
+                                        if (loweredWantedFurniture.equals("cancel")) {
+                                            isCancel = true;
+                                            break;
+                                        } else {
+                                            if (!validObjs.contains(loweredWantedFurniture)) {
+                                                throw new Exception("Furnitur tidak ditemukan!");
+                                            } else {
+                                                break;
+                                            }
+                                        }
+                                    } catch (Exception e) {
+                                        System.out.println(e.getMessage());
+                                        System.out.println(
+                                                "Masukkan nama furnitur yang ingin kamu beli: (ketik 'cancel' untuk membatalkan)");
+                                        wantedFurniture = userInput.nextLine();
+                                        loweredWantedFurniture = wantedFurniture.toLowerCase().replaceAll("\\s+", "");
+                                    }
+                                }
+                                objIdx = validObjs.indexOf(loweredWantedFurniture);
+                                wantedObject = Object.getBuyableObjects().get(objIdx);
+                            }
+
+                            if (isCancel) {
+                                System.out.println("Pembelian dibatalkan!");
+                                continue;
+                            } else {
+                                menu.getCurrentSim().buy(wantedObject);
+                            }
+                            System.out.println();
+                        } else if (activityNum == 10) {
+                            // TODO membaca
+                            System.out.println();
+                            Book book = null;
+                            Iterator<Object> itr = menu.getCurrentSim().getCurrentRoom().getObjects();
+                            while (itr.hasNext()) {
+                                Object o = itr.next();
+                                if (o instanceof Book) {
+                                    book = (Book) o;
+                                    break;
                                 }
                             }
-                            objIdx = validObjs.indexOf(loweredWantedFood);
-                            wantedObject = new Ingredients(Food.getIngredientList().get(objIdx));
 
-                        } else if (numBuyInt == 2) {
-                            System.out.println("Berikut adalah furnitur yang bisa kamu beli!");
-                            Object.printBuyableObjects();
-                            System.out.println();
-
-                            System.out.print(
-                                    "Masukkan nama furnitur yang ingin kamu beli: (ketik 'cancel' untuk membatalkan))");
-
-                            String wantedFurniture = userInput.nextLine();
-                            String loweredWantedFurniture = wantedFurniture.toLowerCase().replaceAll("\\s+", "");
-                            isCancel = false;
-
-                            for (int i = 0; i < Object.getBuyableObjects().size(); i++) {
-                                validObjs.add(Object.getBuyableObjects().get(i).getType().toLowerCase()
-                                        .replaceAll("\\s+", ""));
+                            if (book == null) {
+                                System.out.println("Tidak ada buku di ruangan ini!");
                             }
 
-                            while (true) {
+                            else {
+                                System.out.println("Berapa lama kamu akan membaca buku?");
+                                System.out.println("Masukkan waktu dalam detik (dalam angka dan lebih dari 1 menit): ");
+                                String time = userInput.nextLine();
+                                int timeInt;
                                 try {
-                                    if (loweredWantedFurniture.equals("cancel")) {
-                                        isCancel = true;
-                                        break;
-                                    } else {
-                                        if (!validObjs.contains(loweredWantedFurniture)) {
-                                            throw new Exception("Furnitur tidak ditemukan!");
-                                        } else {
-                                            break;
-                                        }
+                                    timeInt = Integer.parseInt(time);
+                                    if (timeInt < 60) {
+                                        System.out.println("Waktu membaca minimal 1 menit!");
+                                        System.out.println("Masukkan waktu dalam detik (dalam angka): ");
+                                        time = userInput.nextLine();
+                                        timeInt = Integer.parseInt(time);
                                     }
-                                } catch (Exception e) {
-                                    System.out.println(e.getMessage());
-                                    System.out.print(
-                                            "Masukkan nama furnitur yang ingin kamu beli: (ketik 'cancel' untuk membatalkan)");
-                                    wantedFurniture = userInput.nextLine();
-                                    loweredWantedFurniture = wantedFurniture.toLowerCase().replaceAll("\\s+", "");
-                                }
-                            }
-                            objIdx = validObjs.indexOf(loweredWantedFurniture);
-                            wantedObject = Object.getBuyableObjects().get(objIdx);
-                        }
-
-                        if (isCancel) {
-                            System.out.println("Pembelian dibatalkan!");
-                            continue;
-                        } else {
-                            menu.getCurrentSim().buy(wantedObject);
-                        }
-                        System.out.println();
-                    } else if (activityNum == 10) {
-                        // TODO membaca
-                        System.out.println();
-                        Book book = null;
-                        Iterator<Object> itr = menu.getCurrentSim().getCurrentRoom().getObjects();
-                        while (itr.hasNext()) {
-                            Object o = itr.next();
-                            if (o instanceof Book) {
-                                book = (Book) o;
-                                break;
-                            }
-                        }
-
-                        if (book == null) {
-                            System.out.println("Tidak ada buku di ruangan ini!");
-                        }
-
-                        else {
-                            System.out.println("Berapa lama kamu akan membaca buku?");
-                            System.out.println("Masukkan waktu dalam detik (dalam angka dan lebih dari 1 menit): ");
-                            String time = userInput.nextLine();
-                            int timeInt;
-                            try {
-                                timeInt = Integer.parseInt(time);
-                                if (timeInt < 60) {
-                                    System.out.println("Waktu membaca minimal 1 menit!");
+                                } catch (NumberFormatException e) {
+                                    System.out.println("Masukan harus dalam bentuk angka!");
                                     System.out.println("Masukkan waktu dalam detik (dalam angka): ");
                                     time = userInput.nextLine();
                                     timeInt = Integer.parseInt(time);
                                 }
-                            } catch (NumberFormatException e) {
-                                System.out.println("Masukan harus dalam bentuk angka!");
-                                System.out.println("Masukkan waktu dalam detik (dalam angka): ");
-                                time = userInput.nextLine();
-                                timeInt = Integer.parseInt(time);
+                                dayThread.resumeThread();
+                                book.read(new Time(timeInt), menu.getCurrentSim(), book);
+                                dayThread.pauseThread();
                             }
-                            dayThread.resumeThread();
-                            book.read(new Time(timeInt), menu.getCurrentSim(), book);
-                            dayThread.pauseThread();
-                        }
 
-                    } else if (activityNum == 11) {
-                        // TODO menulis
-                        System.out.println();
-                        Journal journal = null;
-                        Iterator<Object> itr = menu.getCurrentSim().getCurrentRoom().getObjects();
+                        } else if (activityNum == 11) {
+                            // TODO menulis
+                            System.out.println();
+                            Journal journal = null;
+                            Iterator<Object> itr = menu.getCurrentSim().getCurrentRoom().getObjects();
 
-                        while (itr.hasNext()) {
-                            Object o = itr.next();
-                            if (o instanceof Journal) {
-                                journal = (Journal) o;
-                                break;
+                            while (itr.hasNext()) {
+                                Object o = itr.next();
+                                if (o instanceof Journal) {
+                                    journal = (Journal) o;
+                                    break;
+                                }
                             }
-                        }
 
-                        if (journal == null) {
-                            System.out.println("Tidak ada jurnal di ruangan ini!");
-                        }
-
-                        else {
-                            System.out.println("Apa yang ingin kamu tuliskan ke dalam jurnal?");
-                            String text = userInput.nextLine();
-                            dayThread.resumeThread();
-                            journal.writeJournal(journal, menu.getCurrentSim(), text);
-                            dayThread.pauseThread();
-                        }
-
-                    } else if (activityNum == 12) {
-                        // TODO mendengarkan musik
-                        AudioPlayer audioplayer = null;
-                        Iterator<Object> itr = menu.getCurrentSim().getCurrentRoom().getObjects();
-
-                        while (itr.hasNext()) {
-                            Object o = itr.next();
-                            if (o instanceof AudioPlayer) {
-                                audioplayer = (AudioPlayer) o;
-                                break;
+                            if (journal == null) {
+                                System.out.println("Tidak ada jurnal di ruangan ini!");
                             }
-                        }
 
-                        if (audioplayer == null) {
-                            System.out.println("Tidak ada audio player di ruangan ini!");
-                        } else {
-                            dayThread.resumeThread();
-                            audioplayer.playMusic(menu.getCurrentSim());
-                            dayThread.pauseThread();
-                        }
-
-                    } else if (activityNum == 13) {
-                        // TODO menonton TV
-                        TV tv = null;
-                        Iterator<Object> itr = menu.getCurrentSim().getCurrentRoom().getObjects();
-
-                        while (itr.hasNext()) {
-                            Object o = itr.next();
-                            if (o instanceof TV) {
-                                tv = (TV) o;
-                                break;
+                            else {
+                                System.out.println("Apa yang ingin kamu tuliskan ke dalam jurnal?");
+                                String text = userInput.nextLine();
+                                dayThread.resumeThread();
+                                journal.writeJournal(journal, menu.getCurrentSim(), text);
+                                dayThread.pauseThread();
                             }
-                        }
-                        if (tv == null) {
-                            System.out.println("Tidak ada TV di ruangan ini!");
-                        } else {
-                            dayThread.resumeThread();
-                            tv.menuTV(menu.getCurrentSim());
-                            dayThread.pauseThread();
-                        }
-                    } else if (activityNum == 14) {
-                        // TODO bermain piano
-                        Piano piano = null;
 
-                        Iterator<Object> itr = menu.getCurrentSim().getCurrentRoom().getObjects();
+                        } else if (activityNum == 12) {
+                            // TODO mendengarkan musik
+                            AudioPlayer audioplayer = null;
+                            Iterator<Object> itr = menu.getCurrentSim().getCurrentRoom().getObjects();
 
-                        while (itr.hasNext()) {
-                            Object o = itr.next();
-                            if (o instanceof Piano) {
-                                piano = (Piano) o;
-                                break;
+                            while (itr.hasNext()) {
+                                Object o = itr.next();
+                                if (o instanceof AudioPlayer) {
+                                    audioplayer = (AudioPlayer) o;
+                                    break;
+                                }
                             }
-                        }
 
-                        if (piano == null) {
-                            System.out.println("Tidak ada piano di ruangan ini!");
-                        } else {
-                            System.out.println("Berapa lama kamu akan bermain piano?");
-                            System.out.println("Masukkan waktu dalam detik (dalam angka dan lebih dari 1 menit): ");
-                            String time = userInput.nextLine();
-                            int timeInt;
-                            try {
-                                timeInt = Integer.parseInt(time);
-                                if (timeInt < 60) {
-                                    System.out.println("Waktu minimal adalah 1 menit!");
-                                    System.out.println(
-                                            "Masukkan waktu dalam detik (dalam angka dan lebih dari 1 menit): ");
+                            if (audioplayer == null) {
+                                System.out.println("Tidak ada audio player di ruangan ini!");
+                            } else {
+                                dayThread.resumeThread();
+                                audioplayer.playMusic(menu.getCurrentSim());
+                                dayThread.pauseThread();
+                            }
+
+                        } else if (activityNum == 13) {
+                            // TODO menonton TV
+                            TV tv = null;
+                            Iterator<Object> itr = menu.getCurrentSim().getCurrentRoom().getObjects();
+
+                            while (itr.hasNext()) {
+                                Object o = itr.next();
+                                if (o instanceof TV) {
+                                    tv = (TV) o;
+                                    break;
+                                }
+                            }
+                            if (tv == null) {
+                                System.out.println("Tidak ada TV di ruangan ini!");
+                            } else {
+                                dayThread.resumeThread();
+                                tv.menuTV(menu.getCurrentSim());
+                                dayThread.pauseThread();
+                            }
+                        } else if (activityNum == 14) {
+                            // TODO bermain piano
+                            Piano piano = null;
+
+                            Iterator<Object> itr = menu.getCurrentSim().getCurrentRoom().getObjects();
+
+                            while (itr.hasNext()) {
+                                Object o = itr.next();
+                                if (o instanceof Piano) {
+                                    piano = (Piano) o;
+                                    break;
+                                }
+                            }
+
+                            if (piano == null) {
+                                System.out.println("Tidak ada piano di ruangan ini!");
+                            } else {
+                                System.out.println("Berapa lama kamu akan bermain piano?");
+                                System.out.println("Masukkan waktu dalam detik (dalam angka dan lebih dari 1 menit): ");
+                                String time = userInput.nextLine();
+                                int timeInt;
+                                try {
+                                    timeInt = Integer.parseInt(time);
+                                    if (timeInt < 60) {
+                                        System.out.println("Waktu minimal adalah 1 menit!");
+                                        System.out.println(
+                                                "Masukkan waktu dalam detik (dalam angka dan lebih dari 1 menit): ");
+                                        time = userInput.nextLine();
+                                        timeInt = Integer.parseInt(time);
+                                    }
+                                } catch (NumberFormatException e) {
+                                    System.out.println("Masukan harus dalam bentuk angka!");
+                                    System.out.println("Masukkan waktu dalam detik (dalam angka): ");
                                     time = userInput.nextLine();
                                     timeInt = Integer.parseInt(time);
                                 }
-                            } catch (NumberFormatException e) {
-                                System.out.println("Masukan harus dalam bentuk angka!");
-                                System.out.println("Masukkan waktu dalam detik (dalam angka): ");
-                                time = userInput.nextLine();
-                                timeInt = Integer.parseInt(time);
+                                dayThread.resumeThread();
+                                piano.playPiano(new Time(timeInt), menu.getCurrentSim());
+                                dayThread.pauseThread();
                             }
-                            dayThread.resumeThread();
-                            piano.playPiano(new Time(timeInt), menu.getCurrentSim());
-                            dayThread.pauseThread();
+
+                        } else if (activityNum == 15) {
+                            // TODO bermain game
+
                         }
-
-                    } else if (activityNum == 15) {
-                        // TODO bermain game
-
                     }
                 } else if (commandNum == 9) {
                     Clock clockCheck = null;
