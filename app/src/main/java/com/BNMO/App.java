@@ -180,32 +180,56 @@ public class App {
                     System.out.println();
                 } else if (commandNum == 7) {
                     // TODO ganti pekerjaan
-                    System.out.println();
-                    System.out.println("Berikut adalah pekerjaan-pekerjaan yang bisa kamu pilih!");
-                    Job.printListOfJobs();
-                    System.out
-                            .println("Masukkan nama pekerjaan yang kamu inginkan: (\"cancel\" jika ingin membatalkan)");
-                    String wantedJob = userInput.nextLine();
+                    if (!dayThread.getWorkAvail()) {
+                        System.out.println("Pekerjaan hanya bisa diganti saat telah berganti hari!");
+                        continue;
+                    } else {
+                        System.out.println();
+                        System.out.println("Berikut adalah pekerjaan-pekerjaan yang bisa kamu pilih!");
+                        Job.printListOfJobs();
+                        System.out
+                                .println(
+                                        "Masukkan nama pekerjaan yang kamu inginkan: (\"cancel\" jika ingin membatalkan)");
+                        String wantedJob = userInput.nextLine();
 
-                    String[] jobNames = new String[Job.getJobs().size()];
-
-                    while (true) {
-                        try {
-                            if (wantedJob.equals("cancel")) {
-                                break;
-                            } else if (Job.isJobExist(wantedJob)) {
-                                int jobIndex = Job.getJobIndex(wantedJob);
-                                menu.getCurrentSim().changeJob(jobNames[jobIndex]);
-                                break;
-                            } else {
-                                throw new Exception();
+                        while (true) {
+                            try {
+                                if (wantedJob.equals("cancel")) {
+                                    break;
+                                } else if (Job.isJobExist(wantedJob)) {
+                                    break;
+                                } else if (menu.getCurrentSim().getJob().getName().equalsIgnoreCase(wantedJob)) {
+                                    throw new Exception("Kamu sudah memiliki pekerjaan ini!");
+                                } else {
+                                    throw new Exception("Pekerjaan tidak ditemukan!");
+                                }
+                            } catch (Exception e) {
+                                System.out.println(e.getMessage());
+                                System.out.println("Masukkan nama pekerjaan yang kamu inginkan: ");
+                                wantedJob = userInput.nextLine();
                             }
-                        } catch (Exception e) {
-                            System.out.println("Pekerjaan tidak ditemukan!");
-                            System.out.println("Masukkan nama pekerjaan yang kamu inginkan: ");
-                            wantedJob = userInput.nextLine();
                         }
+                        System.out.println("this your wantedJob" + wantedJob);
 
+                        if (wantedJob.equals("cancel")) {
+                            System.out.println("Penggantian pekerjaan dibatalkan!");
+                            break;
+                        } else {
+                            int jobIndex = Job.getJobIndex(wantedJob);
+                            int i = 0;
+
+                            String[] jobNames = new String[Job.getJobs().size()];
+
+                            for (String key : Job.getJobs().keySet()) {
+                                jobNames[i] = key;
+                                i++;
+                            }
+
+                            System.out.println("Kamu telah memilih pekerjaan " + jobNames[jobIndex]);
+                            menu.getCurrentSim().changeJob(jobNames[jobIndex]);
+                            System.out.println();
+                            dayThread.setWorkAvail(false);
+                        }
                     }
                 } else if (commandNum == 8) {
                     System.out.println();

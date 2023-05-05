@@ -29,12 +29,15 @@ public class Point {
         this.x = x;
         this.y = y;
     }
-    public boolean equals(Point A){
-        if(x == (A.getX()) && (y == A.getY())) return true;
+
+    public boolean equals(Point A) {
+        if (x == (A.getX()) && (y == A.getY()))
+            return true;
         return false;
     }
+
     @Override
-    public String toString(){
+    public String toString() {
         return "Location: (" + x + "," + y + ")";
     }
 }

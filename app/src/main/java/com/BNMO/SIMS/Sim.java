@@ -149,7 +149,7 @@ public class Sim {
     public void setFullness(int fullness) {
         if (fullness > 100) {
             this.fullness = 100;
-        } else if (fullness < 0) {
+        } else if (fullness <= 0) {
             this.fullness = 0;
             setAlive(false);
             System.out.println("Kamu mati karena kelaparan.");
@@ -161,7 +161,7 @@ public class Sim {
     public void setMood(int mood) {
         if (mood > 100) {
             this.mood = 100;
-        } else if (mood < 0) {
+        } else if (mood <= 0) {
             this.mood = 0;
             setAlive(false);
             System.out.println("Kamu mati karena depresi.");
@@ -174,7 +174,7 @@ public class Sim {
     public void setHealth(int health) {
         if (health > 100) {
             this.health = 100;
-        } else if (health < 0) {
+        } else if (health <= 0) {
             this.health = 0;
             setAlive(false);
             System.out.println("Kamu mati karena sakit.");
@@ -251,8 +251,7 @@ public class Sim {
         System.out.println("Current job duration: " + currentJobDuration.convertToSecond() + " seconds");
         if (currentJobDuration.convertToSecond() >= 120) {
             // Check if the jobName key exists in the map
-            if (getJob().getJobs().containsKey(jobName)) {
-                System.out.println("Changing job to " + jobName);
+            if (Job.getJobs().containsKey(jobName)) {
                 int salary = getJob().getJobs().get(jobName);
                 setJob(new Job(jobName, salary));
                 setCurrentJobDuration(new Time(0, 0, 0));

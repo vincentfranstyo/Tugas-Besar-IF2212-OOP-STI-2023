@@ -207,6 +207,12 @@ public class World {
         int counterLoop = 0;
         while (kamar.hasNext()) {
             Room currentRoom = kamar.next();
+            int longY = 0;
+            for (int i = 0; i < houseLayout.size(); i++) {
+                if (houseLayout.get(i).size() > longY) {
+                    longY = houseLayout.get(i).size();
+                }
+            }
             if (currentRoom.getFront() != null) {
                 boolean checker = false;
                 for (int i = 0; i < houseLayout.size(); i++) {
@@ -243,10 +249,10 @@ public class World {
                             startX = i - 2;
                         }
                     }
-                    
-                    for (int i = startY; i < startY + 5; i++) {
-                        if (houseLayout.get(i).size() == 0){
-                            for (int j = 0; j < houseLayout.get(yCurrent).size(); j++) {
+
+                    if (houseLayout.get(startY).size() == 0){
+                        for (int i = startY; i < startY + 5; i++) {
+                            for (int j = 0; j < houseLayout.get(longY).size(); j++) {
                                 if (j >= startX && j < startX + 5){
                                     try {
                                         if (i % 5 == 0) {
@@ -279,68 +285,117 @@ public class World {
                                     }
                                 }
                                 else {
-                                    if (currentRoom.getFront().getLeft() == null && j < startX){
-                                        houseLayout.get(i).add(j,"  ");
-                                    }
-                                    if (currentRoom.getFront().getRight() == null && j >= startX + 5){
-                                        houseLayout.get(i).add(j,"  ");
-                                    }
+                                    // if (currentRoom.getFront().getLeft() == null && j < startX){
+                                    //     houseLayout.get(i).add(j,"  ");
+                                    // }
+                                    // // if (currentRoom.getFront().getRight() == null && j >= startX + 5){
+                                    // //     houseLayout.get(i).add(j,"  ");
+                                    // // }
                                 }
                                 
                                 
                             }
                         }
-                        else {
-                            for (int j = 0; j < houseLayout.get(i).size(); j++) {
-                                if (j >= startX && j < startX + 5){
-                                    try {
-                                        if (i % 5 == 0) {
-                                            houseLayout.get(i).set(j,"--");
-                                        } else if (i % 5 == 2) {
-                                            houseLayout.get(i).set(j,"   ");
-                                        } else if (i % 5 == 4) {
-                                            houseLayout.get(i).set(j,"--");
-                                        } else if (j % 5 == 0) {
-                                            houseLayout.get(i).set(j,"|");
-                                        } else if (j % 5 == 4) {
-                                            houseLayout.get(i).set(j,"|");
-                                        } else {
-                                            houseLayout.get(i).set(j,"   ");
-                                        }
-                                    } catch (IndexOutOfBoundsException e) {
-                                        if (i % 5 == 0) {
-                                            houseLayout.get(i).add(j,"--");
-                                        } else if (i % 5 == 2) {
-                                            houseLayout.get(i).add(j,"   ");
-                                        } else if (i % 5 == 4) {
-                                            houseLayout.get(i).add(j,"--");
-                                        } else if (j % 5 == 0) {
-                                            houseLayout.get(i).add(j,"|");
-                                        } else if (j % 5 == 4) {
-                                            houseLayout.get(i).add(j,"|");
-                                        } else {
-                                            houseLayout.get(i).add(j,"   ");
-                                        }
-                                    }
+                        houseLayout.get(startY + 2).set(startX + 2, currentRoom.getFront().getNameRoom());
+                        houseLayout.get(startY + 2).set(startX + 1, " ");
+
+                        for (int i = startY; i < startY + 5; i++) {
+                            for (int j = 0; j < houseLayout.get(longY).size(); j++) {
+                                if (currentRoom.getLeft() != null){
+                                    houseLayout.get(i).add(j,"  ");
                                 }
-                                else {
-                                    if (currentRoom.getFront().getLeft() == null && j < startX){
-                                        houseLayout.get(i).add(j,"  ");
-                                    }
-                                    if (currentRoom.getFront().getRight() == null && j >= startX + 5){
-                                        houseLayout.get(i).add(j,"  ");
-                                    }
-                                }
-                                
-                                
                             }
                         }
                         
+                        
                     }
-                    houseLayout.get(startY + 2).set(startX + 2, currentRoom.getFront().getNameRoom());
-                    houseLayout.get(startY + 2).set(startX + 1, " ");
+                    else {
+                        for (int i = startY; i < startY + 5; i++) {
+                            if(startX < houseLayout.get(i).size()){
+                                for (int j = 0; j < 5; j++) {
+                                    houseLayout.get(i).add(j,"  ");
+                                }
+                            } else if (startX > houseLayout.get(i).size()){
+                                for (int j = houseLayout.get(i).size(); j < startX; j++) {
+                                    houseLayout.get(i).add(j,"  ");
+                                }
+                            }
+                            for (int j = 0; j < longY; j++) {
+                                if (j >= startX && j < startX + 5){
+                                    try {
+                                        if (i % 5 == 0) {
+                                            houseLayout.get(i).set(j,"--");
+                                        } else if (i % 5 == 2) {
+                                            houseLayout.get(i).set(j,"   ");
+                                        } else if (i % 5 == 4) {
+                                            houseLayout.get(i).set(j,"--");
+                                        } else if (j % 5 == 0) {
+                                            houseLayout.get(i).set(j,"|");
+                                        } else if (j % 5 == 4) {
+                                            houseLayout.get(i).set(j,"|");
+                                        } else {
+                                            houseLayout.get(i).set(j,"   ");
+                                        }
+                                    } catch (IndexOutOfBoundsException e) {
+                                        if (i % 5 == 0) {
+                                            houseLayout.get(i).add(j,"--");
+                                        } else if (i % 5 == 2) {
+                                            houseLayout.get(i).add(j,"   ");
+                                        } else if (i % 5 == 4) {
+                                            houseLayout.get(i).add(j,"--");
+                                        } else if (j % 5 == 0) {
+                                            houseLayout.get(i).add(j,"|");
+                                        } else if (j % 5 == 4) {
+                                            houseLayout.get(i).add(j,"|");
+                                        } else {
+                                            houseLayout.get(i).add(j,"   ");
+                                        }
+                                    }
+                                }
+                                else {
+                                    // if(houseLayout.get(i).size() < longY){
+                                    //     if (currentRoom.getFront().getLeft() == null && j < startX){
+                                    //         if (houseLayout.get(i).get(j).equals("--")){
+    
+                                    //         }
+                                    //         else if (houseLayout.get(i).get(j).equals("|")){
+    
+                                    //         }
+                                    //         else if (houseLayout.get(i).get(j).equals("   ")){
+    
+                                    //         }
+                                    //         else if (houseLayout.get(i).get(j).equals("  ")){
+    
+                                    //         }
+                                    //         else {
+                                    //             houseLayout.get(i).add(j,"  ");
+                                    //         }
+                                    //     }
+                                    //     if (currentRoom.getFront().getRight() == null && j >= startX + 5){
+                                    //         houseLayout.get(i).add(j,"  ");
+                                    //     }
+                                    // }
+                                }
+                            }
+                        }
+                        
+                        houseLayout.get(startY + 2).set(startX + 2, currentRoom.getFront().getNameRoom());
+                        houseLayout.get(startY + 2).set(startX + 1, " ");
+
+                        // for (int i = startY; i < startY + 5; i++) {
+                        //     for (int j = 0; j < houseLayout.get(longY).size(); j++) {
+                        //         if (currentRoom.getLeft() != null){
+                        //             houseLayout.get(i).add(j,"  ");
+                        //         }
+                        //     }
+                        // }
+                    }
+                    
+                
+
                 }
             }
+            
 
             if (currentRoom.getBehind() != null) {
                 boolean checker = false;
@@ -379,9 +434,9 @@ public class World {
                         }
                     }
                     
-                    for (int i = startY; i < startY + 5; i++) {
-                        if (houseLayout.get(i).size() == 0){
-                            for (int j = 0; j < houseLayout.get(yCurrent).size(); j++) {
+                    if (houseLayout.get(startY).size() == 0){
+                        for (int i = startY; i < startY + 5; i++) {
+                            for (int j = 0; j < houseLayout.get(longY).size(); j++) {
                                 if (j >= startX && j < startX + 5){
                                     try {
                                         if (i % 5 == 0) {
@@ -414,66 +469,113 @@ public class World {
                                     }
                                 }
                                 else {
-                                    if (currentRoom.getBehind().getLeft() == null && j < startX){
-                                        houseLayout.get(i).add(j,"  ");
-                                    }
-                                    if (currentRoom.getBehind().getRight() == null && j >= startX + 5){
-                                        houseLayout.get(i).add(j,"  ");
-                                    }
+                                    // if (currentRoom.getFront().getLeft() == null && j < startX){
+                                    //     houseLayout.get(i).add(j,"  ");
+                                    // }
+                                    // // if (currentRoom.getFront().getRight() == null && j >= startX + 5){
+                                    // //     houseLayout.get(i).add(j,"  ");
+                                    // // }
                                 }
                                 
                                 
                             }
                         }
-                        else {
-                            for (int j = 0; j < houseLayout.get(i).size(); j++) {
-                                if (j >= startX && j < startX + 5){
-                                    try {
-                                        if (i % 5 == 0) {
-                                            houseLayout.get(i).set(j,"--");
-                                        } else if (i % 5 == 2) {
-                                            houseLayout.get(i).set(j,"   ");
-                                        } else if (i % 5 == 4) {
-                                            houseLayout.get(i).set(j,"--");
-                                        } else if (j % 5 == 0) {
-                                            houseLayout.get(i).set(j,"|");
-                                        } else if (j % 5 == 4) {
-                                            houseLayout.get(i).set(j,"|");
-                                        } else {
-                                            houseLayout.get(i).set(j,"   ");
-                                        }
-                                    } catch (IndexOutOfBoundsException e) {
-                                        if (i % 5 == 0) {
-                                            houseLayout.get(i).add(j,"--");
-                                        } else if (i % 5 == 2) {
-                                            houseLayout.get(i).add(j,"   ");
-                                        } else if (i % 5 == 4) {
-                                            houseLayout.get(i).add(j,"--");
-                                        } else if (j % 5 == 0) {
-                                            houseLayout.get(i).add(j,"|");
-                                        } else if (j % 5 == 4) {
-                                            houseLayout.get(i).add(j,"|");
-                                        } else {
-                                            houseLayout.get(i).add(j,"   ");
-                                        }
-                                    }
+                        houseLayout.get(startY + 2).set(startX + 2, currentRoom.getBehind().getNameRoom());
+                        houseLayout.get(startY + 2).set(startX + 1, " ");
+
+                        for (int i = startY; i < startY + 5; i++) {
+                            for (int j = 0; j < houseLayout.get(longY).size(); j++) {
+                                if (currentRoom.getLeft() != null){
+                                    houseLayout.get(i).add(j,"  ");
                                 }
-                                else {
-                                    if (currentRoom.getBehind().getLeft() == null && j < startX){
-                                        houseLayout.get(i).add(j,"  ");
-                                    }
-                                    if (currentRoom.getBehind().getRight() == null && j >= startX + 5){
-                                        houseLayout.get(i).add(j,"  ");
-                                    }
-                                }
-                                
-                                
                             }
                         }
                         
+                        
                     }
-                    houseLayout.get(startY + 2).set(startX + 2, currentRoom.getBehind().getNameRoom());
-                    houseLayout.get(startY + 2).set(startX + 1, " ");
+                    else {
+                        for (int i = startY; i < startY + 5; i++) {
+                            if(startX < houseLayout.get(i).size()){
+                                for (int j = 0; j < 5; j++) {
+                                    houseLayout.get(i).add(j,"  ");
+                                }
+                            } else if (startX > houseLayout.get(i).size()){
+                                for (int j = houseLayout.get(i).size(); j < startX; j++) {
+                                    houseLayout.get(i).add(j,"  ");
+                                }
+                            }
+                            for (int j = 0; j < longY; j++) {
+                                if (j >= startX && j < startX + 5){
+                                    try {
+                                        if (i % 5 == 0) {
+                                            houseLayout.get(i).set(j,"--");
+                                        } else if (i % 5 == 2) {
+                                            houseLayout.get(i).set(j,"   ");
+                                        } else if (i % 5 == 4) {
+                                            houseLayout.get(i).set(j,"--");
+                                        } else if (j % 5 == 0) {
+                                            houseLayout.get(i).set(j,"|");
+                                        } else if (j % 5 == 4) {
+                                            houseLayout.get(i).set(j,"|");
+                                        } else {
+                                            houseLayout.get(i).set(j,"   ");
+                                        }
+                                    } catch (IndexOutOfBoundsException e) {
+                                        if (i % 5 == 0) {
+                                            houseLayout.get(i).add(j,"--");
+                                        } else if (i % 5 == 2) {
+                                            houseLayout.get(i).add(j,"   ");
+                                        } else if (i % 5 == 4) {
+                                            houseLayout.get(i).add(j,"--");
+                                        } else if (j % 5 == 0) {
+                                            houseLayout.get(i).add(j,"|");
+                                        } else if (j % 5 == 4) {
+                                            houseLayout.get(i).add(j,"|");
+                                        } else {
+                                            houseLayout.get(i).add(j,"   ");
+                                        }
+                                    }
+                                }
+                                else {
+                                    // if(houseLayout.get(i).size() < longY){
+                                    //     if (currentRoom.getFront().getLeft() == null && j < startX){
+                                    //         if (houseLayout.get(i).get(j).equals("--")){
+    
+                                    //         }
+                                    //         else if (houseLayout.get(i).get(j).equals("|")){
+    
+                                    //         }
+                                    //         else if (houseLayout.get(i).get(j).equals("   ")){
+    
+                                    //         }
+                                    //         else if (houseLayout.get(i).get(j).equals("  ")){
+    
+                                    //         }
+                                    //         else {
+                                    //             houseLayout.get(i).add(j,"  ");
+                                    //         }
+                                    //     }
+                                    //     if (currentRoom.getFront().getRight() == null && j >= startX + 5){
+                                    //         houseLayout.get(i).add(j,"  ");
+                                    //     }
+                                    // }
+                                }
+                            }
+                        }
+                        
+                        houseLayout.get(startY + 2).set(startX + 2, currentRoom.getBehind().getNameRoom());
+                        houseLayout.get(startY + 2).set(startX + 1, " ");
+
+                        // for (int i = startY; i < startY + 5; i++) {
+                        //     for (int j = 0; j < houseLayout.get(longY).size(); j++) {
+                        //         if (currentRoom.getLeft() != null){
+                        //             houseLayout.get(i).add(j,"  ");
+                        //         }
+                        //     }
+                        // }
+                    }
+                
+
                 }
 
             }
@@ -546,13 +648,14 @@ public class World {
                             }
                         } else {
                             for (int j = startX; j < startX + 5; j++) {
-                                if (currentRoom.getLeft().getFront() == null && i < startY){
-                                    houseLayout.get(i).add(j,"  ");
+                                if(houseLayout.get(i).size() < longY){
+                                    if (currentRoom.getLeft().getFront() == null && i < startY){
+                                        houseLayout.get(i).add(j,"  ");
+                                    }
+                                    if (currentRoom.getLeft().getBehind() == null && i >= startY + 5){
+                                        houseLayout.get(i).add(j,"  ");
+                                    }
                                 }
-                                if (currentRoom.getLeft().getBehind() == null && i >= startY + 5){
-                                    houseLayout.get(i).add(j,"  ");
-                                }
-                                
                             }
 
                         }
@@ -636,15 +739,16 @@ public class World {
                                 
                             }
                         } else {
-                            for (int j = startX; j < startX + 5; j++) {
-                                if (currentRoom.getRight().getFront() == null && i < startY){
-                                    houseLayout.get(i).add(j,"  ");
-                                }
-                                if (currentRoom.getRight().getBehind() == null && i >= startY + 5){
-                                    houseLayout.get(i).add(j,"  ");
-                                }
-                                
-                            }
+                            // for (int j = startX; j < startX + 5; j++) {
+                            //     if(houseLayout.get(i).size() < longY){
+                            //         if (currentRoom.getRight().getFront() == null && i < startY){
+                            //             houseLayout.get(i).add(j,"  ");
+                            //         }
+                            //         if (currentRoom.getRight().getBehind() == null && i >= startY + 5){
+                            //             houseLayout.get(i).add(j,"  ");
+                            //         }
+                            //     }
+                            // }
 
                         }
                     }
@@ -662,16 +766,6 @@ public class World {
                     }
 
                 }
-            }
-            counterLoop++;
-            System.out.println(counterLoop);
-            yCount = houseLayout.size();
-            for (int i = 0; i < yCount; i++) {
-                int xCount = houseLayout.get(i).size();
-                for (int j = 0; j < xCount; j++) {
-                    System.out.print(houseLayout.get(i).get(j));
-                }
-                System.out.println();
             }
 
         }
@@ -700,7 +794,7 @@ public class World {
             System.out.println();
         }
 
-        
+        houseLayout.clear();
 
     }
 
