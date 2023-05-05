@@ -1,16 +1,14 @@
 package com.BNMO.Utilities;
 
-import com.BNMO.World;
 import com.BNMO.SIMS.Sim;
-import com.BNMO.Buildings.House;
 
 import java.util.*;
 
 public class Menu {
     private static Menu instance;
-    private static boolean gameStarted = false;
-    private static Sim currentSim;
-    private static ArrayList<Sim> simList = new ArrayList<Sim>();
+    private boolean gameStarted = false;
+    private Sim currentSim;
+    private ArrayList<Sim> simList = new ArrayList<Sim>();
 
     private Menu() {
 
@@ -23,14 +21,14 @@ public class Menu {
         return instance;
     }
 
-    public static void start() {
+    public void start() {
         setGameStarted(true);
         addSim(currentSim);
         System.out.println("Permainan Akan Segera Dimulai...");
         System.out.println("Selamat Bermain !!!");
     }
 
-    public static void help() {
+    public void help() {
         System.out.println("Panduan Game Sim-Plicity");
         System.out.println(
                 "1. Ketika memulai permainan Sim-Plicity sebuah World akan dibuat dengan ukuran 64x64 dengan peta sebagai berikut:");
@@ -115,12 +113,12 @@ public class Menu {
         System.out.println("List Aksi Tambah SIM:");
     }
 
-    public static void exit() {
+    public void exit() {
         setGameStarted(false);
         System.out.println("Terima kasih telah bermain Sim-Plicity!");
     }
 
-    public static void viewSimInfo() {
+    public void viewSimInfo() {
         System.out.println("Info Sim:");
         System.out.println("Nama: " + currentSim.getName());
         System.out.println("Job: " + currentSim.getJob().getName());
@@ -131,11 +129,11 @@ public class Menu {
         System.out.println("Current Location: " + currentSim.getCurrentRoom().getNameRoom());
     }
 
-    public static void addSim(Sim sim) {
+    public void addSim(Sim sim) {
         simList.add(sim);
     }
 
-    public static void changeSim(String name) {
+    public void changeSim(String name) {
         for (int i = 0; i < simList.size(); i++) {
             if (simList.get(i).getName().equals(name)) {
                 currentSim = simList.get(i);
@@ -143,36 +141,36 @@ public class Menu {
         }
     }
 
-    public static void viewSimList() {
+    public void viewSimList() {
         System.out.println("Berikut adalah daftar SIMS yang kamu miliki:");
         for (int i = 0; i < simList.size(); i++) {
             System.out.println(simList.get(i).getName());
         }
     }
 
-    public static void viewSimStatus() {
+    public void viewSimStatus() {
         System.out.println("Status Sim:");
         System.out.println("Nama: " + currentSim.getName());
         System.out.println("Status: " + currentSim.getStatus());
     }
 
-    public static boolean isGameStarted() {
+    public boolean isGameStarted() {
         return gameStarted;
     }
 
-    public static void setGameStarted(Boolean start) {
+    public void setGameStarted(Boolean start) {
         gameStarted = start;
     }
 
-    public static Sim getCurrentSim() {
+    public Sim getCurrentSim() {
         return currentSim;
     }
 
-    public static void setCurrentSim(Sim sim) {
+    public void setCurrentSim(Sim sim) {
         currentSim = sim;
     }
 
-    public static ArrayList getSimList() {
+    public ArrayList<Sim> getSimList() {
         return simList;
     }
 

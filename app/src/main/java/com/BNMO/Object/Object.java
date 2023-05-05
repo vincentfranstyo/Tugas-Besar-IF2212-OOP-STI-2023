@@ -1,6 +1,5 @@
 package com.BNMO.Object;
 
-import com.BNMO.Object.Food.Food;
 import com.BNMO.Object.NonFoodObjects.NonFoodObjects;
 import com.BNMO.Object.NonFoodObjects.Bed.*;
 import com.BNMO.Object.NonFoodObjects.Stove.*;

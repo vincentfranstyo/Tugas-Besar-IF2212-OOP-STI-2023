@@ -3,7 +3,6 @@ package com.BNMO.SIMS;
 import com.BNMO.Utilities.*;
 import com.BNMO.Object.NonFoodObjects.NonFoodObjects;
 import com.BNMO.Object.Object;
-import com.BNMO.Object.Food.Food;
 import com.BNMO.Buildings.*;
 import com.BNMO.Object.NonFoodObjects.Toilet.Toilet;
 import com.BNMO.Object.NonFoodObjects.Bed.SingleBed;
@@ -252,7 +251,7 @@ public class Sim {
         if (currentJobDuration.convertToSecond() >= 120) {
             // Check if the jobName key exists in the map
             if (Job.getJobs().containsKey(jobName)) {
-                int salary = getJob().getJobs().get(jobName);
+                int salary = Job.getJobs().get(jobName);
                 setJob(new Job(jobName, salary));
                 setCurrentJobDuration(new Time(0, 0, 0));
                 setMoney(getMoney() - job.getSalary() / 2);
@@ -279,30 +278,13 @@ public class Sim {
         Random rand = new Random();
         int randomNum = rand.nextInt(1, 5);
         System.out.println("Kamu akan mendapatkan item dalam " + randomNum + " menit");
-        DayThread dayThread = DayThread.getInstance();
-        int currentSec = dayThread.getDaySec();
+        try {
+            Thread.sleep(randomNum * 60000);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
 
-        // try {
-        //     Thread.sleep(randomNum * 60000);
-        // } catch (InterruptedException e) {
-        //     e.printStackTrace();
-        // }
-        Thread t = new Thread(new Runnable(){
-            public void run(){
-                while(true){
-                    int newCurrentSec = dayThread.getDaySec();
-                    if(!dayThread.getPaused()){
-                        if(newCurrentSec-currentSec == randomNum*60){
-                            System.out.println("Item mu telah sampai");
-                        }
-                        else if((newCurrentSec-currentSec)%60 == 0){
-                            System.out.println("Item mu akan sampai dalam "+(randomNum-((newCurrentSec-currentSec)%60))+" menit");
-                        }
-                    }
-                }
-            }
-        });
-        t.start();
+        System.out.println("Item mu telah sampai");
     }
 
     public void move(Room room) {
