@@ -436,7 +436,7 @@ public class World {
                     
                     if (houseLayout.get(startY).size() == 0){
                         for (int i = startY; i < startY + 5; i++) {
-                            for (int j = 0; j < houseLayout.get(longY).size(); j++) {
+                            for (int j = 0; j < houseLayout.get(longY-1).size(); j++) {
                                 if (j >= startX && j < startX + 5){
                                     try {
                                         if (i % 5 == 0) {

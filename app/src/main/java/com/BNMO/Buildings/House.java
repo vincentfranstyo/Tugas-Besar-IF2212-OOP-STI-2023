@@ -6,6 +6,11 @@ import java.util.concurrent.atomic.AtomicInteger;
 import com.BNMO.Object.Object;
 import com.BNMO.SIMS.Sim;
 import com.BNMO.Utilities.*;
+import com.BNMO.Object.NonFoodObjects.Bed.*;
+import com.BNMO.Object.NonFoodObjects.Clock.Clock;
+import com.BNMO.Object.NonFoodObjects.Stove.GasStove;
+import com.BNMO.Object.NonFoodObjects.TableAndChair.TableAndChair;
+import com.BNMO.Object.NonFoodObjects.Toilet.Toilet;
 
 public class House {
     private ArrayList<Room> rooms;
@@ -127,30 +132,30 @@ public class House {
                                 // "Ruangan " + newRoom.getNameRoom() + " Telah Berhasil Dibangun!");
                                 // }
                                 // }
-                                while (true) {
-                                    int newCurrSec = dayThread.getDaySec();
-                                    if (newCurrSec - currentSec != 0) {
-                                        setCountTime(18 - (newCurrSec - currentSec + 1) / 60);
-                                        if (newCurrSec - currentSec == 1080) {
-                                            System.out.println(
-                                                    "Ruangan " + newRoom.getNameRoom() + " Telah Berhasil Dibangun!");
-                                            break;
-                                        } else if ((newCurrSec - currentSec) % 60 == 0) {
-                                            if (!dayThread.getPaused()) {
-                                                System.out.println("Waktu Pembangunan Ruangan " + newRoom.getNameRoom()
-                                                        + " Tersisa " + (18 - ((newCurrSec - currentSec) / 60))
-                                                        + " Menit.");
-                                            }
-                                            Thread.sleep(1500);
-                                        }
-                                    }
-                                }
+                                // while (true) {
+                                //     int newCurrSec = dayThread.getDaySec();
+                                //     if (newCurrSec - currentSec != 0) {
+                                //         setCountTime(18 - (newCurrSec - currentSec + 1) / 60);
+                                //         if (newCurrSec - currentSec == 1080) {
+                                //             System.out.println(
+                                //                     "Ruangan " + newRoom.getNameRoom() + " Telah Berhasil Dibangun!");
+                                //             break;
+                                //         } else if ((newCurrSec - currentSec) % 60 == 0) {
+                                //             if (!DayThread.getPaused()) {
+                                //                 System.out.println("Waktu Pembangunan Ruangan " + newRoom.getNameRoom()
+                                //                         + " Tersisa " + (18 - ((newCurrSec - currentSec) / 60))
+                                //                         + " Menit.");
+                                //             }
+                                //             Thread.sleep(1500);
+                                //         }
+                                //     }
+                                // }
                                 rooms.add(newRoom);
                                 synchronized (this) {
                                     totalRoom++;
                                 }
                                 fixDirectRoom();
-                            } catch (InterruptedException e) {
+                            } catch (Error e) {
                                 e.printStackTrace();
                             }
                         }
