@@ -290,12 +290,14 @@ public class Sim {
             public void run(){
                 while(true){
                     int newCurrentSec = dayThread.getDaySec();
-                    if(!dayThread.getPaused()){
-                        if(newCurrentSec-currentSec == randomNum*60){
-                            System.out.println("Item mu telah sampai");
-                        }
-                        else if((newCurrentSec-currentSec)%60 == 0){
-                            System.out.println("Item mu akan sampai dalam "+(randomNum-((newCurrentSec-currentSec)%60))+" menit");
+                    if(newCurrentSec-currentSec != 0){
+                        if(!dayThread.getPaused()){
+                            if(newCurrentSec-currentSec == randomNum*60){
+                                System.out.println("Item mu telah sampai");
+                            }
+                            else if((newCurrentSec-currentSec)%60 == 0){
+                                System.out.println("Item mu akan sampai dalam "+(randomNum-((newCurrentSec-currentSec)%60))+" menit");
+                            }
                         }
                     }
                 }
