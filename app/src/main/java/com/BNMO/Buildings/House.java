@@ -129,14 +129,14 @@ public class House {
                                 // }
                                 while (true) {
                                     int newCurrSec = dayThread.getDaySec();
-                                    dayThread.setBuildingCountTime(18 - (newCurrSec - currentSec + 1) / 60);
+                                    dayThread.setBuildingCountTime(18 * 60 - (newCurrSec - currentSec));
                                     if (newCurrSec - currentSec != 0) {
                                         if (newCurrSec - currentSec == 1080) {
                                             System.out.println(
                                                     "Ruangan " + newRoom.getNameRoom() + " Telah Berhasil Dibangun!");
                                             break;
                                         } else if ((newCurrSec - currentSec) % 60 == 0) {
-                                            if (!DayThread.getPaused()) {
+                                            if (!dayThread.getPaused()) {
                                                 System.out.println("Waktu Pembangunan Ruangan " + newRoom.getNameRoom()
                                                         + " Tersisa " + (18 - ((newCurrSec - currentSec) / 60))
                                                         + " Menit.");

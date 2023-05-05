@@ -19,6 +19,7 @@ public class Clock extends NonFoodObjects {
         System.out.println("Durasi pembangunan tersisa: " + dayThread.getBuildingCountTime() + " menit");
         System.out.println();
         System.out.println("Durasi pembelian barang tersisa: " + dayThread.getBuyingCountTime() + " menit");
+        System.out.println();
 
     }
 }

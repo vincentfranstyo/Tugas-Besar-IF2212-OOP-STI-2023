@@ -126,7 +126,8 @@ public class App {
                     // INFO RUMAH
                     System.out.println();
                     System.out.println("Berikut adalah info ruangan kamu:");
-                    world.printHouseLayout(menu.getCurrentSim().getCurrentHouse());
+                    world.printHouseLayout(menu.getCurrentSim().getCurrentHouse(),
+                            menu.getCurrentSim().getCurrentRoom());
                     System.out.println();
                     menu.getCurrentSim().getCurrentHouse().printRooms();
                     // TODO CLI layout

@@ -274,23 +274,25 @@ public class Sim {
             System.out.println("Kamu akan mendapatkan item dalam " + randomNum + " menit");
             DayThread dayThread = DayThread.getInstance();
             int currentSec = dayThread.getDaySec();
+            System.out.println("Current sec: " + currentSec);
             Thread t = new Thread(new Runnable() {
                 public void run() {
                     while (true) {
                         try {
                             int newCurrentSec = dayThread.getDaySec();
-                            dayThread.setBuyingCountTime(randomNum - ((newCurrentSec - currentSec) % 60));
+                            dayThread.setBuyingCountTime(randomNum * 60 - ((newCurrentSec - currentSec));
                             if (!dayThread.getPaused()) {
-                                if (newCurrentSec - currentSec == randomNum * 60) {
+                                if ((newCurrentSec - currentSec) == randomNum * 60) {
                                     System.out.println("Item mu telah sampai");
                                     setMoney(getMoney() - object.getPrice());
                                     inventory.addObject(object);
                                     break;
                                 } else if ((newCurrentSec - currentSec) % 60 == 0) {
+                                    System.out.println("Sec diff: " + (newCurrentSec - currentSec));
                                     System.out.println("Item mu akan sampai dalam "
-                                            + (randomNum - ((newCurrentSec - currentSec) % 60)) + " menit");
+                                            + (randomNum - ((newCurrentSec - currentSec) / 60)) + " menit");
+                                    Thread.sleep(1500);
                                 }
-                                // Thread.sleep(1500);
                             }
                         } catch (Exception e) {
                             e.printStackTrace();
