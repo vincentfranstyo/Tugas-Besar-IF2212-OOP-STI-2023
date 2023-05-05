@@ -110,7 +110,7 @@ public class House {
                 }
                 if (valid) {
                     sim.setMoney(sim.getMoney() - Room.getPrice());
-                    DayThread dayThread = DayThread.getInstance()
+                    DayThread dayThread = DayThread.getInstance();
                     int currentSec = dayThread.getDaySec();
                     Thread t = new Thread(new Runnable() {
                         public void run() {
