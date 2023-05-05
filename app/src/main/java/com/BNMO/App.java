@@ -589,6 +589,79 @@ public class App {
                         }
                     } else if (activityNum == 6) {
                         System.out.println("Kamu memilih untuk berkunjung!");
+                        System.out.println();
+                        if(world.getHouseList().size() == 1){
+                            System.out.println("Tidak Ada House Yang Dapat Kamu Kunjungi Di World Pada Saat Ini!");
+                            System.out.println();
+                        }
+                        else{
+                            System.out.println("Berikut Adalah List House Yang Dapat Kamu Kunjungi:");
+                            Iterator<House> itr = world.getHouseList().iterator();
+                            House visitHouse = null;
+                            System.out.println("[0] Pulang Ke Rumah Sendiri");
+                            int i = 1;
+                            while(itr.hasNext()){
+                                House h = itr.next();
+                                if(!menu.getCurrentSim().getName().equals(h.getOwner().getName())){
+                                    System.out.println("["+i+"]"+" Rumah "+h.getOwner().getName());
+                                    i++;
+                                }
+                                else{
+                                    visitHouse = h;
+                                }
+                            }
+                            // default visitHouse adalah rumah dari currentSim sendiri
+                            System.out.println("Masukkan Rumah Yang Ingin Dikunjungi (dalam angka): ");
+                            String choice = userInput.nextLine();
+                            int choiceInt;
+                            while (true) {
+                                try {
+                                    choiceInt = Integer.parseInt(choice);
+                                    break;
+                                } catch (NumberFormatException e) {
+                                    System.out.println("Masukan harus dalam bentuk angka!");
+                                    System.out.println("Masukkan Rumah Yang Ingin Dikunjungi (dalam angka): ");
+                                    choice = userInput.nextLine();
+                                }
+                            }
+                            if(choiceInt == 0){
+                                dayThread.resumeThread();
+                                menu.getCurrentSim().visit(visitHouse);
+                                System.out.println("Kamu Telah Pulang Ke Rumah Sendiri!");
+                                dayThread.pauseThread();
+                            }
+                            else{
+                                itr = world.getHouseList().iterator();
+                                i = 1;
+                                boolean isVisit = false;
+                                while (itr.hasNext()) {
+                                    House h = itr.next();
+                                    if(!menu.getCurrentSim().getName().equals(h.getOwner().getName())){
+                                        if(i == choiceInt){
+                                            visitHouse = h;
+                                            isVisit = true;
+                                            break;
+                                        }
+                                        else{
+                                            i++;
+                                        }
+                                    }
+                                }
+                                if(!isVisit){
+                                    System.out.println("Rumah Yang Dipilih Untuk Dikunjungi Tidak Ada Dalam List!");
+                                    System.out.println();
+                                }
+                                else{
+                                    if(visitHouse != null){
+                                        dayThread.resumeThread();
+                                        menu.getCurrentSim().visit(visitHouse);
+                                        System.out.println("Kamu Sekarang Telah Tiba Di Rumah "+visitHouse.getOwner().getName());
+                                        System.out.println();
+                                        dayThread.pauseThread();
+                                    }
+                                }
+                            }
+                        }
                         // TODO visit
                     } else if (activityNum == 7) {
                         Toilet toiletValidator = null;

@@ -264,7 +264,21 @@ public class Sim {
     }
 
     public void visit(House house) {
-        setCurrentHouse(house);
+        double distance = Math.sqrt((Math.pow(location.getX()-house.getLocation().getX(), 2)) + (Math.pow(location.getY()-house.getLocation().getY(), 2)));
+        try {
+            setStatus("Visiting");
+            int duration = ((int) distance)*2;
+            System.out.println("Perjalanan Visit Akan Memakan Waktu Selama "+ duration +" Detik");
+            System.out.println(getName() + " is on the way...");
+            Thread.sleep(duration * 1000);
+            setFullness(getFullness() - 10 * (duration / 30));
+            setMood(getMood() + 10 * (duration / 30));
+            setCurrentHouse(house);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        } finally {
+            setStatus("Nothing");
+        }
     }
 
     public void buy(Object object) {

@@ -127,24 +127,24 @@ public class House {
                                 // "Ruangan " + newRoom.getNameRoom() + " Telah Berhasil Dibangun!");
                                 // }
                                 // }
-                                while (true) {
-                                    int newCurrSec = dayThread.getDaySec();
-                                    if (newCurrSec - currentSec != 0) {
-                                        setCountTime(18 - (newCurrSec - currentSec + 1) / 60);
-                                        if (newCurrSec - currentSec == 1080) {
-                                            System.out.println(
-                                                    "Ruangan " + newRoom.getNameRoom() + " Telah Berhasil Dibangun!");
-                                            break;
-                                        } else if ((newCurrSec - currentSec) % 60 == 0) {
-                                            if (!dayThread.getPaused()) {
-                                                System.out.println("Waktu Pembangunan Ruangan " + newRoom.getNameRoom()
-                                                        + " Tersisa " + (18 - ((newCurrSec - currentSec) / 60))
-                                                        + " Menit.");
-                                            }
-                                            Thread.sleep(1500);
-                                        }
-                                    }
-                                }
+                                // while (true) {
+                                //     int newCurrSec = dayThread.getDaySec();
+                                //     if (newCurrSec - currentSec != 0) {
+                                //         setCountTime(18 - (newCurrSec - currentSec + 1) / 60);
+                                //         if (newCurrSec - currentSec == 1080) {
+                                //             System.out.println(
+                                //                     "Ruangan " + newRoom.getNameRoom() + " Telah Berhasil Dibangun!");
+                                //             break;
+                                //         } else if ((newCurrSec - currentSec) % 60 == 0) {
+                                //             if (!dayThread.getPaused()) {
+                                //                 System.out.println("Waktu Pembangunan Ruangan " + newRoom.getNameRoom()
+                                //                         + " Tersisa " + (18 - ((newCurrSec - currentSec) / 60))
+                                //                         + " Menit.");
+                                //             }
+                                             Thread.sleep(1000);
+                                //         }
+                                //     }
+                                // }
                                 rooms.add(newRoom);
                                 synchronized (this) {
                                     totalRoom++;
