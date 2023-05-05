@@ -18,7 +18,7 @@ public class DayThread implements Runnable {
     private final Object lock = new Object();
     private int notSleptMark = -1;
     private int notPoopedMark = -1;
-    private AtomicInteger daySec = new AtomicInteger(720);
+    private AtomicInteger daySec = new AtomicInteger(721);
     private int day;
     private int mins;
     private int secs;
