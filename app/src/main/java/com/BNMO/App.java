@@ -1115,7 +1115,7 @@ public class App {
                     }
 
                     if (clockCheck == null) {
-                        System.out.println("Tidak ada piano di ruangan ini!");
+                        System.out.println("Tidak ada jam di ruangan ini!");
                     } else {
                         System.out.println();
                         clockCheck.use();

@@ -141,7 +141,7 @@ public class House {
                                                     "Ruangan " + newRoom.getNameRoom() + " Telah Berhasil Dibangun!");
                                             break;
                                         } else if ((newCurrSec - currentSec) % 60 == 0) {
-                                            if (!DayThread.getPaused()) {
+                                            if (!dayThread.getPaused()) {
                                                 System.out.println("Waktu Pembangunan Ruangan " + newRoom.getNameRoom()
                                                         + " Tersisa " + (18 - ((newCurrSec - currentSec) / 60))
                                                         + " Menit.");
