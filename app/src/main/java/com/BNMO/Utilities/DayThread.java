@@ -12,6 +12,8 @@ public class DayThread implements Runnable {
     private AtomicBoolean poopedAfterAte = new AtomicBoolean(false);
     private AtomicBoolean poopPenalty = new AtomicBoolean(false);
     private AtomicBoolean workAvail = new AtomicBoolean(true);
+    private AtomicInteger buildingCountTime = new AtomicInteger(0);
+    private AtomicInteger buyingCountTime = new AtomicInteger(0);
     private boolean paused = false;
     private final Object lock = new Object();
     private int notSleptMark = -1;
@@ -42,6 +44,22 @@ public class DayThread implements Runnable {
             System.out.println("Silahkan melakukan aksi aktif untuk melanjutkan hari!");
             System.out.println();
         }
+    }
+
+    public int getBuildingCountTime() {
+        return buildingCountTime.get();
+    }
+
+    public void setBuildingCountTime(int countTimeVar) {
+        buildingCountTime.set(countTimeVar);
+    }
+
+    public int getBuyingCountTime() {
+        return buyingCountTime.get();
+    }
+
+    public void setBuyingCountTime(int countTimeVar) {
+        buyingCountTime.set(countTimeVar);
     }
 
     public int getDaySec() {

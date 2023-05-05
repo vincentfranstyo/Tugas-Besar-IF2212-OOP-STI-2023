@@ -1,7 +1,6 @@
 package com.BNMO.Buildings;
 
 import java.util.*;
-import java.util.concurrent.atomic.AtomicInteger;
 
 import com.BNMO.Object.Object;
 import com.BNMO.SIMS.Sim;
@@ -13,7 +12,6 @@ public class House {
     private Sim owner;
     private Point location;
     private Room initRoom;
-    private static AtomicInteger countTime = new AtomicInteger(0);
 
     public House(Point loc, Sim owner) {
         this.rooms = new ArrayList<Room>();
@@ -112,6 +110,7 @@ public class House {
                     DayThread dayThread = DayThread.getInstance();
                     int currentSec = dayThread.getDaySec();
                     Thread t = new Thread(new Runnable() {
+                        @Override
                         public void run() {
                             try {
                                 // Pilih ruangan yang ingin di bangun (Above, Right, Below, atau Left) dari
@@ -129,8 +128,8 @@ public class House {
                                 // }
                                 while (true) {
                                     int newCurrSec = dayThread.getDaySec();
+                                    dayThread.setBuildingCountTime(18 - (newCurrSec - currentSec + 1) / 60);
                                     if (newCurrSec - currentSec != 0) {
-                                        setCountTime(18 - (newCurrSec - currentSec + 1) / 60);
                                         if (newCurrSec - currentSec == 1080) {
                                             System.out.println(
                                                     "Ruangan " + newRoom.getNameRoom() + " Telah Berhasil Dibangun!");
@@ -250,14 +249,6 @@ public class House {
             }
         }
         return null;
-    }
-
-    public static int getCountTime() {
-        return countTime.get();
-    }
-
-    public static void setCountTime(int countTimeVar) {
-        countTime.set(countTimeVar);
     }
 
     // public static void main(String[] args) {

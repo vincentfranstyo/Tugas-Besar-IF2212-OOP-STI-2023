@@ -277,17 +277,23 @@ public class Sim {
             Thread t = new Thread(new Runnable() {
                 public void run() {
                     while (true) {
-                        int newCurrentSec = dayThread.getDaySec();
-                        if (!dayThread.getPaused()) {
-                            if (newCurrentSec - currentSec == randomNum * 60) {
-                                System.out.println("Item mu telah sampai");
-                                setMoney(getMoney() - object.getPrice());
-                                inventory.addObject(object);
-                                break;
-                            } else if ((newCurrentSec - currentSec) % 60 == 0) {
-                                System.out.println("Item mu akan sampai dalam "
-                                        + (randomNum - ((newCurrentSec - currentSec) % 60)) + " menit");
+                        try {
+                            int newCurrentSec = dayThread.getDaySec();
+                            dayThread.setBuyingCountTime(randomNum - ((newCurrentSec - currentSec) % 60));
+                            if (!dayThread.getPaused()) {
+                                if (newCurrentSec - currentSec == randomNum * 60) {
+                                    System.out.println("Item mu telah sampai");
+                                    setMoney(getMoney() - object.getPrice());
+                                    inventory.addObject(object);
+                                    break;
+                                } else if ((newCurrentSec - currentSec) % 60 == 0) {
+                                    System.out.println("Item mu akan sampai dalam "
+                                            + (randomNum - ((newCurrentSec - currentSec) % 60)) + " menit");
+                                }
+                                // Thread.sleep(1500);
                             }
+                        } catch (Exception e) {
+                            e.printStackTrace();
                         }
                     }
                 }
