@@ -5,6 +5,11 @@ import java.util.*;
 import com.BNMO.Object.Object;
 import com.BNMO.SIMS.Sim;
 import com.BNMO.Utilities.*;
+import com.BNMO.Object.NonFoodObjects.Bed.*;
+import com.BNMO.Object.NonFoodObjects.Clock.Clock;
+import com.BNMO.Object.NonFoodObjects.Stove.GasStove;
+import com.BNMO.Object.NonFoodObjects.TableAndChair.TableAndChair;
+import com.BNMO.Object.NonFoodObjects.Toilet.Toilet;
 
 public class House {
     private ArrayList<Room> rooms;
@@ -21,15 +26,11 @@ public class House {
         this.initRoom = new Room("Ruang 1", null, null, null, null);
         this.rooms.add(initRoom);
         this.totalRoom++;
-        // this.initRoom.addObject(new Toilet("Toilet 1"), new Point(6, 1),
-        // "horizontal");
-        // this.initRoom.addObject(new GasStove("Kompor Gas 1"), new Point(1, 6),
-        // "horizontal");
-        // this.initRoom.addObject(new TableAndChair("Meja Makan 1"), new Point(1, 3),
-        // "horizontal");
-        // this.initRoom.addObject(new Clock("Jam 1"), new Point(5, 1), "horizontal");
-        // this.initRoom.addObject(new SingleBed("Kasur 1"), new Point(6, 3),
-        // "vertikal");
+        this.initRoom.addObject(new Toilet("Toilet 1"), new Point(6, 1), "horizontal");
+        this.initRoom.addObject(new GasStove("Kompor Gas 1"), new Point(1, 6), "horizontal");
+        this.initRoom.addObject(new TableAndChair("Meja Makan 1"), new Point(1, 3), "horizontal");
+        this.initRoom.addObject(new Clock("Jam 1"), new Point(5, 1), "horizontal");
+        this.initRoom.addObject(new SingleBed("Kasur 1"), new Point(6, 3), "vertikal");
     }
 
     private void fixDirectRoom() {
@@ -135,7 +136,7 @@ public class House {
                                                     "Ruangan " + newRoom.getNameRoom() + " Telah Berhasil Dibangun!");
                                             break;
                                         } else if ((newCurrSec - currentSec) % 60 == 0) {
-                                            if (!dayThread.getPaused()) {
+                                            if (!DayThread.getPaused()) {
                                                 System.out.println("Waktu Pembangunan Ruangan " + newRoom.getNameRoom()
                                                         + " Tersisa " + (18 - ((newCurrSec - currentSec) / 60))
                                                         + " Menit.");
