@@ -248,7 +248,7 @@ public class Sim {
 
     public void changeJob(String jobName) {
         System.out.println("Current job duration: " + currentJobDuration.convertToSecond() + " seconds");
-        if (currentJobDuration.convertToSecond() >= 120) {
+        if (currentJobDuration.convertToSecond() >= 720) {
             // Check if the jobName key exists in the map
             if (Job.getJobs().containsKey(jobName)) {
                 int salary = Job.getJobs().get(jobName);
@@ -269,22 +269,39 @@ public class Sim {
 
     public void buy(Object object) {
         if (getMoney() >= object.getPrice()) {
-            setMoney(getMoney() - object.getPrice());
-            inventory.addObject(object);
+            Random rand = new Random();
+            int randomNum = rand.nextInt(1, 5);
+            System.out.println("Kamu akan mendapatkan item dalam " + randomNum + " menit");
+            DayThread dayThread = DayThread.getInstance();
+            int currentSec = dayThread.getDaySec();
+            Thread t = new Thread(new Runnable() {
+                public void run() {
+                    while (true) {
+                        int newCurrentSec = dayThread.getDaySec();
+                        if (!dayThread.getPaused()) {
+                            if (newCurrentSec - currentSec == randomNum * 60) {
+                                System.out.println("Item mu telah sampai");
+                                setMoney(getMoney() - object.getPrice());
+                                inventory.addObject(object);
+                                break;
+                            } else if ((newCurrentSec - currentSec) % 60 == 0) {
+                                System.out.println("Item mu akan sampai dalam "
+                                        + (randomNum - ((newCurrentSec - currentSec) % 60)) + " menit");
+                            }
+                        }
+                    }
+                }
+            });
+            t.start();
         } else {
             System.out.println("You don't have enough money");
         }
 
-        Random rand = new Random();
-        int randomNum = rand.nextInt(1, 5);
-        System.out.println("Kamu akan mendapatkan item dalam " + randomNum + " menit");
-        try {
-            Thread.sleep(randomNum * 60000);
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
-
-        System.out.println("Item mu telah sampai");
+        // try {
+        // Thread.sleep(randomNum * 60000);
+        // } catch (InterruptedException e) {
+        // e.printStackTrace();
+        // }
     }
 
     public void move(Room room) {

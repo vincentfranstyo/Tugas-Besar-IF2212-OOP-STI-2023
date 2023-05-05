@@ -286,5 +286,6 @@ public class TV extends NonFoodObjects {
                     break;
             }
         }
+        scanner.close();
     }
 }

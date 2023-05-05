@@ -245,6 +245,7 @@ public class AudioPlayer extends NonFoodObjects {
                 break;
             }
         }
+        scanner.close();
     }
 
     public void audioPlayerMenu(Sim sim) {

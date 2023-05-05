@@ -1,7 +1,5 @@
 package com.BNMO.Object.NonFoodObjects.Bed;
 
-import org.checkerframework.checker.units.qual.s;
-
 import com.BNMO.Object.NonFoodObjects.NonFoodObjects;
 import com.BNMO.SIMS.Sim;
 import com.BNMO.Utilities.*;
