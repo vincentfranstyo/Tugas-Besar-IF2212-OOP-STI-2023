@@ -60,15 +60,34 @@ public class Sim {
         this.health = 80; // 80
         this.status = "Nothing";
         this.isAlive = true;
-        this.inventory = new Inventory<Object>(this);
-        System.out.println("kena location");
-        this.location = new Point(2, 2); // TODO ini harusnya random tpi ngecek dulu
+        this.inventory = new Inventory<Object>(this); // TODO ini harusnya random tpi ngecek dulu
 
         World world = World.getInstance();
-        this.currentHouse = new House(this.location, this);
-        this.currentRoom = currentHouse.getRooms().next();
+        Random rand = new Random();
+
+        int xRandom = rand.nextInt(65);
+        if (xRandom == 0) {
+            xRandom++;
+        } else if (xRandom % 3 == 0) {
+            xRandom--;
+        }
+
+        Random rand2 = new Random();
+
+        int yRandom = rand2.nextInt(65);
+        if (yRandom == 0) {
+            yRandom++;
+        }
+        if (yRandom % 5 == 0) {
+            yRandom--;
+        }
+
+        Point initPoint = new Point(xRandom, yRandom);
+        this.currentHouse = new House(initPoint, this);
         world.addHouse(currentHouse);
 
+        this.currentRoom = currentHouse.getRooms().next();
+        this.location = initPoint;
         this.currentJobDuration = new Time();
         this.inventory.addObject(new Toilet("Toilet 1"));
         this.inventory.addObject(new GasStove("Kompor Gas 1"));
@@ -288,20 +307,27 @@ public class Sim {
             System.out.println("Kamu akan mendapatkan item dalam " + randomNum + " menit");
             DayThread dayThread = DayThread.getInstance();
             int currentSec = dayThread.getDaySec();
+            System.out.println("Current sec: " + currentSec);
             Thread t = new Thread(new Runnable() {
                 public void run() {
                     while (true) {
-                        int newCurrentSec = dayThread.getDaySec();
-                        if (!dayThread.getPaused()) {
-                            if (newCurrentSec - currentSec == randomNum * 60) {
-                                System.out.println("Item mu telah sampai");
-                                setMoney(getMoney() - object.getPrice());
-                                inventory.addObject(object);
-                                break;
-                            } else if ((newCurrentSec - currentSec) % 60 == 0) {
-                                System.out.println("Item mu akan sampai dalam "
-                                        + (randomNum - ((newCurrentSec - currentSec) % 60)) + " menit");
+                        try {
+                            int newCurrentSec = dayThread.getDaySec();
+                            dayThread.setBuyingCountTime(randomNum * 60 - (newCurrentSec - currentSec));
+                            if (!dayThread.getPaused()) {
+                                if ((newCurrentSec - currentSec) == randomNum * 60 - 1) {
+                                    System.out.println("Item mu telah sampai");
+                                    setMoney(getMoney() - object.getPrice());
+                                    inventory.addObject(object);
+                                    break;
+                                } else if ((newCurrentSec - currentSec) % 60 - 1 == 0) {
+                                    System.out.println("Item mu akan sampai dalam "
+                                            + (randomNum - ((newCurrentSec - currentSec) / 60)) + " menit");
+                                    Thread.sleep(1500);
+                                }
                             }
+                        } catch (Exception e) {
+                            e.printStackTrace();
                         }
                     }
                 }

@@ -47,6 +47,8 @@ public class SingleBed extends NonFoodObjects implements Bed {
             }
         } catch (InterruptedException e) {
             System.out.println("SleepThread interrupted");
+        } finally {
+            sim.setStatus("Nothing");
         }
     }
 }

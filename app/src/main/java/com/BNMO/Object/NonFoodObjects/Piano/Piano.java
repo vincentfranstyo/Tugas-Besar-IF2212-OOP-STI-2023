@@ -16,10 +16,10 @@ public class Piano extends NonFoodObjects {
                 setIsOccupied(true);
                 if (sim.getStatus().equals("Nothing")) {
                     int duration = time.convertToSecond();
-                    System.out.println(sim.getName() + " are playing piano");
-                    Thread.sleep(duration * 1000);
-                    System.out.println(sim.getName() + " are done playing piano");
                     sim.setStatus("Playing piano");
+                    System.out.println(sim.getName() + " is playing piano");
+                    Thread.sleep(duration * 1000);
+                    System.out.println(sim.getName() + " is done playing piano");
                     sim.setMood(sim.getMood() + 5 * duration / 20);
                 } else {
                     System.out.println("You can't play the piano while you are " + sim.getStatus());
@@ -28,6 +28,7 @@ public class Piano extends NonFoodObjects {
         } catch (InterruptedException e) {
             e.printStackTrace();
         } finally {
+            sim.setStatus("Nothing");
             setIsOccupied(false);
         }
     }

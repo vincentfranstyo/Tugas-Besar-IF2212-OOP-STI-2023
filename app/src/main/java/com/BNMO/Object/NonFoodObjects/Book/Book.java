@@ -58,6 +58,7 @@ public class Book extends NonFoodObjects {
             e.printStackTrace();
         } finally {
             setIsOccupied(false);
+            sim.setStatus("Nothing");
         }
     }
 }

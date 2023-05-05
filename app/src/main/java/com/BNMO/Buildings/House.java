@@ -1,11 +1,15 @@
 package com.BNMO.Buildings;
 
 import java.util.*;
-import java.util.concurrent.atomic.AtomicInteger;
 
 import com.BNMO.Object.Object;
 import com.BNMO.SIMS.Sim;
 import com.BNMO.Utilities.*;
+import com.BNMO.Object.NonFoodObjects.Bed.*;
+import com.BNMO.Object.NonFoodObjects.Clock.Clock;
+import com.BNMO.Object.NonFoodObjects.Stove.GasStove;
+import com.BNMO.Object.NonFoodObjects.TableAndChair.TableAndChair;
+import com.BNMO.Object.NonFoodObjects.Toilet.Toilet;
 
 public class House {
     private ArrayList<Room> rooms;
@@ -13,7 +17,6 @@ public class House {
     private Sim owner;
     private Point location;
     private Room initRoom;
-    private static AtomicInteger countTime = new AtomicInteger(0);
 
     public House(Point loc, Sim owner) {
         this.rooms = new ArrayList<Room>();
@@ -23,15 +26,11 @@ public class House {
         this.initRoom = new Room("Ruang 1", null, null, null, null);
         this.rooms.add(initRoom);
         this.totalRoom++;
-        // this.initRoom.addObject(new Toilet("Toilet 1"), new Point(6, 1),
-        // "horizontal");
-        // this.initRoom.addObject(new GasStove("Kompor Gas 1"), new Point(1, 6),
-        // "horizontal");
-        // this.initRoom.addObject(new TableAndChair("Meja Makan 1"), new Point(1, 3),
-        // "horizontal");
-        // this.initRoom.addObject(new Clock("Jam 1"), new Point(5, 1), "horizontal");
-        // this.initRoom.addObject(new SingleBed("Kasur 1"), new Point(6, 3),
-        // "vertikal");
+        this.initRoom.addObject(new Toilet("Toilet 1"), new Point(6, 1), "horizontal");
+        this.initRoom.addObject(new GasStove("Kompor Gas 1"), new Point(1, 6), "horizontal");
+        this.initRoom.addObject(new TableAndChair("Meja Makan 1"), new Point(1, 3), "horizontal");
+        this.initRoom.addObject(new Clock("Jam 1"), new Point(5, 1), "horizontal");
+        this.initRoom.addObject(new SingleBed("Kasur 1"), new Point(6, 3), "vertikal");
     }
 
     private void fixDirectRoom() {
@@ -112,6 +111,7 @@ public class House {
                     DayThread dayThread = DayThread.getInstance();
                     int currentSec = dayThread.getDaySec();
                     Thread t = new Thread(new Runnable() {
+                        @Override
                         public void run() {
                             try {
                                 // Pilih ruangan yang ingin di bangun (Above, Right, Below, atau Left) dari
@@ -127,24 +127,24 @@ public class House {
                                 // "Ruangan " + newRoom.getNameRoom() + " Telah Berhasil Dibangun!");
                                 // }
                                 // }
-                                // while (true) {
-                                //     int newCurrSec = dayThread.getDaySec();
-                                //     if (newCurrSec - currentSec != 0) {
-                                //         setCountTime(18 - (newCurrSec - currentSec + 1) / 60);
-                                //         if (newCurrSec - currentSec == 1080) {
-                                //             System.out.println(
-                                //                     "Ruangan " + newRoom.getNameRoom() + " Telah Berhasil Dibangun!");
-                                //             break;
-                                //         } else if ((newCurrSec - currentSec) % 60 == 0) {
-                                //             if (!dayThread.getPaused()) {
-                                //                 System.out.println("Waktu Pembangunan Ruangan " + newRoom.getNameRoom()
-                                //                         + " Tersisa " + (18 - ((newCurrSec - currentSec) / 60))
-                                //                         + " Menit.");
-                                //             }
-                                             Thread.sleep(1000);
-                                //         }
-                                //     }
-                                // }
+                                while (true) {
+                                    int newCurrSec = dayThread.getDaySec();
+                                    dayThread.setBuildingCountTime(18 * 60 - (newCurrSec - currentSec));
+                                    if (newCurrSec - currentSec != 0) {
+                                        if (newCurrSec - currentSec - 1 == 1080) {
+                                            System.out.println(
+                                                    "Ruangan " + newRoom.getNameRoom() + " Telah Berhasil Dibangun!");
+                                            break;
+                                        } else if ((newCurrSec - currentSec) % 60 - 1 == 0) {
+                                            if (!dayThread.getPaused()) {
+                                                System.out.println("Waktu Pembangunan Ruangan " + newRoom.getNameRoom()
+                                                        + " Tersisa " + (18 - ((newCurrSec - currentSec) / 60))
+                                                        + " Menit.");
+                                            }
+                                            Thread.sleep(1500);
+                                        }
+                                    }
+                                }
                                 rooms.add(newRoom);
                                 synchronized (this) {
                                     totalRoom++;
@@ -250,14 +250,6 @@ public class House {
             }
         }
         return null;
-    }
-
-    public static int getCountTime() {
-        return countTime.get();
-    }
-
-    public static void setCountTime(int countTimeVar) {
-        countTime.set(countTimeVar);
     }
 
     // public static void main(String[] args) {

@@ -203,6 +203,7 @@ public class TV extends NonFoodObjects {
             System.out.println("Thread interrupted");
         } finally {
             setIsOccupied(false);
+            sim.setStatus("Nothing");
         }
     }
 

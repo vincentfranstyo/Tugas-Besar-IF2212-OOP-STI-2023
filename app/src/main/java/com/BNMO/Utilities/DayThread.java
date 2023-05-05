@@ -12,6 +12,8 @@ public class DayThread implements Runnable {
     private AtomicBoolean poopedAfterAte = new AtomicBoolean(false);
     private AtomicBoolean poopPenalty = new AtomicBoolean(false);
     private AtomicBoolean workAvail = new AtomicBoolean(true);
+    private AtomicInteger buildingCountTime = new AtomicInteger(0);
+    private AtomicInteger buyingCountTime = new AtomicInteger(0);
     private boolean paused = false;
     private final Object lock = new Object();
     private int notSleptMark = -1;
@@ -44,6 +46,22 @@ public class DayThread implements Runnable {
         }
     }
 
+    public int getBuildingCountTime() {
+        return buildingCountTime.get();
+    }
+
+    public void setBuildingCountTime(int countTimeVar) {
+        buildingCountTime.set(countTimeVar);
+    }
+
+    public int getBuyingCountTime() {
+        return buyingCountTime.get();
+    }
+
+    public void setBuyingCountTime(int countTimeVar) {
+        buyingCountTime.set(countTimeVar);
+    }
+
     public int getDaySec() {
         return daySec.get();
     }
@@ -53,8 +71,10 @@ public class DayThread implements Runnable {
     }
 
     public void timeLeftForTheDay() {
-        mins = (getDaySec() + 1) % 720 / 60;
-        secs = (getDaySec() + 1) % 720 % 60;
+        mins = (getDaySec()) % 720 / 60;
+        secs = (getDaySec()) % 720 % 60;
+        System.out.println("Day " + day);
+        System.out.println("Waktu tersisa untuk hari ini: ");
         System.out.println(String.format("%02d", mins) + ":" + String.format("%02d", secs) + " out of 12 mins");
     }
 
@@ -161,9 +181,6 @@ public class DayThread implements Runnable {
 
             }
             if (getSleepPenalty() && ((getDaySec() - notSleptMark) % 600 == 0)) {
-                System.out.println("ini i : " + getDaySec());
-                System.out.println("ini moodnya skrg " + menu.getCurrentSim().getMood());
-                System.out.println("ini healthnya skrg " + menu.getCurrentSim().getHealth());
                 menu.getCurrentSim().setMood(menu.getCurrentSim().getMood() - 5);
                 menu.getCurrentSim().setHealth(menu.getCurrentSim().getHealth() - 5);
                 System.out.println("Kamu kurang tidur, sehingga mempengaruhi mood dan health kamu!");
@@ -180,7 +197,6 @@ public class DayThread implements Runnable {
 
             // Dampak tidak tidur 10 menit
             if (!getSlept() && notSleptMark == -1) {
-                System.out.println("not slept mark is triggered");
                 notSleptMark = getDaySec();
                 sleepPenalty.set(true);
             } else if (getSlept()) {
