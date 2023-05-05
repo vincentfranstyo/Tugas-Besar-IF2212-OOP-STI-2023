@@ -298,7 +298,7 @@ public class Sim {
                                     break;
                                 }
                                 else if((newCurrentSec-currentSec)%60 == 0){
-                                    System.out.println("Item mu akan sampai dalam "+(randomNum-((newCurrentSec-currentSec)%60))+" menit");
+                                    System.out.println("Item mu akan sampai dalam "+(randomNum-((newCurrentSec-currentSec)/60))+" menit");
                                     Thread.sleep(1500);
                                 }
                             }
