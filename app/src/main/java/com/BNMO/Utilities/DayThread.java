@@ -117,7 +117,7 @@ public class DayThread implements Runnable {
         poopPenalty.set(poopPenaltyVar);
     }
 
-    public static boolean getPaused(){
+    public static boolean getPaused() {
         return paused;
     }
 
@@ -139,6 +139,7 @@ public class DayThread implements Runnable {
                 System.out.println();
                 System.out.println("Hari ke-" + day + " dimulai!");
                 System.out.println();
+                setDailyWorkDuration(0);
             }
 
             try {
@@ -184,8 +185,6 @@ public class DayThread implements Runnable {
             } else if (getPoopedAfterAte()) {
                 poopPenalty.set(false);
             }
-
-            // dailyWorkDuration
         }
     }
 }
