@@ -11,6 +11,7 @@ public class DayThread implements Runnable {
     private static AtomicBoolean eaten = new AtomicBoolean(false);
     private static AtomicBoolean poopedAfterAte = new AtomicBoolean(false);
     private static AtomicBoolean poopPenalty = new AtomicBoolean(false);
+    private static AtomicBoolean workAvail = new AtomicBoolean(true);
     private static boolean paused = false;
     private static final Object lock = new Object();
     private static int notSleptMark = -1;
@@ -67,6 +68,14 @@ public class DayThread implements Runnable {
             }
             lock.notifyAll();
         }
+    }
+
+    public static void setWorkAvail(boolean workAvailVar) {
+        workAvail.set(workAvailVar);
+    }
+
+    public static boolean getWorkAvail() {
+        return workAvail.get();
     }
 
     public static boolean getSlept() {
@@ -139,6 +148,7 @@ public class DayThread implements Runnable {
                 System.out.println();
                 System.out.println("Hari ke-" + day + " dimulai!");
                 System.out.println();
+                setWorkAvail(true);
                 setDailyWorkDuration(0);
             }
 
