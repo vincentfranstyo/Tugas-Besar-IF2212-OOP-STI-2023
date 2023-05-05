@@ -38,4 +38,32 @@ public class Toilet extends NonFoodObjects {
             sim.setStatus("Nothing");
         }
     }
+
+    public void cleanToilet(Sim sim){
+        Time time = new Time(120);
+        try {
+            if (!getIsOccupied()) {
+                if (sim.getStatus().equals("Nothing")) {
+                    int duration = time.convertToSecond();
+                    System.out.println(sim.getName() + " is cleaning the toilet.");
+                    setIsOccupied(true);
+                    sim.setStatus("Cleaning toilet");
+                    Thread.sleep(duration * 1000);
+                    System.out.println(sim.getName() + " is done cleaning the toilet.");
+                    sim.setFullness((sim.getMood() + (10 * (duration / 10)));
+                } else {
+                    System.out.println("You can't clean the toilet while doing something else.");
+                }
+            }
+
+            else {
+                System.out.println("Too bad! The toilet is in use, please find another toilet!");
+            }
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        } finally {
+            setIsOccupied(false);
+            sim.setStatus("Nothing");
+        }
+    }
 }
