@@ -8,13 +8,12 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class GameStation extends NonFoodObjects {
-    private boolean isOn;
     private int battery;
     private static ArrayList<Game> games;
 
-    public GameStation(String name, int length, int width, int price) {
+    public GameStation(String name) {
         super(name, 4, 2, 400);
-        this.isOn = false;
+        // this.isOn = false;
         this.battery = 100;
         this.games = new ArrayList<>();
         games.add(new Game("PUBG", 1, 20));
@@ -29,9 +28,9 @@ public class GameStation extends NonFoodObjects {
         this.setType("GameStation");
     }
 
-    public boolean getIsOn() {
-        return isOn;
-    }
+    // public boolean getIsOn() {
+    // return isOn;
+    // }
 
     public void setBattery(int battery) {
         if (battery > 100) {
@@ -41,25 +40,25 @@ public class GameStation extends NonFoodObjects {
         }
     }
 
-    public void setIsOn(boolean isOn) {
-        this.isOn = isOn;
-    }
+    // public void setIsOn(boolean isOn) {
+    // this.isOn = isOn;
+    // }
 
     public int getBattery() {
         return battery;
     }
 
-    public void turnOn() {
-        if (getBattery() < 0) {
-            System.out.println("The battery is dead");
-        } else {
-            this.isOn = true;
-        }
-    }
+    // public void turnOn() {
+    // if (getBattery() < 0) {
+    // System.out.println("The battery is dead");
+    // } else {
+    // this.isOn = true;
+    // }
+    // }
 
-    public void turnOff() {
-        this.isOn = false;
-    }
+    // public void turnOff() {
+    // this.isOn = false;
+    // }
 
     public void charge(Time time) {
         if (getBattery() < 100) {
@@ -80,23 +79,20 @@ public class GameStation extends NonFoodObjects {
     }
 
     public void playGame(Game game, Sim sim) {
-        if (getIsOn()) {
-            try {
-                setIsOccupied(true);
-                sim.setStatus("Playing " + game.getName());
-                System.out.println("Playing " + game.getName());
-                setBattery(getBattery() - 10);
-                Thread.sleep(15000); // Sleep for 15 second
-                System.out.println("Finished playing " + game.getName());
-                sim.setMood(sim.getMood() + game.getFunPoint());
-            } catch (InterruptedException e) {
-                e.printStackTrace();
-            } finally {
-                sim.setStatus("Nothing");
-                setIsOccupied(false);
-            }
-        } else {
-            System.out.println("Turn on the GameStation first!");
+        // if (getIsOn()) {
+        try {
+            setIsOccupied(true);
+            sim.setStatus("Playing " + game.getName());
+            System.out.println("Playing " + game.getName());
+            setBattery(getBattery() - 10);
+            Thread.sleep(15000); // Sleep for 15 second
+            System.out.println("Finished playing " + game.getName());
+            sim.setMood(sim.getMood() + game.getFunPoint());
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        } finally {
+            sim.setStatus("Nothing");
+            setIsOccupied(false);
         }
-    }
+    } // else {
 }
