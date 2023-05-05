@@ -17,29 +17,6 @@ public class World {
         this.length = 64;
         this.width = 64;
         this.houseList = new ArrayList<House>();
-
-        Random rand = new Random();
-
-        int xRandom = rand.nextInt(65);
-        if (xRandom == 0) {
-            xRandom++;
-        } else if (xRandom % 3 == 0) {
-            xRandom--;
-        }
-
-        Random rand2 = new Random();
-
-        int yRandom = rand2.nextInt(65);
-        if (yRandom == 0) {
-            yRandom++;
-        }
-        if (yRandom % 5 == 0) {
-            yRandom--;
-        }
-
-        Point initPoint = new Point(xRandom, yRandom);
-        House initHouse = new House(initPoint, initSim);
-        addHouse(initHouse);
     }
 
     public static World getInstance() {
@@ -181,8 +158,8 @@ public class World {
         for (int i = 0; i < 15; i++) {
             houseLayout.add(new ArrayList<>());
         }
-        for (int i = 0; i < 15; i++){
-            for (int j = 0; j < 15; j++){
+        for (int i = 0; i < 15; i++) {
+            for (int j = 0; j < 15; j++) {
                 houseLayout.get(i).add("  ");
             }
         }
@@ -190,120 +167,120 @@ public class World {
         for (int i = 5; i < 10; i++) {
             for (int j = 5; j < 10; j++) {
                 if (i % 5 == 0) {
-                    houseLayout.get(i).set(j,"--");
+                    houseLayout.get(i).set(j, "--");
                 } else if (i % 5 == 2) {
-                    houseLayout.get(i).set(j,"   ");
+                    houseLayout.get(i).set(j, "   ");
                 } else if (i % 5 == 4) {
-                    houseLayout.get(i).set(j,"--");
+                    houseLayout.get(i).set(j, "--");
                 } else if (j % 5 == 0) {
-                    houseLayout.get(i).set(j,"|");
+                    houseLayout.get(i).set(j, "|");
                 } else if (j % 5 == 4) {
-                    houseLayout.get(i).set(j,"|");
+                    houseLayout.get(i).set(j, "|");
                 } else {
-                    houseLayout.get(i).set(j,"   ");
+                    houseLayout.get(i).set(j, "   ");
                 }
             }
         }
         houseLayout.get(7).set(7, room.getNameRoom());
         houseLayout.get(7).set(6, " ");
-        
-        if (room.getFront() != null){
+
+        if (room.getFront() != null) {
             for (int i = 0; i < 5; i++) {
                 for (int j = 5; j < 10; j++) {
                     if (i % 5 == 0) {
-                        houseLayout.get(i).set(j,"--");
+                        houseLayout.get(i).set(j, "--");
                     } else if (i % 5 == 2) {
-                        houseLayout.get(i).set(j,"   ");
+                        houseLayout.get(i).set(j, "   ");
                     } else if (i % 5 == 4) {
-                        houseLayout.get(i).set(j,"--");
+                        houseLayout.get(i).set(j, "--");
                     } else if (j % 5 == 0) {
-                        houseLayout.get(i).set(j,"|");
+                        houseLayout.get(i).set(j, "|");
                     } else if (j % 5 == 4) {
-                        houseLayout.get(i).set(j,"|");
+                        houseLayout.get(i).set(j, "|");
                     } else {
-                        houseLayout.get(i).set(j,"   ");
+                        houseLayout.get(i).set(j, "   ");
                     }
                 }
             }
-            houseLayout.get(2).set(7, room.getFront().getNameRoom());
+            houseLayout.get(2).set(7, "UC");
         }
 
-        if (room.getBehind() != null){
+        if (room.getBehind() != null) {
             for (int i = 10; i < 15; i++) {
                 for (int j = 5; j < 10; j++) {
                     if (i % 5 == 0) {
-                        houseLayout.get(i).set(j,"--");
+                        houseLayout.get(i).set(j, "--");
                     } else if (i % 5 == 2) {
-                        houseLayout.get(i).set(j,"   ");
+                        houseLayout.get(i).set(j, "   ");
                     } else if (i % 5 == 4) {
-                        houseLayout.get(i).set(j,"--");
+                        houseLayout.get(i).set(j, "--");
                     } else if (j % 5 == 0) {
-                        houseLayout.get(i).set(j,"|");
+                        houseLayout.get(i).set(j, "|");
                     } else if (j % 5 == 4) {
-                        houseLayout.get(i).set(j,"|");
+                        houseLayout.get(i).set(j, "|");
                     } else {
-                        houseLayout.get(i).set(j,"   ");
+                        houseLayout.get(i).set(j, "   ");
                     }
                 }
             }
-            houseLayout.get(12).set(7, room.getBehind().getNameRoom());
+            houseLayout.get(12).set(7, "UC");
         }
 
-        if (room.getLeft() != null){
+        if (room.getLeft() != null) {
             for (int i = 5; i < 10; i++) {
                 for (int j = 0; j < 5; j++) {
                     if (i % 5 == 0) {
-                        houseLayout.get(i).set(j,"--");
+                        houseLayout.get(i).set(j, "--");
                     } else if (i % 5 == 2) {
-                        houseLayout.get(i).set(j,"   ");
+                        houseLayout.get(i).set(j, "   ");
                     } else if (i % 5 == 4) {
-                        houseLayout.get(i).set(j,"--");
+                        houseLayout.get(i).set(j, "--");
                     } else if (j % 5 == 0) {
-                        houseLayout.get(i).set(j,"|");
+                        houseLayout.get(i).set(j, "|");
                     } else if (j % 5 == 4) {
-                        houseLayout.get(i).set(j,"|");
+                        houseLayout.get(i).set(j, "|");
                     } else {
-                        houseLayout.get(i).set(j,"   ");
+                        houseLayout.get(i).set(j, "   ");
                     }
                 }
             }
-            houseLayout.get(7).set(2, room.getLeft().getNameRoom());
+            houseLayout.get(7).set(2, "UC");
             houseLayout.get(7).set(1, " ");
         }
 
-        if (room.getRight() != null){
+        if (room.getRight() != null) {
             for (int i = 5; i < 10; i++) {
                 for (int j = 10; j < 15; j++) {
                     if (i % 5 == 0) {
-                        houseLayout.get(i).set(j,"--");
+                        houseLayout.get(i).set(j, "--");
                     } else if (i % 5 == 2) {
-                        houseLayout.get(i).set(j,"   ");
+                        houseLayout.get(i).set(j, "   ");
                     } else if (i % 5 == 4) {
-                        houseLayout.get(i).set(j,"--");
+                        houseLayout.get(i).set(j, "--");
                     } else if (j % 5 == 0) {
-                        houseLayout.get(i).set(j,"|");
+                        houseLayout.get(i).set(j, "|");
                     } else if (j % 5 == 4) {
-                        houseLayout.get(i).set(j,"|");
+                        houseLayout.get(i).set(j, "|");
                     } else {
-                        houseLayout.get(i).set(j,"   ");
+                        houseLayout.get(i).set(j, "   ");
                     }
                 }
             }
-            houseLayout.get(7).set(12, room.getRight().getNameRoom());
+            houseLayout.get(7).set(12, "UC");
             houseLayout.get(7).set(11, " ");
         }
-        
+
         Iterator<Room> rooms = house.getRooms();
         int counter = 0;
-        while (rooms.hasNext()){
+        while (rooms.hasNext()) {
             counter++;
             Room roomCur = rooms.next();
             yCount = houseLayout.size();
             for (int i = 0; i < yCount; i++) {
                 int xCount = houseLayout.get(i).size();
                 for (int j = 0; j < xCount; j++) {
-                    if(houseLayout.get(i).get(j).equals(roomCur.getNameRoom())){
-                        houseLayout.get(i).set(j,Integer.toString(counter));
+                    if (houseLayout.get(i).get(j).equals(roomCur.getNameRoom())) {
+                        houseLayout.get(i).set(j, Integer.toString(counter));
                     }
                 }
             }

@@ -10,7 +10,7 @@ import java.util.List;
 public class GameStation extends NonFoodObjects {
     private boolean isOn;
     private int battery;
-    private List<Game> games;
+    private static ArrayList<Game> games;
 
     public GameStation(String name, int length, int width, int price) {
         super(name, length, width, price);
@@ -50,10 +50,10 @@ public class GameStation extends NonFoodObjects {
     }
 
     public void turnOn() {
-        if (getBattery() > 0) {
-
-        } else {
+        if (getBattery() < 0) {
             System.out.println("The battery is dead");
+        } else {
+            this.isOn = true;
         }
     }
 
@@ -69,6 +69,10 @@ public class GameStation extends NonFoodObjects {
         }
     }
 
+    public static List<Game> getGames() {
+        return games;
+    }
+
     public void displayGameList() {
         for (Game game : games) {
             System.out.println(game.getName());
@@ -77,25 +81,20 @@ public class GameStation extends NonFoodObjects {
 
     public void playGame(Game game, Sim sim) {
         if (getIsOn()) {
-            Thread statusThread = new Thread(new Runnable() {
-                @Override
-                public void run() {
-                    try {
-                        setIsOccupied(true);
-                        sim.setStatus("Playing " + game.getName());
-                        System.out.println("Playing " + game.getName());
-                        setBattery(getBattery() - 10);
-                        Thread.sleep(15000); // Sleep for 15 second
-                        System.out.println("Finished playing " + game.getName());
-                        sim.setMood(sim.getMood() + game.getFunPoint());
-                    } catch (InterruptedException e) {
-                        e.printStackTrace();
-                    } finally {
-                        sim.setStatus("Nothing");
-                        setIsOccupied(false);
-                    }
-                }
-            });
+            try {
+                setIsOccupied(true);
+                sim.setStatus("Playing " + game.getName());
+                System.out.println("Playing " + game.getName());
+                setBattery(getBattery() - 10);
+                Thread.sleep(15000); // Sleep for 15 second
+                System.out.println("Finished playing " + game.getName());
+                sim.setMood(sim.getMood() + game.getFunPoint());
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            } finally {
+                sim.setStatus("Nothing");
+                setIsOccupied(false);
+            }
         } else {
             System.out.println("Turn on the GameStation first!");
         }

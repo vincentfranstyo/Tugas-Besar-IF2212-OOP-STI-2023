@@ -20,6 +20,7 @@ import com.BNMO.Object.NonFoodObjects.Book.*;
 import com.BNMO.Object.NonFoodObjects.Bed.*;
 import com.BNMO.Object.NonFoodObjects.Piano.Piano;
 import com.BNMO.Object.NonFoodObjects.Clock.Clock;
+import com.BNMO.Object.NonFoodObjects.GameStation.*;
 import com.BNMO.Object.NonFoodObjects.Stove.*;
 import com.BNMO.Buildings.*;
 import com.BNMO.Object.Food.*;
@@ -794,12 +795,32 @@ public class App {
                                                 break;
                                             } catch (NumberFormatException e) {
                                                 System.out.println("Masukan harus dalam bentuk angka!");
-                                                System.out.print("Masukkan Nilai X: ");
+                                                System.out.print("Masukkan Nilai Y: ");
                                                 y = userInput.nextLine();
                                             }
                                         }
-                                        System.out.print("Masukkan Arah Object Pada Ruangan (Vertikal/Horizontal): ");
+                                        System.out.print(
+                                                "Masukkan Arah Object Pada Ruangan (Vertikal/Horizontal): (ketik 'cancel' untuk membatalkan)");
                                         direction = userInput.nextLine();
+
+                                        while (true) {
+                                            try {
+                                                if (direction.equalsIgnoreCase("cancel")) {
+                                                    break;
+                                                } else if (direction.toLowerCase().equals("horizontal")
+                                                        || direction.toLowerCase().equals("vertikal")) {
+                                                    break;
+                                                } else {
+                                                    throw new Exception(
+                                                            "Masukan harus dalam bentuk 'horizontal' atau 'vertikal'!");
+                                                }
+                                            } catch (Exception e) {
+                                                System.out.println(e.getMessage());
+                                                System.out.print(
+                                                        "Masukkan Arah Object Pada Ruangan (Vertikal/Horizontal): (ketik 'cancel' untuk membatalkan)");
+                                                direction = userInput.nextLine();
+                                            }
+                                        }
                                         if (direction.toLowerCase().equals("horizontal")) {
                                             width = ((NonFoodObjects) objAdd).getWidth();
                                             length = ((NonFoodObjects) objAdd).getLength();
@@ -1099,20 +1120,19 @@ public class App {
                                 System.out.println("Masukkan waktu dalam detik (dalam angka dan lebih dari 1 menit): ");
                                 String time = userInput.nextLine();
                                 int timeInt;
-                                try {
-                                    timeInt = Integer.parseInt(time);
-                                    if (timeInt < 60) {
-                                        System.out.println("Waktu minimal adalah 1 menit!");
-                                        System.out.println(
-                                                "Masukkan waktu dalam detik (dalam angka dan lebih dari 1 menit): ");
-                                        time = userInput.nextLine();
+
+                                while (true) {
+                                    try {
                                         timeInt = Integer.parseInt(time);
+                                        if (timeInt < 60) {
+                                            throw new Exception("Waktu membaca minimal 1 menit!");
+                                        }
+                                        break;
+                                    } catch (Exception e) {
+                                        System.out.println("Masukan harus dalam bentuk angka dan minimal 1 menit!");
+                                        System.out.println("Masukkan waktu dalam detik (dalam angka): ");
+                                        time = userInput.nextLine();
                                     }
-                                } catch (NumberFormatException e) {
-                                    System.out.println("Masukan harus dalam bentuk angka!");
-                                    System.out.println("Masukkan waktu dalam detik (dalam angka): ");
-                                    time = userInput.nextLine();
-                                    timeInt = Integer.parseInt(time);
                                 }
                                 dayThread.resumeThread();
                                 piano.playPiano(new Time(timeInt), menu.getCurrentSim());
@@ -1121,7 +1141,69 @@ public class App {
 
                         } else if (activityNum == 15) {
                             // TODO bermain game
+                            GameStation gamestation = null;
 
+                            Iterator<Object> itr = menu.getCurrentSim().getCurrentRoom().getObjects();
+
+                            while (itr.hasNext()) {
+                                Object o = itr.next();
+                                if (o instanceof GameStation) {
+                                    gamestation = (GameStation) o;
+                                    break;
+                                }
+                            }
+
+                            if (gamestation == null) {
+                                System.out.println("Tidak ada game station di ruangan ini!");
+                            } else {
+                                System.out.println("Berikut adalah daftar game yang tersedia: ");
+                                gamestation.displayGameList();
+                                System.out.println(
+                                        "\nMasukkan nama game yang ingin kamu mainkan: (ketik 'cancel' untuk keluar)");
+                                String gameName = userInput.nextLine();
+
+                                ArrayList<String> validGames = new ArrayList<>();
+
+                                for (int i = 0; i < gamestation.getGames().size(); i++) {
+                                    validGames.add(gamestation.getGames().get(i).getName().toLowerCase()
+                                            .replaceAll("\\s+", ""));
+                                }
+
+                                while (true) {
+                                    try {
+                                        if (gameName.equals("cancel")) {
+                                            break;
+                                        } else if (!validGames
+                                                .contains(gameName.toLowerCase().replaceAll("\\s+", ""))) {
+                                            throw new Exception("Game tidak tersedia!");
+                                        } else {
+                                            break;
+                                        }
+                                    } catch (Exception e) {
+                                        System.out.println(e.getMessage());
+                                        System.out.println(
+                                                "Masukkan nama game yang ingin kamu mainkan: (ketik 'cancel' untuk keluar)");
+                                        gameName = userInput.nextLine();
+                                    }
+                                }
+
+                                int gameIndex = -1;
+                                if (gameName.equals("cancel")) {
+                                    continue;
+                                } else {
+                                    for (int i = 0; i < GameStation.getGames().size(); i++) {
+                                        if (GameStation.getGames().get(i).getName().equalsIgnoreCase(gameName)) {
+                                            gameIndex = i;
+                                            break;
+                                        }
+                                    }
+
+                                    Game game = GameStation.getGames().get(gameIndex);
+                                    dayThread.resumeThread();
+                                    gamestation.playGame(game, menu.getCurrentSim());
+                                    dayThread.pauseThread();
+                                }
+                            }
                         }
                     }
                 } else if (commandNum == 9) {
@@ -1211,6 +1293,7 @@ public class App {
             System.exit(0);
         } else {
             System.out.println("Terima kasih telah bermain!");
+            System.exit(0);
         }
     }
 }

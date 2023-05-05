@@ -48,16 +48,17 @@ public class ElectricStove extends NonFoodObjects implements Stove {
                 }
                 setIsOccupied(true);
                 System.out.println(sim.getName() + " is cooking the " + dish.getName() + ".");
+                sim.setStatus("Cooking " + dish.getName());
                 int duration = dish.getCookingTime();
                 Thread.sleep(duration * 1000);
                 System.out.println("The " + dish.getName() + " is done.");
-                sim.setStatus("Cooking " + dish.getName());
                 sim.setMood(sim.getMood() + 10);
             }
         } catch (InterruptedException e) {
             System.out.println("Thread interrupted.");
         } finally {
             setIsOccupied(false);
+            sim.setStatus("Nothing");
         }
     }
 

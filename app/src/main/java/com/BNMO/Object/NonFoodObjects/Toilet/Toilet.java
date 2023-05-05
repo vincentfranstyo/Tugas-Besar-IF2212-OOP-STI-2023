@@ -35,6 +35,7 @@ public class Toilet extends NonFoodObjects {
             e.printStackTrace();
         } finally {
             setIsOccupied(false);
+            sim.setStatus("Nothing");
         }
     }
 }

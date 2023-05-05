@@ -34,6 +34,7 @@ public class TableAndChair extends NonFoodObjects {
                             e.printStackTrace();
                         } finally {
                             setIsOccupied(false);
+                            sim.setStatus("Nothing");
                         }
                     } else {
                         System.out.println("You don't have " + dish.getName() + " in your inventory.");
