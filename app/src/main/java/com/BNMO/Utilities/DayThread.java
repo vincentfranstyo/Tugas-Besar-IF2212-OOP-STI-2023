@@ -14,6 +14,8 @@ public class DayThread implements Runnable {
     private AtomicBoolean workAvail = new AtomicBoolean(true);
     private AtomicInteger buildingCountTime = new AtomicInteger(0);
     private AtomicInteger buyingCountTime = new AtomicInteger(0);
+    private AtomicBoolean changeSimToday = new AtomicBoolean(true);
+    private AtomicBoolean isBuying = new AtomicBoolean(false);
     private boolean paused = false;
     private final Object lock = new Object();
     private int notSleptMark = -1;
@@ -44,6 +46,22 @@ public class DayThread implements Runnable {
             System.out.println("Silahkan melakukan aksi aktif untuk melanjutkan hari!");
             System.out.println();
         }
+    }
+
+    public boolean getChangeSimToday() {
+        return changeSimToday.get();
+    }
+
+    public void setChangeSimToday(boolean changeSimTodayVar) {
+        changeSimToday.set(changeSimTodayVar);
+    }
+
+    public boolean getIsBuying() {
+        return isBuying.get();
+    }
+
+    public void setIsBuying(boolean isBuyingVar) {
+        isBuying.set(isBuyingVar);
     }
 
     public int getBuildingCountTime() {
@@ -170,6 +188,7 @@ public class DayThread implements Runnable {
                 System.out.println();
                 setWorkAvail(true);
                 setDailyWorkDuration(0);
+                setChangeSimToday(true);
             }
 
             try {

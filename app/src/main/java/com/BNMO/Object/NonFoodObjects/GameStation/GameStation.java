@@ -13,7 +13,7 @@ public class GameStation extends NonFoodObjects {
     private static ArrayList<Game> games;
 
     public GameStation(String name, int length, int width, int price) {
-        super(name, length, width, price);
+        super(name, 4, 2, 400);
         this.isOn = false;
         this.battery = 100;
         this.games = new ArrayList<>();

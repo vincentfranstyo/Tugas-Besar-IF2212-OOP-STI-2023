@@ -8,6 +8,7 @@ import com.BNMO.Object.NonFoodObjects.Toilet.Toilet;
 import com.BNMO.Object.NonFoodObjects.TableAndChair.TableAndChair;
 import com.BNMO.Object.NonFoodObjects.Piano.Piano;
 import com.BNMO.Object.NonFoodObjects.Clock.Clock;
+import com.BNMO.Object.NonFoodObjects.GameStation.GameStation;
 import com.BNMO.Object.NonFoodObjects.AudioPlayer.*;
 import com.BNMO.Object.NonFoodObjects.Book.*;
 
@@ -84,6 +85,7 @@ public abstract class Object {
         buyableObjects.add(new Clock("Clock"));
         buyableObjects.add(new Journal("Journal"));
         buyableObjects.add(new Toilet("Toilet"));
+        buyableObjects.add(new GameStation("Game Station"));
         return buyableObjects;
     }
 
