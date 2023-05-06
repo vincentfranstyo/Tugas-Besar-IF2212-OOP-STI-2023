@@ -75,18 +75,6 @@ public class World {
         String[][] map = new String[129][129];
         for (int i = 0; i < map.length; i++) {
             for (int j = 0; j < map[i].length; j++) {
-                // if(i % 5 == 0 && j % 3 == 0){
-                // map[i][j] = " o";
-                // }
-                // else if(j % 3 == 0){
-                // map[i][j] = "||";
-                // }
-                // else if(i % 5 == 0){
-                // map[i][j] = "===";
-                // }
-                // else {
-                // map[i][j] = " + ";
-                // }
                 if (i % 10 == 0 && j % 6 == 0) {
                     map[i][j] = "_/";
                 } else if (i % 10 == 0 && j % 6 == 1) {
@@ -106,15 +94,6 @@ public class World {
                 } else if (j % 2 == 0 && i % 2 == 0) {
                     map[i][j] = "+";
                 }
-                // else if(j % 2 == 1){
-                // map[i][j] = " ";
-                // }
-                // else if(i % 2 == 0){
-                // map[i][j] = "+";
-                // }
-                // else if(i % 2 == 1){
-                // map[i][j] = " ";
-                // }
                 else {
                     map[i][j] = " ";
                 }

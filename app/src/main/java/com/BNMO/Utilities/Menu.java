@@ -30,24 +30,13 @@ public class Menu {
 
     public void help() {
         System.out.println("Panduan Game Sim-Plicity");
+        System.out.println();
         System.out.println(
                 "1. Ketika memulai permainan Sim-Plicity sebuah World akan dibuat dengan ukuran 64x64 dengan peta sebagai berikut:");
 
         String[][] map = new String[129][129];
         for (int i = 0; i < map.length; i++) {
             for (int j = 0; j < map[i].length; j++) {
-                // if(i % 5 == 0 && j % 3 == 0){
-                // map[i][j] = " o";
-                // }
-                // else if(j % 3 == 0){
-                // map[i][j] = "||";
-                // }
-                // else if(i % 5 == 0){
-                // map[i][j] = "===";
-                // }
-                // else {
-                // map[i][j] = " + ";
-                // }
                 if (i % 10 == 0 && j % 6 == 0) {
                     map[i][j] = "_/";
                 } else if (i % 10 == 0 && j % 6 == 1) {
@@ -67,15 +56,6 @@ public class Menu {
                 } else if (j % 2 == 0 && i % 2 == 0) {
                     map[i][j] = "+";
                 }
-                // else if(j % 2 == 1){
-                // map[i][j] = " ";
-                // }
-                // else if(i % 2 == 0){
-                // map[i][j] = "+";
-                // }
-                // else if(i % 2 == 1){
-                // map[i][j] = " ";
-                // }
                 else {
                     map[i][j] = " ";
                 }
@@ -97,20 +77,24 @@ public class Menu {
         System.out.println("# : Rumah SIM");
         System.out.println("* (0,0) -> Kiri Atas ");
         System.out.println("* (64,64) -> Kanan Bawah");
+        System.out.println();
 
-        System.out.println("2. Pemain diminta untuk membuat sebuah Sim terlebih dahulu");
-        System.out.println("3. Sebuah rumah dengan 1 ruangan berukuran 6x6 akan digenerate setelah SIM dibuat");
-        System.out.println("4. Sim akan diletakkan di rumah tersebut dan bebas melakukan aksi apapun");
-        System.out.println("5. Setiap Sim dapat melakukan aksi berupa aktif, non-aktif, upgrade, dan menambah SIM");
-        System.out.println("6. Untuk melihat informasi Sim ..... ");
+        System.out.println("2. Setiap Sim akan memiliki mood, kekenyangan, dan kesehatan di angka 80 dan uang awal berjumlah 100");
+        System.out.println("3. Setiap Sim akan memiliki 1 buah rumah dengan 1 ruangan berukuran 6x6 yang akan digenerate setelah SIM dibuat");
+        System.out.println("4. 1 hari dalam Sim-Plicity sama dengan 12 menit di dunia nyata. Setiap harinya, Sim dapat melakukan berbagai aktivitas yang dapat mempengaruhi mood, kekenyangan, kesehatan, dan uang.");
+        System.out.println("5. Setiap Sim dapat melakukan aksi aktif, non-aktif, upgrade, atau menambah SIM");
+        System.out.println("6. Aksi aktif → aksi-aksi yang memerlukan waktu dan keterlibatan Sim di dalamnya, contohnya kerja, olahraga, tidur, dan lain-lain ");
+        System.out.println("7. Aksi non-aktif → aksi-aksi yang tidak memerlukan waktu, contohnya berpindah ruangan, melihat inventory, memasang barang, dan lain-lain ");
+        System.out.println("8. Aksi upgrade → aksi-aksi untuk melakukan upgrade yang memerlukan uang dan waktu, tetapi waktunya berjalan beriringan dengan aksi aktif (ketika tidak ada aksi aktif, waktu tidak berjalan), contohnya beli barang dan upgrade rumah (menambah ruangan)");
+        System.out.println("9. Aksi menambah Sim → aksi untuk membuat Sim baru yang hanya bisa dilakukan 1 hari sekali");
         System.out.println();
-        System.out.println("List Aksi Aktif:");
-        System.out.println();
-        System.out.println("List Aksi Non-Aktif:");
-        System.out.println();
-        System.out.println("List Aksi Upgrade:");
-        System.out.println();
-        System.out.println("List Aksi Tambah SIM:");
+        System.out.println("Peraturan Sim-Plicity:");
+        System.out.println("1. Sim akan mati jika salah satu nilai dari mood, kekenyangan, atau kesehatan mencapai 0");
+        System.out.println("2. Setiap aksi aktif memiliki efek samping terhadap mood, kekenyangan, dan kesehatan");
+        System.out.println("3. Sim harus tidur minimal 3 menit setiap harinya, jika tidak dilakukan akan mengakibatkan efek samping pada kesehatan dan mood");
+        System.out.println("4. Sim harus buang air setidaknya 1 kali setiap habis makan, jika tidak dilakukan dalam 4 menit dari selesai makan akan mengakibatkan efek samping pada kesehatan dan mood");
+        System.out.println("5. Sim dapat bekerja maksimal 4 menit setiap harinya dan baru bisa berganti pekerjaan setelah bekerja 12 menit pada pekerjaan saat ini serta membayar ½ dari gaji pekerjaan baru");
+
     }
 
     public void exit() {
