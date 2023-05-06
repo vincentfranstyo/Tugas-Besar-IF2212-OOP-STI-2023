@@ -1033,10 +1033,11 @@ public class App {
                                         numBuyInt = Integer.parseInt(numBuy);
                                         if (numBuyInt != 1 && numBuyInt != 2) {
                                             System.out.println("Masukan harus dalam bentuk angka 1 atau 2!");
-                                            System.out.println("Masukkan pilihan (dalam angka): ");
+                                            System.out.print("Masukkan pilihan (dalam angka): ");
                                             numBuy = userInput.nextLine();
+                                        } else{
+                                            break;
                                         }
-                                        break;
                                     } catch (NumberFormatException e) {
                                         System.out.println("Masukan harus dalam bentuk angka!");
                                         System.out.println("Masukkan pilihan (dalam angka): ");
@@ -1087,7 +1088,7 @@ public class App {
                                         }
                                     }
                                     objIdx = validObjs.indexOf(loweredWantedFood);
-                                    wantedObject = new Ingredients(Food.getIngredientList().get(objIdx));
+                                    if(!isCancel) wantedObject = new Ingredients(Food.getIngredientList().get(objIdx));
 
                                 } else if (numBuyInt == 2) {
                                     System.out.println();
@@ -1130,7 +1131,7 @@ public class App {
                                         }
                                     }
                                     objIdx = validObjs.indexOf(loweredWantedFurniture);
-                                    wantedObject = Object.getBuyableObjects().get(objIdx);
+                                    if(!isCancel) wantedObject = Object.getBuyableObjects().get(objIdx);
                                 }
 
                                 if (isCancel) {
