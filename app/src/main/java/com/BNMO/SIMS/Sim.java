@@ -323,6 +323,8 @@ public class Sim {
             setFullness(getFullness() - 10 * (duration / 30));
             setMood(getMood() + 10 * (duration / 30));
             setCurrentHouse(house);
+            setLocation(house.getLocation());
+            setCurrentRoom(house.getRooms().next());
         } catch (InterruptedException e) {
             e.printStackTrace();
         } finally {
