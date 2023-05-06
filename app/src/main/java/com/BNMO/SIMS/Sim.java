@@ -109,7 +109,7 @@ public class Sim {
         this.job = jobs.get(index);
 
         this.name = name;
-        this.money = 1000000; // 100
+        this.money = 100;
         this.fullness = 80;
         this.mood = 80;
         this.health = 80;
