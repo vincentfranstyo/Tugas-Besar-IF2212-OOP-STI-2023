@@ -6,6 +6,7 @@ import com.BNMO.SIMS.Sim;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 import java.util.Scanner;
 import javax.sound.sampled.*;
 import java.io.*;
@@ -173,12 +174,13 @@ public class AudioPlayer extends NonFoodObjects {
 
         for (Music music : getLibrary()) {
             if (music.getName().toLowerCase().equals(title)) {
+                System.out.println("masuk sini");
                 musicFound = true;
                 try {
                     AudioInputStream audioIn = null;
                     // Open the audio file
                     System.out.println("Playing " + music.getName() + "....");
-                    audioIn = AudioSystem.getAudioInputStream(AudioPlayer.class.getResource(music.getName() + ".wav"));
+                    audioIn = AudioSystem.getAudioInputStream(Objects.requireNonNull(AudioPlayer.class.getResource("audio.wav")));
                     // Get a clip to play the audio
                     Clip clip = AudioSystem.getClip();
 

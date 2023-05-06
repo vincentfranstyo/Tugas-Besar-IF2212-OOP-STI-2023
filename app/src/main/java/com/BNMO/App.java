@@ -1230,7 +1230,7 @@ public class App {
                                 System.out.println("Tidak ada audio player di ruangan ini!");
                             } else {
                                 dayThread.resumeThread();
-                                audioplayer.playMusic(menu.getCurrentSim());
+                                audioplayer.audioPlayerMenu(menu.getCurrentSim());
                                 dayThread.pauseThread();
                             }
 
@@ -1417,6 +1417,29 @@ public class App {
                                 }
                             }
                         } else if (activityNum == 17) {
+                            Toilet toiletValidator = null;
+                            Iterator<Object> itr = menu.getCurrentSim().getCurrentRoom().getObjects();
+                            while (itr.hasNext()) {
+                                Object obj = itr.next();
+                                if (obj instanceof Toilet) {
+                                    toiletValidator = (Toilet) obj;
+                                    break;
+                                }
+                            }
+
+                            if (toiletValidator == null) {
+                                System.out.println("Tidak ada toilet di ruangan ini!");
+                            }
+
+                            else {
+                                menu.getCurrentSim().goToObject(toiletValidator);
+                                System.out.println("Kamu memilih untuk membersihkan toilet!");
+                                dayThread.resumeThread();
+                                toiletValidator.cleanToilet(menu.getCurrentSim());
+                                dayThread.setPoopedAfterAte(true);
+                                dayThread.setEaten(false);
+                                dayThread.pauseThread();
+                            }
 
                         }
                     }
