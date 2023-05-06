@@ -169,7 +169,7 @@ public class DayThread implements Runnable {
     }
 
     @Override
-    public void run() {
+    public synchronized void run() {
         Menu menu = Menu.getInstance();
         while (true) {
             day = getDaySec() / 720;
@@ -181,7 +181,15 @@ public class DayThread implements Runnable {
                         e.printStackTrace();
                     }
                 }
+
+                try {
+                    Thread.sleep(1000);
+                    setDaySec(getDaySec() + 1);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
             }
+
             if (getDaySec() % 720 == 0) {
                 System.out.println();
                 System.out.println("Hari ke-" + day + " dimulai!");
@@ -191,12 +199,6 @@ public class DayThread implements Runnable {
                 setChangeSimToday(true);
             }
 
-            try {
-                Thread.sleep(1000);
-                setDaySec(getDaySec() + 1);
-            } catch (InterruptedException e) {
-                e.printStackTrace();
-            }
             if (getSleepPenalty() && ((getDaySec() - notSleptMark) % 600 == 0)) {
                 System.out.println("not selpt marked");
                 menu.getCurrentSim().setMood(menu.getCurrentSim().getMood() - 5);
