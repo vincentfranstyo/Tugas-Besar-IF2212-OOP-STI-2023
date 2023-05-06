@@ -26,13 +26,45 @@ public class Journal extends Book {
     }
 
     public void writeJournal(Journal journal, Sim sim, String content) {
+        setAuthor(sim.getName());
         List<Page> pages = journal.getPages();
         setCountWritten(getCountWritten() + 1);
+        if (!getIsOccupied()){
+            setIsOccupied(true);
+            try{
+                System.out.println(sim.getName() + " is writing journal");
+                Thread.sleep(60000);
+                System.out.println(sim.getName() + " has finished writing journal");
+                sim.setFullness(sim.getFullness() - 10);
+                sim.setMood(sim.getMood() + 10);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+            finally {
+                setIsOccupied(false);
+            }
+        }
         Page newPage = new Page(getCountWritten(), content);
         pages.add(newPage);
     }
 
-    public String showPage(Journal journal, int pageID) {
-        return journal.getPages().get(pageID).getContent();
+    public void readJournal(Journal journal, int pageID, Sim sim) {
+        String content = journal.getPages().get(pageID).getContent();
+        if (!getIsOccupied()){
+            setIsOccupied(true);
+            try{
+                System.out.println("Reading page " + pageID);
+                System.out.println(content);
+                Thread.sleep(60000);
+                System.out.println("Finished reading page " + pageID);
+                sim.setMood(sim.getMood() + 10);
+                sim.setFullness(sim.getFullness() - 10);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+            finally {
+                setIsOccupied(false);
+            }
+        }
     }
 }
