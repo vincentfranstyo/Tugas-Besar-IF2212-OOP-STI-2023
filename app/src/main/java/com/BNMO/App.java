@@ -120,7 +120,7 @@ public class App {
                 } else if (commandNum == 2) {
                     System.out.println();
                     System.out.println("Berikut adalah info sim kamu:");
-                    menu.viewSimInfo();
+                    // menu.viewSimInfo();
                     System.out.println();
                 } else if (commandNum == 3) {
                     System.out.println();

@@ -353,6 +353,7 @@ public class Sim {
                                         System.out.println("Item mu telah sampai");
                                         setMoney(getMoney() - object.getPrice());
                                         inventory.addObject(object);
+                                        dayThread.setIsBuying(false);
                                         break;
                                     } else if ((newCurrentSec - currentSec) % 60 - 1 == 0) {
                                         System.out.println("Item mu akan sampai dalam "
