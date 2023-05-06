@@ -4,11 +4,6 @@ import com.BNMO.Utilities.*;
 import com.BNMO.Object.NonFoodObjects.NonFoodObjects;
 import com.BNMO.Object.Object;
 import com.BNMO.Buildings.*;
-import com.BNMO.Object.NonFoodObjects.Toilet.Toilet;
-import com.BNMO.Object.NonFoodObjects.Bed.SingleBed;
-import com.BNMO.Object.NonFoodObjects.TableAndChair.TableAndChair;
-import com.BNMO.Object.NonFoodObjects.Stove.GasStove;
-import com.BNMO.Object.NonFoodObjects.Clock.Clock;
 import com.BNMO.World;
 
 import java.util.ArrayList;
@@ -55,12 +50,12 @@ public class Sim {
 
         this.name = name;
         this.money = 1000000; // 100
-        this.fullness = 80; // 80
-        this.mood = 80; // 80
-        this.health = 80; // 80
+        this.fullness = 80;
+        this.mood = 80;
+        this.health = 80;
         this.status = "Nothing";
         this.isAlive = true;
-        this.inventory = new Inventory<Object>(this); // TODO ini harusnya random tpi ngecek dulu
+        this.inventory = new Inventory<Object>(this);
 
         World world = World.getInstance();
         Random rand = new Random();
@@ -89,13 +84,48 @@ public class Sim {
         this.currentRoom = currentHouse.getRooms().next();
         this.location = initPoint;
         this.currentJobDuration = new Time();
-        this.inventory.addObject(new Toilet("Toilet 1"));
-        this.inventory.addObject(new GasStove("Kompor Gas 1"));
-        this.inventory.addObject(new TableAndChair("Meja Makan 1"));
-        this.inventory.addObject(new Clock("Jam 1"));
-        this.inventory.addObject(new SingleBed("Kasur 1"));
         sims.add(this);
+    }
 
+    public Sim(String name, Point location) {
+        List<Job> jobs = new ArrayList<>();
+        jobs.add(new Job("Badut Sulap", 15));
+        jobs.add(new Job("Koki", 30));
+        jobs.add(new Job("Polisi", 35));
+        jobs.add(new Job("Programmer", 45));
+        jobs.add(new Job("Dokter", 30));
+        jobs.add(new Job("Tentara", 10));
+        jobs.add(new Job("PNS", 30));
+        jobs.add(new Job("Teknisi", 20));
+        jobs.add(new Job("Pramusaji", 15));
+        jobs.add(new Job("Pilot", 55));
+        jobs.add(new Job("Apoteker", 40));
+        jobs.add(new Job("Guru", 10));
+        jobs.add(new Job("Fotografer", 20));
+        jobs.add(new Job("Pemadam Kebakaran", 20));
+
+        Random random = new Random();
+        int index = random.nextInt(jobs.size());
+        this.job = jobs.get(index);
+
+        this.name = name;
+        this.money = 1000000; // 100
+        this.fullness = 80;
+        this.mood = 80;
+        this.health = 80;
+        this.status = "Nothing";
+        this.isAlive = true;
+        this.inventory = new Inventory<Object>(this);
+
+        World world = World.getInstance();
+
+        this.currentHouse = new House(location, this);
+        world.addHouse(currentHouse);
+
+        this.currentRoom = currentHouse.getRooms().next();
+        this.location = location;
+        this.currentJobDuration = new Time();
+        sims.add(this);
     }
 
     public String getName() {
@@ -307,7 +337,6 @@ public class Sim {
             System.out.println("Kamu akan mendapatkan item dalam " + randomNum + " menit");
             DayThread dayThread = DayThread.getInstance();
             int currentSec = dayThread.getDaySec();
-            System.out.println("Current sec: " + currentSec);
             Thread t = new Thread(new Runnable() {
                 public void run() {
                     while (true) {
@@ -336,12 +365,6 @@ public class Sim {
         } else {
             System.out.println("You don't have enough money");
         }
-
-        // try {
-        // Thread.sleep(randomNum * 60000);
-        // } catch (InterruptedException e) {
-        // e.printStackTrace();
-        // }
     }
 
     public void move(Room room) {

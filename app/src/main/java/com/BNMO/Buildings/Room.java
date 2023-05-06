@@ -181,7 +181,6 @@ public class Room {
             por[((NonFoodObjects) o).getPosition().getX() - 1][((NonFoodObjects) o).getPosition().getY() - 1] = o
                     .getName().charAt(0);
         }
-        // System.out.println("|------|");
         for (int y = 5; y > -1; y--) {
             System.out.print("|");
             for (int x = 0; x < 6; x++) {
@@ -191,16 +190,6 @@ public class Room {
             }
             System.out.print("|\n");
         }
-        // System.out.println("|------|");
 
     }
-    // public static void main(String[] args) {
-    // Room A = new Room("Main Room", null, null, null, null);
-    // Object mattress = new SingleBed("Single Bed", null);
-    // Object toilet = new Toilet("WC", null);
-    // Object tablenchair = new TableAndChair("Table and Chair", null);
-    // A.addObject(mattress, new Point(1,1));
-    // A.addObject(toilet, new Point(6,6));
-    // A.addObject(tablenchair, new Point(4,1));
-    // }
 }

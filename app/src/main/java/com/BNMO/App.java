@@ -172,7 +172,7 @@ public class App {
                         System.out.println("Masukkan x point rumah: ");
                         String newXPoint = userInput.nextLine();
 
-                        int newXPointInt;
+                        int newXPointInt = 0;
 
                         while (true) {
                             try {
@@ -198,7 +198,7 @@ public class App {
                         String newYPoint = userInput.nextLine();
                         // TODO validasi point di world
 
-                        int newYPointInt;
+                        int newYPointInt = 0;
 
                         while (true) {
                             try {
@@ -223,21 +223,19 @@ public class App {
                         if (newXPoint.equalsIgnoreCase( "cancel") || newYPoint.equalsIgnoreCase("cancel")) {
                             continue;
                         } else {
-                            menu.addSim(new Sim(newSimName));
+                            menu.addSim(new Sim(newSimName, new Point(newXPointInt, newYPointInt)));
                             menu.viewSimList();
                             System.out.println();
                         }
                     }
 
                 } else if (commandNum == 6) {
-                    // Change SIM
                     System.out.println();
                     System.out.println("Masukkan nama sim yang ingin kamu mainkan: ");
                     String wantedSim = userInput.nextLine();
                     menu.changeSim(wantedSim);
                     System.out.println();
                 } else if (commandNum == 7) {
-                    // TODO ganti pekerjaan
                     if (!dayThread.getWorkAvail()) {
                         System.out.println("Pekerjaan hanya bisa diganti saat telah berganti hari!");
                         continue;
@@ -790,14 +788,14 @@ public class App {
                                             "Tidak Dapat Menambah Ruangan Karena Sudah Ada Ruangan Pada Setip Sisi Ruangan Sekerang");
                                 } else {
                                     System.out.println("Arah Ruangan:");
-                                    if (menu.getCurrentSim().getCurrentRoom().getFront() == null)
-                                        System.out.println("Front");
-                                    if (menu.getCurrentSim().getCurrentRoom().getRight() == null)
-                                        System.out.println("Right");
-                                    if (menu.getCurrentSim().getCurrentRoom().getBehind() == null)
-                                        System.out.println("Behind");
-                                    if (menu.getCurrentSim().getCurrentRoom().getLeft() == null)
-                                        System.out.println("Left");
+                                    if (menu.getCurrentSim().getCurrentRoom().getFront() == null){
+                                        System.out.println("Front");}
+                                    if (menu.getCurrentSim().getCurrentRoom().getRight() == null){
+                                        System.out.println("Right");}
+                                    if (menu.getCurrentSim().getCurrentRoom().getBehind() == null){
+                                        System.out.println("Behind");}
+                                    if (menu.getCurrentSim().getCurrentRoom().getLeft() == null){
+                                        System.out.println("Left");}
                                     System.out.println("Pilih Arah Ruangan yang Akan Dibangun: ");
                                     String choice = userInput.nextLine();
                                     System.out.println("Masukkan Nama Ruangan: ");
@@ -814,10 +812,10 @@ public class App {
                                 Iterator<Object> itr = menu.getCurrentSim().getInventory().getObjects().iterator();
                                 while (itr.hasNext()) {
                                     Object o = itr.next();
-                                    if (o instanceof NonFoodObjects) {
-                                        System.out.println("[" + i + "] " + o.getType() + " x"
+                                    if (o instanceof NonFoodObjects nfo) {
+                                        System.out.println("[" + i + "] " + nfo.getType() + " x"
                                                 + menu.getCurrentSim().getInventory()
-                                                        .getObjectNum(o.getClass().getName()));
+                                                        .getObjectNum(nfo.getClass().getName()) + " ukuran: " + nfo.getLength() + "x" + nfo.getWidth());
                                         i++;
                                     }
                                 }

@@ -1,5 +1,6 @@
 package com.BNMO.Utilities;
 
+import com.BNMO.Object.NonFoodObjects.NonFoodObjects;
 import com.BNMO.SIMS.Sim;
 import com.BNMO.Object.Object;
 import com.BNMO.Object.Food.Food;
@@ -59,8 +60,9 @@ public class Inventory<T extends Object> {
             if (object.getCategory().equals("Non Food Objects")) {
                 if (!listedObjs.contains(object.getType())) {
                     listedObjs.add(object.getType());
-                    System.out.println(object.getCategory() + ": " + object.getType() + " x"
-                            + getObjectNum(object.getClass().getName()));
+                    NonFoodObjects nfObject = (NonFoodObjects) object;
+                    System.out.println(nfObject.getCategory() + ": " + nfObject.getType() + " x"
+                            + getObjectNum(nfObject.getClass().getName()) + " ukuran: " + nfObject.getLength() + " x " + nfObject.getWidth());
                 }
             } else {
                 if (!listedObjs.contains(object.getName())) {

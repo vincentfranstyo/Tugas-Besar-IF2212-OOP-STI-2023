@@ -25,10 +25,10 @@ public class TableAndChair extends NonFoodObjects {
                             int duration = time.convertToSecond();
                             setIsOccupied(true);
                             sim.setStatus("Is eating");
-                            System.out.println(sim.getName() + " are eating " + dish.getName());
+                            System.out.println(sim.getName() + " is eating " + dish.getName());
                             sim.getInventory().removeObject(dish.getName());
                             Thread.sleep(duration * 1000L);
-                            System.out.println(sim.getName() + " are done eating " + dish.getName());
+                            System.out.println(sim.getName() + " is done eating " + dish.getName());
                             sim.setFullness(sim.getFullness() + (dish.getSatiety() * (duration / 30)));
                         } catch (InterruptedException e) {
                             e.printStackTrace();

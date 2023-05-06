@@ -251,11 +251,4 @@ public class House {
         }
         return null;
     }
-
-    // public static void main(String[] args) {
-    // Sim budi = new Sim("Budi");
-    // House budiHouse = new House(new Point(3, 4), budi);
-    // budi.move(budiHouse.initRoom);
-    // budiHouse.addRoom(budi.getCurrentRoom());
-    // }
 }
