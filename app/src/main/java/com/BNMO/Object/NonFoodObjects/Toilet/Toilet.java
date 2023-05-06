@@ -19,7 +19,7 @@ public class Toilet extends NonFoodObjects {
                     System.out.println(sim.getName() + " is using the toilet.");
                     setIsOccupied(true);
                     sim.setStatus("Using toilet");
-                    Thread.sleep(duration * 1000);
+                    Thread.sleep(duration * 1000L);
                     System.out.println(sim.getName() + " is done using the toilet.");
                     sim.setFullness(sim.getFullness() - (20 * (duration / 10)));
                     sim.setMood(sim.getMood() + (10 * (duration / 10)));
@@ -48,7 +48,7 @@ public class Toilet extends NonFoodObjects {
                     System.out.println(sim.getName() + " is cleaning the toilet.");
                     setIsOccupied(true);
                     sim.setStatus("Cleaning toilet");
-                    Thread.sleep(duration * 1000);
+                    Thread.sleep(duration * 1000L);
                     System.out.println(sim.getName() + " is done cleaning the toilet.");
                     sim.setMood(sim.getMood() + 20);
                     sim.setFullness((sim.getFullness() - (20 * (duration / 60))));

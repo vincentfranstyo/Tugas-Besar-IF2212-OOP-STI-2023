@@ -7,9 +7,9 @@ import com.BNMO.SIMS.Sim;
 import java.util.*;
 
 public class World {
-    private int length;
-    private int width;
-    private ArrayList<House> houseList;
+    private final int length;
+    private final int width;
+    private final ArrayList<House> houseList;
     private static int totalBuild = 0;
     private static World instance;
 

@@ -8,7 +8,7 @@ public class Menu {
     private static Menu instance;
     private boolean gameStarted = false;
     private Sim currentSim;
-    private ArrayList<Sim> simList = new ArrayList<Sim>();
+    private final ArrayList<Sim> simList = new ArrayList<Sim>();
 
     private Menu() {
 

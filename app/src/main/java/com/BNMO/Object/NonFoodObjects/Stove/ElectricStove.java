@@ -50,7 +50,7 @@ public class ElectricStove extends NonFoodObjects implements Stove {
                 System.out.println(sim.getName() + " is cooking the " + dish.getName() + ".");
                 sim.setStatus("Cooking " + dish.getName());
                 int duration = dish.getCookingTime();
-                Thread.sleep(duration * 1000);
+                Thread.sleep(duration * 1000L);
                 System.out.println("The " + dish.getName() + " is done.");
                 sim.setMood(sim.getMood() + 10);
             }

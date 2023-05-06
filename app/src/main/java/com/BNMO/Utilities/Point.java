@@ -31,9 +31,7 @@ public class Point {
     }
 
     public boolean equals(Point A) {
-        if (x == (A.getX()) && (y == A.getY()))
-            return true;
-        return false;
+        return x == (A.getX()) && (y == A.getY());
     }
 
     @Override

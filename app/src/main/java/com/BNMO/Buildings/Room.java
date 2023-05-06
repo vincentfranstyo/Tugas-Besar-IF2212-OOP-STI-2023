@@ -7,17 +7,17 @@ import com.BNMO.Object.NonFoodObjects.NonFoodObjects;
 import com.BNMO.SIMS.Sim;
 
 public class Room {
-    private ArrayList<Object> objects;
+    private final ArrayList<Object> objects;
     private String nameRoom;
     private Room front;
     private Room right;
     private Room behind;
     private Room left;
-    private int length = 6;
-    private int width = 6;
+    private final int length = 6;
+    private final int width = 6;
     private int totalObject;
-    private Object[][] mapObj;
-    private static int price = 1;
+    private final Object[][] mapObj;
+    private static final int price = 1;
 
     public Room(String nRoom, Room front, Room right, Room behind, Room left) {
         this.nameRoom = nRoom;
@@ -50,14 +50,14 @@ public class Room {
     public void addObject(Object o, Point loc, String direction) {
         // Cek location yang diinput, location merupakan titik kiri bawah dari object
         if (o instanceof NonFoodObjects) {
-            if (direction.toLowerCase().equals("horizontal")) {
+            if (direction.equalsIgnoreCase("horizontal")) {
                 ((NonFoodObjects) o).setPosition(loc);
                 for (int i = loc.getX(); i < loc.getX() + ((NonFoodObjects) o).getLength(); i++) {
                     for (int j = loc.getY(); j < loc.getY() + ((NonFoodObjects) o).getWidth(); j++) {
                         setMapObj(i - 1, j - 1, o);
                     }
                 }
-            } else if (direction.toLowerCase().equals("vertikal")) {
+            } else if (direction.equalsIgnoreCase("vertikal")) {
                 ((NonFoodObjects) o).setPosition(loc);
                 for (int i = loc.getX(); i < loc.getX() + ((NonFoodObjects) o).getWidth(); i++) {
                     for (int j = loc.getY(); j < loc.getY() + ((NonFoodObjects) o).getLength(); j++) {

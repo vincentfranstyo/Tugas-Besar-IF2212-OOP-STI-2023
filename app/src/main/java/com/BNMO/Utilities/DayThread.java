@@ -5,22 +5,22 @@ import java.util.concurrent.atomic.AtomicInteger;
 
 public class DayThread implements Runnable {
     private static DayThread dayThreadInstance;
-    private AtomicInteger dailyWorkDuration = new AtomicInteger(0);
-    private AtomicBoolean slept = new AtomicBoolean(false);
-    private AtomicBoolean sleepPenalty = new AtomicBoolean(false);
-    private AtomicBoolean eaten = new AtomicBoolean(false);
-    private AtomicBoolean poopedAfterAte = new AtomicBoolean(false);
-    private AtomicBoolean poopPenalty = new AtomicBoolean(false);
-    private AtomicBoolean workAvail = new AtomicBoolean(true);
-    private AtomicInteger buildingCountTime = new AtomicInteger(0);
-    private AtomicInteger buyingCountTime = new AtomicInteger(0);
-    private AtomicBoolean changeSimToday = new AtomicBoolean(true);
-    private AtomicBoolean isBuying = new AtomicBoolean(false);
+    private final AtomicInteger dailyWorkDuration = new AtomicInteger(0);
+    private final AtomicBoolean slept = new AtomicBoolean(false);
+    private final AtomicBoolean sleepPenalty = new AtomicBoolean(false);
+    private final AtomicBoolean eaten = new AtomicBoolean(false);
+    private final AtomicBoolean poopedAfterAte = new AtomicBoolean(false);
+    private final AtomicBoolean poopPenalty = new AtomicBoolean(false);
+    private final AtomicBoolean workAvail = new AtomicBoolean(true);
+    private final AtomicInteger buildingCountTime = new AtomicInteger(0);
+    private final AtomicInteger buyingCountTime = new AtomicInteger(0);
+    private final AtomicBoolean changeSimToday = new AtomicBoolean(true);
+    private final AtomicBoolean isBuying = new AtomicBoolean(false);
     private boolean paused = false;
     private final Object lock = new Object();
     private int notSleptMark = -1;
     private int notPoopedMark = -1;
-    private AtomicInteger daySec = new AtomicInteger(720);
+    private final AtomicInteger daySec = new AtomicInteger(720);
     private int day;
     private int mins;
     private int secs;
@@ -196,8 +196,6 @@ public class DayThread implements Runnable {
                 setDaySec(getDaySec() + 1);
             } catch (InterruptedException e) {
                 e.printStackTrace();
-            } finally {
-
             }
             if (getSleepPenalty() && ((getDaySec() - notSleptMark) % 600 == 0)) {
                 menu.getCurrentSim().setMood(menu.getCurrentSim().getMood() - 5);

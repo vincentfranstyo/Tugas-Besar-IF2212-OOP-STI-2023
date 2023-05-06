@@ -10,7 +10,7 @@ public class Playlist {
     private String desc;
     private int playlistID;
     private Time length;
-    private List<Music> music;
+    private final List<Music> music;
 
     public Playlist(String name, String desc, int playlistID) {
         this.name = name;

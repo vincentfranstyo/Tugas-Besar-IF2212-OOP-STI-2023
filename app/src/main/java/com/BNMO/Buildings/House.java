@@ -12,11 +12,11 @@ import com.BNMO.Object.NonFoodObjects.TableAndChair.TableAndChair;
 import com.BNMO.Object.NonFoodObjects.Toilet.Toilet;
 
 public class House {
-    private ArrayList<Room> rooms;
+    private final ArrayList<Room> rooms;
     private int totalRoom = 0;
     private Sim owner;
     private Point location;
-    private Room initRoom;
+    private final Room initRoom;
 
     public House(Point loc, Sim owner) {
         this.rooms = new ArrayList<Room>();
@@ -91,16 +91,16 @@ public class House {
             if (sim.getMoney() >= Room.getPrice()) {
                 Room newRoom = new Room(rName, null, null, null, null);
                 boolean valid = true;
-                if (direction.toLowerCase().equals("front")) {
+                if (direction.equalsIgnoreCase("front")) {
                     newRoom.setBehind(curRoom);
                     curRoom.setFront(newRoom);
-                } else if (direction.toLowerCase().equals("right")) {
+                } else if (direction.equalsIgnoreCase("right")) {
                     newRoom.setLeft(curRoom);
                     curRoom.setRight(newRoom);
-                } else if (direction.toLowerCase().equals("behind")) {
+                } else if (direction.equalsIgnoreCase("behind")) {
                     newRoom.setFront(curRoom);
                     curRoom.setBehind(newRoom);
-                } else if (direction.toLowerCase().equals("left")) {
+                } else if (direction.equalsIgnoreCase("left")) {
                     newRoom.setRight(curRoom);
                     curRoom.setLeft(newRoom);
                 } else {

@@ -10,7 +10,7 @@ import java.util.Scanner;
 import java.util.InputMismatchException;
 
 public class TV extends NonFoodObjects {
-    private List<Channel> channels;
+    private final List<Channel> channels;
     private boolean isOn;
     private boolean hasScanned;
 
@@ -159,7 +159,7 @@ public class TV extends NonFoodObjects {
                         if (getHasScanned()) {
                             int duration = time.convertToSecond();
                             System.out.println(sim.getName() + "is watching TV for " + duration + " seconds");
-                            Thread.sleep(duration * 1000);
+                            Thread.sleep(duration * 1000L);
                             sim.setStatus("Watching TV");
                             if (channel.getGenre().equals("Sports")) {
                                 int moodChange = (int) (Math.random() * 7) - 3;
@@ -175,7 +175,7 @@ public class TV extends NonFoodObjects {
                                 sim.setHealth(sim.getHealth() - (2 * duration / 20));
                                 sim.setFullness(sim.getFullness() - (2 * duration / 20));
                             } else if (channel.getGenre().equals("Politics")) {
-                                sim.setMood(sim.getMood() - (1 * duration / 20));
+                                sim.setMood(sim.getMood() - (duration / 20));
                                 sim.setHealth(sim.getHealth() - (2 * duration / 20));
                                 sim.setFullness(sim.getFullness() - (2 * duration / 20));
                             } else if (channel.getGenre().equals("Education")) {

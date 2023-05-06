@@ -64,7 +64,7 @@ public abstract class Object {
 
     public boolean equals(Object o) {
         if (o instanceof Object) {
-            Object object = (Object) o;
+            Object object = o;
             return object.getName().equals(name) && object.getType().equals(type);
         }
         return false;

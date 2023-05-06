@@ -13,9 +13,9 @@ import java.util.concurrent.atomic.AtomicBoolean;
 
 public class AudioPlayer extends NonFoodObjects {
     private boolean isOn;
-    private List<Music> shop;
-    private List<Music> library;
-    private List<Playlist> playlists;
+    private final List<Music> shop;
+    private final List<Music> library;
+    private final List<Playlist> playlists;
     private int battery;
     Clip clip;
 
@@ -134,7 +134,7 @@ public class AudioPlayer extends NonFoodObjects {
             for (Music music : getMusic()) {
                 System.out.println("ID[" + music.getMusicID() + "] " + music.getName() + " - " + music.getArtist());
             }
-            System.out.println("");
+            System.out.println();
         } else {
             System.out.println("Turn on the audio player first!");
         }
@@ -150,7 +150,7 @@ public class AudioPlayer extends NonFoodObjects {
                             music.getName() + " - " + music.getArtist() + "(" + music.getLength().displayHHMMSS()
                                     + ")");
                 }
-                System.out.println("");
+                System.out.println();
             } else {
                 System.out.println("Library is empty!");
             }

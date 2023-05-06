@@ -7,7 +7,7 @@ import com.BNMO.Object.Food.Food;
 import java.util.ArrayList;
 
 public class Inventory<T extends Object> {
-    private Sim owner;
+    private final Sim owner;
     private ArrayList<T> objects = new ArrayList<>();
     private boolean status;
     private int capacity;

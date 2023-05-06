@@ -118,29 +118,24 @@ public class App {
                     menu.help();
                     System.out.println();
                 } else if (commandNum == 2) {
-                    // INFO SIM
                     System.out.println();
                     System.out.println("Berikut adalah info sim kamu:");
                     menu.viewSimInfo();
                     System.out.println();
                 } else if (commandNum == 3) {
-                    // INFO RUMAH
                     System.out.println();
                     System.out.println("Berikut adalah info ruangan kamu:");
                     world.printHouseLayout(menu.getCurrentSim().getCurrentHouse(),
                             menu.getCurrentSim().getCurrentRoom());
                     System.out.println();
                     menu.getCurrentSim().getCurrentHouse().printRooms();
-                    // TODO CLI layout
                     System.out.println();
                 } else if (commandNum == 4) {
                     // MAP
                     System.out.println();
                     System.out.println("Berikut adalah Map:");
-                    // TODO info dunia + layout
                     world.printMap();
                 } else if (commandNum == 5) {
-                    // Create New SIM
                     if (!dayThread.getChangeSimToday()) {
                         System.out.println("Kamu sudah menambah SIM hari ini!");
                         System.out.println();
@@ -181,7 +176,7 @@ public class App {
 
                         while (true) {
                             try {
-                                if (newXPoint.equals("cancel")) {
+                                if (newXPoint.equalsIgnoreCase("cancel")) {
                                     break;
                                 } else {
                                     newXPointInt = Integer.parseInt(newXPoint);
@@ -207,7 +202,7 @@ public class App {
 
                         while (true) {
                             try {
-                                if (newYPoint.equals("cancel")) {
+                                if (newYPoint.equalsIgnoreCase("cancel")) {
                                     break;
                                 } else {
                                     newYPointInt = Integer.parseInt(newYPoint);
@@ -225,7 +220,7 @@ public class App {
                             }
                         }
 
-                        if (newXPoint.equals("cancel") || newYPoint.equals("cancel")) {
+                        if (newXPoint.equalsIgnoreCase( "cancel") || newYPoint.equalsIgnoreCase("cancel")) {
                             continue;
                         } else {
                             menu.addSim(new Sim(newSimName));
@@ -527,7 +522,7 @@ public class App {
                                 System.out.println("Tidak ada meja dan kursi di ruangan ini!");
                             } else {
                                 System.out.println("Kamu memilih untuk makan!");
-                                menu.getCurrentSim().goToObject((NonFoodObjects) tableValidator);
+                                menu.getCurrentSim().goToObject(tableValidator);
                                 System.out.println("Berikut daftar makanan yang dapat kamu makan!");
                                 menu.getCurrentSim().getInventory().printFoodList();
                                 System.out.println("Makanan apa yang ingin kamu makan?");
@@ -755,7 +750,7 @@ public class App {
                             }
 
                             else {
-                                menu.getCurrentSim().goToObject((NonFoodObjects) toiletValidator);
+                                menu.getCurrentSim().goToObject(toiletValidator);
                                 System.out.println("Kamu memilih untuk buang air!");
                                 dayThread.resumeThread();
                                 toiletValidator.useToilet(menu.getCurrentSim());
@@ -890,10 +885,10 @@ public class App {
                                     String direction = userInput.nextLine();
                                     System.out.println();
                                     int width, length;
-                                    if (direction.toLowerCase().equals("horizontal")) {
+                                    if (direction.equalsIgnoreCase("horizontal")) {
                                         width = ((NonFoodObjects) objAdd).getWidth();
                                         length = ((NonFoodObjects) objAdd).getLength();
-                                    } else if (direction.toLowerCase().equals("vertikal")) {
+                                    } else if (direction.equalsIgnoreCase("vertikal")) {
                                         width = ((NonFoodObjects) objAdd).getLength();
                                         length = ((NonFoodObjects) objAdd).getWidth();
                                     } else {
@@ -937,8 +932,8 @@ public class App {
                                             try {
                                                 if (direction.equalsIgnoreCase("cancel")) {
                                                     break;
-                                                } else if (direction.toLowerCase().equals("horizontal")
-                                                        || direction.toLowerCase().equals("vertikal")) {
+                                                } else if (direction.equalsIgnoreCase("horizontal")
+                                                        || direction.equalsIgnoreCase("vertikal")) {
                                                     break;
                                                 } else {
                                                     throw new Exception(
@@ -951,10 +946,10 @@ public class App {
                                                 direction = userInput.nextLine();
                                             }
                                         }
-                                        if (direction.toLowerCase().equals("horizontal")) {
+                                        if (direction.equalsIgnoreCase("horizontal")) {
                                             width = ((NonFoodObjects) objAdd).getWidth();
                                             length = ((NonFoodObjects) objAdd).getLength();
-                                        } else if (direction.toLowerCase().equals("vertikal")) {
+                                        } else if (direction.equalsIgnoreCase("vertikal")) {
                                             width = ((NonFoodObjects) objAdd).getLength();
                                             length = ((NonFoodObjects) objAdd).getWidth();
                                         } else {
@@ -1305,8 +1300,8 @@ public class App {
 
                                 ArrayList<String> validGames = new ArrayList<>();
 
-                                for (int i = 0; i < gamestation.getGames().size(); i++) {
-                                    validGames.add(gamestation.getGames().get(i).getName().toLowerCase()
+                                for (int i = 0; i < GameStation.getGames().size(); i++) {
+                                    validGames.add(GameStation.getGames().get(i).getName().toLowerCase()
                                             .replaceAll("\\s+", ""));
                                 }
 
@@ -1364,7 +1359,7 @@ public class App {
                         System.out.println("Tidak ada jam di ruangan ini!");
                     } else {
                         System.out.println();
-                        clockCheck.use();
+                        Clock.use();
                     }
 
                 } else if (commandNum == 10) {

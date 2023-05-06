@@ -24,10 +24,10 @@ public class Sim {
     private int mood;
     private int health;
     private String status = "Nothing";
-    private Inventory<Object> inventory;
+    private final Inventory<Object> inventory;
     private Point location;
     private Time currentJobDuration;
-    private static ArrayList<Sim> sims = new ArrayList<Sim>();
+    private static final ArrayList<Sim> sims = new ArrayList<Sim>();
     private boolean isAlive;
     private House currentHouse;
     private Room currentRoom;
@@ -236,7 +236,7 @@ public class Sim {
             setCurrentJobDuration(jobDurTime);
             setStatus("Working");
             System.out.println(getName() + " is working...");
-            Thread.sleep(duration * 1000);
+            Thread.sleep(duration * 1000L);
             System.out.println(getName() + " is done working");
             setFullness(getFullness() - 10 * (duration / 30));
             setMood(getMood() - 10 * (duration / 30));
@@ -253,7 +253,7 @@ public class Sim {
         try {
             setStatus("Working Out");
             System.out.println(getName() + " is working out...");
-            Thread.sleep(duration * 1000);
+            Thread.sleep(duration * 1000L);
             System.out.println(getName() + " is done working out");
             setFullness(getFullness() - 5 * (duration / 20));
             setMood(getMood() + 10 * (duration / 20));
@@ -289,7 +289,7 @@ public class Sim {
             int duration = ((int) distance)*2;
             System.out.println("Perjalanan Visit Akan Memakan Waktu Selama "+ duration +" Detik");
             System.out.println(getName() + " is on the way...");
-            Thread.sleep(duration * 1000);
+            Thread.sleep(duration * 1000L);
             setFullness(getFullness() - 10 * (duration / 30));
             setMood(getMood() + 10 * (duration / 30));
             setCurrentHouse(house);

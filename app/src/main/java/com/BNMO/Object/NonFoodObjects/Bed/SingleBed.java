@@ -5,7 +5,7 @@ import com.BNMO.SIMS.Sim;
 import com.BNMO.Utilities.*;
 
 public class SingleBed extends NonFoodObjects implements Bed {
-    private int capacity = 1;
+    private final int capacity = 1;
     private int spaceLeft;
 
     public SingleBed(String name) {
@@ -35,7 +35,7 @@ public class SingleBed extends NonFoodObjects implements Bed {
                 sim.setStatus("Sleeping");
                 int duration = time.convertToSecond();
                 setSpaceLeft(getSpaceLeft() - 1);
-                Thread.sleep(duration * 1000);
+                Thread.sleep(duration * 1000L);
                 System.out.println(sim.getName() + " is now awake.");
                 sim.setMood(sim.getMood() + (30 * (duration / 240)));
                 sim.setHealth(sim.getHealth() + (20 * (duration / 240)));

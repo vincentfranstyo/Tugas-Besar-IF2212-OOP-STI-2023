@@ -4,5 +4,5 @@ import com.BNMO.Object.Food.Dishes;
 import com.BNMO.SIMS.Sim;
 
 public interface Stove {
-    public void cookDish(Sim sim, Dishes dish);
+    void cookDish(Sim sim, Dishes dish);
 }

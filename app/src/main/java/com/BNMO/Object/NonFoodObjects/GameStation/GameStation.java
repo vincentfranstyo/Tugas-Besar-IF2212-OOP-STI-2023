@@ -15,7 +15,7 @@ public class GameStation extends NonFoodObjects {
         super(name, 4, 2, 400);
         // this.isOn = false;
         this.battery = 100;
-        this.games = new ArrayList<>();
+        games = new ArrayList<>();
         games.add(new Game("PUBG", 1, 20));
         games.add(new Game("Mobile Legend", 2, 10));
         games.add(new Game("Free Fire", 3, 15));

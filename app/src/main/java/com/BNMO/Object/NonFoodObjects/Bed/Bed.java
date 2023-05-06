@@ -5,13 +5,13 @@ import com.BNMO.SIMS.Sim;
 import com.BNMO.Utilities.Time;
 
 public interface Bed {
-    public String getType();
+    String getType();
 
-    public int getCapacity();
+    int getCapacity();
 
-    public int getSpaceLeft();
+    int getSpaceLeft();
 
-    public void setSpaceLeft(int spaceLeft);
+    void setSpaceLeft(int spaceLeft);
 
-    public void sleep(Time time, Sim sim);
+    void sleep(Time time, Sim sim);
 }

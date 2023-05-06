@@ -5,8 +5,8 @@ import com.BNMO.SIMS.Sim;
 import java.util.ArrayList;
 
 public class Dishes extends Food {
-    private ArrayList<Ingredients> ingredients;
-    private int cookingTime;
+    private final ArrayList<Ingredients> ingredients;
+    private final int cookingTime;
 
     public Dishes(String name) {
         super(name);
@@ -52,6 +52,7 @@ public class Dishes extends Food {
         for (int i = 0; i < getCurrentDishIngredients().size(); i++) {
             if (!sim.getInventory().getObjects().contains(getCurrentDishIngredients().get(i))) {
                 hasIngredients = false;
+                break;
             }
         }
         return hasIngredients;
