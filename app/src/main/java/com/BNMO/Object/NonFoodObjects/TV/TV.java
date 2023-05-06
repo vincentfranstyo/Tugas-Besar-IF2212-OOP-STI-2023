@@ -151,9 +151,10 @@ public class TV extends NonFoodObjects {
         try {
             if (!getIsOccupied()) {
                 setIsOccupied(true);
+                setHasScanned(true);
+                scanChannel();
                 if (getIsOn()) {
                     if (sim.getStatus().equals("Nothing")) {
-                        setHasScanned(true);
                         if (getHasScanned()) {
                             int duration = time.convertToSecond();
                             System.out.println(sim.getName() + "is watching TV for " + duration + " seconds");
