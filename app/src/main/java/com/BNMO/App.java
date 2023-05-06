@@ -306,6 +306,7 @@ public class App {
                     System.out.println("[14] Bermain piano");
                     System.out.println("[15] Bermain game");
                     System.out.println("[16] Baca jurnal");
+                    System.out.println("[17] Bersihin toilet");
                     System.out.println();
 
                     System.out.println("Masukkan perintah: (dalam angka, cancel untuk membatalkan)");
@@ -314,7 +315,7 @@ public class App {
                     boolean cancelAct = false;
 
                     ArrayList<Integer> validActivities = new ArrayList<Integer>();
-                    for (int i = 1; i <= 16; i++) {
+                    for (int i = 1; i <= 17; i++) {
                         validActivities.add(i);
                     }
 
@@ -367,7 +368,6 @@ public class App {
                                                     "Masukan harus kelipatan 120, dan tidak boleh lebih dari 240!");
                                             workTime = userInput.nextLine();
                                             continue;
-                                            // TODO cek apakah akan memvalidasi dengan benar
                                         }
                                         break;
                                     }
@@ -1393,11 +1393,12 @@ public class App {
                                     }
                                     else{
                                         dayThread.resumeThread();
-                                        journal.readJournal(journal, menu.getCurrentSim(), pageInt);
+                                        journal.readJournal(journal, pageInt, menu.getCurrentSim());
                                         dayThread.pauseThread();
                                     }
                                 }
                             }
+                        } else if (activityNum == 17) {
 
                         }
                     }
@@ -1454,16 +1455,6 @@ public class App {
                 }
 
                 else if (commandNum == 11) {
-                    // menu.getCurrentSim().getInventory()
-                    // .addObject(new Book("BukuUwu", 1000, 5, "Meemaw"));
-                    // menu.getCurrentSim().getInventory()
-                    // .addObject(new Book("BukuAwa", 1000, 5, "Meemaw"));
-                    // menu.getCurrentSim().getInventory()
-                    // .addObject(new Book("BukuIwi", 1000, 5, "Meemaw"));
-                    // menu.getCurrentSim().getInventory()
-                    // .addObject(new Book("BukuEwe", 1000, 5, "Meemaw"));
-                    // menu.getCurrentSim().getInventory().addObject(new SingleBed("myBed"));
-                    // menu.getCurrentSim().getInventory().addObject(new SingleBed("herBed"));
                     System.out.println();
                     menu.getCurrentSim().getInventory().printInventory();
                     System.out.println();
@@ -1483,6 +1474,7 @@ public class App {
                     System.out.println("Kamu telah mati!");
                     break;
                 }
+                menu.viewSimInfo();
             }
             userInput.close();
             System.exit(0);

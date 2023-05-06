@@ -114,19 +114,6 @@ public class House {
                         @Override
                         public void run() {
                             try {
-                                // Pilih ruangan yang ingin di bangun (Above, Right, Below, atau Left) dari
-                                // currentRoom lalu instansiasi sebuah room baru dengan posisi yang dipilih
-                                // for (setCountTime(17); getCountTime() > -1; setCountTime(getCountTime() - 1))
-                                // {
-                                // Thread.sleep(60000); // 18 menit // 1080000 : 1 menit = 60000
-                                // if (getCountTime() != 0) {
-                                // System.out.println("Waktu Pembangunan Ruangan " + newRoom.getNameRoom()
-                                // + " Tersisa " + getCountTime() + " Menit.");
-                                // } else {
-                                // System.out.println(
-                                // "Ruangan " + newRoom.getNameRoom() + " Telah Berhasil Dibangun!");
-                                // }
-                                // }
                                 while (true) {
                                     int newCurrSec = dayThread.getDaySec();
                                     dayThread.setBuildingCountTime(18 * 60 - (newCurrSec - currentSec));

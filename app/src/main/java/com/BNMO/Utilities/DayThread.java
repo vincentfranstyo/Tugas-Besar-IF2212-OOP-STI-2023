@@ -198,6 +198,7 @@ public class DayThread implements Runnable {
                 e.printStackTrace();
             }
             if (getSleepPenalty() && ((getDaySec() - notSleptMark) % 600 == 0)) {
+                System.out.println("not selpt marked");
                 menu.getCurrentSim().setMood(menu.getCurrentSim().getMood() - 5);
                 menu.getCurrentSim().setHealth(menu.getCurrentSim().getHealth() - 5);
                 System.out.println("Kamu kurang tidur, sehingga mempengaruhi mood dan health kamu!");
@@ -222,7 +223,7 @@ public class DayThread implements Runnable {
 
             // Dampak tidak buang air 4 menit setelah makan
             if (getEaten() && !getPoopedAfterAte() && notPoopedMark == -1) {
-                System.out.println("not pooped mark is triggered");
+                System.out.println("not pooped mark");
                 notPoopedMark = getDaySec();
                 poopPenalty.set(true);
             } else if (getPoopedAfterAte()) {

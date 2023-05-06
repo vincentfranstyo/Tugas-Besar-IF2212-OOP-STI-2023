@@ -342,7 +342,6 @@ public class Sim {
                     while (true) {
                         try {
                             int newCurrentSec = dayThread.getDaySec();
-                            dayThread.setBuyingCountTime(randomNum * 60 - (newCurrentSec - currentSec));
                             if (!dayThread.getPaused()) {
                                 if ((newCurrentSec - currentSec) == randomNum * 60 - 1) {
                                     System.out.println("Item mu telah sampai");
@@ -355,6 +354,7 @@ public class Sim {
                                     Thread.sleep(1500);
                                 }
                             }
+                            dayThread.setBuyingCountTime(randomNum * 60 - (newCurrentSec - currentSec));
                         } catch (Exception e) {
                             e.printStackTrace();
                         }
