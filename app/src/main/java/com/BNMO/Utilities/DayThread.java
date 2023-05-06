@@ -171,22 +171,23 @@ public class DayThread implements Runnable {
     @Override
     public synchronized void run() {
         Menu menu = Menu.getInstance();
+        setSlept(false);
         while (true) {
             day = getDaySec() / 720;
             synchronized (lock) {
+                try {
+                    Thread.sleep(1000);
+                    setDaySec(getDaySec() + 1);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+
                 while (paused) {
                     try {
                         lock.wait();
                     } catch (InterruptedException e) {
                         e.printStackTrace();
                     }
-                }
-
-                try {
-                    Thread.sleep(1000);
-                    setDaySec(getDaySec() + 1);
-                } catch (InterruptedException e) {
-                    e.printStackTrace();
                 }
             }
 
@@ -200,7 +201,6 @@ public class DayThread implements Runnable {
             }
 
             if (getSleepPenalty() && ((getDaySec() - notSleptMark) % 600 == 0)) {
-                System.out.println("not selpt marked");
                 menu.getCurrentSim().setMood(menu.getCurrentSim().getMood() - 5);
                 menu.getCurrentSim().setHealth(menu.getCurrentSim().getHealth() - 5);
                 System.out.println("Kamu kurang tidur, sehingga mempengaruhi mood dan health kamu!");
@@ -217,6 +217,7 @@ public class DayThread implements Runnable {
 
             // Dampak tidak tidur 10 menit
             if (!getSlept() && notSleptMark == -1) {
+                System.out.println("not slept mark");
                 notSleptMark = getDaySec();
                 sleepPenalty.set(true);
             } else if (getSlept()) {

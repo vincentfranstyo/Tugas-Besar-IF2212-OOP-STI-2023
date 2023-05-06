@@ -27,7 +27,6 @@ public class AudioPlayer extends NonFoodObjects {
         this.battery = 100;
         this.shop = new ArrayList<>();
         this.library = new ArrayList<>();
-        this.playlists = new ArrayList<>();
         this.setType("Audio Player");
 
         shop.add(new Music("Forever", "Vanze feat Brenton Mattheus", 1, "House", new Time(0, 0, 4, 12), 2));
@@ -216,8 +215,7 @@ public class AudioPlayer extends NonFoodObjects {
             if (!musicFound) {
                 System.out.println("Music not found!");
             }
-            return;
-        }
+    }
 
     public void audioPlayerMenu(Sim sim) {
         Scanner scanner = new Scanner(System.in);
@@ -251,7 +249,7 @@ public class AudioPlayer extends NonFoodObjects {
                 System.out.println(" ");
                 int choice;
  
-                int choice = Integer.parseInt(op);
+                choice = Integer.parseInt(op);
                 if (choice < 1 || choice > 9) {
                     System.out.println("Invalid input. Please enter a number between 1 and 8.");
                 } else {

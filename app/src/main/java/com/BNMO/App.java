@@ -176,7 +176,7 @@ public class App {
 
                         while (true) {
                             try {
-                                if (newXPoint.equalsIgnoreCase("cancel")) {
+                                if (newXPoint.toLowerCase().replaceAll("\\s+", "").equals("cancel")) {
                                     break;
                                 } else {
                                     newXPointInt = Integer.parseInt(newXPoint);
@@ -202,7 +202,7 @@ public class App {
 
                         while (true) {
                             try {
-                                if (newYPoint.equalsIgnoreCase("cancel")) {
+                                if (newYPoint.toLowerCase().replaceAll("\\s+", "").equals("cancel")) {
                                     break;
                                 } else {
                                     newYPointInt = Integer.parseInt(newYPoint);
@@ -220,7 +220,7 @@ public class App {
                             }
                         }
 
-                        if (newXPoint.equalsIgnoreCase( "cancel") || newYPoint.equalsIgnoreCase("cancel")) {
+                        if (newXPoint.toLowerCase().replaceAll("\\s+", "").equals( "cancel") || newYPoint.toLowerCase().replaceAll("\\s+", "").equals("cancel")) {
                             continue;
                         } else {
                             menu.addSim(new Sim(newSimName, new Point(newXPointInt, newYPointInt)));
@@ -254,7 +254,7 @@ public class App {
                                     break;
                                 } else if (Job.isJobExist(wantedJob)) {
                                     break;
-                                } else if (menu.getCurrentSim().getJob().getName().equalsIgnoreCase(wantedJob)) {
+                                } else if (menu.getCurrentSim().getJob().getName().toLowerCase().replaceAll("\\s+", "").equals(wantedJob)) {
                                     throw new Exception("Kamu sudah memiliki pekerjaan ini!");
                                 } else {
                                     throw new Exception("Pekerjaan tidak ditemukan!");
@@ -885,13 +885,13 @@ public class App {
                                         String direction = userInput.nextLine();
                                         System.out.println();
                                         int width, length;
-                                        if (direction.equalsIgnoreCase("horizontal")) {
+                                        if (direction.toLowerCase().replaceAll("\\s+", "").equals("horizontal")) {
                                             width = ((NonFoodObjects) objAdd).getWidth();
                                             length = ((NonFoodObjects) objAdd).getLength();
-                                        } else if (direction.equalsIgnoreCase("vertikal")) {
+                                        } else if (direction.toLowerCase().replaceAll("\\s+", "").equals("vertikal")) {
                                             width = ((NonFoodObjects) objAdd).getLength();
                                             length = ((NonFoodObjects) objAdd).getWidth();
-                                        } else if (direction.equalsIgnoreCase("cancel")) {
+                                        } else if (direction.toLowerCase().replaceAll("\\s+", "").equals("cancel")) {
                                             isCancel = true;
                                             width = 0;
                                             length = 0;
@@ -934,11 +934,11 @@ public class App {
 
                                             while (true) {
                                                 try {
-                                                    if (direction.equalsIgnoreCase("cancel")) {
+                                                    if (direction.toLowerCase().replaceAll("\\s+", "").equals("cancel")) {
                                                         isCancel = true;
                                                         break;
-                                                    } else if (direction.toLowerCase().equals("horizontal")
-                                                            || direction.toLowerCase().equals("vertikal")) {
+                                                    } else if (direction.equalsIgnoreCase("horizontal")
+                                                            || direction.equalsIgnoreCase("vertikal")) {
                                                         break;
                                                     } else {
                                                         throw new Exception(
@@ -951,10 +951,10 @@ public class App {
                                                     direction = userInput.nextLine();
                                                 }
                                             }
-                                            if (direction.toLowerCase().equals("horizontal")) {
+                                            if (direction.equalsIgnoreCase("horizontal")) {
                                                 width = ((NonFoodObjects) objAdd).getWidth();
                                                 length = ((NonFoodObjects) objAdd).getLength();
-                                            } else if (direction.toLowerCase().equals("vertikal")) {
+                                            } else if (direction.equalsIgnoreCase("vertikal")) {
                                                 width = ((NonFoodObjects) objAdd).getLength();
                                                 length = ((NonFoodObjects) objAdd).getWidth();
                                             } else {
@@ -1088,7 +1088,9 @@ public class App {
                                         }
                                     }
                                     objIdx = validObjs.indexOf(loweredWantedFood);
-                                    if(!isCancel) wantedObject = new Ingredients(Food.getIngredientList().get(objIdx));
+                                    if (!isCancel) {
+                                        wantedObject = new Ingredients(Food.getIngredientList().get(objIdx));
+                                    }
 
                                 } else if (numBuyInt == 2) {
                                     System.out.println();
@@ -1131,7 +1133,9 @@ public class App {
                                         }
                                     }
                                     objIdx = validObjs.indexOf(loweredWantedFurniture);
-                                    if(!isCancel) wantedObject = Object.getBuyableObjects().get(objIdx);
+                                    if (!isCancel) {
+                                        wantedObject = Object.getBuyableObjects().get(objIdx);
+                                    }
                                 }
 
                                 if (isCancel) {
@@ -1343,7 +1347,7 @@ public class App {
                                     continue;
                                 } else {
                                     for (int i = 0; i < GameStation.getGames().size(); i++) {
-                                        if (GameStation.getGames().get(i).getName().equals(gameName.toLowerCase().replaceAll("\\s+", ""))) {
+                                        if (GameStation.getGames().get(i).getName().toLowerCase().replaceAll("\\s+", "").equals(gameName.toLowerCase().replaceAll("\\s+", ""))) {
                                             gameIndex = i;
                                             break;
                                         }
@@ -1383,7 +1387,7 @@ public class App {
 
                                     while (true) {
                                         try {
-                                            if (page.equalsIgnoreCase("cancel")) {
+                                            if (page.toLowerCase().replaceAll("\\s+", "").equals("cancel")) {
                                                 break;
                                             } else {
                                                 pageInt = Integer.parseInt(page);
@@ -1398,7 +1402,7 @@ public class App {
                                             page = userInput.nextLine();
                                         }
                                     }
-                                    if (page.equalsIgnoreCase("cancel")) {
+                                    if (page.toLowerCase().replaceAll("\\s+", "").equals("cancel")) {
                                         continue;
                                     } else {
                                         dayThread.resumeThread();
@@ -1409,18 +1413,18 @@ public class App {
                             }
                         } else if (activityNum == 17) {
                             System.out.println();
-                            Toilet toilet = null;
+                            Toilet toiletVal = null;
                             Iterator<Object> itr = menu.getCurrentSim().getCurrentRoom().getObjects();
 
                             while (itr.hasNext()) {
                                 Object o = itr.next();
                                 if (o instanceof Toilet) {
-                                    toilet = (Toilet) o;
+                                    toiletVal = (Toilet) o;
                                     break;
                                 }
                             }
 
-                            if (toilet == null) {
+                            if (toiletVal == null) {
                                 System.out.println("Tidak ada toilet di ruangan ini!");
                             } else {
                                 System.out.println("Membersihkan toilet akan memakan waktu selama 2 menit");
@@ -1431,10 +1435,10 @@ public class App {
                                 String choice = userInput.nextLine();
                                 boolean isCleaning = false;
                                 while (true) {
-                                    if (choice.toLowerCase().equals("y")) {
+                                    if (choice.equalsIgnoreCase("y")) {
                                         isCleaning = true;
                                         break;
-                                    } else if (choice.toLowerCase().equals("n")) {
+                                    } else if (choice.equalsIgnoreCase("n")) {
                                         isCleaning = false;
                                         break;
                                     } else {
@@ -1446,7 +1450,7 @@ public class App {
                                 if (isCleaning) {
                                     //TODO Cleaning Toilet
                                     dayThread.resumeThread();
-                                    toilet.cleanToilet(menu.getCurrentSim());
+                                    toiletVal.cleanToilet(menu.getCurrentSim());
                                     dayThread.pauseThread();
                                 } else {
                                     System.out.println("Aksi membersihkan toilet telah dibatalkan");
