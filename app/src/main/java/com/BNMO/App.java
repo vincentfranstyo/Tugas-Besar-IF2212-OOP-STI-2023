@@ -1222,9 +1222,11 @@ public class App {
                             if (audioplayer == null) {
                                 System.out.println("Tidak ada audio player di ruangan ini!");
                             } else {
+                                userInput.close();
                                 dayThread.resumeThread();
                                 audioplayer.audioPlayerMenu(menu.getCurrentSim());
                                 dayThread.pauseThread();
+                                userInput = new Scanner(System.in);
                             }
 
                         } else if (activityNum == 13) {
@@ -1242,9 +1244,11 @@ public class App {
                             if (tv == null) {
                                 System.out.println("Tidak ada TV di ruangan ini!");
                             } else {
+                                userInput.close();
                                 dayThread.resumeThread();
                                 tv.menuTV(menu.getCurrentSim());
                                 dayThread.pauseThread();
+                                userInput = new Scanner(System.in);
                             }
                         } else if (activityNum == 14) {
                             // TODO bermain piano
@@ -1520,13 +1524,44 @@ public class App {
                 }
 
                 if (!menu.getCurrentSim().isAlive()) {
-                    System.out.println("Kamu telah mati!");
-                    break;
+                    System.out.println();
+
+                    ArrayList<String> changeList = new ArrayList<String>();
+                    for (Sim sim : menu.getSimList()) {
+                        if (sim.isAlive()) {
+                            changeList.add(sim.getName().toLowerCase().replaceAll("\\s+", ""));
+                        }
+                    }
+
+                    if (changeList.size() == 0) {
+                        System.out.println("Semua sims telah mati!");
+                        System.out.println("Terima kasih telah bermain!");
+                        System.exit(0);
+                    }
+                    else {
+                        System.out.println("Silahkan memilih sims");
+
+                        System.out.println("Masukkan nama sim: ");
+                        String simChoice = userInput.nextLine();
+                        while (true) {
+                            try {
+                                if (!changeList.contains(simChoice.toLowerCase().replaceAll("\\s+", ""))) {
+                                    throw new Exception("Sim tidak ditemukan!");
+                                } else {
+                                    break;
+                                }
+                            } catch (Exception e) {
+                                System.out.println(e.getMessage());
+                                System.out.println("Masukkan nama sim: ");
+                                simChoice = userInput.nextLine();
+                            }
+                        }
+                        menu.changeSim(menu.getSimList().get(changeList.indexOf(simChoice.toLowerCase().replaceAll("\\s+", ""))).getName());
+                    }
                 }
                 menu.viewSimInfo();
                 System.out.println();
             }
-            userInput.close();
             System.exit(0);
         } else {
             System.out.println("Terima kasih telah bermain!");
