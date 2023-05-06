@@ -1413,7 +1413,55 @@ public class App {
                                 }
                             }
                         } else if (activityNum == 17) {
+                            System.out.println();
+                            Toilet toilet = null;
+                            Iterator<Object> itr = menu.getCurrentSim().getCurrentRoom().getObjects();
 
+                            while (itr.hasNext()) {
+                                Object o = itr.next();
+                                if (o instanceof Journal) {
+                                    toilet = (Toilet) o;
+                                    break;
+                                }
+                            }
+
+                            if (toilet == null) {
+                                System.out.println("Tidak ada toilet di ruangan ini!");
+                            }
+                            else{
+                                System.out.println("Membersihkan toilet akan memakan waktu selama 2 menit");
+                                System.out.println("Berikut adalah efek dari membersihkan toilet:");
+                                System.out.println("Mood: +20 / aksi");
+                                System.out.println("Fullness: -20 / 60 detik");
+                                System.out.print("Apakah ingin tetap membersihkan toilet (Y/N): ");
+                                String choice = userInput.nextLine();
+                                boolean isCleaning = false;
+                                while(true){
+                                    if(choice.toLowerCase().equals("y")){
+                                        isCleaning = true;
+                                        break;
+                                    }
+                                    else if(choice.toLowerCase().equals("n")){
+                                        isCleaning = false;
+                                        break;
+                                    }
+                                    else{
+                                        System.out.println("Input Tidak Valid! Masukan Y atau N saja!");
+                                        System.out.print("Apakah ingin tetap membersihkan toilet (Y/N): ");
+                                        choice = userInput.nextLine();
+                                    }
+                                }
+                                if(isCleaning){
+                                    //TODO Cleaning Toilet
+                                    dayThread.resumeThread();
+                                    toilet.cleanToilet(menu.getCurrentSim());
+                                    dayThread.pauseThread();
+                                }
+                                else{
+                                    System.out.println("Aksi membersihkan toilet telah dibatalkan");
+                                }
+                                System.out.println();
+                            }
                         }
                     }
                 } else if (commandNum == 9) {
