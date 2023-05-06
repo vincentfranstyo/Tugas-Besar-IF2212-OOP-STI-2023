@@ -48,7 +48,7 @@ public class Journal extends Book {
         pages.add(newPage);
     }
 
-    public void readJournal(Journal journal, int pageID, Sim sim) {
+    public void readJournal(Journal journal, Sim sim, int pageID) {
         String content = journal.getPages().get(pageID).getContent();
         if (!getIsOccupied()){
             setIsOccupied(true);

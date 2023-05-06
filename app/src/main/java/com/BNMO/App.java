@@ -848,7 +848,6 @@ public class App {
                                         }
                                     }
                                     if (objAdd != null) {
-                                        menu.getCurrentSim().getInventory().removeObject(objAdd.getName());
                                         System.out.println();
                                         System.out.println("Kondisi Ruangan");
                                         menu.getCurrentSim().getCurrentRoom().printObjRoom();
@@ -856,6 +855,7 @@ public class App {
                                         System.out.println("Lokasi Object Pada Ruangan 6x6:");
                                         System.out.print("Masukkan Nilai X: ");
                                         String x = userInput.nextLine();
+                                        boolean isCancel = false;
                                         int xInt;
                                         while (true) {
                                             try {
@@ -880,7 +880,7 @@ public class App {
                                                 y = userInput.nextLine();
                                             }
                                         }
-                                        System.out.print("Masukkan Arah Object Pada Ruangan (Vertikal/Horizontal): ");
+                                        System.out.print("Masukkan Arah Object Pada Ruangan (Vertikal/Horizontal) (ketik 'cancel' untuk membatalkan): ");
                                         String direction = userInput.nextLine();
                                         System.out.println();
                                         int width, length;
@@ -890,13 +890,17 @@ public class App {
                                         } else if (direction.equalsIgnoreCase("vertikal")) {
                                             width = ((NonFoodObjects) objAdd).getLength();
                                             length = ((NonFoodObjects) objAdd).getWidth();
+                                        } else if(direction.equalsIgnoreCase("cancel")){
+                                            isCancel = true;
+                                            width = 0;
+                                            length = 0;
                                         } else {
                                             width = 0;
                                             length = 0;
                                         }
-                                        while (!menu.getCurrentSim().getCurrentRoom().availableLoc(new Point(xInt, yInt),
+                                        while ((!menu.getCurrentSim().getCurrentRoom().availableLoc(new Point(xInt, yInt),
                                                 width,
-                                                length) || (width == 0 && length == 0)) {
+                                                length) || (width == 0 && length == 0)) && !isCancel) {
                                             System.out
                                                     .println("Location Not Available, Please Input Location Object Again!");
                                             System.out.print("Masukkan Nilai X: ");
@@ -924,7 +928,7 @@ public class App {
                                                 }
                                             }
                                             System.out.print(
-                                                    "Masukkan Arah Object Pada Ruangan (Vertikal/Horizontal): (ketik 'cancel' untuk membatalkan)");
+                                                    "Masukkan Arah Object Pada Ruangan (Vertikal/Horizontal) (ketik 'cancel' untuk membatalkan): ");
                                             direction = userInput.nextLine();
 
                                         while (true) {
@@ -971,8 +975,9 @@ public class App {
                                         System.out.println("Pemasangan Object Pada Ruangan Dibatalkan!");
                                         System.out.println();
                                     }
-                                } else {
-                                    System.out.println("Tidak Ada Object Yang Dapat Ditambahkan Pada Ruangan!");
+                                    } else {
+                                        System.out.println("Tidak Ada Object Yang Dapat Ditambahkan Pada Ruangan!");
+                                    }
                                 }
                             } else if (numUpHouseInt == 3) {
                                 // TODO delete object in current room and add to inventory owner
