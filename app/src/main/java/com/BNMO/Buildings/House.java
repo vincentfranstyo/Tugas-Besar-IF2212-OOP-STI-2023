@@ -3,6 +3,7 @@ package com.BNMO.Buildings;
 import java.util.*;
 
 import com.BNMO.Object.NonFoodObjects.AudioPlayer.AudioPlayer;
+import com.BNMO.Object.NonFoodObjects.GameStation.GameStation;
 import com.BNMO.Object.Object;
 import com.BNMO.SIMS.Sim;
 import com.BNMO.Utilities.*;
@@ -32,7 +33,7 @@ public class House {
         this.initRoom.addObject(new TableAndChair("Meja Makan 1"), new Point(1, 3), "horizontal");
         this.initRoom.addObject(new Clock("Jam 1"), new Point(5, 1), "horizontal");
         this.initRoom.addObject(new SingleBed("Kasur 1"), new Point(6, 3), "vertikal");
-        this.initRoom.addObject(new AudioPlayer("Audio Player 1"), new Point(1, 1), "horizontal");
+        this.initRoom.addObject(new GameStation("Game Station 1"), new Point(4, 2), "vertikal");
     }
 
     private void fixDirectRoom() {
