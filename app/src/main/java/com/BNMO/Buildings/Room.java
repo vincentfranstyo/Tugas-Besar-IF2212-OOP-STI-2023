@@ -31,7 +31,7 @@ public class Room {
     }
 
     public boolean availableLoc(Point Loc, int width, int length) {
-        if ((Loc.getX() < 1 && (Loc.getX() + length > 7)) || (Loc.getY() < 1 && (Loc.getY() + width > 7))) {
+        if ((Loc.getX() < 1 || (Loc.getX() + length > 7)) || (Loc.getY() < 1 || (Loc.getY() + width > 7))) {
             return false;
         } else {
             boolean available = true;
