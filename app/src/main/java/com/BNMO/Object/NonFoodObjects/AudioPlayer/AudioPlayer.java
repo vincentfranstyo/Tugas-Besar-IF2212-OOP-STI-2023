@@ -32,18 +32,12 @@ public class AudioPlayer extends NonFoodObjects {
         shop.add(new Music("Kau Rumahku", "Raissa Anggiani", 3, "Pop", new Time(0, 0, 4, 35), 2));
         shop.add(new Music("Intuisi", "Yura Yunita", 4, "Pop", new Time(0, 0, 4, 0), 2));
         shop.add(new Music("Enchanted", "Taylor Swift", 5, "Pop", new Time(0, 0, 5, 52), 2));
-        shop.add(new Music("Love Story (Taylor's Version)", "Taylor Swift", 6, "Pop", new Time(0, 0, 3, 56), 2));
+        shop.add(new Music("Love Story", "Taylor Swift", 6, "Pop", new Time(0, 0, 3, 56), 2));
         shop.add(new Music("Jatuh Hati", "Raisa", 6, "Pop", new Time(0, 0, 3, 27), 2));
         shop.add(new Music("Labirin", "Tulus", 7, "Pop", new Time(0, 0, 3, 3), 2));
         shop.add(new Music("Perih", "Vierra", 8, "Pop", new Time(0, 0, 3, 20), 2));
-        shop.add(new Music("All Too Well (10 Minute Version) (Taylor's Version)", "Taylor Swift", 9, "Pop",
-                new Time(0, 0, 10, 13), 2));
-        shop.add(new Music("Red (Taylor's Version)", "Taylor Swift", 10, "Pop", new Time(0, 0, 3, 43), 2));
-        shop.add(new Music("Hari Bersamanya", "Sheila On 7", 11, "Pop", new Time(0, 0, 3, 53), 2));
-        shop.add(new Music("Remaja", "Hivi!", 12, "Pop", new Time(0, 0, 3, 38), 2));
-        shop.add(new Music("Back To December", "Taylor Swift", 13, "Pop", new Time(0, 0, 4, 53), 2));
-        shop.add(new Music("us", "keshi", 14, "Pop", new Time(0, 0, 4, 8), 2));
-        shop.add(new Music("like i need u", "keshi", 15, "Pop", new Time(0, 0, 3, 2), 2));
+        shop.add(new Music("Hari Bersamanya", "Sheila On 7", 9, "Pop", new Time(0, 0, 3, 53), 2));
+        shop.add(new Music("Remaja", "Hivi!", 10, "Pop", new Time(0, 0, 3, 38), 2));
     }
 
     public boolean getIsOn() {
@@ -116,6 +110,7 @@ public class AudioPlayer extends NonFoodObjects {
             if (sim.getMoney() >= music.getPrice()) {
                 library.add(music);
                 sim.setMoney(sim.getMoney() - music.getPrice());
+                sim.setMood(sim.getMood() + 3);
                 System.out.println("You have bought " + music.getName() + " by " + music.getArtist() + " for "
                         + music.getPrice() + " dollars!");
             } else {
@@ -178,7 +173,7 @@ public class AudioPlayer extends NonFoodObjects {
                     AudioInputStream audioIn = null;
                     // Open the audio file
                     System.out.println("Playing " + music.getName() + "....");
-                    audioIn = AudioSystem.getAudioInputStream(AudioPlayer.class.getResource(music.getName() + ".wav"));
+                    audioIn = AudioSystem.getAudioInputStream(AudioPlayer.class.getResource("audio.wav"));
                     // Get a clip to play the audio
                     Clip clip = AudioSystem.getClip();
 
@@ -230,6 +225,7 @@ public class AudioPlayer extends NonFoodObjects {
                     clip.close();
                     audioIn.close();
                     inputThread.interrupt();
+                    inputThread.join();
                     stopRequested.set(false); // reset stopRequested to false
                     reader.close();
 

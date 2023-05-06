@@ -504,75 +504,79 @@ public class App {
                             }
 
                         } else if (activityNum == 4) {
-                            TableAndChair tableValidator = null;
-                            Iterator<Object> iter = menu.getCurrentSim().getCurrentRoom().getObjects();
-                            while (iter.hasNext()) {
-                                Object obj = iter.next();
-                                if (obj instanceof TableAndChair) {
-                                    tableValidator = (TableAndChair) obj;
-                                    break;
-                                }
+                            if (menu.getCurrentSim().getInventory().getFoods().size() == 0) {
+                                System.out.println("Kamu tidak memiliki makanan!");
+                                continue;
                             }
-                            if (tableValidator == null) {
-                                // Tidak ada table and chair di ruangan ini
-                                System.out.println("Tidak ada meja dan kursi di ruangan ini!");
-                            } else {
-                                System.out.println("Kamu memilih untuk makan!");
-                                menu.getCurrentSim().goToObject(tableValidator);
-                                System.out.println("Berikut daftar makanan yang dapat kamu makan!");
-                                menu.getCurrentSim().getInventory().printFoodList();
-                                System.out.println("Makanan apa yang ingin kamu makan?");
-                                String foodName = userInput.nextLine();
-                                String loweredFood = foodName.toLowerCase().replaceAll("\\s+", "");
-
-                                ArrayList<String> validFoods = new ArrayList<String>();
-                                for (Food food : menu.getCurrentSim().getInventory().getFoods()) {
-                                    validFoods.add(food.getName().toLowerCase().replaceAll("\\s+", ""));
-                                }
-
-                                boolean cancelEating = false;
-
-                                while (true) {
-                                    try {
-                                        if (loweredFood.equals("cancel")) {
-                                            cancelEating = true;
-                                            break;
-                                        } else {
-                                            if (!validFoods.contains(loweredFood)) {
-                                                throw new Exception("Makanan tidak ditemukan!");
-                                            } else {
-                                                menu.getCurrentSim().getInventory().getFood(loweredFood);
-                                                break;
-                                            }
-                                        }
-                                    } catch (Exception e) {
-                                        System.out.println(e.getMessage());
-                                        foodName = userInput.nextLine();
-                                        loweredFood = foodName.toLowerCase().replaceAll("\\s+", "");
+                            else {
+                                TableAndChair tableValidator = null;
+                                Iterator<Object> iter = menu.getCurrentSim().getCurrentRoom().getObjects();
+                                while (iter.hasNext()) {
+                                    Object obj = iter.next();
+                                    if (obj instanceof TableAndChair) {
+                                        tableValidator = (TableAndChair) obj;
+                                        break;
                                     }
                                 }
-
-                                if (cancelEating) {
-                                    System.out.println();
-                                    System.out.println("Kamu membatalkan makan!");
-                                    System.out.println();
-                                    continue;
+                                if (tableValidator == null) {
+                                    // Tidak ada table and chair di ruangan ini
+                                    System.out.println("Tidak ada meja dan kursi di ruangan ini!");
                                 } else {
-                                    dayThread.resumeThread();
-                                    if (menu.getCurrentSim().getInventory().getFood(loweredFood).getType()
-                                            .equals("Dishes")) {
-                                        tableValidator.eat(menu.getCurrentSim(),
-                                                (Dishes) menu.getCurrentSim().getInventory().getFood(loweredFood),
-                                                null);
+                                    System.out.println("Kamu memilih untuk makan!");
+                                    menu.getCurrentSim().goToObject(tableValidator);
+                                    System.out.println("Berikut daftar makanan yang dapat kamu makan!");
+                                    menu.getCurrentSim().getInventory().printFoodList();
+                                    System.out.println("Makanan apa yang ingin kamu makan? (ketik 'cancel' jika ingin membatalkan)");
+                                    String foodName = userInput.nextLine();
+                                    String loweredFood = foodName.toLowerCase().replaceAll("\\s+", "");
+
+                                    ArrayList<String> validFoods = new ArrayList<String>();
+                                    for (Food food : menu.getCurrentSim().getInventory().getFoods()) {
+                                        validFoods.add(food.getName().toLowerCase().replaceAll("\\s+", ""));
                                     }
 
-                                    else if (menu.getCurrentSim().getInventory().getFood(loweredFood).getType()
-                                            .equals("Ingredients")) {
-                                        tableValidator.eat(menu.getCurrentSim(), null,
-                                                (Ingredients) menu.getCurrentSim().getInventory().getFood(loweredFood));
+                                    boolean cancelEating = false;
+
+                                    while (true) {
+                                        try {
+                                            if (loweredFood.equals("cancel")) {
+                                                cancelEating = true;
+                                                break;
+                                            } else {
+                                                if (!validFoods.contains(loweredFood)) {
+                                                    throw new Exception("Makanan tidak ditemukan!");
+                                                } else {
+                                                    menu.getCurrentSim().getInventory().getFood(loweredFood);
+                                                    break;
+                                                }
+                                            }
+                                        } catch (Exception e) {
+                                            System.out.println(e.getMessage());
+                                            foodName = userInput.nextLine();
+                                            loweredFood = foodName.toLowerCase().replaceAll("\\s+", "");
+                                        }
                                     }
-                                    dayThread.setEaten(true);
-                                    dayThread.pauseThread();
+
+                                    if (cancelEating) {
+                                        System.out.println();
+                                        System.out.println("Kamu membatalkan makan!");
+                                        System.out.println();
+                                        continue;
+                                    } else {
+                                        dayThread.resumeThread();
+                                        if (menu.getCurrentSim().getInventory().getFood(loweredFood).getType()
+                                                .equals("Dishes")) {
+                                            tableValidator.eat(menu.getCurrentSim(),
+                                                    (Dishes) menu.getCurrentSim().getInventory().getFood(loweredFood),
+                                                    null);
+                                        } else if (menu.getCurrentSim().getInventory().getFood(loweredFood).getType()
+                                                .equals("Ingredients")) {
+                                            tableValidator.eat(menu.getCurrentSim(), null,
+                                                    (Ingredients) menu.getCurrentSim().getInventory().getFood(loweredFood));
+                                        }
+                                        dayThread.setEaten(true);
+                                        dayThread.pauseThread();
+                                    }
                                 }
                             }
                         } else if (activityNum == 5) {
@@ -1342,7 +1346,7 @@ public class App {
                                     continue;
                                 } else {
                                     for (int i = 0; i < GameStation.getGames().size(); i++) {
-                                        if (GameStation.getGames().get(i).getName().equalsIgnoreCase(gameName)) {
+                                        if (GameStation.getGames().get(i).getName().equals(gameName.toLowerCase().replaceAll("\\s+", ""))) {
                                             gameIndex = i;
                                             break;
                                         }
@@ -1407,7 +1411,7 @@ public class App {
                                     }
                                     else{
                                         dayThread.resumeThread();
-                                        journal.readJournal(journal, pageInt, menu.getCurrentSim());
+                                        journal.readJournal(journal, menu.getCurrentSim(), pageInt);
                                         dayThread.pauseThread();
                                     }
                                 }
@@ -1537,6 +1541,7 @@ public class App {
                     break;
                 }
                 menu.viewSimInfo();
+                System.out.println();
             }
             userInput.close();
             System.exit(0);

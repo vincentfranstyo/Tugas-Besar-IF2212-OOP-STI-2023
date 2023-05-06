@@ -23,7 +23,7 @@ public class House {
         this.totalRoom = 0;
         this.owner = owner;
         this.location = loc;
-        this.initRoom = new Room("Ruang 1", null, null, null, null);
+        this.initRoom = new Room("Main room", null, null, null, null);
         this.rooms.add(initRoom);
         this.totalRoom++;
         this.initRoom.addObject(new Toilet("Toilet 1"), new Point(6, 1), "horizontal");
@@ -86,7 +86,7 @@ public class House {
         }
     }
 
-    public void addRoom(Sim sim, Room curRoom, String rName, String direction) {
+    public synchronized void addRoom(Sim sim, Room curRoom, String rName, String direction) {
         if (sim.getName().equals(owner.getName())) {
             if (sim.getMoney() >= Room.getPrice()) {
                 Room newRoom = new Room(rName, null, null, null, null);
