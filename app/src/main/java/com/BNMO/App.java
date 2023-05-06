@@ -13,7 +13,7 @@ import java.lang.Exception;
 import com.BNMO.Object.Object;
 import com.BNMO.Object.NonFoodObjects.NonFoodObjects;
 import com.BNMO.Object.NonFoodObjects.AudioPlayer.AudioPlayer;
-import com.BNMO.Object.NonFoodObjects.TV.TV;
+import com.BNMO.Object.NonFoodObjects.TV.*;
 import com.BNMO.Object.NonFoodObjects.TableAndChair.TableAndChair;
 import com.BNMO.Object.NonFoodObjects.Toilet.Toilet;
 import com.BNMO.Object.NonFoodObjects.Book.*;
@@ -1248,11 +1248,9 @@ public class App {
                             if (tv == null) {
                                 System.out.println("Tidak ada TV di ruangan ini!");
                             } else {
-                                userInput.close();
                                 dayThread.resumeThread();
-                                tv.menuTV(menu.getCurrentSim());
+                                tv.watchTV(new Time(60),menu.getCurrentSim(), new Channel("sportChannel", 1,"Sports"));
                                 dayThread.pauseThread();
-                                userInput = new Scanner(System.in);
                             }
                         } else if (activityNum == 14) {
                             // TODO bermain piano

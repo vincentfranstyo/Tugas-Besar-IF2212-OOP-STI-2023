@@ -11,6 +11,7 @@ import com.BNMO.Object.NonFoodObjects.Clock.Clock;
 import com.BNMO.Object.NonFoodObjects.Stove.GasStove;
 import com.BNMO.Object.NonFoodObjects.TableAndChair.TableAndChair;
 import com.BNMO.Object.NonFoodObjects.Toilet.Toilet;
+import com.BNMO.Object.NonFoodObjects.TV.TV;
 
 public class House {
     private final ArrayList<Room> rooms;
@@ -32,7 +33,7 @@ public class House {
         this.initRoom.addObject(new TableAndChair("Meja Makan 1"), new Point(1, 3), "horizontal");
         this.initRoom.addObject(new Clock("Jam 1"), new Point(5, 1), "horizontal");
         this.initRoom.addObject(new SingleBed("Kasur 1"), new Point(6, 3), "vertikal");
-        this.initRoom.addObject(new GameStation("Game Station 1"), new Point(4, 2), "vertikal");
+        this.initRoom.addObject(new TV("TV 1"), new Point(4, 2), "vertikal");
     }
 
     private void fixDirectRoom() {
