@@ -1413,7 +1413,7 @@ public class App {
 
                             while (itr.hasNext()) {
                                 Object o = itr.next();
-                                if (o instanceof Journal) {
+                                if (o instanceof Toilet) {
                                     toilet = (Toilet) o;
                                     break;
                                 }
