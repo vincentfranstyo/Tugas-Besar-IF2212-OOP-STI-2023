@@ -49,7 +49,7 @@ public class Sim {
         this.job = jobs.get(index);
 
         this.name = name;
-        this.money = 1000000; // 100
+        this.money = 100;
         this.fullness = 80;
         this.mood = 80;
         this.health = 80;
@@ -330,40 +330,45 @@ public class Sim {
         }
     }
 
-    public void buy(Object object) {
+    public synchronized void buy(Object object) {
         if (getMoney() >= object.getPrice()) {
             Random rand = new Random();
             int randomNum = rand.nextInt(1, 5);
             System.out.println("Kamu akan mendapatkan item dalam " + randomNum + " menit");
+            if (randomNum > 2){
+                System.out.println("Kamu pasti memilih kurir murahan");
+            }
             DayThread dayThread = DayThread.getInstance();
             int currentSec = dayThread.getDaySec();
             Thread t = new Thread(new Runnable() {
                 public void run() {
-                    while (true) {
-                        try {
-                            int newCurrentSec = dayThread.getDaySec();
-                            if (!dayThread.getPaused()) {
-                                if ((newCurrentSec - currentSec) == randomNum * 60 - 1) {
-                                    System.out.println("Item mu telah sampai");
-                                    setMoney(getMoney() - object.getPrice());
-                                    inventory.addObject(object);
-                                    break;
-                                } else if ((newCurrentSec - currentSec) % 60 - 1 == 0) {
-                                    System.out.println("Item mu akan sampai dalam "
-                                            + (randomNum - ((newCurrentSec - currentSec) / 60)) + " menit");
-                                    Thread.sleep(1500);
+                    synchronized (this){
+                        while (true) {
+                            try {
+                                int newCurrentSec = dayThread.getDaySec();
+                                if (!dayThread.getPaused()) {
+                                    if ((newCurrentSec - currentSec) == randomNum * 60 - 1) {
+                                        System.out.println("Item mu telah sampai");
+                                        setMoney(getMoney() - object.getPrice());
+                                        inventory.addObject(object);
+                                        break;
+                                    } else if ((newCurrentSec - currentSec) % 60 - 1 == 0) {
+                                        System.out.println("Item mu akan sampai dalam "
+                                                + (randomNum - ((newCurrentSec - currentSec) / 60)) + " menit");
+                                        Thread.sleep(1500);
+                                    }
                                 }
+                                dayThread.setBuyingCountTime(randomNum * 60 - (newCurrentSec - currentSec));
+                            } catch (Exception e) {
+                                e.printStackTrace();
                             }
-                            dayThread.setBuyingCountTime(randomNum * 60 - (newCurrentSec - currentSec));
-                        } catch (Exception e) {
-                            e.printStackTrace();
                         }
                     }
                 }
             });
             t.start();
         } else {
-            System.out.println("You don't have enough money");
+            System.out.println("You don't have enough money, what a disgrace this family, 去做工啊!");
         }
     }
 
