@@ -10,6 +10,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 import java.util.Scanner;
+import java.util.concurrent.atomic.AtomicBoolean;
+import java.util.concurrent.atomic.AtomicInteger;
 
 public class Sim {
     private String name;
@@ -26,6 +28,30 @@ public class Sim {
     private boolean isAlive;
     private House currentHouse;
     private Room currentRoom;
+
+    private boolean isBuying = false;
+
+    private final AtomicInteger dailyWorkDuration = new AtomicInteger(0);
+
+    private final AtomicBoolean slept = new AtomicBoolean(false);
+
+    private final AtomicBoolean sleepPenalty = new AtomicBoolean(false);
+
+    private final AtomicBoolean eaten = new AtomicBoolean(false);
+
+    private final AtomicBoolean poopedAfterAte = new AtomicBoolean(false);
+
+    private final AtomicBoolean poopPenalty = new AtomicBoolean(false);
+
+    private final AtomicBoolean workAvail = new AtomicBoolean(true);
+
+    private int notSleptMark = -1;
+
+    private int notPoopedMark = -1;
+
+    private final AtomicInteger buildingCountTime = new AtomicInteger(0);
+
+    private final AtomicInteger buyingCountTime = new AtomicInteger(0);
 
     public Sim(String name) {
         List<Job> jobs = new ArrayList<>();
@@ -259,6 +285,65 @@ public class Sim {
         return sims;
     }
 
+    public void setWorkAvail(boolean workAvailVar) {
+        workAvail.set(workAvailVar);
+    }
+
+    public boolean getWorkAvail() {
+        return workAvail.get();
+    }
+
+    public boolean getSlept() {
+        return slept.get();
+    }
+
+    public int getDailyWorkDuration() {
+        return dailyWorkDuration.get();
+    }
+
+    public boolean getSleepPenalty() {
+        return sleepPenalty.get();
+    }
+
+    public void setSleepPenalty(boolean value) {
+        sleepPenalty.set(value);}
+
+    public boolean getPoopedAfterAte() {
+        return poopedAfterAte.get();
+    }
+
+    public void setSlept(boolean sleptVar) {
+        slept.set(sleptVar);
+    }
+
+    public void setDailyWorkDuration(int dailyWorkDurationVar) {
+        dailyWorkDuration.set(dailyWorkDurationVar);
+    }
+
+    public void setNotEnoughSleep(boolean sleepPenaltyVar) {
+        sleepPenalty.set(sleepPenaltyVar);
+    }
+
+    public void setPoopedAfterAte(boolean poopedAfterAteVar) {
+        poopedAfterAte.set(poopedAfterAteVar);
+    }
+
+    public boolean getEaten() {
+        return eaten.get();
+    }
+
+    public void setEaten(boolean eatenVar) {
+        eaten.set(eatenVar);
+    }
+
+    public boolean getPoopPenalty() {
+        return poopPenalty.get();
+    }
+
+    public void setPoopPenalty(boolean poopPenaltyVar) {
+        poopPenalty.set(poopPenaltyVar);
+    }
+
     public void work(Time time) {
         int duration = time.convertToSecond();
         try {
@@ -341,6 +426,7 @@ public class Sim {
                 System.out.println("Kamu pasti memilih kurir murahan");
             }
             DayThread dayThread = DayThread.getInstance();
+            Menu menu = Menu.getInstance();
             int currentSec = dayThread.getDaySec();
             Thread t = new Thread(new Runnable() {
                 public void run() {
@@ -353,15 +439,15 @@ public class Sim {
                                         System.out.println("Item mu telah sampai");
                                         setMoney(getMoney() - object.getPrice());
                                         inventory.addObject(object);
-                                        dayThread.setIsBuying(false);
+                                        menu.getCurrentSim().setIsBuying(false);
                                         break;
                                     } else if ((newCurrentSec - currentSec) % 60 - 1 == 0) {
-                                        System.out.println("Item mu akan sampai dalam "
+                                        System.out.println("Item akan sampai dalam "
                                                 + (randomNum - ((newCurrentSec - currentSec) / 60)) + " menit");
                                         Thread.sleep(1500);
                                     }
                                 }
-                                dayThread.setBuyingCountTime(randomNum * 60 - (newCurrentSec - currentSec));
+                                menu.getCurrentSim().setBuyingCountTime(randomNum * 60 - (newCurrentSec - currentSec));
                             } catch (Exception e) {
                                 e.printStackTrace();
                             }
@@ -396,8 +482,47 @@ public class Sim {
         }
     }
 
+    public boolean getIsBuying() {
+        return isBuying;
+    }
+
+    public void setIsBuying(boolean isBuyingVar) {
+        isBuying = isBuyingVar;
+    }
     public void goToObject(NonFoodObjects nfo) {
         setLocation(nfo.getPosition());
+    }
+
+    public int getNotSleptMark() {
+        return this.notSleptMark;
+    }
+
+    public void setNotSleptMark(int notSleptMark) {
+        this.notSleptMark = notSleptMark;
+    }
+
+    public int getNotPoopedMark() {
+        return this.notPoopedMark;
+    }
+
+    public void setNotPoopedMark(int notPoopedMark) {
+        this.notPoopedMark = notPoopedMark;
+    }
+
+    public int getBuildingCountTime() {
+        return buildingCountTime.get();
+    }
+
+    public void setBuildingCountTime(int countTimeVar) {
+        buildingCountTime.set(countTimeVar);
+    }
+
+    public int getBuyingCountTime() {
+        return buyingCountTime.get();
+    }
+
+    public void setBuyingCountTime(int countTimeVar) {
+        buyingCountTime.set(countTimeVar);
     }
 
 }

@@ -1,6 +1,8 @@
 package com.BNMO.Buildings;
 
 import java.util.*;
+
+import com.BNMO.Object.NonFoodObjects.AudioPlayer.AudioPlayer;
 import com.BNMO.Utilities.*;
 import com.BNMO.Object.Object;
 import com.BNMO.Object.NonFoodObjects.NonFoodObjects;
@@ -28,6 +30,7 @@ public class Room {
         this.objects = new ArrayList<Object>();
         this.mapObj = new Object[6][6];
         this.totalObject = 0;
+        this.addObject(new AudioPlayer("audio1"), new Point(1, 1), "horizontal");
     }
 
     public boolean availableLoc(Point Loc, int width, int length) {

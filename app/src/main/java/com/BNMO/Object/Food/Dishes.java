@@ -50,7 +50,7 @@ public class Dishes extends Food {
     public boolean checkIngredients(Sim sim) {
         boolean hasIngredients = true;
         for (int i = 0; i < getCurrentDishIngredients().size(); i++) {
-            if (!sim.getInventory().getObjects().contains(getCurrentDishIngredients().get(i))) {
+            if (sim.getInventory().getFood(getCurrentDishIngredients().get(i).getName().toLowerCase().replaceAll("\\s+", "")) == null) {
                 hasIngredients = false;
                 break;
             }

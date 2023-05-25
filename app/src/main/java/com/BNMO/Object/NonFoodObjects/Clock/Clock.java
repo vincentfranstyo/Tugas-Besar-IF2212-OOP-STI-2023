@@ -12,13 +12,14 @@ public class Clock extends NonFoodObjects {
 
     public static void use() {
         // show all ongoing action along with the duration left
+        Menu menu = Menu.getInstance();
         DayThread dayThread = DayThread.getInstance();
         System.out.println("Today's clock");
         dayThread.timeLeftForTheDay();
         System.out.println();
-        System.out.println("Durasi pembangunan tersisa: " + dayThread.getBuildingCountTime() + " detik");
+        System.out.println("Durasi pembangunan " + menu.getCurrentSim().getName() + " tersisa: " + menu.getCurrentSim().getBuildingCountTime() + " detik");
         System.out.println();
-        System.out.println("Durasi pembelian barang tersisa: " + dayThread.getBuyingCountTime() + " detik");
+        System.out.println("Durasi pembelian barang " + menu.getCurrentSim().getName() + " tersisa: " + menu.getCurrentSim().getBuyingCountTime() + " detik");
         System.out.println();
 
     }

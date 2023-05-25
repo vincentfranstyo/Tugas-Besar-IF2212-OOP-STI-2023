@@ -5,21 +5,9 @@ import java.util.concurrent.atomic.AtomicInteger;
 
 public class DayThread implements Runnable {
     private static DayThread dayThreadInstance;
-    private final AtomicInteger dailyWorkDuration = new AtomicInteger(0);
-    private final AtomicBoolean slept = new AtomicBoolean(false);
-    private final AtomicBoolean sleepPenalty = new AtomicBoolean(false);
-    private final AtomicBoolean eaten = new AtomicBoolean(false);
-    private final AtomicBoolean poopedAfterAte = new AtomicBoolean(false);
-    private final AtomicBoolean poopPenalty = new AtomicBoolean(false);
-    private final AtomicBoolean workAvail = new AtomicBoolean(true);
-    private final AtomicInteger buildingCountTime = new AtomicInteger(0);
-    private final AtomicInteger buyingCountTime = new AtomicInteger(0);
     private final AtomicBoolean changeSimToday = new AtomicBoolean(true);
-    private final AtomicBoolean isBuying = new AtomicBoolean(false);
     private boolean paused = false;
     private final Object lock = new Object();
-    private int notSleptMark = -1;
-    private int notPoopedMark = -1;
     private final AtomicInteger daySec = new AtomicInteger(720);
     private int day;
     private int mins;
@@ -38,7 +26,7 @@ public class DayThread implements Runnable {
     public void pauseThread() {
         paused = true;
         if (day == 0) {
-            System.out.println("Hari ke-" + day + 1 + " telah dijeda!");
+            System.out.println("Hari ke-" + day + " telah dijeda!");
             System.out.println("Silahkan melakukan aksi aktif untuk melanjutkan hari!");
             System.out.println();
         } else {
@@ -54,30 +42,6 @@ public class DayThread implements Runnable {
 
     public void setChangeSimToday(boolean changeSimTodayVar) {
         changeSimToday.set(changeSimTodayVar);
-    }
-
-    public boolean getIsBuying() {
-        return isBuying.get();
-    }
-
-    public void setIsBuying(boolean isBuyingVar) {
-        isBuying.set(isBuyingVar);
-    }
-
-    public int getBuildingCountTime() {
-        return buildingCountTime.get();
-    }
-
-    public void setBuildingCountTime(int countTimeVar) {
-        buildingCountTime.set(countTimeVar);
-    }
-
-    public int getBuyingCountTime() {
-        return buyingCountTime.get();
-    }
-
-    public void setBuyingCountTime(int countTimeVar) {
-        buyingCountTime.set(countTimeVar);
     }
 
     public int getDaySec() {
@@ -100,68 +64,12 @@ public class DayThread implements Runnable {
         synchronized (lock) {
             paused = false;
             if (day == 0) {
-                System.out.println("Hari ke-" + day + 1 + " telah dilanjutkan!");
+                System.out.println("Hari ke-" + day + " telah dilanjutkan!");
             } else {
                 System.out.println("Hari ke-" + day + " telah dilanjutkan!");
             }
             lock.notifyAll();
         }
-    }
-
-    public void setWorkAvail(boolean workAvailVar) {
-        workAvail.set(workAvailVar);
-    }
-
-    public boolean getWorkAvail() {
-        return workAvail.get();
-    }
-
-    public boolean getSlept() {
-        return slept.get();
-    }
-
-    public int getDailyWorkDuration() {
-        return dailyWorkDuration.get();
-    }
-
-    public boolean getSleepPenalty() {
-        return sleepPenalty.get();
-    }
-
-    public boolean getPoopedAfterAte() {
-        return poopedAfterAte.get();
-    }
-
-    public void setSlept(boolean sleptVar) {
-        slept.set(sleptVar);
-    }
-
-    public void setDailyWorkDuration(int dailyWorkDurationVar) {
-        dailyWorkDuration.set(dailyWorkDurationVar);
-    }
-
-    public void setNotEnoughSleep(boolean sleepPenaltyVar) {
-        sleepPenalty.set(sleepPenaltyVar);
-    }
-
-    public void setPoopedAfterAte(boolean poopedAfterAteVar) {
-        poopedAfterAte.set(poopedAfterAteVar);
-    }
-
-    public boolean getEaten() {
-        return eaten.get();
-    }
-
-    public void setEaten(boolean eatenVar) {
-        eaten.set(eatenVar);
-    }
-
-    public boolean getPoopPenalty() {
-        return poopPenalty.get();
-    }
-
-    public void setPoopPenalty(boolean poopPenaltyVar) {
-        poopPenalty.set(poopPenaltyVar);
     }
 
     public boolean getPaused() {
@@ -171,7 +79,6 @@ public class DayThread implements Runnable {
     @Override
     public synchronized void run() {
         Menu menu = Menu.getInstance();
-        setSlept(false);
         while (true) {
             day = getDaySec() / 720;
             synchronized (lock) {
@@ -195,42 +102,42 @@ public class DayThread implements Runnable {
                 System.out.println();
                 System.out.println("Hari ke-" + day + " dimulai!");
                 System.out.println();
-                setWorkAvail(true);
-                setDailyWorkDuration(0);
+                menu.getCurrentSim().setWorkAvail(true);
+                menu.getCurrentSim().setDailyWorkDuration(0);
                 setChangeSimToday(true);
             }
 
-            if (getSleepPenalty() && ((getDaySec() - notSleptMark) % 600 == 0)) {
+            if (menu.getCurrentSim().getSleepPenalty() && ((getDaySec() - menu.getCurrentSim().getNotSleptMark()) % 600 == 0)) {
                 menu.getCurrentSim().setMood(menu.getCurrentSim().getMood() - 5);
                 menu.getCurrentSim().setHealth(menu.getCurrentSim().getHealth() - 5);
                 System.out.println("Kamu kurang tidur, sehingga mempengaruhi mood dan health kamu!");
-                notSleptMark = -1;
+                menu.getCurrentSim().setNotSleptMark(-1);
             }
 
-            if (getPoopPenalty() && ((getDaySec() - notPoopedMark) % 240 == 0)) {
+            if (menu.getCurrentSim().getPoopPenalty() && ((getDaySec() - menu.getCurrentSim().getNotPoopedMark()) % 240 == 0)) {
                 menu.getCurrentSim().setMood(menu.getCurrentSim().getMood() - 5);
                 menu.getCurrentSim().setHealth(menu.getCurrentSim().getHealth() - 5);
                 System.out.println("Kamu belum buang air setelah makan, sehingga mempengaruhi mood dan health kamu!");
-                notPoopedMark = -1;
-                poopPenalty.set(false);
+                menu.getCurrentSim().setNotPoopedMark(-1);
+                menu.getCurrentSim().setPoopPenalty(false);
             }
 
             // Dampak tidak tidur 10 menit
-            if (!getSlept() && notSleptMark == -1) {
-                System.out.println("not slept mark");
-                notSleptMark = getDaySec();
-                sleepPenalty.set(true);
-            } else if (getSlept()) {
-                sleepPenalty.set(false);
+            if (!menu.getCurrentSim().getSlept() && menu.getCurrentSim().getNotSleptMark() == -1) {
+                System.out.println(menu.getCurrentSim().getName() + " not slept mark");
+                menu.getCurrentSim().setNotSleptMark(getDaySec());
+                menu.getCurrentSim().setSleepPenalty(true);
+            } else if (menu.getCurrentSim().getSlept()) {
+                menu.getCurrentSim().setSleepPenalty(false);
             }
 
             // Dampak tidak buang air 4 menit setelah makan
-            if (getEaten() && !getPoopedAfterAte() && notPoopedMark == -1) {
+            if (menu.getCurrentSim().getEaten() && !menu.getCurrentSim().getPoopedAfterAte() && menu.getCurrentSim().getNotPoopedMark() == -1) {
                 System.out.println("not pooped mark");
-                notPoopedMark = getDaySec();
-                poopPenalty.set(true);
-            } else if (getPoopedAfterAte()) {
-                poopPenalty.set(false);
+                menu.getCurrentSim().setNotPoopedMark(getDaySec());
+                menu.getCurrentSim().setPoopPenalty(true);
+            } else if (menu.getCurrentSim().getPoopedAfterAte()) {
+                menu.getCurrentSim().setPoopPenalty(false);
             }
         }
     }

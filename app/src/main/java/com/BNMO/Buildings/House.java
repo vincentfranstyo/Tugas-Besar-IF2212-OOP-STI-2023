@@ -112,6 +112,7 @@ public class House {
                 if (valid) {
                     sim.setMoney(sim.getMoney() - Room.getPrice());
                     DayThread dayThread = DayThread.getInstance();
+                    Menu menu = Menu.getInstance();
                     int currentSec = dayThread.getDaySec();
                     Thread t = new Thread(new Runnable() {
                         @Override
@@ -119,7 +120,7 @@ public class House {
                             try {
                                 while (true) {
                                     int newCurrSec = dayThread.getDaySec();
-                                    dayThread.setBuildingCountTime(18 * 60 - (newCurrSec - currentSec));
+                                    menu.getCurrentSim().setBuildingCountTime(18 * 60 - (newCurrSec - currentSec));
                                     if (newCurrSec - currentSec != 0) {
                                         if (newCurrSec - currentSec - 1 == 1080) {
                                             System.out.println(

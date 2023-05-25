@@ -236,7 +236,7 @@ public class App {
                     menu.changeSim(wantedSim);
                     System.out.println();
                 } else if (commandNum == 7) {
-                    if (!dayThread.getWorkAvail()) {
+                    if (!menu.getCurrentSim().getWorkAvail()) {
                         System.out.println("Pekerjaan hanya bisa diganti saat telah berganti hari!");
                         continue;
                     } else {
@@ -284,7 +284,7 @@ public class App {
                             System.out.println("Kamu telah memilih pekerjaan " + jobNames[jobIndex]);
                             menu.getCurrentSim().changeJob(jobNames[jobIndex]);
                             System.out.println();
-                            dayThread.setWorkAvail(false);
+                            menu.getCurrentSim().setWorkAvail(false);
                         }
                     }
                 } else if (commandNum == 8) {
@@ -388,10 +388,10 @@ public class App {
                                 dayThread.pauseThread();
                             }
 
-                            if (dayThread.getDailyWorkDuration() > 240) {
+                            if (menu.getCurrentSim().getDailyWorkDuration() > 240) {
                                 System.out.println("Kamu sudah bekerja terlalu lama hari ini!");
                             } else {
-                                dayThread.setDailyWorkDuration(dayThread.getDailyWorkDuration() + workDur);
+                                menu.getCurrentSim().setDailyWorkDuration(menu.getCurrentSim().getDailyWorkDuration() + workDur);
                             }
 
                         } else if (activityNum == 2) {
@@ -498,7 +498,7 @@ public class App {
                                     menu.getCurrentSim().goToObject((NonFoodObjects) bedValidator);
                                     dayThread.resumeThread();
                                     bedValidator.sleep(new Time(sleepDur), menu.getCurrentSim());
-                                    dayThread.setSlept(true);
+                                    menu.getCurrentSim().setSlept(true);
                                     dayThread.pauseThread();
                                 }
                             }
@@ -573,7 +573,7 @@ public class App {
                                             tableValidator.eat(menu.getCurrentSim(), null,
                                                     (Ingredients) menu.getCurrentSim().getInventory().getFood(loweredFood));
                                         }
-                                        dayThread.setEaten(true);
+                                        menu.getCurrentSim().setEaten(true);
                                         dayThread.pauseThread();
                                     }
                                 }
@@ -634,7 +634,10 @@ public class App {
                                                         break;
                                                     }
                                                 }
+
                                                 toBeCooked = new Dishes(Food.getDishes().get(dishIndex));
+                                                System.out.println(toBeCooked.getCurrentDishIngredients());
+                                                System.out.println(toBeCooked.checkIngredients(menu.getCurrentSim()));
                                                 if (!toBeCooked.checkIngredients(menu.getCurrentSim())) {
                                                     throw new Exception(
                                                             "Bahan-bahan tidak cukup! (atau ketik 'cancel' untuk membatalkan)");
@@ -749,8 +752,8 @@ public class App {
                                 System.out.println("Kamu memilih untuk buang air!");
                                 dayThread.resumeThread();
                                 toiletValidator.useToilet(menu.getCurrentSim());
-                                dayThread.setPoopedAfterAte(true);
-                                dayThread.setEaten(false);
+                                menu.getCurrentSim().setPoopedAfterAte(true);
+                                menu.getCurrentSim().setEaten(false);
                                 dayThread.pauseThread();
                             }
 
@@ -1016,7 +1019,7 @@ public class App {
                                 System.out.println("Pilihan Input Tidak Tersedia!");
                             }
                         } else if (activityNum == 9) {
-                            if (dayThread.getIsBuying()) {
+                            if (menu.getCurrentSim().getIsBuying()) {
                                 System.out.println("Kamu sedang berbelanja, tunggu sampai selesai!");
                                 System.out.println();
                             } else {
@@ -1143,7 +1146,7 @@ public class App {
                                     continue;
                                 } else {
                                     menu.getCurrentSim().buy(wantedObject);
-                                    dayThread.setIsBuying(true);
+                                    menu.getCurrentSim().setIsBuying(true);
                                 }
                                 System.out.println();
                             }
